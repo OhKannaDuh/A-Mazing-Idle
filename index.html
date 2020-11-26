@@ -1,0 +1,31 @@
+<html>
+<head>
+<title>Maze</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="mazegenerator.js"></script>
+<script src="RNGBot.js"></script>
+<script src="Points.js"></script>
+<script src="Game.js"></script>
+<style type="text/css">
+#maze {
+    border-collapse: collapse;
+    border: 0px;
+}
+
+#maze td {
+    width: 20px;
+    height: 20px;
+}
+</style>
+</head>
+<body>
+    <table id="maze">
+        <tbody></tbody>
+    </table>
+<br /><br />
+<div id='points'>Points:</div>
+<button id='moveFaster'>Move Faster: 10</button>
+<button id='buyMazeSize'>Increase Maze Size: 10</button>
+
+</body>
+</html>
