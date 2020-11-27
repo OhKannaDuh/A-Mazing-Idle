@@ -2,6 +2,7 @@
 
 const BOT_AVOID_REVISIT_LAST_POSITION_UPGRADE_COST = 100;
 const BOT_PRIORITIZE_UNVISITED_UPGRADE_COST = 100;
+const BOT_AUTO_EXIT_MAZE_UPGRADE_COST = 100;
 
 const TILE_REVISIT_MULTIPLIER = 0;
 
@@ -27,9 +28,11 @@ class Points {
 
         this.mazeSizeUpgradeCount = 0;
         this.pointsPerVisitUpgradeCount = 0;
+        this.rngMovementSpeedUpgrades = 0;
+
         this.rngBotPrioritizeUnvisited = false;
         this.rngBotAvoidRevisitLastPosition = false;
-        this.rngMovementSpeedUpgrades = 0;
+        this.rngBotAutoExitMaze = false;
     }
 
     addPoints(amount) {
@@ -70,6 +73,16 @@ class Points {
             return;
         }
         this.rngBotPrioritizeUnvisited = true;
+        this.addPoints(-cost);
+    }
+
+    /* Auto-exit maze if beside maze exit */
+    buyBotAutoExitMazeUpgrade() {
+        const cost = BOT_AUTO_EXIT_MAZE_UPGRADE_COST
+        if (!this.canAffordPointsAmount(cost)) {
+            return;
+        }
+        this.rngBotAutoExitMaze = true;
         this.addPoints(-cost);
     }
     

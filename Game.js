@@ -1,7 +1,7 @@
 
 class Game {
   constructor() {
-    this.maze = new MazeGenerator(this);
+    this.maze = new Maze(this);
     this.points = new Points(this);
     this.rngBot = new RNGBot(this);
     this.ui = new UserInterface(this);
@@ -14,9 +14,10 @@ class Game {
   startGame() {
     this.ui.init();
 
-    this.maze.deleteMaze();
+    this.ui.deleteMaze();
     this.maze.newMaze();
-    this.maze.printMaze();
+    
+    this.ui.printMaze(this.maze.maze);
     this.maze.resetPlayer();
     
     this.rngBot.enableRngBot();

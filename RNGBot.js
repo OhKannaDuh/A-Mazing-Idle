@@ -22,6 +22,10 @@ class RNGBot {
 
     moveRandomly() {
         const dir = this.chooseRandomDirection();
+        if (!dir) {
+            console.error('No valid move possible');
+            return;
+        }
         this.game.maze.movePlayer(dir);
     }
 
@@ -42,7 +46,9 @@ class RNGBot {
 
     chooseRandomDirection() {
         const validDirs = this.chooseDirection();
-        
+        if (!validDirs) {
+            return;
+        }
         const randDirIndex = this.getRandomInt(validDirs.length);
         return validDirs[randDirIndex];
     }
@@ -52,10 +58,17 @@ class RNGBot {
         if (validDirs.length === 0) {
             return;
         }
+
+        if (this.game.points.rngBotAutoExitMaze) {
+            const exitDirsArr = this.game.maze.filterPlayerExitMazeDirection();
+            if (exitDirsArr.length > 0) {
+                return exitDirsArr;
+            }
+        }
         
         // Prioritize any adjacent unvisited tiles if any.
         if (this.game.points.rngBotPrioritizeUnvisited) {
-            const unvisitedDirsArr = this.prioritizeUnvisitedDirection(validDirs);
+            const unvisitedDirsArr = this.game.maze.prioritizeUnvisitedDirection(validDirs);
             if (unvisitedDirsArr.length > 0) {
                 return unvisitedDirsArr;
             }
@@ -63,7 +76,7 @@ class RNGBot {
 
         // Avoid revisiting the last position if possible.
         if (this.game.points.rngBotAvoidRevisitLastPosition) {
-            const noRevisitDirs = this.filterAvoidRevisitLastPosition(validDirs);
+            const noRevisitDirs = this.game.maze.filterAvoidRevisitLastPosition(validDirs);
             if (noRevisitDirs.length > 0) {
                 return noRevisitDirs;
             }
@@ -71,25 +84,6 @@ class RNGBot {
         
         // No fancy moves, just choose random ones.
         return validDirs;
-    }
-
-    filterAvoidRevisitLastPosition(validDirs) {
-        // Find any unvisited tiles within reach.
-        const noRevisitDirsArr = validDirs.filter((dir) => {
-            const previousTile = this.game.maze.getPreviousTile();
-            const newTile = this.game.maze.getNewTilePositionByVector(dir);
-            return newTile.x !== previousTile.x || newTile.y !== previousTile.y;
-        });
-        return noRevisitDirsArr;
-    }
-
-    prioritizeUnvisitedDirection(validDirs) {
-        // Find any unvisited tiles within reach.
-        const unvisitedDirsArr = validDirs.filter((dir) => {
-            const newTile = this.game.maze.getNewTilePositionByVector(dir);
-            return !this.game.maze.isVisited(newTile.x, newTile.y);
-        });
-        return unvisitedDirsArr;
     }
 
     getRandomInt = (max) => {
