@@ -3,8 +3,7 @@ const TABLE_ID = 'maze';
 const FILLED_COLOR = '#000000';
 const EMPTY_COLOR = '#FFFFFF';
 
-var curr_x = 0;
-var curr_y = 0;
+
 
 const DIRECTION_UP = {x: 0, y: -1};
 const DIRECTION_DOWN = {x: 0, y: 1};
@@ -30,6 +29,12 @@ class MazeGenerator {
         this.maze = null;
         this.visitedMaze = null;
         this.rngBot = new RNGBot();
+        //TODO: this should be a coordinate.
+        this.curr_x = 0;
+        this.curr_y = 0;
+        //TODO: this should be an arr of prev locations
+        this.prev_x = null;
+        this.prev_y = null;
     }
 
     getMazeSize() {
@@ -173,6 +178,8 @@ class MazeGenerator {
     updatePlayerTile(dir_vector) {
         this.setTileBackgroundColor(this.curr_x, this.curr_y, VISITED_TILE_COLOR);
         const currTile = this.getNewTilePositionByVector(dir_vector);
+        this.prevTile = { x: this.curr_x, y: this.curr_y };
+
         this.curr_x = currTile.x;
         this.curr_y = currTile.y;
         
@@ -182,6 +189,10 @@ class MazeGenerator {
 
     getNewTilePositionByVector(vector) {
         return { x: this.curr_x + vector.x, y: this.curr_y + vector.y };
+    }
+
+    getPreviousTile() {
+        return this.prevTile;
     }
 
     generateTileKey(x, y) {
@@ -223,23 +234,12 @@ class MazeGenerator {
         if (this.canMove(this.curr_x, this.curr_y, DIRECTION_RIGHT)) {
             valid_dirs_arr.push(DIRECTION_RIGHT);
         }
-        if (!this.game.points.rngBotAvoidRevisit) {
-            // Go any valid direction randomly
-            return valid_dirs_arr;
-        }
-        
-        // If upgrade boughts, do not backtrack to visited tiles unless no other option.
-        const unvisited_dirs_arr = valid_dirs_arr.filter((dir) => {
-            const newTile = this.getNewTilePositionByVector(dir);
-            const isVisited = this.isVisited(newTile.x, newTile.y);
-            return !isVisited;
-        });
-        
-        // If no filtered options, revert to any valid direction
-        return unvisited_dirs_arr.length === 0 ? valid_dirs_arr : unvisited_dirs_arr;
+        return valid_dirs_arr;
     }
 
     resetPlayer() {
+        this.prev_x = null;
+        this.prev_y = null;
         this.curr_x = 0;
         this.curr_y = 0;
         this.movePlayer(STARTING_POSITION);

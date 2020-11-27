@@ -4,17 +4,18 @@ class UserInterface {
   }
 
   init() {
-    
     this.initText()
     this.initEventHooks();
   }
 
   initText() {
+    console.log('init');
     this.setPointsText();
     this.setRngMovementUpgradeText();
     this.setMazeSizeUpgradeText();
-    this.setBuyBotAvoidRevisitUpgradeText();
     this.setPointsPerVisitUpgradeText();
+    this.setBuyBotAvoidRevisitLastPositionUpgradeText();
+    this.setBuyBotPrioritizeUnvisitedUpgradeText();
   }
 
   setPointsText() {
@@ -31,28 +32,42 @@ class UserInterface {
     $('#buyMazeSize').text('Increase Maze Size: ' + cost.toFixed(2));
   }
 
-  setBuyBotAvoidRevisitUpgradeText() {
-    $('#buyBotAvoidRevisit').text('Basic Avoid Revisit: ' + AVOID_REVISIT_UPGRADE_COST)
-    $("#buyBotAvoidRevisit").prop("disabled", this.game.points.rngBotAvoidRevisit);
-  }
-  
   setPointsPerVisitUpgradeText() {
     const cost = this.game.points.getPointsPerVisitUpgradeCost();
     $("#buyPointsPerVisit").text("Points Per Visit: " + cost.toFixed(2));
   }
 
+  setBuyBotAvoidRevisitLastPositionUpgradeText() {
+    $('#buyBotAvoidRevisitLastPosition').text('Basic Avoid Revisit: ' + BOT_AVOID_REVISIT_LAST_POSITION_UPGRADE_COST)
+    $("#buyBotAvoidRevisitLastPosition").prop("disabled", this.game.points.rngBotAvoidRevisitLastPosition);
+  }
+
+  setBuyBotPrioritizeUnvisitedUpgradeText() {
+    $('#buyBotPrioritizeUnvisited').text('Prioritize Unvisited: ' + BOT_PRIORITIZE_UNVISITED_UPGRADE_COST)
+    $("#buyBotPrioritizeUnvisited").prop("disabled", this.game.points.rngBotPrioritizeUnvisited);
+  }
+  
+
   initEventHooks() {
-    $('#buyBotMoveFaster').click(() => { 
+    $('#buyBotMoveFaster').click(() => {
       this.game.points.buyRngMovementUpgrade();
+      this.setRngMovementUpgradeText();
     });
-    $('#buyMazeSize').click(() => { 
+    $('#buyMazeSize').click(() => {
       this.game.points.buyMazeSizeUpgrade();
+      this.setMazeSizeUpgradeText();
     });
-    $('#buyBotAvoidRevisit').click(() => { 
-      this.game.points.buyBotAvoidRevisitUpgrade();
-    });
-    $('#buyPointsPerVisit').click(() => { 
+    $('#buyPointsPerVisit').click(() => {
       this.game.points.buyPointsPerVisitUpgrade();
+      this.setPointsPerVisitUpgradeText();
+    });
+    $('#buyBotAvoidRevisitLastPosition').click(() => {
+      this.game.points.buyBotAvoidRevisitLastPosition();
+      this.setBuyBotAvoidRevisitLastPositionUpgradeText();
+    });
+    $('#buyBotPrioritizeUnvisited').click(() => {
+      this.game.points.buyBotPrioritizeUnvisitedUpgrade();
+      this.setBuyBotPrioritizeUnvisitedUpgradeText();
     });
   }
 }

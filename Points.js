@@ -1,13 +1,14 @@
 
 
-const AVOID_REVISIT_UPGRADE_COST = 100;
+const BOT_AVOID_REVISIT_LAST_POSITION_UPGRADE_COST = 100;
+const BOT_PRIORITIZE_UNVISITED_UPGRADE_COST = 100;
 
 const TILE_REVISIT_MULTIPLIER = 0;
 
 const MAZE_COMPLETION_SIZE_MULTIPLIER = 1.1;
 
-const RNG_BOT_MOVEMENT_BASE_COST = 10;
-const RNG_BOT_MOVEMENT_BASE_COST_MUTLIPLIER = 1.1;
+const BOT_MOVEMENT_BASE_COST = 10;
+const BOT_MOVEMENT_BASE_COST_MUTLIPLIER = 1.1;
 
 const MAZE_SIZE_UPGRADE_BASE_COST = 10;
 const MAZE_SIZE_UPGRADE_BASE_COST_MULTIPLIER = 10;
@@ -26,7 +27,8 @@ class Points {
 
         this.mazeSizeUpgradeCount = 0;
         this.pointsPerVisitUpgradeCount = 0;
-        this.rngBotAvoidRevisit = false;
+        this.rngBotPrioritizeUnvisited = false;
+        this.rngBotAvoidRevisitLastPosition = false;
         this.rngMovementSpeedUpgrades = 0;
     }
 
@@ -59,20 +61,26 @@ class Points {
         
         this.addPoints(-cost);
         this.mazeSizeUpgradeCount++;
-        
-        this.game.ui.setMazeSizeUpgradeText();
     }
 
-    /* Bot avoid revisit upgrade */
-    buyBotAvoidRevisitUpgrade() {
-        const cost = AVOID_REVISIT_UPGRADE_COST;
+    /* Bot prioritize unvisited */
+    buyBotPrioritizeUnvisitedUpgrade() {
+        const cost = BOT_PRIORITIZE_UNVISITED_UPGRADE_COST;
         if (!this.canAffordPointsAmount(cost)) {
             return;
         }
-        this.rngBotAvoidRevisit = true;
+        this.rngBotPrioritizeUnvisited = true;
         this.addPoints(-cost);
-
-        this.game.ui.setBuyBotAvoidRevisitUpgradeText();
+    }
+    
+    /* Bot avoid backtrack pathing */
+    buyBotAvoidRevisitLastPosition() {
+        const cost = BOT_AVOID_REVISIT_LAST_POSITION_UPGRADE_COST;
+        if (!this.canAffordPointsAmount(cost)) {
+            return;
+        }
+        this.rngBotAvoidRevisitLastPosition = true;
+        this.addPoints(-cost);
     }
 
     /* Points per visit */
@@ -83,8 +91,6 @@ class Points {
         }
         this.addPoints(-cost);
         this.pointsPerVisitUpgradeCount++;
-        
-        this.game.ui.setPointsPerVisitUpgradeText();
     }
 
     getPointsPerVisitUpgradeCost() {
@@ -113,11 +119,13 @@ class Points {
         }
         this.game.points.addPoints(-cost);
         this.rngMovementSpeedUpgrades++;
-        
-        this.game.ui.setRngMovementUpgradeText();
+
+        // Reset movement speed of current interval.
+        this.game.rngBot.disableRngBot();
+        this.game.rngBot.enableRngBot();
     }
 
     getRngMovementUpgradeCost() {
-        return RNG_BOT_MOVEMENT_BASE_COST * Math.pow(RNG_BOT_MOVEMENT_BASE_COST_MUTLIPLIER, this.rngMovementSpeedUpgrades);
+        return BOT_MOVEMENT_BASE_COST * Math.pow(BOT_MOVEMENT_BASE_COST_MUTLIPLIER, this.rngMovementSpeedUpgrades);
     }
 }
