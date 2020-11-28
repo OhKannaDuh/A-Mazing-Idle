@@ -29,9 +29,9 @@ class Maze {
   }
   
   newMaze() {
-    const mazeDimension = this.getMazeSize();
-    this.maze = generateNewMaze(mazeDimension, mazeDimension);
-    this.visitedMaze = generateIsVisitedArr(mazeDimension, mazeDimension);
+    const mazeSize = this.getMazeSize();
+    this.visitedMaze = generateIsVisitedArr(mazeSize, mazeSize);
+    this.maze = generateNewMaze(mazeSize, mazeSize);
     this.mazeExitTile = { x: this.getMazeSize(), y: this.getMazeSize() };
   }
 
@@ -63,13 +63,18 @@ class Maze {
     return this.maze.length * this.maze[0].length;
   }
   
-  movePlayer(dir_vector, isManual=false) {
+  movePlayer(dirVector, isManual=false) {
     // Reset timer for auto-moves
     if (isManual) {
+      // Only validate moves if manual.
+      if (!this.canMove(this.currTile, dirVector)) {
+        return;
+      }
       this.game.rngBot.manualMovementCancelRngBot();
     }
     
-    this.updatePlayerTile(dir_vector);
+    
+    this.updatePlayerTile(dirVector);
     this.moveCount++;
     
     if (this.didPlayerExitMaze()) {
@@ -77,9 +82,9 @@ class Maze {
     }
   }
   
-  updatePlayerTile(dir_vector) {
+  updatePlayerTile(dirVector) {
     this.setTileBackgroundColor(this.currTile, VISITED_TILE_COLOR);
-    const newTile = this.getNewTilePositionByVector(this.currTile, dir_vector);
+    const newTile = this.getNewTilePositionByVector(this.currTile, dirVector);
     
     this.prevTile = { x: this.currTile.x, y: this.currTile.y };
     this.currTile = { x: newTile.x, y: newTile.y };
@@ -93,31 +98,24 @@ class Maze {
   }
 
   getPreviousTile() {
-      return this.prevTile;
+    return this.prevTile;
   }
 
   generateTileKey(x, y) {
-      return `${x}-${y}`;
+    return `${x}-${y}`;
   }
 
   canMove(tile, dir_vector) {
-    // console.log('can move');
-    // console.log(tile);
-    // console.log(dir_vector);
     if (dir_vector === DIRECTION_UP) {
-      // console.log('up: ' +  this.maze[tile.y][tile.x][UP]);
       return this.maze[tile.y][tile.x][UP];
     }
     else if (dir_vector === DIRECTION_DOWN) {
-      // console.log('down: ' +  this.maze[tile.y][tile.x][DOWN]);
       return this.maze[tile.y][tile.x][DOWN];
     }
     else if (dir_vector === DIRECTION_LEFT) {
-      // console.log('left: ' +  this.maze[tile.y][tile.x][LEFT]);
       return this.maze[tile.y][tile.x][LEFT];
     }
     else if (dir_vector === DIRECTION_RIGHT) {
-      // console.log('right: ' +  this.maze[tile.y][tile.x][RIGHT]);
       return this.maze[tile.y][tile.x][RIGHT];
     }
     

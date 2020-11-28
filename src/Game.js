@@ -2,10 +2,17 @@
 class Game {
   constructor(isDisableUi = false, isDevMode = false) {
     this.maze = new Maze(this);
-    this.points = new Points(this);
+    this.points = new Points(this, isDevMode);
     this.rngBot = new RNGBot(this, isDevMode);
     this.ui = new UserInterface(this, isDisableUi);
     this.isDevMode = isDevMode;
+
+    this.ui.setDebugPanelVisible(isDevMode);
+  }
+
+  setMaze(newMaze) {
+    this.maze.newMaze(newMaze);
+    this.maze.resetPlayer();
   }
 
   getPlayer() {
@@ -33,6 +40,7 @@ class Game {
     
     if (this.isDevMode) {
       printMazeCompleteData(this);
+      return;
     }
     this.startGame();
   }

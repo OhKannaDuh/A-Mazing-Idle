@@ -1,10 +1,10 @@
 
-const IS_DEV_MODE_ENABLED = true;
-const DEV_MODE_DISABLE_UI = true;
+const IS_DEV_MODE_ENABLED = false;
+const DEV_MODE_DISABLE_UI = false;
 
 const generateScalingNumbers = () => {
   let startingUpgradeCount = 0;
-
+  
   let baseCost = 10;
   let costMultiplier = 2.0;
   let baseVal = 1000;
@@ -13,7 +13,6 @@ const generateScalingNumbers = () => {
   let maxUpgradeCount = 50;
   
   for (let x = startingUpgradeCount; x < maxUpgradeCount; x++) {
-    console.log('here');
     let cost = baseCost * Math.pow(costMultiplier, x);
     let val = baseVal * Math.pow(valMultiplier, x);
     
@@ -26,43 +25,97 @@ const generateScalingNumbers = () => {
 }
 // generateScalingNumbers();
 
+var game1;
+var game2;
+var game3;
+var game4;
+var game5;
+
+var iterationCount = 0;
+var maxIterationCount = 100;
+
 const getMazeData = () => {
-  const gamez = new Game(DEV_MODE_DISABLE_UI, true);
+  game1 = new Game(DEV_MODE_DISABLE_UI, true);
+  game1.setMaze(maze);
   
-  gamez.points.rngMovementSpeedUpgrades = 1000;
-  gamez.points.mazeSizeUpgradeCount = 0;
+  game1.points.rngBotPrioritizeUnvisited = Boolean($(`#debugInputPrioritizeUnvisited`).val());
+  game1.points.rngBotAvoidRevisitLastPosition = Boolean($(`#debugAvoidRevisit`).val());
+  game1.points.rngBotAutoExitMaze = Boolean($(`#debugAutoExit`).val());
+  
+  game1.points.mazeSizeUpgradeCount = parseInt($(`#debugMazeUpgradeCount`).val());
+  maxIterationCount = parseInt($(`#debugMaxIterations`).val());
+  
+  game1.points.rngMovementSpeedUpgrades = 1000;
+  game1.points.pointsPerVisitUpgradeCount = 0;
+  game1.points.rngMovementSpeedUpgrades = 20;
 
-  gamez.points.pointsPerVisitUpgradeCount = 0;
-  gamez.points.rngMovementSpeedUpgrades = 10;
+  console.log('start debug maze');
+  game1.startGame();
+}
 
-  gamez.points.rngBotPrioritizeUnvisited = false;
-  gamez.points.rngBotAvoidRevisitLastPosition = false;
-  gamez.points.rngBotAutoExitMaze = false;
+var sumMoves = 0;
+var sumPoints = 0;
 
+const printMazeCompleteData = (game) => {
+  
+  let moveCount = game.maze.moveCount;
+  let totalTime = game.rngBot.getBotMoveInterval() * moveCount;
+  let points = game.points.points;
+
+  const completionBonus = game.points.getMazeCompletionBonus();
+
+  $('#debugTable > tbody').append(`<tr>`);
+  $('#debugTable > tbody').append(`<td>${(1 +iterationCount)}:   </td>`);
+  $('#debugTable > tbody').append(`<td>${moveCount}</td>`);
+  // $('#debugTable > tbody').append(`<td>${totalTime}</td>`);
+  $('#debugTable > tbody').append(`<td>${(points - completionBonus).toFixed(2)}</td>`);
+  $('#debugTable > tbody').append(`<td>${(points).toFixed(2)}</td>`);
+  $('#debugTable > tbody').append(`</tr>`);
+
+  sumMoves += moveCount;
+  sumPoints += (points - completionBonus);
+
+  iterationCount++;
+  
+  if (iterationCount == maxIterationCount) {
+    printAverages();
+    return;
+  }
+
+  game.points.points = 0;
+  game.startGame();
+}
+
+const printAverages = () => {
+  const mazeSize = DEFAULT_MAZE_SIZE + game1.points.mazeSizeUpgradeCount;
+  
+  $(`#debugResult`).append(`Avg Moves: ${(sumMoves/iterationCount).toFixed(2)}<br>`);
+  $(`#debugResult`).append(`Avg New Tile Visits: ${(sumPoints/iterationCount).toFixed(2)}<br>`);
+  $(`#debugResult`).append(`Avg Tile Revisits: ${((sumMoves-sumPoints)/iterationCount).toFixed(2)}<br>`);
+  $(`#debugResult`).append(`Maze size: ${mazeSize}<br>`);
+}
+
+const debugHeader = () => {
   $('#debugTable > tbody').append(`<tr>`);
   $('#debugTable > tbody').append(`<th>#</td>`);
   $('#debugTable > tbody').append(`<th>Move Count</th>`);
-  $('#debugTable > tbody').append(`<th>Total Time (s)</th>`);
-  $('#debugTable > tbody').append(`</tr>`);
-  console.log('start debug maze');
-  this.maze.newMaze();
-
-  gamez.startGame();
-}
-
-var count = 0;
-const printMazeCompleteData = (game) => {
-  console.log('maze completion!');
-  let moveCount = game.maze.moveCount;
-  let totalTime = game.rngBot.getBotMoveInterval() * moveCount;
-
-  $('#debugTable > tbody').append(`<tr>`);
-  $('#debugTable > tbody').append(`<td>${count++}:   </td>`);
-  $('#debugTable > tbody').append(`<td>${moveCount}</td>`);
-  $('#debugTable > tbody').append(`<td>${totalTime}</td>`);
+  $('#debugTable > tbody').append(`<th>Points</th>`);
+  $('#debugTable > tbody').append(`<th>Points (+comp)</th>`);
   $('#debugTable > tbody').append(`</tr>`);
 }
+
+
 $(document).ready(() => {
   if(!IS_DEV_MODE_ENABLED) return;
-  getMazeData();
+  
+  $('#debugRunButton').click(() => {
+    $('#debugTable > tbody').empty();
+    $(`#debugResult`).empty();
+
+    iterationCount = 0;
+    sumMoves = 0;
+    sumPoints = 0;
+    debugHeader();
+    getMazeData();
+  });
 });

@@ -22,8 +22,9 @@ const POINTS_PER_VISIT_BASE_AMOUNT = 1;
 const POINTS_PER_VISIT_BASE_AMOUNT_MULTIPLIER = 1.1
 
 class Points {
-    constructor(game) {
+    constructor(game, isDevMode = false) {
         this.game = game;
+        this.isDevMode = isDevMode;
         this.points = 0.0;
 
         this.mazeSizeUpgradeCount = 0;
@@ -41,14 +42,19 @@ class Points {
     }
 
     canAffordPointsAmount(cost) {
-        return true;
-        // return cost <= this.points;
+        if (this.isDevMode) return true;
+        return cost <= this.points;
     }
 
     addMazeCompletionBonus() {
-        const tileCount = this.game.maze.getTileCount();
-        const bonus = tileCount * MAZE_COMPLETION_SIZE_MULTIPLIER;
+        
+        const bonus = this.getMazeCompletionBonus();
         this.addPoints(bonus);
+    }
+
+    getMazeCompletionBonus() {
+        const tileCount = this.game.maze.getTileCount();
+        return tileCount * MAZE_COMPLETION_SIZE_MULTIPLIER;
     }
 
     /* Maze size upgrade */

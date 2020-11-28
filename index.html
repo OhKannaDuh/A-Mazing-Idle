@@ -46,8 +46,20 @@
         <br>
         <button id='buyBotAutoExitMaze'>Auto-Exit Maze:</button>
 
-        <table id="debugTable">
-            <tbody></tbody>
-        </table>
+        <div id='debug'>
+            
+            <br>
+            <span>PrioritizeUnvisited:<input id='debugInputPrioritizeUnvisited' value='true'></input</span><br>
+            <span>Avoid Revisit:<input id='debugAvoidRevisit' value='false'></input</span><br>
+            <span>Auto Exit:<input id='debugAutoExit' value='false'></input</span><br>
+            <span>Maze Upgrade Size (+4):<input id='debugMazeUpgradeCount' value='0'></input</span><br>
+            <span>Iterations:<input id='debugMaxIterations' value='10'></input</span>
+            <button id='debugRunButton'>Run Debug!</button>
+
+            <div id="debugResult"></div>
+            <table id="debugTable">
+                <tbody></tbody>
+            </table>
+        </div>
     </body>
 </html>

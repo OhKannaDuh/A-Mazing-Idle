@@ -20,6 +20,10 @@ class UserInterface {
     this.setBuyAutoExitMazeUpgradeText();
   }
 
+  setDebugPanelVisible(isVisible) {
+    $('#debug').css('display', isVisible ? 'block' : 'none');
+  }
+
   setPointsText() {
     $('#points').text(`Points: ${this.game.points.points.toFixed(2)}`);
   }
@@ -85,15 +89,13 @@ class UserInterface {
 
   printMaze(maze) {
     if(this.disableUi) return;
-    console.log('print maze!');
-    console.log(maze);
     for (let y = 0; y < maze.length; y++) {
       $('#maze > tbody').append("<tr>");
       for (let x = 0; x < maze[y].length; x++) {
         let selector = this.game.maze.generateTileKey(x, y);
         
         $('#maze > tbody').append(`<td id='${selector}'>&nbsp;</td>`);
-        if (maze[y][x][0] == WALL) { $(`#${selector}`).css('border-top', '2px solid black'); console.log('here'); }
+        if (maze[y][x][0] == WALL) $(`#${selector}`).css('border-top', '2px solid black');
         if (maze[y][x][1] == WALL) $(`#${selector}`).css('border-right', '2px solid black');
         if (maze[y][x][2] == WALL) $(`#${selector}`).css('border-bottom', '2px solid black');
         if (maze[y][x][3] == WALL) $(`#${selector}`).css('border-left', '2px solid black');
