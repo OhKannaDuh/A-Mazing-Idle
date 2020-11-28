@@ -12,14 +12,16 @@ const DEFAULT_MAZE_SIZE = 4;
 const VISITED_TILE_COLOR = '#7CFCFF';
 
 class Maze {
-  constructor(game) {
+  constructor(game, isDevMode = false) {
     this.game = game;
+    this.isDevMode = isDevMode;
     this.maze = null;
     this.visitedMaze = null;
     this.rngBot = new RNGBot();
     this.currTile = STARTING_POSITION;
     this.prevTile = STARTING_POSITION;
     this.mazeExitTile = null;
+    this.moveCount = 0;
   }
 
   getMazeSize() {
@@ -37,6 +39,7 @@ class Maze {
     this.prevTile = STARTING_POSITION;
     this.currTile = STARTING_POSITION;
     this.movePlayer(STARTING_POSITION);
+    this.moveCount = 0;
     this.setTileBackgroundColor(this.currTile.x, this.currTile.y, FILLED_COLOR);
   }
 
@@ -67,6 +70,7 @@ class Maze {
     }
     
     this.updatePlayerTile(dir_vector);
+    this.moveCount++;
     
     if (this.didPlayerExitMaze()) {
       this.game.completeMaze();

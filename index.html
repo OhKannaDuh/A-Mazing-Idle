@@ -2,12 +2,13 @@
     <head>
         <title>Maze</title>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="MazeGenerator.js"></script>
-        <script src="RNGBot.js"></script>
-        <script src="Points.js"></script>
-        <script src="UserInterface.js"></script>
-        <script src="Maze.js"></script>
-        <script src="Game.js"></script>
+        <script src="src/MazeGenerator.js"></script>
+        <script src="src/RNGBot.js"></script>
+        <script src="src/Points.js"></script>
+        <script src="src/UserInterface.js"></script>
+        <script src="src/Maze.js"></script>
+        <script src="src/Game.js"></script>
+        <script src="src/debug/debugUtils.js"></script>
         <script src="index.js"></script>
         <style type="text/css">
         #maze {
@@ -40,8 +41,13 @@
         
         <h3>Bot Upgrades!</h3>
         <button id='buyBotAvoidRevisitLastPosition'>Avoid Revisit Last Position:</button>
+        <br>
         <button id='buyBotPrioritizeUnvisited'>Prioritize Unvisited:</button>
+        <br>
         <button id='buyBotAutoExitMaze'>Auto-Exit Maze:</button>
 
+        <table id="debugTable">
+            <tbody></tbody>
+        </table>
     </body>
 </html>

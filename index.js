@@ -1,5 +1,7 @@
 
 $(document).ready(() => {
+  if (IS_DEV_MODE_ENABLED) return;
+  
   var game = new Game();
   game.startGame();
 
