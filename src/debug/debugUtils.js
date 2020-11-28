@@ -1,6 +1,7 @@
 
 const IS_DEV_MODE_ENABLED = false;
 const DEV_MODE_DISABLE_UI = false;
+const DEV_MODE_AUTOSTART = false;
 
 const generateScalingNumbers = () => {
   let startingUpgradeCount = 0;
@@ -59,7 +60,7 @@ var sumPoints = 0;
 const printMazeCompleteData = (game) => {
   
   let moveCount = game.maze.moveCount;
-  let totalTime = game.rngBot.getBotMoveInterval() * moveCount;
+  // let totalTime = game.rngBot.getBotMoveInterval() * moveCount;
   let points = game.points.points;
 
   const completionBonus = game.points.getMazeCompletionBonus();

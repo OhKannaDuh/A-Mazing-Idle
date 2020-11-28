@@ -15,6 +15,7 @@ class UserInterface {
     this.setRngMovementUpgradeText();
     this.setMazeSizeUpgradeText();
     this.setPointsPerVisitUpgradeText();
+    this.setFruitSpawnRateUpgradeText();
     this.setBuyBotAvoidRevisitLastPositionUpgradeText();
     this.setBuyBotPrioritizeUnvisitedUpgradeText();
     this.setBuyAutoExitMazeUpgradeText();
@@ -35,12 +36,17 @@ class UserInterface {
 
   setMazeSizeUpgradeText() {
     const cost = this.game.points.getMazeSizeUpgradeCost();
-    $('#buyMazeSize').text(`Increase Maze Size: ${cost.toFixed(2)} pts`);
+    $('#buyMazeSize').text(`Increase Maze Size: ${cost.toLocaleString()} pts`);
   }
 
   setPointsPerVisitUpgradeText() {
     const cost = this.game.points.getPointsPerVisitUpgradeCost();
-    $("#buyPointsPerVisit").text(`Points Per Visit: ${cost.toFixed(2)} pts`);
+    $("#buyPointsPerVisit").text(`Points Per Visit: ${cost.toLocaleString(2)} pts`);
+  }
+
+  setFruitSpawnRateUpgradeText() {
+    const cost = this.game.points.getFruitSpawnRateUpgradeCost();
+    $("#buyFruitSpawnRateUpgrade").text(`Fruit Spawn Rate: ${cost.toLocaleString(2)} pts`);
   }
 
   setBuyBotAvoidRevisitLastPositionUpgradeText() {
@@ -56,8 +62,7 @@ class UserInterface {
   setBuyAutoExitMazeUpgradeText() {
     $('#buyBotAutoExitMaze').text(`Auto Exit Maze: ${BOT_AUTO_EXIT_MAZE_UPGRADE_COST} pts`)
     $("#buyBotAutoExitMaze").prop("disabled", this.game.points.rngBotAutoExitMaze);
-  }
-  
+  } 
   
 
   initEventHooks() {
@@ -73,6 +78,10 @@ class UserInterface {
       this.game.points.buyPointsPerVisitUpgrade();
       this.setPointsPerVisitUpgradeText();
     });
+    $('#buyFruitSpawnRateUpgrade').click(() => {
+      this.game.points.buyFruitSpawnRateUpgrade();
+      this.setFruitSpawnRateUpgradeText();
+    });
     $('#buyBotAvoidRevisitLastPosition').click(() => {
       this.game.points.buyBotAvoidRevisitLastPosition();
       this.setBuyBotAvoidRevisitLastPositionUpgradeText();
@@ -87,22 +96,38 @@ class UserInterface {
     });
   }
 
-  printMaze(maze) {
+  printMaze(maze, fruitSet) {
     if(this.disableUi) return;
     for (let y = 0; y < maze.length; y++) {
       $('#maze > tbody').append("<tr>");
       for (let x = 0; x < maze[y].length; x++) {
-        let selector = this.game.maze.generateTileKey(x, y);
-        
+        let selector = generateTileKey(x, y);
+        // Place cell element
         $('#maze > tbody').append(`<td id='${selector}'>&nbsp;</td>`);
+
+        // Draw edges
         if (maze[y][x][0] == WALL) $(`#${selector}`).css('border-top', '2px solid black');
         if (maze[y][x][1] == WALL) $(`#${selector}`).css('border-right', '2px solid black');
         if (maze[y][x][2] == WALL) $(`#${selector}`).css('border-bottom', '2px solid black');
         if (maze[y][x][3] == WALL) $(`#${selector}`).css('border-left', '2px solid black');
+        
+        // Draw fruit in tile.
+        if (fruitSet.has(selector)) {
+          this.drawBanana(selector);
+        }
       }
       
       $('#maze > tbody').append("</tr>");
     }
+  }
+
+  drawBanana(tileSelector) {
+    $(`#${tileSelector}`).css('background-image', 'url("img/banana.png")');
+    $(`#${tileSelector}`).css('background-size', '20px');
+  }
+
+  removeBanana(tileSelector) {
+    $(`#${tileSelector}`).css('background-size', '');
   }
   
   deleteMaze() {

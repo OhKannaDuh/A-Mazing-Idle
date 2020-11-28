@@ -8,6 +8,7 @@ class Game {
     this.isDevMode = isDevMode;
 
     this.ui.setDebugPanelVisible(isDevMode);
+    this.ui.init();
   }
 
   setMaze(newMaze) {
@@ -20,13 +21,11 @@ class Game {
   }
 
   startGame() {
-    this.ui.init();
-
     this.ui.deleteMaze();
     this.maze.newMaze();
     //TODO: re-run maze option, reset visited
     
-    this.ui.printMaze(this.maze.maze);
+    this.ui.printMaze(this.maze.maze, this.maze.fruitTileSet);
     this.maze.resetPlayer();
     
     this.rngBot.enableRngBot();
@@ -37,7 +36,6 @@ class Game {
     
     this.points.addMazeCompletionBonus();
 
-    
     if (this.isDevMode) {
       printMazeCompleteData(this);
       return;

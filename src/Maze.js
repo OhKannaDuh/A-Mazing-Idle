@@ -22,6 +22,7 @@ class Maze {
     this.prevTile = STARTING_POSITION;
     this.mazeExitTile = null;
     this.moveCount = 0;
+    this.fruitTileSet = new Set();
   }
 
   getMazeSize() {
@@ -30,6 +31,7 @@ class Maze {
   
   newMaze() {
     const mazeSize = this.getMazeSize();
+    this.fruitTileSet = generateFruitTileSet(mazeSize, mazeSize, this.game.points.getFruitSpawnProbability());
     this.visitedMaze = generateIsVisitedArr(mazeSize, mazeSize);
     this.maze = generateNewMaze(mazeSize, mazeSize);
     this.mazeExitTile = { x: this.getMazeSize(), y: this.getMazeSize() };
@@ -40,7 +42,7 @@ class Maze {
     this.currTile = STARTING_POSITION;
     this.movePlayer(STARTING_POSITION);
     this.moveCount = 0;
-    this.setTileBackgroundColor(this.currTile.x, this.currTile.y, FILLED_COLOR);
+    this.setTileBackgroundColor(this.currTile, FILLED_COLOR, true);
   }
 
   markVisited(tile) {
@@ -54,9 +56,11 @@ class Maze {
     return this.visitedMaze[y][x];
   }
 
-  setTileBackgroundColor(tile, color) {
-    const new_tile_key = this.generateTileKey(tile.x, tile.y);
+  setTileBackgroundColor(tile, color, isPlayer = false) {
+    const new_tile_key = generateTileKey(tile.x, tile.y);
     $(`#${new_tile_key}`).css('background-color', color);
+    $(`#${new_tile_key}`).css('-moz-border-radius', isPlayer ? '90%' : '0%');
+    $(`#${new_tile_key}`).css('border-radius', isPlayer ? '90%' : '0%');
   }
 
   getTileCount() {
@@ -72,7 +76,6 @@ class Maze {
       }
       this.game.rngBot.manualMovementCancelRngBot();
     }
-    
     
     this.updatePlayerTile(dirVector);
     this.moveCount++;
@@ -90,7 +93,14 @@ class Maze {
     this.currTile = { x: newTile.x, y: newTile.y };
     
     this.markVisited(this.currTile);
-    this.setTileBackgroundColor(this.currTile, FILLED_COLOR);
+    this.setTileBackgroundColor(this.currTile, FILLED_COLOR, true);
+
+    const tile = generateTileKey(newTile.x, newTile.y);
+    if (this.fruitTileSet.has(tile)) {
+      this.fruitTileSet.delete(tile);
+      this.game.ui.removeBanana(tile);
+      this.game.points.addFruitPickupPoints();
+    }
   }
 
   getNewTilePositionByVector(tile, vector) {
@@ -99,10 +109,6 @@ class Maze {
 
   getPreviousTile() {
     return this.prevTile;
-  }
-
-  generateTileKey(x, y) {
-    return `${x}-${y}`;
   }
 
   canMove(tile, dir_vector) {

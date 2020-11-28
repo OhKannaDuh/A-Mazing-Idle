@@ -11,6 +11,25 @@ const WALL = 0;
 const NO_WALL = 1;
 
 
+const generateFruitTileSet = (x, y, prob) => {
+  const fruitTileSet = new Set();
+  //TODO: calculate global probability and assign randomly
+  for (let i = 0; i < y; i++) {
+    for (let j = 0; j < x; j++) {
+      //generate fruit
+      let rand = Math.random();
+      if(rand < prob) {
+        fruitTileSet.add(generateTileKey(i, j));
+      }
+    }
+  }
+  return fruitTileSet;
+}
+
+const generateTileKey = (x, y) => {
+  return `${x}-${y}`;
+}
+
 const generateNewMaze = (x, y) => {
   
   // Establish variables and starting grid
