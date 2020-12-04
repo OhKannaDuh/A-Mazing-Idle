@@ -34,7 +34,7 @@ class Maze {
     this.fruitTileSet = generateFruitTileSet(mazeSize, mazeSize, this.game.points.getFruitSpawnProbability());
     this.visitedMaze = generateIsVisitedArr(mazeSize, mazeSize);
     this.maze = generateNewMaze(mazeSize, mazeSize);
-    this.mazeExitTile = { x: this.getMazeSize(), y: this.getMazeSize() };
+    this.mazeExitTile = { x: this.getMazeSize(), y: this.getMazeSize()-1 };
   }
 
   resetPlayer() {

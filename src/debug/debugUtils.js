@@ -1,7 +1,8 @@
 
-const IS_DEV_MODE_ENABLED = false;
+const IS_DEV_MODE_ENABLED = true;
 const DEV_MODE_DISABLE_UI = false;
-const DEV_MODE_AUTOSTART = false;
+const DEV_MODE_AUTOSTART = true;
+const IS_FREE_MODE_ENABLED = true;
 
 const generateScalingNumbers = () => {
   let startingUpgradeCount = 0;

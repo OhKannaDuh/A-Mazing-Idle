@@ -19,6 +19,7 @@ class UserInterface {
     this.setBuyBotAvoidRevisitLastPositionUpgradeText();
     this.setBuyBotPrioritizeUnvisitedUpgradeText();
     this.setBuyAutoExitMazeUpgradeText();
+    this.setMazeCompletionBonusUpgradeText();
   }
 
   setDebugPanelVisible(isVisible) {
@@ -44,6 +45,11 @@ class UserInterface {
     $("#buyPointsPerVisit").text(`Points Per Visit: ${cost.toLocaleString(2)} pts`);
   }
 
+  setMazeCompletionBonusUpgradeText() {
+    const cost = this.game.points.getMazeCompletionUpgradeCost();
+    $("#buyMazeCompletionBonusUpgrade").text(`Maze Completion Bonus: ${cost.toLocaleString(2)} pts`);
+  }
+
   setFruitSpawnRateUpgradeText() {
     const cost = this.game.points.getFruitSpawnRateUpgradeCost();
     $("#buyFruitSpawnRateUpgrade").text(`Fruit Spawn Rate: ${cost.toLocaleString(2)} pts`);
@@ -66,6 +72,7 @@ class UserInterface {
   
 
   initEventHooks() {
+    // Regular upgrades
     $('#buyBotMoveFaster').click(() => {
       this.game.points.buyRngMovementUpgrade();
       this.setRngMovementUpgradeText();
@@ -82,6 +89,11 @@ class UserInterface {
       this.game.points.buyFruitSpawnRateUpgrade();
       this.setFruitSpawnRateUpgradeText();
     });
+    $('#buyMazeCompletionBonusUpgrade').click(() => {
+      this.game.points.buyMazeCompletionUpgrade();
+      this.setMazeCompletionBonusUpgradeText();
+    });
+    // Bot upgrades
     $('#buyBotAvoidRevisitLastPosition').click(() => {
       this.game.points.buyBotAvoidRevisitLastPosition();
       this.setBuyBotAvoidRevisitLastPositionUpgradeText();

@@ -5,25 +5,27 @@ const BOT_AUTO_EXIT_MAZE_UPGRADE_COST = 250;
 
 const TILE_REVISIT_MULTIPLIER = 0;
 
-const MAZE_COMPLETION_SIZE_MULTIPLIER = 1.1;
+const MAZE_COMPLETION_BONUS_BASE_MULTIPLIER = 0.1;
+const MAZE_COMPLETION_BONUS_UPGRADE_SIZE_MULTIPLIER = 1.1;
+const MAZE_COMPLETION_BONUS_UPGRADE_BASE_COST = 100;
+const MAZE_COMPLETION_UPGRADE_BASE_COST_MULTIPLIER = 2;
 
 const BOT_MOVEMENT_BASE_COST = 10;
 const BOT_MOVEMENT_BASE_COST_MUTLIPLIER = 1.1;
 
 const MAZE_SIZE_UPGRADE_BASE_COST = 100;
-const MAZE_SIZE_UPGRADE_BASE_COST_MULTIPLIER = 10;
-const MAZE_SIZE_UPGRADE_MULTIPLIER = 1.1;
+const MAZE_SIZE_UPGRADE_BASE_COST_MULTIPLIER = 4;
 
 const POINTS_PER_VISIT_UPGRADE_BASE_COST = 10;
-const POINTS_PER_VISIT_UPGRADE_BASE_COST_MULTIPLIER = 5;
+const POINTS_PER_VISIT_UPGRADE_BASE_COST_MULTIPLIER = 2;
 const POINTS_PER_VISIT_UPGRADE_MULTIPLIER = 1.1;
 const POINTS_PER_VISIT_BASE_AMOUNT = 1;
 const POINTS_PER_VISIT_BASE_AMOUNT_MULTIPLIER = 1.1
 
+const FRUIT_SPAWN_UPGRADE_BASE_COST = 10;
+const FRUIT_SPAWN_UPGRADE_BASE_COST_MULTIPLIER = 2;
 const FRUIT_PICKUP_POINTS_BASE_AMOUNT = 10;
 const FRUIT_SPAWN_BASE_PROBABILITY = .01;
-const FRUIT_SPAWN_UPGRADE_BASE_COST = 10;
-const FRUIT_SPAWN_UPGRADE_BASE_COST_MULTIPLIER = 5;
 
 class Points {
     constructor(game, isDevMode = false) {
@@ -32,6 +34,7 @@ class Points {
         this.points = 0.0;
 
         this.mazeSizeUpgradeCount = 0;
+        this.mazeCompletionBonusUpgradeCount = 0;
         this.pointsPerVisitUpgradeCount = 0;
         this.rngMovementSpeedUpgrades = 0;
 
@@ -48,19 +51,8 @@ class Points {
     }
 
     canAffordPointsAmount(cost) {
-        if (this.isDevMode) return true;
+        if (IS_FREE_MODE_ENABLED) return true;
         return cost <= this.points;
-    }
-
-    addMazeCompletionBonus() {
-        
-        const bonus = this.getMazeCompletionBonus();
-        this.addPoints(bonus);
-    }
-
-    getMazeCompletionBonus() {
-        const tileCount = this.game.maze.getTileCount();
-        return tileCount * MAZE_COMPLETION_SIZE_MULTIPLIER;
     }
 
     /* Maze size upgrade */
@@ -164,7 +156,6 @@ class Points {
         return FRUIT_SPAWN_BASE_PROBABILITY * (1 + this.fruitSpawnRateUpgrades);
     }
 
-    /* Rng bot movement faster */
     buyFruitSpawnRateUpgrade() {
         const cost = this.getFruitSpawnRateUpgradeCost();
         if (!this.canAffordPointsAmount(cost)) {
@@ -176,5 +167,29 @@ class Points {
     
     getFruitSpawnRateUpgradeCost() {
         return FRUIT_SPAWN_UPGRADE_BASE_COST * Math.pow(FRUIT_SPAWN_UPGRADE_BASE_COST_MULTIPLIER, this.fruitSpawnRateUpgrades);
+    }
+
+    /* Maze Completion Bonus */
+    buyMazeCompletionUpgrade() {
+        const cost = this.getMazeCompletionUpgradeCost();
+        if (!this.canAffordPointsAmount(cost)) {
+            return;
+        }
+        this.game.points.addPoints(-cost);
+        this.mazeCompletionBonusUpgradeCount++;
+    }
+
+    getMazeCompletionUpgradeCost() {
+        return MAZE_COMPLETION_BONUS_UPGRADE_BASE_COST * Math.pow(MAZE_COMPLETION_UPGRADE_BASE_COST_MULTIPLIER, this.mazeCompletionBonusUpgradeCount);
+    }
+
+    addMazeCompletionBonus() {
+        const bonus = this.getMazeCompletionBonus();
+        this.addPoints(bonus);
+    }
+
+    getMazeCompletionBonus() {
+        const tileCount = this.game.maze.getTileCount();
+        return tileCount * (1 + MAZE_COMPLETION_BONUS_BASE_MULTIPLIER * this.mazeCompletionBonusUpgradeCount);
     }
 }
