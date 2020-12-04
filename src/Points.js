@@ -2,6 +2,7 @@
 const BOT_PRIORITIZE_UNVISITED_UPGRADE_COST = 500;
 const BOT_AVOID_REVISIT_LAST_POSITION_UPGRADE_COST = 1000;
 const BOT_AUTO_EXIT_MAZE_UPGRADE_COST = 250;
+const BOT_ALLOW_PLAYER_TO_MOVE_INDEPENDENTLY_UPGRADE_COST = 1500;
 
 const TILE_REVISIT_MULTIPLIER = 0;
 
@@ -10,8 +11,11 @@ const MAZE_COMPLETION_BONUS_UPGRADE_SIZE_MULTIPLIER = 1.1;
 const MAZE_COMPLETION_BONUS_UPGRADE_BASE_COST = 100;
 const MAZE_COMPLETION_UPGRADE_BASE_COST_MULTIPLIER = 2;
 
-const BOT_MOVEMENT_BASE_COST = 10;
-const BOT_MOVEMENT_BASE_COST_MUTLIPLIER = 1.1;
+const BOT_MOVEMENT_UPGRADE_BASE_COST = 10;
+const BOT_MOVEMENT_UPGRADE_BASE_COST_MUTLIPLIER = 1.1;
+
+const BOT_REMEMBER_DEADEND_TILES_UPGRADE_BASE_COST = 1000;
+const BOT_REMEMBER_DEADEND_TILES_UPGRADE_BASE_COST_MULTIPLIER = 3;
 
 const MAZE_SIZE_UPGRADE_BASE_COST = 100;
 const MAZE_SIZE_UPGRADE_BASE_COST_MULTIPLIER = 4;
@@ -24,8 +28,13 @@ const POINTS_PER_VISIT_BASE_AMOUNT_MULTIPLIER = 1.1
 
 const FRUIT_SPAWN_UPGRADE_BASE_COST = 10;
 const FRUIT_SPAWN_UPGRADE_BASE_COST_MULTIPLIER = 2;
-const FRUIT_PICKUP_POINTS_BASE_AMOUNT = 10;
 const FRUIT_SPAWN_BASE_PROBABILITY = .01;
+
+const FRUIT_PICKUP_POINTS_UPGRADE_BASE_COST = 10;
+const FRUIT_PICKUP_POINTS_UPGRADE_BASE_COST_MULTIPLIER = 2;
+const FRUIT_PICKUP_POINTS_BASE_AMOUNT = 10;
+const FRUIT_PICKUP_POINTS_BASE_AMOUNT_MULTIPLIER = 1.2;
+
 
 class Points {
     constructor(game, isDevMode = false) {
@@ -41,8 +50,11 @@ class Points {
         this.rngBotPrioritizeUnvisited = false;
         this.rngBotAvoidRevisitLastPosition = false;
         this.rngBotAutoExitMaze = false;
+        this.rngBotAllowPlayerToMoveIndependently = false;
+        this.rngBotRememberDeadEndTilesUpgrades = 0;
         
         this.fruitSpawnRateUpgrades = 0;
+        this.fruitPickupPointsUpgrades = 0;
     }
 
     addPoints(amount) {
@@ -99,6 +111,20 @@ class Points {
         this.rngBotAvoidRevisitLastPosition = true;
         this.addPoints(-cost);
     }
+    
+    /* Player move independently */
+    buyPlayerMoveIndependently() {
+        const cost = BOT_ALLOW_PLAYER_TO_MOVE_INDEPENDENTLY_UPGRADE_COST;
+        if (!this.canAffordPointsAmount(cost)) {
+            return;
+        }
+        this.game.points.addPoints(-cost);
+        this.rngBotAllowPlayerToMoveIndependently = true;
+    }
+
+    getRngMovementUpgradeCost() {
+        return BOT_MOVEMENT_UPGRADE_BASE_COST * Math.pow(BOT_MOVEMENT_UPGRADE_BASE_COST_MUTLIPLIER, this.rngMovementSpeedUpgrades);
+    }
 
     /* Points per visit */
     buyPointsPerVisitUpgrade() {
@@ -138,19 +164,29 @@ class Points {
         this.rngMovementSpeedUpgrades++;
 
         // Reset movement speed of current interval.
-        this.game.rngBot.disableRngBot();
-        this.game.rngBot.enableRngBot();
+        // this.game.rngBot.disableRngBot();
+        // this.game.rngBot.enableRngBot();
     }
 
     getRngMovementUpgradeCost() {
-        return BOT_MOVEMENT_BASE_COST * Math.pow(BOT_MOVEMENT_BASE_COST_MUTLIPLIER, this.rngMovementSpeedUpgrades);
+        return BOT_MOVEMENT_UPGRADE_BASE_COST * Math.pow(BOT_MOVEMENT_UPGRADE_BASE_COST_MUTLIPLIER, this.rngMovementSpeedUpgrades);
+    }
+    
+    /* Rng bot movement faster */
+    buyRngRememberDeadEndTilesUpgrade() {
+        const cost = this.getRngRememberDeadEndTilesUpgradeCost();
+        if (!this.canAffordPointsAmount(cost)) {
+            return;
+        }
+        this.game.points.addPoints(-cost);
+        this.rngBotRememberDeadEndTilesUpgrades++;
     }
 
-    /* Fruit pickup/spawn */
-    addFruitPickupPoints() {
-        this.addPoints(FRUIT_PICKUP_POINTS_BASE_AMOUNT);
+    getRngRememberDeadEndTilesUpgradeCost() {
+        return BOT_REMEMBER_DEADEND_TILES_UPGRADE_BASE_COST * Math.pow(BOT_REMEMBER_DEADEND_TILES_UPGRADE_BASE_COST_MULTIPLIER, this.rngBotRememberDeadEndTilesUpgrades);
     }
 
+    /* Fruit spawn rate */
     getFruitSpawnProbability() {
         // 1% increase per upgrade
         return FRUIT_SPAWN_BASE_PROBABILITY * (1 + this.fruitSpawnRateUpgrades);
@@ -167,6 +203,29 @@ class Points {
     
     getFruitSpawnRateUpgradeCost() {
         return FRUIT_SPAWN_UPGRADE_BASE_COST * Math.pow(FRUIT_SPAWN_UPGRADE_BASE_COST_MULTIPLIER, this.fruitSpawnRateUpgrades);
+    }
+
+    /* Fruit points upgrade */
+    buyFruitPickupPointsUpgrade() {
+        const cost = this.getFruitPickupPointsUpgradeCost();
+        if (!this.canAffordPointsAmount(cost)) {
+            return;
+        }
+        this.game.points.addPoints(-cost);
+        this.fruitPickupPointsUpgrades++;
+    }
+    
+    getFruitPickupPointsUpgradeCost() {
+        return FRUIT_PICKUP_POINTS_UPGRADE_BASE_COST * Math.pow(FRUIT_PICKUP_POINTS_UPGRADE_BASE_COST_MULTIPLIER, this.fruitPickupPointsUpgrades);
+    }
+
+    getFruitPickupPointsAmount() {
+        return FRUIT_PICKUP_POINTS_BASE_AMOUNT * Math.pow(FRUIT_PICKUP_POINTS_BASE_AMOUNT_MULTIPLIER, this.fruitPickupPointsUpgrades);
+    }
+    
+    addFruitPickupPoints() {
+        const points = this.getFruitPickupPointsAmount();
+        this.addPoints(points);
     }
 
     /* Maze Completion Bonus */

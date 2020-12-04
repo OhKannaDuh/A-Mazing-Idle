@@ -2,6 +2,7 @@
 
 const FILLED_COLOR = '#000000';
 const EMPTY_COLOR = '#FFFFFF';
+const DEAD_END_COLOR = '#F13241';
 
 const UP = 0;
 const RIGHT = 1
@@ -11,6 +12,7 @@ const WALL = 0;
 const NO_WALL = 1;
 
 
+//TODO: do not allow 0-0
 const generateFruitTileSet = (x, y, prob) => {
   const fruitTileSet = new Set();
   //TODO: calculate global probability and assign randomly

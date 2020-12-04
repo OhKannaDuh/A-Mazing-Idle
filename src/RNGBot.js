@@ -8,34 +8,38 @@ const DEV_MODE_MOVEMENT_SPEED = 1;
 
 class RNGBot {
   constructor(game, isDevMode) {
-      this.game = game;
-      this.isDevMode = isDevMode;
-      this.rngBotMoveInterval = null;
-      this.rngBotReEnableTimer = null;
+    this.game = game;
+    this.isDevMode = isDevMode;
+    this.rngBotMoveInterval = null;
+    this.rngBotReEnableTimer = null;
   }
 
   manualMovementCancelRngBot() {
-      clearInterval(this.rngBotMoveInterval);
-      this.disableRngBot();
-      this.rngBotMoveInterval = setTimeout(() => {
-          this.enableRngBot();
-      }, AUTO_RE_ENABLE_RNG_BOT_TIMER);
+    clearInterval(this.rngBotMoveInterval);
+    this.disableRngBot();
+    this.rngBotMoveInterval = setTimeout(() => {
+        this.enableRngBot();
+    }, AUTO_RE_ENABLE_RNG_BOT_TIMER);
   }
 
   moveRandomly() {
-      const dir = this.chooseRandomDirection();
-      if (!dir) {
-        console.error('No valid move possible');
-        return;
-      }
-      this.game.maze.movePlayer(dir);
+    const dir = this.chooseRandomDirection();
+    if (!dir) {
+      return;
+    }
+    this.game.maze.movePlayer(dir);
   }
 
   enableRngBot() {
+    let upgradeSpeed = this.game.points.rngMovementSpeedUpgrades;
     clearInterval(this.rngBotMoveInterval);
     
     this.rngBotMoveInterval = setInterval(() => {
       this.moveRandomly();
+      if (upgradeSpeed !== this.game.points.rngMovementSpeedUpgrades) {
+        this.disableRngBot();
+        this.enableRngBot();
+      }
     }, this.getBotMoveInterval(this.isDevMode));
   }
 
@@ -68,6 +72,10 @@ class RNGBot {
       if (exitDirsArr.length > 0) {
         return exitDirsArr;
       }
+    }
+
+    if (this.game.points.rngBotRememberDeadEndTilesUpgrades >= 1) {
+      validDirs = this.game.maze.filterDeadEndTiles(validDirs);
     }
     
     // Prioritize any adjacent unvisited tiles if any.
