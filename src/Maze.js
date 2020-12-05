@@ -10,15 +10,16 @@ const STARTING_POSITION = {x: 0, y: 0};
 const DEFAULT_MAZE_SIZE = 4;
 
 const VISITED_TILE_COLOR = '#7CFCFF';
+const DEFAULT_PLAYER_ID = 0;
 
 class Maze {
   constructor(game, isDevMode = false) {
     this.game = game;
+    this.playerMap = new Map();
     this.isDevMode = isDevMode;
     this.maze = null;
     this.visitedMaze = null;
     this.rngBot = new RNGBot();
-    this.currTile = STARTING_POSITION;
     this.prevTile = STARTING_POSITION;
     this.moveCount = 0;
     this.fruitTileSet = new Set();
@@ -46,11 +47,24 @@ class Maze {
   }
 
   resetPlayer() {
-    this.prevTile = STARTING_POSITION;
-    this.currTile = STARTING_POSITION;
-    this.markVisited(STARTING_POSITION);
+    this.playerMap.clear();
+    const newPlayer = this.createNewPlayerObj(STARTING_POSITION);
     this.moveCount = 0;
-    this.setTileBackgroundColor(this.currTile, FILLED_COLOR, true);
+  }
+
+  isAtPlayerMax() {
+    return this.playerMap.size >= 2;
+    // return this.game.points.rngBotAllowPlayerToMoveIndependently ? 2 : 1;
+  }
+
+  createNewPlayerObj(startTile) {
+    //TODO: interface for player
+    const newPlayer = { id: this.playerMap.size, currTile: startTile, prevTile: startTile };
+    this.playerMap.set(newPlayer.id, newPlayer);
+    
+    this.markVisited(startTile);
+    this.setTileBackgroundColor(startTile, FILLED_COLOR, true);
+    return newPlayer;
   }
 
   markVisited(tile) {
@@ -67,7 +81,7 @@ class Maze {
   }
 
   setTileBackgroundColor(tile, isPlayer = false) {
-    const tileColor = this.getTileBackgroundColor(tile);
+    const tileColor = this.getTileBackgroundColor(tile, isPlayer);
     const new_tile_key = generateTileKey(tile.x, tile.y);
     $(`#${new_tile_key}`).css('background-color', tileColor);
     $(`#${new_tile_key}`).css('-moz-border-radius', isPlayer ? '90%' : '0%');
@@ -77,24 +91,46 @@ class Maze {
   getTileCount() {
     return this.maze.length * this.maze[0].length;
   }
-  
-  movePlayer(dirVector, isManual=false) {
-    if (!this.canMove(this.currTile, dirVector)) {
+
+  movePlayer(playerId, dirVector, isManual=false) {
+    if (!this.canMove(this.getCurrTile(playerId), dirVector)) {
       console.log('cannot move!');
       return;
     }
+    
+    this.updatePlayerTile(playerId, dirVector);
+    
     // Reset timer for auto-moves
     if (isManual) {
-      this.game.rngBot.manualMovementCancelRngBot();
+      if (this.game.points.rngBotAllowPlayerToMoveIndependently && !this.isAtPlayerMax()) {
+        const newPlayer = this.createNewPlayerObj(this.getCurrTile(playerId));
+        this.game.rngBot.enableRngBot(newPlayer.id);
+        this.game.rngBot.manualMovementCancelRngBot(playerId);
+      } else {
+        // this.game.rngBot.manualMovementCancelRngBot(playerId);
+      }
     }
     
     this.moveCount++;
     
-    this.updatePlayerTile(dirVector);
+    
+  }
+
+  getPlayer(playerId) {
+    return this.playerMap.get(playerId);
+  }
+
+  isOccupiedByPlayer(tile) {
+    for (let [id, player] of this.playerMap) {
+      if (player.currTile.x === tile.x && player.currTile.y === tile.y) {
+        return true;
+      }
+    }
+    return false;
   }
   
-  getTileBackgroundColor(tile) {
-    if (this.currTile.x === tile.x && this.currTile.y === tile.y) {
+  getTileBackgroundColor(tile, isPlayer) {
+    if (this.isOccupiedByPlayer(tile)) {
       return FILLED_COLOR;
     }
     const tileKey = generateTileKey(tile.x, tile.y);
@@ -107,22 +143,23 @@ class Maze {
     return EMPTY_COLOR;
   }
 
-  updatePlayerTile(dirVector) {
-    const newTile = this.getNewTilePositionByVector(this.currTile, dirVector);
+  updatePlayerTile(playerId, dirVector) {
+    const player = this.getPlayer(playerId);
+    const newTile = this.getNewTilePositionByVector(player.currTile, dirVector);
     if (this.isMazeExitTile(newTile)) {
       this.game.completeMaze();
       return;
     }
 
-    this.prevTile = { x: this.currTile.x, y: this.currTile.y };
-    this.currTile = { x: newTile.x, y: newTile.y };
+    player.prevTile = { x: player.currTile.x, y: player.currTile.y };
+    player.currTile = { x: newTile.x, y: newTile.y };
     
     
-    this.markVisited(this.currTile);
-    this.updateDeadEndTilesMap(this.currTile);
+    this.markVisited(newTile);
+    this.updateDeadEndTilesMap(newTile);
     
-    this.setTileBackgroundColor(this.prevTile);
-    this.setTileBackgroundColor(this.currTile, true);
+    this.setTileBackgroundColor(player.prevTile);
+    this.setTileBackgroundColor(newTile, true);
     
     const tile = generateTileKey(newTile.x, newTile.y);
     if (this.fruitTileSet.has(tile)) {
@@ -137,7 +174,11 @@ class Maze {
   }
 
   getPreviousTile() {
-    return this.prevTile;
+    return this.getPlayer(playerId).prevTile;
+  }
+
+  getCurrTile(playerId) {
+    return this.getPlayer(playerId).currTile;
   }
 
   canMove(tile, dirVector) {
@@ -168,8 +209,8 @@ class Maze {
     return tile.x === exitTile.x && tile.y === exitTile.y;
   }
   
-  getValidDirections() {
-    const validDirsArr = DIRECTIONS_ARR.filter((dir) => this.canMove(this.currTile, dir));
+  getValidDirections(playerId) {
+    const validDirsArr = DIRECTIONS_ARR.filter((dir) => this.canMove(this.getPlayer(playerId).currTile, dir));
     return validDirsArr;
   }
 
@@ -214,36 +255,37 @@ class Maze {
   }
 
   // Check if player is within 1 tile of exit
-  filterPlayerExitMazeDirection() {
+  filterPlayerExitMazeDirection(playerId) {
     const exitMazeDir = DIRECTIONS_ARR.filter((dir) => {
-      const newTile = this.getNewTilePositionByVector(this.currTile, dir);
+      const newTile = this.getNewTilePositionByVector(this.getPlayer(playerId).currTile, dir);
       return this.isMazeExitTile(newTile)
     });
     return exitMazeDir;
   }
 
-  filterAvoidRevisitLastPosition(validDirs) {
+  filterAvoidRevisitLastPosition(playerId, validDirs) {
+    console.log('filter: ' + playerId);
     // Find any tiles that are not the previous tile.
     const noRevisitDirsArr = validDirs.filter((dir) => {
-      const previousTile = this.getPreviousTile();
-      const newTile = this.getNewTilePositionByVector(this.currTile, dir);
+      const previousTile = this.getPreviousTile(playerId);
+      const newTile = this.getNewTilePositionByVector(this.getCurrTile(playerId), dir);
       return newTile.x !== previousTile.x || newTile.y !== previousTile.y;
     });
     return noRevisitDirsArr;
   }
   
-  prioritizeUnvisitedDirection(validDirs) {
+  prioritizeUnvisitedDirection(playerId, validDirs) {
     // Find any unvisited tiles within reach.
     const unvisitedDirsArr = validDirs.filter((dir) => {
-      const newTile = this.getNewTilePositionByVector(this.currTile, dir);
+      const newTile = this.getNewTilePositionByVector(this.getCurrTile(playerId), dir);
       return !this.isVisited(newTile.x, newTile.y);
     });
     return unvisitedDirsArr;
   }
 
-  filterDeadEndTiles(validDirs) {
+  filterDeadEndTiles(playerId, validDirs) {
     const nonDeadEndTiles = validDirs.filter((dir) => {
-      const newTile = this.getNewTilePositionByVector(this.currTile, dir);
+      const newTile = this.getNewTilePositionByVector(this.getCurrTile(playerId), dir);
       const tileKey = generateTileKey(newTile.x, newTile.y);
       return !this.deadEndTileMap.has(tileKey);
     });

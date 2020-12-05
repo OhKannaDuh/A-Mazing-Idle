@@ -27,8 +27,8 @@ class Game {
     
     this.ui.printMaze(this.maze.maze, this.maze.fruitTileSet);
     this.maze.resetPlayer();
-    
-    this.rngBot.enableRngBot();
+
+    this.rngBot.enableRngBot(DEFAULT_PLAYER_ID);
   }
   
   completeMaze() {

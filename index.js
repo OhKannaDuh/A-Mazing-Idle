@@ -8,19 +8,19 @@ $(document).ready(() => {
   $(document).keydown(function(event) {
     // Up
     if (event.keyCode === 38) { 
-      game.maze.movePlayer(DIRECTION_UP, true);
+      game.maze.movePlayer(DEFAULT_PLAYER_ID, DIRECTION_UP, true);
     }
     // Down
     else if (event.keyCode === 40) {
-      game.maze.movePlayer(DIRECTION_DOWN, true);
+      game.maze.movePlayer(DEFAULT_PLAYER_ID, DIRECTION_DOWN, true);
     }
     // Left
     else if (event.keyCode === 37) {
-      game.maze.movePlayer(DIRECTION_LEFT, true);
+      game.maze.movePlayer(DEFAULT_PLAYER_ID, DIRECTION_LEFT, true);
     }
     // Right
     else if (event.keyCode === 39) {
-      game.maze.movePlayer(DIRECTION_RIGHT, true);
+      game.maze.movePlayer(DEFAULT_PLAYER_ID, DIRECTION_RIGHT, true);
     }
   });
 });
