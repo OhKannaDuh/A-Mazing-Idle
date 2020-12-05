@@ -133,7 +133,6 @@ class UserInterface {
     $("#buyPlayerMoveIndependently").click(() => {
       this.game.points.buyPlayerMoveIndependently();
       this.setAllowPlayerMoveIndependentlyText();
-      //TODO: this.
     });
     $("#buyBotRememberDeadEnds").click(() => {
       this.game.points.buyRngRememberDeadEndTilesUpgrade();

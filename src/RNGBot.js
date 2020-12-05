@@ -11,18 +11,21 @@ class RNGBot {
     this.game = game;
     this.isDevMode = isDevMode;
 
-    //TODO: make an object for eaach rngbot
+    //TODO: make an object for each rngbot
     this.rngBotMap = new Map();
-    this.rngBotMoveInterval = null;
-    this.rngBotReEnableTimer = null;
   }
 
   manualMovementCancelRngBot(playerId) {
-    clearInterval(this.rngBotMoveInterval);
-    this.disableRngBot(playerId);
-    this.rngBotMoveInterval = setTimeout(() => {
-        this.enableRngBot(playerId);
-    }, AUTO_RE_ENABLE_RNG_BOT_TIMER);
+    const rngBot = this.rngBotMap.get(playerId);
+    
+    this.disableRngBot(rngBot.id);
+    clearInterval(rngBot.rngBotReEnableTimer);
+    //TODO: we need to handle splitting in the future -- need another signal for this.
+    if (this.game.maze.getPlayerCount() === 1) {
+      rngBot.rngBotReEnableTimer = setTimeout(() => {
+          this.enableRngBot(rngBot.id);
+      }, AUTO_RE_ENABLE_RNG_BOT_TIMER);
+    }
   }
 
   moveRandomly(playerId) {
@@ -59,6 +62,16 @@ class RNGBot {
   disableRngBot(playerId) {
     if (!this.rngBotMap.has(playerId)) return;
     clearInterval(this.rngBotMap.get(playerId).rngBotMoveInterval);
+    this.rngBotMap.get(playerId).rngBotMoveInterval = null;
+    clearInterval(this.rngBotMap.get(playerId).rngBotReEnableTimer);
+    this.rngBotMap.get(playerId).rngBotReEnableTimer = null;
+  }
+
+  deleteAllRngBot() {
+    for (let [id, bot] of this.rngBotMap) {
+      this.disableRngBot(id);
+    }
+    this.rngBotMap.clear();
   }
 
   chooseRandomDirection(playerId) {
@@ -71,7 +84,7 @@ class RNGBot {
   }
 
   chooseDirection(playerId) {
-    let validDirs = this.game.maze.getValidDirections(playerId);
+    let validDirs = this.game.maze.getValidDirectionsByPlayerId(playerId);
     if (validDirs.length === 0) {
       return;
     }

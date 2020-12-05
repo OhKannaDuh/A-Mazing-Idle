@@ -7,7 +7,7 @@ $(document).ready(() => {
 
   $(document).keydown(function(event) {
     // Up
-    if (event.keyCode === 38) { 
+    if (event.keyCode === 38) {
       game.maze.movePlayer(DEFAULT_PLAYER_ID, DIRECTION_UP, true);
     }
     // Down

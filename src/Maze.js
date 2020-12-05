@@ -52,19 +52,33 @@ class Maze {
     this.moveCount = 0;
   }
 
+  getPlayerCount() {
+    return this.playerMap.size;
+  }
+
   isAtPlayerMax() {
-    return this.playerMap.size >= 2;
-    // return this.game.points.rngBotAllowPlayerToMoveIndependently ? 2 : 1;
+    const playerCount = this.getPlayerCount();
+    const maxPlayers = this.game.points.rngBotAllowPlayerToMoveIndependently ? 2 : 1
+    return playerCount >= maxPlayers;
   }
 
   createNewPlayerObj(startTile) {
     //TODO: interface for player
-    const newPlayer = { id: this.playerMap.size, currTile: startTile, prevTile: startTile };
+    const newPlayer = { id: this.getPlayerCount(), currTile: startTile, prevTile: startTile, isManuallyControlled: false };
     this.playerMap.set(newPlayer.id, newPlayer);
     
     this.markVisited(startTile);
-    this.setTileBackgroundColor(startTile, FILLED_COLOR, true);
+    this.setTileBackgroundColor(startTile, true);
     return newPlayer;
+  }
+
+  getManuallyControlledPlayer() {
+    for (let [id, player] in this.playerMap) {
+      if (player.isManuallyControlled) {
+        return player;
+      }
+    }
+    return null;
   }
 
   markVisited(tile) {
@@ -81,7 +95,7 @@ class Maze {
   }
 
   setTileBackgroundColor(tile, isPlayer = false) {
-    const tileColor = this.getTileBackgroundColor(tile, isPlayer);
+    const tileColor = this.getTileBackgroundColor(tile);
     const new_tile_key = generateTileKey(tile.x, tile.y);
     $(`#${new_tile_key}`).css('background-color', tileColor);
     $(`#${new_tile_key}`).css('-moz-border-radius', isPlayer ? '90%' : '0%');
@@ -98,40 +112,51 @@ class Maze {
       return;
     }
     
-    this.updatePlayerTile(playerId, dirVector);
-    
     // Reset timer for auto-moves
     if (isManual) {
       if (this.game.points.rngBotAllowPlayerToMoveIndependently && !this.isAtPlayerMax()) {
+        // Spawn new rng bot player
         const newPlayer = this.createNewPlayerObj(this.getCurrTile(playerId));
         this.game.rngBot.enableRngBot(newPlayer.id);
-        this.game.rngBot.manualMovementCancelRngBot(playerId);
-      } else {
-        // this.game.rngBot.manualMovementCancelRngBot(playerId);
       }
+      // Disable auto-move on current player
+      this.getPlayer(playerId).isManuallyControlled = true;
+      this.game.rngBot.manualMovementCancelRngBot(playerId);
+    } else {
+      this.getPlayer(playerId).isManuallyControlled = false;
     }
+    this.updatePlayerTile(playerId, dirVector);
     
     this.moveCount++;
-    
-    
   }
 
   getPlayer(playerId) {
     return this.playerMap.get(playerId);
   }
 
+  getPlayerAtTileColor(tile) {
+    for (let [id, player] of this.playerMap) {
+      if (isTileEqual(tile, player.currTile)) {
+        return player.isManuallyControlled ? PLAYER_COLOR : RNG_BOT_COLOR;
+      }
+    }
+    return null;
+  }
+
   isOccupiedByPlayer(tile) {
     for (let [id, player] of this.playerMap) {
-      if (player.currTile.x === tile.x && player.currTile.y === tile.y) {
+      if (isTileEqual(tile, player.currTile)) {
         return true;
       }
     }
     return false;
   }
   
-  getTileBackgroundColor(tile, isPlayer) {
-    if (this.isOccupiedByPlayer(tile)) {
-      return FILLED_COLOR;
+  getTileBackgroundColor(tile) {
+    // Check for a player in the tile
+    const playerColor = this.getPlayerAtTileColor(tile);
+    if (playerColor != null) {
+      return playerColor;
     }
     const tileKey = generateTileKey(tile.x, tile.y);
     if (this.deadEndTileMap.has(tileKey)) {
@@ -145,7 +170,7 @@ class Maze {
 
   updatePlayerTile(playerId, dirVector) {
     const player = this.getPlayer(playerId);
-    const newTile = this.getNewTilePositionByVector(player.currTile, dirVector);
+    const newTile = getNewTilePositionByVector(player.currTile, dirVector);
     if (this.isMazeExitTile(newTile)) {
       this.game.completeMaze();
       return;
@@ -154,26 +179,22 @@ class Maze {
     player.prevTile = { x: player.currTile.x, y: player.currTile.y };
     player.currTile = { x: newTile.x, y: newTile.y };
     
-    
     this.markVisited(newTile);
     this.updateDeadEndTilesMap(newTile);
     
     this.setTileBackgroundColor(player.prevTile);
     this.setTileBackgroundColor(newTile, true);
     
-    const tile = generateTileKey(newTile.x, newTile.y);
-    if (this.fruitTileSet.has(tile)) {
-      this.fruitTileSet.delete(tile);
-      this.game.ui.removeBanana(tile);
+    const tileKey = generateTileKey(newTile.x, newTile.y);
+    // Pick up fruits if any
+    if (this.fruitTileSet.has(tileKey)) {
+      this.fruitTileSet.delete(tileKey);
+      this.game.ui.removeBanana(tileKey);
       this.game.points.addFruitPickupPoints();
     }
   }
 
-  getNewTilePositionByVector(tile, vector) {
-    return { x: tile.x + vector.x, y: tile.y + vector.y };
-  }
-
-  getPreviousTile() {
+  getPreviousTile(playerId) {
     return this.getPlayer(playerId).prevTile;
   }
 
@@ -182,12 +203,12 @@ class Maze {
   }
 
   canMove(tile, dirVector) {
-    const newTile = this.getNewTilePositionByVector(tile, dirVector);
-    const isMazeExitTile = this.isMazeExitTile(newTile);
-    if (isMazeExitTile) return true;
+    const newTile = getNewTilePositionByVector(tile, dirVector);
+    // Check if maze exit and is valid tile
+    if (this.isMazeExitTile(newTile)) return true;
     if (!this.isValidTile(newTile)) return false;
     
-    
+    // Check for walls in current tile in each direction
     if (dirVector === DIRECTION_UP) {
       return this.maze[tile.y][tile.x][UP];
     }
@@ -205,12 +226,16 @@ class Maze {
   }
 
   isMazeExitTile(tile) {
-    const exitTile = this.getMazeExitTile();
-    return tile.x === exitTile.x && tile.y === exitTile.y;
+    return isTileEqual(tile, this.getMazeExitTile());
   }
   
-  getValidDirections(playerId) {
-    const validDirsArr = DIRECTIONS_ARR.filter((dir) => this.canMove(this.getPlayer(playerId).currTile, dir));
+  getValidDirectionsByPlayerId(playerId) {
+    const currTile = this.getPlayer(playerId).currTile;
+    return this.getValidDirectionsByTile(currTile);
+  }
+
+  getValidDirectionsByTile(tile) {
+    const validDirsArr = DIRECTIONS_ARR.filter((dir) => this.canMove(tile, dir));
     return validDirsArr;
   }
 
@@ -220,7 +245,7 @@ class Maze {
 
     // Count dead ends from valid dirs
     validDirsArr.forEach(dir => {
-      const newTile = this.getNewTilePositionByVector(tile, dir)
+      const newTile = getNewTilePositionByVector(tile, dir)
       const tileKey = generateTileKey(newTile.x, newTile.y);
       if (this.deadEndTileMap.has(tileKey)) {
         deadEndCount++;
@@ -240,7 +265,7 @@ class Maze {
     if (upgradeCount === 0) {
       return;
     }
-    const validDirsArr = this.getValidDirections(tile);
+    const validDirsArr = this.getValidDirectionsByTile(tile);
     const tileKey = generateTileKey(tile.x, tile.y);
     
     if (validDirsArr.length === 1) {
@@ -257,18 +282,17 @@ class Maze {
   // Check if player is within 1 tile of exit
   filterPlayerExitMazeDirection(playerId) {
     const exitMazeDir = DIRECTIONS_ARR.filter((dir) => {
-      const newTile = this.getNewTilePositionByVector(this.getPlayer(playerId).currTile, dir);
+      const newTile = getNewTilePositionByVector(this.getPlayer(playerId).currTile, dir);
       return this.isMazeExitTile(newTile)
     });
     return exitMazeDir;
   }
 
   filterAvoidRevisitLastPosition(playerId, validDirs) {
-    console.log('filter: ' + playerId);
     // Find any tiles that are not the previous tile.
     const noRevisitDirsArr = validDirs.filter((dir) => {
       const previousTile = this.getPreviousTile(playerId);
-      const newTile = this.getNewTilePositionByVector(this.getCurrTile(playerId), dir);
+      const newTile = getNewTilePositionByVector(this.getCurrTile(playerId), dir);
       return newTile.x !== previousTile.x || newTile.y !== previousTile.y;
     });
     return noRevisitDirsArr;
@@ -277,7 +301,7 @@ class Maze {
   prioritizeUnvisitedDirection(playerId, validDirs) {
     // Find any unvisited tiles within reach.
     const unvisitedDirsArr = validDirs.filter((dir) => {
-      const newTile = this.getNewTilePositionByVector(this.getCurrTile(playerId), dir);
+      const newTile = getNewTilePositionByVector(this.getCurrTile(playerId), dir);
       return !this.isVisited(newTile.x, newTile.y);
     });
     return unvisitedDirsArr;
@@ -285,7 +309,7 @@ class Maze {
 
   filterDeadEndTiles(playerId, validDirs) {
     const nonDeadEndTiles = validDirs.filter((dir) => {
-      const newTile = this.getNewTilePositionByVector(this.getCurrTile(playerId), dir);
+      const newTile = getNewTilePositionByVector(this.getCurrTile(playerId), dir);
       const tileKey = generateTileKey(newTile.x, newTile.y);
       return !this.deadEndTileMap.has(tileKey);
     });

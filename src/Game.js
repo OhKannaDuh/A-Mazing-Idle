@@ -32,7 +32,7 @@ class Game {
   }
   
   completeMaze() {
-    this.rngBot.disableRngBot();
+    this.rngBot.deleteAllRngBot();
     
     this.points.addMazeCompletionBonus();
 

@@ -1,6 +1,7 @@
 
 
-const FILLED_COLOR = '#000000';
+const PLAYER_COLOR = '#1ec438';
+const RNG_BOT_COLOR = '#000000';
 const EMPTY_COLOR = '#FFFFFF';
 const DEAD_END_COLOR = '#F13241';
 
@@ -26,6 +27,14 @@ const generateFruitTileSet = (x, y, prob) => {
     }
   }
   return fruitTileSet;
+}
+
+const getNewTilePositionByVector = (tile, vector) => {
+  return { x: tile.x + vector.x, y: tile.y + vector.y };
+}
+
+const isTileEqual = (tile1, tile2) => {
+  return tile1.x === tile2.x && tile1.y === tile2.y;
 }
 
 const generateTileKey = (x, y) => {
