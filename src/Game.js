@@ -13,7 +13,7 @@ class Game {
 
   setMaze(newMaze) {
     this.maze.newMaze(newMaze);
-    this.maze.resetPlayer();
+    this.maze.resetAllPlayers();
   }
 
   getPlayer() {
@@ -26,7 +26,7 @@ class Game {
     //TODO: re-run maze option, reset visited
     
     this.ui.printMaze(this.maze.maze, this.maze.fruitTileSet);
-    this.maze.resetPlayer();
+    this.maze.resetAllPlayers();
 
     this.rngBot.enableRngBot(DEFAULT_PLAYER_ID);
   }

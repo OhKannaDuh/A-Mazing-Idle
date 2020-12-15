@@ -23,6 +23,10 @@ class UserInterface {
     this.setMazeCompletionBonusUpgradeText();
     this.setAllowPlayerMoveIndependentlyText();
     this.setRngRememberDeadEndTilesUpgradeText();
+    this.setPlayerTeleportToBotText();
+    this.setBotTeleportToPlayerText();
+    this.setRngSplitUpgradeText();
+    this.setRngSplitBotAutoMergeUpgradeText();
   }
 
   setDebugPanelVisible(isVisible) {
@@ -30,7 +34,7 @@ class UserInterface {
   }
 
   setPointsText() {
-    $("#points").text(`Points: ${this.game.points.points.toFixed(2)}`);
+    $("#points").text(`Points: ${this.game.points.points.toLocaleString(2)}`);
   }
 
   // Regular upgrades
@@ -84,12 +88,32 @@ class UserInterface {
     $("#buyPlayerMoveIndependently").text(`Allow Player to Move Independently: ${BOT_ALLOW_PLAYER_TO_MOVE_INDEPENDENTLY_UPGRADE_COST} pts`)
     $("#buyPlayerMoveIndependently").prop("disabled", this.game.points.rngBotAllowPlayerToMoveIndependently);
   }
+  
+  setBotTeleportToPlayerText() {
+    $("#buyBotTeleportToPlayer").text(`Bot Teleport Back to Player: ${BOT_TELEPORT_BOT_BACK_TO_PLAYER_UPGRADE_COST} pts`)
+    $("#buyBotTeleportToPlayer").prop("disabled", this.game.points.rngBotAllowPlayerToMoveIndependently);
+  }
 
+  setPlayerTeleportToBotText() {
+    $("#buyPlayerTeleportToBot").text(`Player Teleport Back to Bot: ${BOT_TELEPORT_BOT_BACK_TO_PLAYER_UPGRADE_COST} pts`)
+    $("#buyPlayerTeleportToBot").prop("disabled", this.game.points.rngBotAllowPlayerToMoveIndependently);
+  }
+  
   setRngRememberDeadEndTilesUpgradeText() {
     let cost = this.game.points.getRngRememberDeadEndTilesUpgradeCost();
     $("#buyBotRememberDeadEnds").text(`Remember Dead Ends (${this.game.points.rngBotRememberDeadEndTilesUpgrades} Tiles): ${cost.toLocaleString()} pts`);
   }
+
+  setRngSplitUpgradeText() {
+    let cost = this.game.points.getTileSplitUpgradeCost();
+    $("#buyBotSplitDirections").text(`Bot Split Directions (${this.game.points.rngBotSplitDirectionUpgrades+1} Bots): ${cost.toLocaleString()} pts`);
+  }
   
+  setRngSplitBotAutoMergeUpgradeText() {
+    let cost = this.game.points.getSplitBotAutoMergeUpgradeCost();
+    $("#buySplitBotAutoMerge").text(`Bot Split Auto Merge: ${cost.toLocaleString()} pts`);
+    $("#buySplitBotAutoMerge").prop("disabled", this.game.points.rngBotSplitBotAutoMerge);
+  }
 
   initEventHooks() {
     // Regular upgrades
@@ -134,9 +158,25 @@ class UserInterface {
       this.game.points.buyPlayerMoveIndependently();
       this.setAllowPlayerMoveIndependentlyText();
     });
+    $("#buyPlayerTeleportToBot").click(() => {
+      this.game.points.rngBotTeleportPlayerBackToBot();
+      this.setAllowPlayerMoveIndependentlyText();
+    });
+    $("#buyBotTeleportToPlayer").click(() => {
+      this.game.points.buyBotTeleportBackToPlayer();
+      this.setAllowPlayerMoveIndependentlyText();
+    });
     $("#buyBotRememberDeadEnds").click(() => {
       this.game.points.buyRngRememberDeadEndTilesUpgrade();
       this.setRngRememberDeadEndTilesUpgradeText();
+    });
+    $("#buyBotSplitDirections").click(() => {
+      this.game.points.buyBotSplitUpgrade();
+      this.setRngSplitUpgradeText();
+    });
+    $("#buySplitBotAutoMerge").click(() => {
+      this.game.points.buySplitBotAutoMergeUpgrade();
+      this.setRngSplitBotAutoMergeUpgradeText();
     });
   }
 

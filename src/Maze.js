@@ -46,19 +46,32 @@ class Maze {
     this.deadEndTileMap = new Map();
   }
 
-  resetPlayer() {
+  resetAllPlayers() {
     this.playerMap.clear();
     const newPlayer = this.createNewPlayerObj(STARTING_POSITION);
     this.moveCount = 0;
   }
 
-  getPlayerCount() {
+  getIsPlayerManuallyControlling() {
+    for (let [id, player] in this.playerMap) {
+      if (player.isManuallyControlled) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  getPlayerCount(isExcludeManualControl = false) {
+    if (isExcludeManualControl) {
+      // If manual controlling, don't count
+      return this.playerMap.size - (this.getIsPlayerManuallyControlling() ? -1 : 0)
+    }
     return this.playerMap.size;
   }
 
   isAtPlayerMax() {
     const playerCount = this.getPlayerCount();
-    const maxPlayers = this.game.points.rngBotAllowPlayerToMoveIndependently ? 2 : 1
+    const maxPlayers = this.game.points.rngBotAllowPlayerToMoveIndependently ? 2 : 1;
     return playerCount >= maxPlayers;
   }
 
@@ -106,6 +119,17 @@ class Maze {
     return this.maze.length * this.maze[0].length;
   }
 
+  deletePlayer(playerId) {
+    if (!this.playerMap.has(playerId)) {
+      return;
+    }
+    const currTile = this.getPlayer(playerId).currTile;
+    this.game.rngBot.deleteRngBot(playerId);
+    this.playerMap.delete(playerId);
+    this.setTileBackgroundColor(currTile);
+    
+  }
+
   movePlayer(playerId, dirVector, isManual=false) {
     if (!this.canMove(this.getCurrTile(playerId), dirVector)) {
       console.log('cannot move!');
@@ -114,7 +138,7 @@ class Maze {
     
     // Reset timer for auto-moves
     if (isManual) {
-      if (this.game.points.rngBotAllowPlayerToMoveIndependently && !this.isAtPlayerMax()) {
+      if (this.game.points.rngBotAllowPlayerToMoveIndependently && !this.getIsPlayerManuallyControlling()) {
         // Spawn new rng bot player
         const newPlayer = this.createNewPlayerObj(this.getCurrTile(playerId));
         this.game.rngBot.enableRngBot(newPlayer.id);
@@ -130,8 +154,33 @@ class Maze {
     this.moveCount++;
   }
 
+  spawnSplitBot(playerId, dirArr) {
+    const currTile = this.getCurrTile(playerId);
+    for (let i = 0; i < dirArr.length; i++) {
+      if (i === 0) {
+        // Move the original bot
+        this.movePlayer(playerId, dirArr[i]);
+        continue;
+      }
+      // Spawn new split bot in the new tile
+      const newTile = getNewTilePositionByVector(currTile, dirArr[i]);
+      const newPlayer = this.createNewPlayerObj(newTile);
+      this.game.rngBot.enableRngBot(newPlayer.id);
+    }
+  }
+
   getPlayer(playerId) {
     return this.playerMap.get(playerId);
+  }
+
+  getPlayerIdsAtTile(tile) {
+    const playerIdList = [];
+    for (let [id, player] of this.playerMap) {
+      if (isTileEqual(tile, player.currTile)) {
+        playerIdList.push(player.id);
+      }
+    }
+    return playerIdList;
   }
 
   getPlayerAtTileColor(tile) {
@@ -192,6 +241,17 @@ class Maze {
       this.game.ui.removeBanana(tileKey);
       this.game.points.addFruitPickupPoints();
     }
+
+    if (this.game.points.rngBotSplitBotAutoMerge) {
+      const playerIdsAtTileArr = this.getPlayerIdsAtTile(player.currTile);
+      console.log(playerIdsAtTileArr);
+      playerIdsAtTileArr.forEach(killPlayerId => {
+        if (killPlayerId !== playerId) {
+          console.log('killing player: ' + killPlayerId);
+          this.deletePlayer(killPlayerId);
+        }
+      });
+    }
   }
 
   getPreviousTile(playerId) {
@@ -223,6 +283,36 @@ class Maze {
     }
     
     return false;
+  }
+
+  getPossibleSplitBotCount(validDirs) {
+    if (validDirs.length <= 1) {
+      return 0;
+    }
+    const splitUpgradeCount = this.game.points.rngBotSplitDirectionUpgrades;
+    // Total bots active
+    const rngBotCount = this.getPlayerCount(true);
+    
+    // One bot auto-allowed, and +1 extra bot allowed per upgrade
+    return Math.max(0, (splitUpgradeCount + 1 - rngBotCount));
+  }
+
+  teleportPlayerBackToBot() {
+    if (this.getPlayerCount() < 2) return;
+
+    const player = this.getPlayer(DEFAULT_PLAYER_ID);
+    const bot = this.getPlayer(1);
+    
+    this.updatePlayerTile(player.id, bot.currTile);
+  }
+
+  teleportBotBackToPlayer() {
+    if (this.getPlayerCount() < 2) return;
+
+    const player = this.getPlayer(DEFAULT_PLAYER_ID);
+    const bot = this.getPlayer(1);
+    
+    this.updatePlayerTile(bot.id, player.currTile);
   }
 
   isMazeExitTile(tile) {
@@ -279,8 +369,9 @@ class Maze {
     }
   }
 
-  // Check if player is within 1 tile of exit
   filterPlayerExitMazeDirection(playerId) {
+    // Check if player is within 1 tile of exit
+    //TODO: instead, store the tile you exit from?
     const exitMazeDir = DIRECTIONS_ARR.filter((dir) => {
       const newTile = getNewTilePositionByVector(this.getPlayer(playerId).currTile, dir);
       return this.isMazeExitTile(newTile)

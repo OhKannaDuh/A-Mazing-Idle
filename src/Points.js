@@ -4,6 +4,14 @@ const BOT_AVOID_REVISIT_LAST_POSITION_UPGRADE_COST = 1000;
 const BOT_AUTO_EXIT_MAZE_UPGRADE_COST = 250;
 const BOT_ALLOW_PLAYER_TO_MOVE_INDEPENDENTLY_UPGRADE_COST = 1500;
 
+const BOT_TELEPORT_PLAYER_BACK_TO_BOT_UPGRADE_COST = 1000;
+const BOT_TELEPORT_BOT_BACK_TO_PLAYER_UPGRADE_COST = 1000;
+
+const BOT_SPLIT_DIRECTION_UPGRADE_BASE_COST = 1000;
+const BOT_SPLIT_DIRECTION_UPGRADE_BASE_MULTIPLIER = 5;
+
+const BOT_SPLIT_BOT_AUTO_MERGE_UPGRADE_COST = 50000;
+
 const TILE_REVISIT_MULTIPLIER = 0;
 
 const MAZE_COMPLETION_BONUS_BASE_MULTIPLIER = 0.1;
@@ -52,6 +60,10 @@ class Points {
         this.rngBotAutoExitMaze = false;
         this.rngBotAllowPlayerToMoveIndependently = false;
         this.rngBotRememberDeadEndTilesUpgrades = 0;
+        this.rngBotSplitDirectionUpgrades = 0;
+        this.rngBotSplitBotAutoMerge = true;
+        this.rngBotTeleportPlayerBackToBot = false;
+        this.rngBotTeleportBotBackToPlayer = false;
         
         this.fruitSpawnRateUpgrades = 0;
         this.fruitPickupPointsUpgrades = 0;
@@ -154,6 +166,54 @@ class Points {
         this.addPoints(points);
     }
 
+    /* Rng bot teleport to player  */
+    buyBotTeleportBackToPlayer() {
+        const cost = BOT_TELEPORT_BOT_BACK_TO_PLAYER_UPGRADE_COST;
+        if (!this.canAffordPointsAmount(cost)) {
+            return;
+        }
+        this.game.points.addPoints(-cost);
+        this.rngBotTeleportBotBackToPlayer = true;
+    }
+
+    /* Rng player teleport to bot  */
+    buyPlayerTeleportBackToBot() {
+        const cost = BOT_TELEPORT_PLAYER_BACK_TO_BOT_UPGRADE_COST;
+        if (!this.canAffordPointsAmount(cost)) {
+            return;
+        }
+        this.game.points.addPoints(-cost);
+        this.rngBotTeleportPlayerBackToBot = true;
+    }
+
+    /* Rng bot split directions */
+    buyBotSplitUpgrade() {
+        const cost = this.getTileSplitUpgradeCost();
+        if (!this.canAffordPointsAmount(cost)) {
+            return;
+        }
+        this.game.points.addPoints(-cost);
+        this.rngBotSplitDirectionUpgrades++;
+    }
+
+    getTileSplitUpgradeCost() {
+        return BOT_SPLIT_DIRECTION_UPGRADE_BASE_COST * Math.pow(BOT_SPLIT_DIRECTION_UPGRADE_BASE_MULTIPLIER, this.rngBotSplitDirectionUpgrades);
+    }
+
+    /* Rng split bot auto merge upgrade */
+    buySplitBotAutoMergeUpgrade() {
+        const cost = this.getSplitBotAutoMergeUpgradeCost();
+        if (!this.canAffordPointsAmount(cost)) {
+            return;
+        }
+        this.game.points.addPoints(-cost);
+        this.rngBotSplitBotAutoMerge = true;
+    }
+    
+    getSplitBotAutoMergeUpgradeCost() {
+        return BOT_SPLIT_BOT_AUTO_MERGE_UPGRADE_COST;
+    }
+
     /* Rng bot movement faster */
     buyRngMovementUpgrade() {
         const cost = this.getRngMovementUpgradeCost();
@@ -162,10 +222,6 @@ class Points {
         }
         this.game.points.addPoints(-cost);
         this.rngMovementSpeedUpgrades++;
-
-        // Reset movement speed of current interval.
-        // this.game.rngBot.disableRngBot();
-        // this.game.rngBot.enableRngBot();
     }
 
     getRngMovementUpgradeCost() {

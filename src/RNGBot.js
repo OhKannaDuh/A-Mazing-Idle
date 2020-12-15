@@ -29,11 +29,16 @@ class RNGBot {
   }
 
   moveRandomly(playerId) {
-    const dir = this.chooseRandomDirection(playerId);
-    if (!dir) {
+    const dirArr = this.chooseRandomDirectionsArr(playerId);
+    if (dirArr.length === 0) {
       return;
     }
-    this.game.maze.movePlayer(playerId, dir);
+    
+    if (dirArr.length === 1) {
+      this.game.maze.movePlayer(playerId, dirArr[0]);
+    } else {
+      this.game.maze.spawnSplitBot(playerId, dirArr);
+    }
   }
 
   enableRngBot(playerId) {
@@ -74,16 +79,33 @@ class RNGBot {
     this.rngBotMap.clear();
   }
 
-  chooseRandomDirection(playerId) {
-    const validDirs = this.chooseDirection(playerId);
+  deleteRngBot(playerId) {
+    if (!this.rngBotMap.has(playerId)) {
+      return;
+    }
+    console.log('disable rng bot: ' + playerId);
+    this.disableRngBot(playerId);
+    this.rngBotMap.delete(playerId);
+  }
+
+  chooseRandomDirectionsArr(playerId) {
+    const validDirs = this.getPossibleDirectionsList(playerId);
     if (!validDirs) {
       return;
     }
+
+    const possibleNewSplits = this.game.maze.getPossibleSplitBotCount(validDirs)
+    if (possibleNewSplits > 0) {
+      const numDirectionsToPick = Math.min(possibleNewSplits + 1, validDirs.length);
+      return this.getRandomXValues(validDirs, numDirectionsToPick);
+    }
+
+    // Randomly pick one.
     const randDirIndex = this.getRandomInt(validDirs.length);
-    return validDirs[randDirIndex];
+    return [validDirs[randDirIndex]];
   }
 
-  chooseDirection(playerId) {
+  getPossibleDirectionsList(playerId) {
     let validDirs = this.game.maze.getValidDirectionsByPlayerId(playerId);
     if (validDirs.length === 0) {
       return;
@@ -122,5 +144,9 @@ class RNGBot {
 
   getRandomInt = (max) => {
     return Math.floor(Math.random() * Math.floor(max));
+  }
+
+  getRandomXValues = (arr, pickX) => {
+    return _.sampleSize(arr, pickX);
   }
 }
