@@ -1,11 +1,13 @@
+import { IS_FREE_MODE_ENABLED } from "./dev/devUtils";
+import Game from "./Game";
 
-const BOT_PRIORITIZE_UNVISITED_UPGRADE_COST = 500;
-const BOT_AVOID_REVISIT_LAST_POSITION_UPGRADE_COST = 1000;
-const BOT_AUTO_EXIT_MAZE_UPGRADE_COST = 250;
-const BOT_ALLOW_PLAYER_TO_MOVE_INDEPENDENTLY_UPGRADE_COST = 1500;
+export const BOT_PRIORITIZE_UNVISITED_UPGRADE_COST = 500;
+export const BOT_AVOID_REVISIT_LAST_POSITION_UPGRADE_COST = 1000;
+export const BOT_AUTO_EXIT_MAZE_UPGRADE_COST = 250;
+export const BOT_ALLOW_PLAYER_TO_MOVE_INDEPENDENTLY_UPGRADE_COST = 1500;
 
-const BOT_TELEPORT_PLAYER_BACK_TO_BOT_UPGRADE_COST = 1000;
-const BOT_TELEPORT_BOT_BACK_TO_PLAYER_UPGRADE_COST = 1000;
+export const BOT_TELEPORT_PLAYER_BACK_TO_BOT_UPGRADE_COST = 1000;
+export const BOT_TELEPORT_BOT_BACK_TO_PLAYER_UPGRADE_COST = 1000;
 
 const BOT_SPLIT_DIRECTION_UPGRADE_BASE_COST = 1000;
 const BOT_SPLIT_DIRECTION_UPGRADE_BASE_MULTIPLIER = 5;
@@ -45,7 +47,30 @@ const FRUIT_PICKUP_POINTS_BASE_AMOUNT_MULTIPLIER = 1.2;
 
 
 class Points {
-    constructor(game, isDevMode = false) {
+    public game: Game;
+    public isDevMode: boolean;
+    public points: number;
+
+    public mazeSizeUpgradeCount: number;
+    public mazeCompletionBonusUpgradeCount: number;
+    public pointsPerVisitUpgradeCount: number;
+    public rngMovementSpeedUpgrades: number;
+
+    public rngBotPrioritizeUnvisited: boolean;
+    public rngBotAvoidRevisitLastPosition: boolean;
+    public rngBotAutoExitMaze: boolean;
+    public rngBotAllowPlayerToMoveIndependently: boolean;
+    public rngBotRememberDeadEndTilesUpgrades: number;
+    public rngBotSplitDirectionUpgrades: number;
+    public rngBotSplitBotAutoMerge: boolean;
+    public rngBotTeleportPlayerBackToBot: boolean;
+    public rngBotTeleportBotBackToPlayer: boolean;
+
+    public fruitSpawnRateUpgrades: number;
+    public fruitPickupPointsUpgrades: number;
+
+
+    constructor(game: Game, isDevMode = false) {
         this.game = game;
         this.isDevMode = isDevMode;
         this.points = 0.0;
@@ -132,10 +157,6 @@ class Points {
         }
         this.game.points.addPoints(-cost);
         this.rngBotAllowPlayerToMoveIndependently = true;
-    }
-
-    getRngMovementUpgradeCost() {
-        return BOT_MOVEMENT_UPGRADE_BASE_COST * Math.pow(BOT_MOVEMENT_UPGRADE_BASE_COST_MUTLIPLIER, this.rngMovementSpeedUpgrades);
     }
 
     /* Points per visit */
@@ -308,3 +329,5 @@ class Points {
         return tileCount * (1 + MAZE_COMPLETION_BONUS_BASE_MULTIPLIER * this.mazeCompletionBonusUpgradeCount);
     }
 }
+
+export default Points;

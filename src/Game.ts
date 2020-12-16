@@ -1,5 +1,18 @@
+import { printMazeCompleteData } from "./dev/devUtils";
+import Maze, { DEFAULT_PLAYER_ID } from "./Maze";
+import Points from "./Points";
+import RNGBot from "./RNGBot";
+import UserInterface from "./UserInterface";
+
 
 class Game {
+  public maze: Maze;
+  public points: Points;
+  public rngBot: RNGBot;
+  public ui: UserInterface;
+
+  private isDevMode: boolean;
+
   constructor(isDisableUi = false, isDevMode = false) {
     this.maze = new Maze(this);
     this.points = new Points(this, isDevMode);
@@ -11,13 +24,9 @@ class Game {
     this.ui.init();
   }
 
-  setMaze(newMaze) {
-    this.maze.newMaze(newMaze);
+  setMaze() {
+    this.maze.newMaze();
     this.maze.resetAllPlayers();
-  }
-
-  getPlayer() {
-    return this.player;
   }
 
   startGame() {
@@ -43,3 +52,5 @@ class Game {
     this.startGame();
   }
 }
+
+export default Game;

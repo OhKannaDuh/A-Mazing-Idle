@@ -1,8 +1,11 @@
+import Game from "../Game";
+import { DEFAULT_MAZE_SIZE } from "../Maze";
+declare var $: any;
 
-const IS_DEV_MODE_ENABLED = false;
-const DEV_MODE_DISABLE_UI = false;
-const DEV_MODE_AUTOSTART = false;
-const IS_FREE_MODE_ENABLED = true;
+export const IS_DEV_MODE_ENABLED = false;
+export const DEV_MODE_DISABLE_UI = false;
+export const DEV_MODE_AUTOSTART = false;
+export const IS_FREE_MODE_ENABLED = true;
 
 const generateScalingNumbers = () => {
   let startingUpgradeCount = 0;
@@ -27,7 +30,7 @@ const generateScalingNumbers = () => {
 }
 // generateScalingNumbers();
 
-var game1;
+var game1: Game;
 var game2;
 var game3;
 var game4;
@@ -38,14 +41,14 @@ var maxIterationCount = 100;
 
 const getMazeData = () => {
   game1 = new Game(DEV_MODE_DISABLE_UI, true);
-  game1.setMaze(maze);
+  game1.setMaze();
   
   game1.points.rngBotPrioritizeUnvisited = Boolean($(`#debugInputPrioritizeUnvisited`).val());
   game1.points.rngBotAvoidRevisitLastPosition = Boolean($(`#debugAvoidRevisit`).val());
   game1.points.rngBotAutoExitMaze = Boolean($(`#debugAutoExit`).val());
   
-  game1.points.mazeSizeUpgradeCount = parseInt($(`#debugMazeUpgradeCount`).val());
-  maxIterationCount = parseInt($(`#debugMaxIterations`).val());
+  game1.points.mazeSizeUpgradeCount = parseInt($(`#debugMazeUpgradeCount`).val().toString());
+  maxIterationCount = parseInt($(`#debugMaxIterations`).val().toString());
   
   game1.points.rngMovementSpeedUpgrades = 1000;
   game1.points.pointsPerVisitUpgradeCount = 0;
@@ -58,7 +61,17 @@ const getMazeData = () => {
 var sumMoves = 0;
 var sumPoints = 0;
 
-const printMazeCompleteData = (game) => {
+
+const printAverages = () => {
+  const mazeSize = DEFAULT_MAZE_SIZE + game1.points.mazeSizeUpgradeCount;
+  
+  // $(`#debugResult`).append(`Avg Moves: ${(sumMoves/iterationCount).toFixed(2)}<br>`);
+  // $(`#debugResult`).append(`Avg New Tile Visits: ${(sumPoints/iterationCount).toFixed(2)}<br>`);
+  // $(`#debugResult`).append(`Avg Tile Revisits: ${((sumMoves-sumPoints)/iterationCount).toFixed(2)}<br>`);
+  // $(`#debugResult`).append(`Maze size: ${mazeSize}<br>`);
+}
+
+export const printMazeCompleteData = (game) => {
   
   let moveCount = game.maze.moveCount;
   // let totalTime = game.rngBot.getBotMoveInterval() * moveCount;
@@ -66,13 +79,13 @@ const printMazeCompleteData = (game) => {
 
   const completionBonus = game.points.getMazeCompletionBonus();
 
-  $('#debugTable > tbody').append(`<tr>`);
-  $('#debugTable > tbody').append(`<td>${(1 +iterationCount)}:   </td>`);
-  $('#debugTable > tbody').append(`<td>${moveCount}</td>`);
-  // $('#debugTable > tbody').append(`<td>${totalTime}</td>`);
-  $('#debugTable > tbody').append(`<td>${(points - completionBonus).toFixed(2)}</td>`);
-  $('#debugTable > tbody').append(`<td>${(points).toFixed(2)}</td>`);
-  $('#debugTable > tbody').append(`</tr>`);
+  // $('#debugTable > tbody').append(`<tr>`);
+  // $('#debugTable > tbody').append(`<td>${(1 +iterationCount)}:   </td>`);
+  // $('#debugTable > tbody').append(`<td>${moveCount}</td>`);
+  // // $('#debugTable > tbody').append(`<td>${totalTime}</td>`);
+  // $('#debugTable > tbody').append(`<td>${(points - completionBonus).toFixed(2)}</td>`);
+  // $('#debugTable > tbody').append(`<td>${(points).toFixed(2)}</td>`);
+  // $('#debugTable > tbody').append(`</tr>`);
 
   sumMoves += moveCount;
   sumPoints += (points - completionBonus);
@@ -88,22 +101,14 @@ const printMazeCompleteData = (game) => {
   game.startGame();
 }
 
-const printAverages = () => {
-  const mazeSize = DEFAULT_MAZE_SIZE + game1.points.mazeSizeUpgradeCount;
-  
-  $(`#debugResult`).append(`Avg Moves: ${(sumMoves/iterationCount).toFixed(2)}<br>`);
-  $(`#debugResult`).append(`Avg New Tile Visits: ${(sumPoints/iterationCount).toFixed(2)}<br>`);
-  $(`#debugResult`).append(`Avg Tile Revisits: ${((sumMoves-sumPoints)/iterationCount).toFixed(2)}<br>`);
-  $(`#debugResult`).append(`Maze size: ${mazeSize}<br>`);
-}
 
 const debugHeader = () => {
-  $('#debugTable > tbody').append(`<tr>`);
-  $('#debugTable > tbody').append(`<th>#</td>`);
-  $('#debugTable > tbody').append(`<th>Move Count</th>`);
-  $('#debugTable > tbody').append(`<th>Points</th>`);
-  $('#debugTable > tbody').append(`<th>Points (+comp)</th>`);
-  $('#debugTable > tbody').append(`</tr>`);
+  // $('#debugTable > tbody').append(`<tr>`);
+  // $('#debugTable > tbody').append(`<th>#</td>`);
+  // $('#debugTable > tbody').append(`<th>Move Count</th>`);
+  // $('#debugTable > tbody').append(`<th>Points</th>`);
+  // $('#debugTable > tbody').append(`<th>Points (+comp)</th>`);
+  // $('#debugTable > tbody').append(`</tr>`);
 }
 
 

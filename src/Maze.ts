@@ -1,26 +1,46 @@
+import Game from "./Game";
+import { DEAD_END_COLOR, DOWN, EMPTY_COLOR, generateFruitTileSet, generateIsVisitedArr, generateNewMaze, generateTileKey, getNewTilePositionByVector, isTileEqual, LEFT, PLAYER_COLOR, RIGHT, RNG_BOT_COLOR, UP } from "./MazeGenerator";
+declare var $: any;
 
-const DIRECTION_UP = {x: 0, y: -1};
-const DIRECTION_DOWN = {x: 0, y: 1};
-const DIRECTION_LEFT = {x: -1, y: 0};
-const DIRECTION_RIGHT = {x: 1, y: 0};
+export const DIRECTION_UP = {x: 0, y: -1};
+export const DIRECTION_DOWN = {x: 0, y: 1};
+export const DIRECTION_LEFT = {x: -1, y: 0};
+export const DIRECTION_RIGHT = {x: 1, y: 0};
 
-const DIRECTIONS_ARR = [DIRECTION_UP, DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT];
-const STARTING_POSITION = {x: 0, y: 0};
+export const DIRECTIONS_ARR = [DIRECTION_UP, DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT];
+export const STARTING_POSITION = {x: 0, y: 0};
 
-const DEFAULT_MAZE_SIZE = 4;
+export const DEFAULT_MAZE_SIZE = 4;
 
-const VISITED_TILE_COLOR = '#7CFCFF';
-const DEFAULT_PLAYER_ID = 0;
+export const VISITED_TILE_COLOR = '#7CFCFF';
+export const DEFAULT_PLAYER_ID = 0;
+
+
+//TODO: find me a home
+interface Player {
+  id: number;
+  currTile: any;
+  prevTile: any;
+  isManuallyControlled: boolean;
+}
+
 
 class Maze {
+  public game: Game;
+  public playerMap: Map<number, Player>;
+  public isDevMode;
+  public maze;
+  public visitedMaze: Array<Array<boolean>>;
+  public moveCount: number;
+  public fruitTileSet: Set<string>;
+  public deadEndTileMap: Map<string, any>;
+
   constructor(game, isDevMode = false) {
     this.game = game;
-    this.playerMap = new Map();
+    this.playerMap = new Map<number, any>();
     this.isDevMode = isDevMode;
     this.maze = null;
     this.visitedMaze = null;
-    this.rngBot = new RNGBot();
-    this.prevTile = STARTING_POSITION;
     this.moveCount = 0;
     this.fruitTileSet = new Set();
     this.deadEndTileMap = new Map();
@@ -53,7 +73,7 @@ class Maze {
   }
 
   getIsPlayerManuallyControlling() {
-    for (let [id, player] in this.playerMap) {
+    for (let [id, player] of this.playerMap) {
       if (player.isManuallyControlled) {
         return true;
       }
@@ -77,7 +97,7 @@ class Maze {
 
   createNewPlayerObj(startTile) {
     //TODO: interface for player
-    const newPlayer = { id: this.getPlayerCount(), currTile: startTile, prevTile: startTile, isManuallyControlled: false };
+    const newPlayer: Player = { id: this.getPlayerCount(), currTile: startTile, prevTile: startTile, isManuallyControlled: false };
     this.playerMap.set(newPlayer.id, newPlayer);
     
     this.markVisited(startTile);
@@ -86,7 +106,7 @@ class Maze {
   }
 
   getManuallyControlledPlayer() {
-    for (let [id, player] in this.playerMap) {
+    for (let [id, player] of this.playerMap) {
       if (player.isManuallyControlled) {
         return player;
       }
@@ -244,10 +264,8 @@ class Maze {
 
     if (this.game.points.rngBotSplitBotAutoMerge) {
       const playerIdsAtTileArr = this.getPlayerIdsAtTile(player.currTile);
-      console.log(playerIdsAtTileArr);
       playerIdsAtTileArr.forEach(killPlayerId => {
         if (killPlayerId !== playerId) {
-          console.log('killing player: ' + killPlayerId);
           this.deletePlayer(killPlayerId);
         }
       });
@@ -407,3 +425,5 @@ class Maze {
     return nonDeadEndTiles;
   }
 }
+
+export default Maze;

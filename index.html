@@ -1,83 +1,80 @@
-<html>
-    <head>
-        <title>Maze</title>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="src/MazeGenerator.js"></script>
-        <script src="src/RNGBot.js"></script>
-        <script src="src/Points.js"></script>
-        <script src="src/UserInterface.js"></script>
-        <script src="src/Maze.js"></script>
-        <script src="src/Game.js"></script>
-        <script src="src/debug/debugUtils.js"></script>
-        <script src="index.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
-        <style type="text/css">
-        #maze {
-            border-collapse: collapse;
-            border: 0px;
-        }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>A Mazing Idle!</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="public/bundle.js"></script>
+    <style type="text/css">
+      #maze {
+          border-collapse: collapse;
+          border: 0px;
+      }
 
-        #maze td {
-            width: 20px;
-            height: 20px;
-        }
-        </style>
-    </head>
-    <body>
+      #maze td {
+          width: 20px;
+          height: 20px;
+      }
+    </style>
+</head>
+<body>
+    <div>
         <table id="maze">
-            <tbody></tbody>
+          <tbody></tbody>
         </table>
         
         <br /><br />
         <h3>Points!</h3>
         <div id='points'>Points:</div>
-
+    
         <h3>Upgrades!</h3>
         <button id='buyBotMoveFaster'>Move Faster:</button>
-        <br>
+        <br />
         <button id='buyMazeSize'>Increase Maze Size:</button>
-        <br>
+        <br />
         <button id='buyPointsPerVisit'>Points Per Visit:</button>
-        <br>
+        <br />
         <button id='buyFruitSpawnRateUpgrade'>Fruit Spawn Rate:</button>
-        <br>
+        <br />
         <button id='buyFruitPickupPointsUpgrade'>Fruit Pickup Points:</button>
-        <br>
+        <br />
         <button id='buyMazeCompletionBonusUpgrade'>Maze Completion Bonus:</button>
         
         <h3>Bot Upgrades!</h3>
         <button id='buyBotAvoidRevisitLastPosition'>Avoid Revisit Last Position:</button>
-        <br>
+        <br />
         <button id='buyBotPrioritizeUnvisited'>Prioritize Unvisited:</button>
-        <br>
+        <br />
         <button id='buyBotAutoExitMaze'>Auto-Exit Maze:</button>
-        <br>
+        <br />
         <button id='buyBotRememberDeadEnds'>Remember Dead Ends (1 Tiles):</button>
-        <br>
+        <br />
         <button id='buyPlayerMoveIndependently'>Allow Player to Move Independently:</button>
-        <br>
+        <br />
         <button id='buyPlayerTeleportToBot'>Player teleport to bot:</button>
-        <br>
+        <br />
         <button id='buyBotTeleportToPlayer'>Bot teleport to player:</button>
-        <br>
+        <br />
         <button id='buyBotSplitDirections'>Bot split directions:</button>
-        <br>
+        <br />
         <button id='buySplitBotAutoMerge'>Bot Split Bot Auto Merge:</button>
         
-        <div id='debug'>
-            
-            <br>
-            <span>PrioritizeUnvisited:<input id='debugInputPrioritizeUnvisited' value='true'></input</span><br>
-            <span>Avoid Revisit:<input id='debugAvoidRevisit' value='false'></input</span><br>
-            <span>Auto Exit:<input id='debugAutoExit' value='false'></input</span><br>
-            <span>Maze Upgrade Size (+4):<input id='debugMazeUpgradeCount' value='0'></input</span><br>
-            <span>Iterations:<input id='debugMaxIterations' value='10'></input</span>
-            <button id='debugRunButton'>Run Debug!</button>
-
-            <div id="debugResult"></div>
-            <table id="debugTable">
-                <tbody></tbody>
-            </table>
-        </div>
-    </body>
+        <div id='debug' />
+          
+        <br />
+        <span>PrioritizeUnvisited:<input id='debugInputPrioritizeUnvisited' value='true' /></span><br />
+        <span>Avoid Revisit:<input id='debugAvoidRevisit' value='false' /></span><br />
+        <span>Auto Exit:<input id='debugAutoExit' value='false' /></span><br />
+        <span>Maze Upgrade Size (+4):<input id='debugMazeUpgradeCount' value='0' /></span><br />
+        <span>Iterations:<input id='debugMaxIterations' value='10' /></span>
+        <button id='debugRunButton'>Run Debug!</button>
+    
+        <div id="debugResult"></div>
+        <table id="debugTable">
+          <tbody></tbody>
+        </table>
+      </div>
+</body>
 </html>

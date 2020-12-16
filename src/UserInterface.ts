@@ -1,5 +1,17 @@
+import Game from "./Game";
+import { generateTileKey, WALL } from "./MazeGenerator";
+import { BOT_AVOID_REVISIT_LAST_POSITION_UPGRADE_COST, BOT_PRIORITIZE_UNVISITED_UPGRADE_COST, BOT_AUTO_EXIT_MAZE_UPGRADE_COST, BOT_ALLOW_PLAYER_TO_MOVE_INDEPENDENTLY_UPGRADE_COST, BOT_TELEPORT_BOT_BACK_TO_PLAYER_UPGRADE_COST, BOT_TELEPORT_PLAYER_BACK_TO_BOT_UPGRADE_COST } from "./Points";
+// import $ = require('jquery');
+// import * as $ from 'jquery';
+declare var $: any;
+
+
+
 class UserInterface {
-  constructor(game, disableUi = false) {
+  private game: Game;
+  private disableUi: boolean;
+
+  constructor(game: Game, disableUi: boolean = false) {
     this.game = game;
     this.disableUi = disableUi;
   }
@@ -34,7 +46,7 @@ class UserInterface {
   }
 
   setPointsText() {
-    $("#points").text(`Points: ${this.game.points.points.toLocaleString(2)}`);
+    $("#points").text(`Points: ${this.game.points.points.toLocaleString()}`);
   }
 
   // Regular upgrades
@@ -95,7 +107,7 @@ class UserInterface {
   }
 
   setPlayerTeleportToBotText() {
-    $("#buyPlayerTeleportToBot").text(`Player Teleport Back to Bot: ${BOT_TELEPORT_BOT_BACK_TO_PLAYER_UPGRADE_COST} pts`)
+    $("#buyPlayerTeleportToBot").text(`Player Teleport Back to Bot: ${BOT_TELEPORT_PLAYER_BACK_TO_BOT_UPGRADE_COST} pts`)
     $("#buyPlayerTeleportToBot").prop("disabled", this.game.points.rngBotAllowPlayerToMoveIndependently);
   }
   
@@ -159,7 +171,7 @@ class UserInterface {
       this.setAllowPlayerMoveIndependentlyText();
     });
     $("#buyPlayerTeleportToBot").click(() => {
-      this.game.points.rngBotTeleportPlayerBackToBot();
+      this.game.points.buyPlayerTeleportBackToBot();
       this.setAllowPlayerMoveIndependentlyText();
     });
     $("#buyBotTeleportToPlayer").click(() => {
@@ -220,3 +232,5 @@ class UserInterface {
     $("#maze tr").remove();
   }
 }
+
+export default UserInterface;

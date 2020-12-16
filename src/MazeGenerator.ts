@@ -1,21 +1,21 @@
 
 
-const PLAYER_COLOR = '#1ec438';
-const RNG_BOT_COLOR = '#000000';
-const EMPTY_COLOR = '#FFFFFF';
-const DEAD_END_COLOR = '#F13241';
+export const PLAYER_COLOR = '#1ec438';
+export const RNG_BOT_COLOR = '#000000';
+export const EMPTY_COLOR = '#FFFFFF';
+export const DEAD_END_COLOR = '#F13241';
 
-const UP = 0;
-const RIGHT = 1
-const DOWN = 2;
-const LEFT = 3;
-const WALL = 0;
-const NO_WALL = 1;
+export const UP = 0;
+export const RIGHT = 1
+export const DOWN = 2;
+export const LEFT = 3;
+export const WALL = 0;
+export const NO_WALL = 1;
 
 
 //TODO: do not allow 0-0
-const generateFruitTileSet = (x, y, prob) => {
-  const fruitTileSet = new Set();
+export const generateFruitTileSet = (x, y, prob): Set<string> => {
+  const fruitTileSet = new Set<string>();
   //TODO: calculate global probability and assign randomly
   for (let i = 0; i < y; i++) {
     for (let j = 0; j < x; j++) {
@@ -29,19 +29,19 @@ const generateFruitTileSet = (x, y, prob) => {
   return fruitTileSet;
 }
 
-const getNewTilePositionByVector = (tile, vector) => {
+export const getNewTilePositionByVector = (tile, vector) => {
   return { x: tile.x + vector.x, y: tile.y + vector.y };
 }
 
-const isTileEqual = (tile1, tile2) => {
+export const isTileEqual = (tile1, tile2) => {
   return tile1.x === tile2.x && tile1.y === tile2.y;
 }
 
-const generateTileKey = (x, y) => {
+export const generateTileKey = (x, y): string => {
   return `${x}-${y}`;
 }
 
-const generateNewMaze = (x, y) => {
+export const generateNewMaze = (x, y) => {
   
   // Establish variables and starting grid
   let totalCells = x * y;
@@ -104,7 +104,7 @@ const generateNewMaze = (x, y) => {
   return cells;
 }
 
-const generateIsVisitedArr = (x, y) => {
+export const generateIsVisitedArr = (x, y): Array<Array<boolean>> => {
   const isVisitedArr = new Array();
   for (let i = 0; i < y; i++) {
     isVisitedArr[i] = new Array();

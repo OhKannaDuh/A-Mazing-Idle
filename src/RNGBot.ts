@@ -1,4 +1,7 @@
 
+import Game from "./Game";
+declare var _: any;
+
 const BASE_MOVEMENT_SPEED = 1000;
 const BASE_MOVEMENT_REDUCTION = 0.98;
 const AUTO_RE_ENABLE_RNG_BOT_TIMER = 3000;
@@ -7,12 +10,17 @@ const DEV_MODE_MOVEMENT_SPEED = 1;
 
 
 class RNGBot {
+  public game: Game;
+  public isDevMode: boolean;
+  public rngBotMap: Map<number, any>;
+  
   constructor(game, isDevMode) {
     this.game = game;
     this.isDevMode = isDevMode;
 
     //TODO: make an object for each rngbot
     this.rngBotMap = new Map();
+    console.log('rngrngrng')
   }
 
   manualMovementCancelRngBot(playerId) {
@@ -83,15 +91,14 @@ class RNGBot {
     if (!this.rngBotMap.has(playerId)) {
       return;
     }
-    console.log('disable rng bot: ' + playerId);
     this.disableRngBot(playerId);
     this.rngBotMap.delete(playerId);
   }
 
-  chooseRandomDirectionsArr(playerId) {
+  chooseRandomDirectionsArr(playerId): any[] {
     const validDirs = this.getPossibleDirectionsList(playerId);
     if (!validDirs) {
-      return;
+      return null;
     }
 
     const possibleNewSplits = this.game.maze.getPossibleSplitBotCount(validDirs)
@@ -150,3 +157,5 @@ class RNGBot {
     return _.sampleSize(arr, pickX);
   }
 }
+
+export default RNGBot;
