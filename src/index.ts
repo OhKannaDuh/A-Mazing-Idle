@@ -1,13 +1,14 @@
 import { IS_DEV_MODE_ENABLED, DEV_MODE_AUTOSTART } from "./dev/devUtils";
 import Game from "./Game";
 import { DEFAULT_PLAYER_ID, DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_UP } from "./Maze";
+import { UpgradeKey } from "./upgrades/UpgradeConstants";
 declare var $: any;
 
 
 $(document).ready(() => {
   if (IS_DEV_MODE_ENABLED && !DEV_MODE_AUTOSTART) return;
   
-  var game = new Game();
+  var game: Game = new Game();
   game.startGame();
 
   $(document).keydown(function(event) {
@@ -33,14 +34,14 @@ $(document).ready(() => {
     }
     // E = Teleport Bot to Player
     else if (event.keyCode === 69) {
-      if (game.points.rngBotTeleportBotBackToPlayer) {
+      if (game.upgrades.isUpgraded(UpgradeKey.TELEPORT_PLAYER_BACK_TO_BOT)) {
         game.maze.teleportPlayerBackToBot();
       }
       event.preventDefault();
     }
     // Q = Teleport Bot to Player
     else if (event.keyCode === 81) {
-      if (game.points.rngBotTeleportBotBackToPlayer) {
+      if (game.upgrades.isUpgraded(UpgradeKey.TELEPORT_BOT_BACK_TO_PLAYER)) {
         game.maze.teleportBotBackToPlayer();
         event.preventDefault();
       }

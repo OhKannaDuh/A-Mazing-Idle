@@ -1,6 +1,5 @@
 import Game from "./Game";
 import { generateTileKey, WALL } from "./MazeGenerator";
-import { BOT_AVOID_REVISIT_LAST_POSITION_UPGRADE_COST, BOT_PRIORITIZE_UNVISITED_UPGRADE_COST, BOT_AUTO_EXIT_MAZE_UPGRADE_COST, BOT_ALLOW_PLAYER_TO_MOVE_INDEPENDENTLY_UPGRADE_COST, BOT_TELEPORT_BOT_BACK_TO_PLAYER_UPGRADE_COST, BOT_TELEPORT_PLAYER_BACK_TO_BOT_UPGRADE_COST } from "./Points";
 // import $ = require('jquery');
 // import * as $ from 'jquery';
 declare var $: any;
@@ -29,14 +28,14 @@ class UserInterface {
     this.setPointsPerVisitUpgradeText();
     this.setFruitSpawnRateUpgradeText();
     this.setFruitPickupPointsUpgradeText();
-    this.setBuyBotAvoidRevisitLastPositionUpgradeText();
-    this.setBuyBotPrioritizeUnvisitedUpgradeText();
-    this.setBuyAutoExitMazeUpgradeText();
+    // this.setBuyBotAvoidRevisitLastPositionUpgradeText();
+    // this.setBuyBotPrioritizeUnvisitedUpgradeText();
+    // this.setBuyAutoExitMazeUpgradeText();
     this.setMazeCompletionBonusUpgradeText();
-    this.setAllowPlayerMoveIndependentlyText();
+    // this.setAllowPlayerMoveIndependentlyText();
     this.setRngRememberDeadEndTilesUpgradeText();
-    this.setPlayerTeleportToBotText();
-    this.setBotTeleportToPlayerText();
+    // this.setPlayerTeleportToBotText();
+    // this.setBotTeleportToPlayerText();
     this.setRngSplitUpgradeText();
     this.setRngSplitBotAutoMergeUpgradeText();
   }
@@ -81,35 +80,35 @@ class UserInterface {
   }
 
   // Bot upgrade events
-  setBuyBotAvoidRevisitLastPositionUpgradeText() {
-    $("#buyBotAvoidRevisitLastPosition").text(`Basic Avoid Revisit: ${BOT_AVOID_REVISIT_LAST_POSITION_UPGRADE_COST} pts`);
-    $("#buyBotAvoidRevisitLastPosition").prop("disabled", this.game.points.rngBotAvoidRevisitLastPosition);
-  }
+  // setBuyBotAvoidRevisitLastPositionUpgradeText() {
+  //   $("#buyBotAvoidRevisitLastPosition").text(`Basic Avoid Revisit: ${BOT_AVOID_REVISIT_LAST_POSITION_UPGRADE_COST} pts`);
+  //   $("#buyBotAvoidRevisitLastPosition").prop("disabled", this.game.points.rngBotAvoidRevisitLastPosition);
+  // }
 
-  setBuyBotPrioritizeUnvisitedUpgradeText() {
-    $("#buyBotPrioritizeUnvisited").text(`Prioritize Unvisited: ${BOT_PRIORITIZE_UNVISITED_UPGRADE_COST} pts`)
-    $("#buyBotPrioritizeUnvisited").prop("disabled", this.game.points.rngBotPrioritizeUnvisited);
-  }
+  // setBuyBotPrioritizeUnvisitedUpgradeText() {
+  //   $("#buyBotPrioritizeUnvisited").text(`Prioritize Unvisited: ${BOT_PRIORITIZE_UNVISITED_UPGRADE_COST} pts`)
+  //   $("#buyBotPrioritizeUnvisited").prop("disabled", this.game.points.rngBotPrioritizeUnvisited);
+  // }
 
-  setBuyAutoExitMazeUpgradeText() {
-    $("#buyBotAutoExitMaze").text(`Auto Exit Maze: ${BOT_AUTO_EXIT_MAZE_UPGRADE_COST} pts`)
-    $("#buyBotAutoExitMaze").prop("disabled", this.game.points.rngBotAutoExitMaze);
-  }
+  // setBuyAutoExitMazeUpgradeText() {
+  //   $("#buyBotAutoExitMaze").text(`Auto Exit Maze: ${BOT_AUTO_EXIT_MAZE_UPGRADE_COST} pts`)
+  //   $("#buyBotAutoExitMaze").prop("disabled", this.game.points.rngBotAutoExitMaze);
+  // }
 
-  setAllowPlayerMoveIndependentlyText() {
-    $("#buyPlayerMoveIndependently").text(`Allow Player to Move Independently: ${BOT_ALLOW_PLAYER_TO_MOVE_INDEPENDENTLY_UPGRADE_COST} pts`)
-    $("#buyPlayerMoveIndependently").prop("disabled", this.game.points.rngBotAllowPlayerToMoveIndependently);
-  }
+  // setAllowPlayerMoveIndependentlyText() {
+  //   $("#buyPlayerMoveIndependently").text(`Allow Player to Move Independently: ${BOT_ALLOW_PLAYER_TO_MOVE_INDEPENDENTLY_UPGRADE_COST} pts`)
+  //   $("#buyPlayerMoveIndependently").prop("disabled", this.game.points.rngBotAllowPlayerToMoveIndependently);
+  // }
   
-  setBotTeleportToPlayerText() {
-    $("#buyBotTeleportToPlayer").text(`Bot Teleport Back to Player: ${BOT_TELEPORT_BOT_BACK_TO_PLAYER_UPGRADE_COST} pts`)
-    $("#buyBotTeleportToPlayer").prop("disabled", this.game.points.rngBotAllowPlayerToMoveIndependently);
-  }
+  // setBotTeleportToPlayerText() {
+  //   $("#buyBotTeleportToPlayer").text(`Bot Teleport Back to Player: ${BOT_TELEPORT_BOT_BACK_TO_PLAYER_UPGRADE_COST} pts`)
+  //   $("#buyBotTeleportToPlayer").prop("disabled", this.game.points.rngBotAllowPlayerToMoveIndependently);
+  // }
 
-  setPlayerTeleportToBotText() {
-    $("#buyPlayerTeleportToBot").text(`Player Teleport Back to Bot: ${BOT_TELEPORT_PLAYER_BACK_TO_BOT_UPGRADE_COST} pts`)
-    $("#buyPlayerTeleportToBot").prop("disabled", this.game.points.rngBotAllowPlayerToMoveIndependently);
-  }
+  // setPlayerTeleportToBotText() {
+  //   $("#buyPlayerTeleportToBot").text(`Player Teleport Back to Bot: ${BOT_TELEPORT_PLAYER_BACK_TO_BOT_UPGRADE_COST} pts`)
+  //   $("#buyPlayerTeleportToBot").prop("disabled", this.game.points.rngBotAllowPlayerToMoveIndependently);
+  // }
   
   setRngRememberDeadEndTilesUpgradeText() {
     let cost = this.game.points.getRngRememberDeadEndTilesUpgradeCost();
@@ -154,30 +153,30 @@ class UserInterface {
       this.setMazeCompletionBonusUpgradeText();
     });
     // Bot upgrades
-    $("#buyBotAvoidRevisitLastPosition").click(() => {
-      this.game.points.buyBotAvoidRevisitLastPosition();
-      this.setBuyBotAvoidRevisitLastPositionUpgradeText();
-    });
-    $("#buyBotPrioritizeUnvisited").click(() => {
-      this.game.points.buyBotPrioritizeUnvisitedUpgrade();
-      this.setBuyBotPrioritizeUnvisitedUpgradeText();
-    });
-    $("#buyBotAutoExitMaze").click(() => {
-      this.game.points.buyBotAutoExitMazeUpgrade();
-      this.setBuyAutoExitMazeUpgradeText();
-    });
-    $("#buyPlayerMoveIndependently").click(() => {
-      this.game.points.buyPlayerMoveIndependently();
-      this.setAllowPlayerMoveIndependentlyText();
-    });
-    $("#buyPlayerTeleportToBot").click(() => {
-      this.game.points.buyPlayerTeleportBackToBot();
-      this.setAllowPlayerMoveIndependentlyText();
-    });
-    $("#buyBotTeleportToPlayer").click(() => {
-      this.game.points.buyBotTeleportBackToPlayer();
-      this.setAllowPlayerMoveIndependentlyText();
-    });
+    // $("#buyBotAvoidRevisitLastPosition").click(() => {
+      // this.game.points.buyBotAvoidRevisitLastPosition();
+      // this.setBuyBotAvoidRevisitLastPositionUpgradeText();
+    // });
+    // $("#buyBotPrioritizeUnvisited").click(() => {
+    //   this.game.points.buyBotPrioritizeUnvisitedUpgrade();
+    //   this.setBuyBotPrioritizeUnvisitedUpgradeText();
+    // });
+    // $("#buyBotAutoExitMaze").click(() => {
+    //   this.game.points.buyBotAutoExitMazeUpgrade();
+    //   this.setBuyAutoExitMazeUpgradeText();
+    // });
+    // $("#buyPlayerMoveIndependently").click(() => {
+    //   this.game.points.buyPlayerMoveIndependently();
+    //   this.setAllowPlayerMoveIndependentlyText();
+    // });
+    // $("#buyPlayerTeleportToBot").click(() => {
+    //   this.game.points.buyPlayerTeleportBackToBot();
+    //   this.setAllowPlayerMoveIndependentlyText();
+    // });
+    // $("#buyBotTeleportToPlayer").click(() => {
+    //   this.game.points.buyBotTeleportBackToPlayer();
+    //   this.setAllowPlayerMoveIndependentlyText();
+    // });
     $("#buyBotRememberDeadEnds").click(() => {
       this.game.points.buyRngRememberDeadEndTilesUpgrade();
       this.setRngRememberDeadEndTilesUpgradeText();

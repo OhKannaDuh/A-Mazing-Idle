@@ -1,5 +1,6 @@
 import Game from "./Game";
 import { DEAD_END_COLOR, DOWN, EMPTY_COLOR, generateFruitTileSet, generateIsVisitedArr, generateNewMaze, generateTileKey, getNewTilePositionByVector, isTileEqual, LEFT, PLAYER_COLOR, RIGHT, RNG_BOT_COLOR, UP } from "./MazeGenerator";
+import { UpgradeKey } from "./upgrades/UpgradeConstants";
 declare var $: any;
 
 export const DIRECTION_UP = {x: 0, y: -1};
@@ -91,7 +92,7 @@ class Maze {
 
   isAtPlayerMax() {
     const playerCount = this.getPlayerCount();
-    const maxPlayers = this.game.points.rngBotAllowPlayerToMoveIndependently ? 2 : 1;
+    const maxPlayers = this.game.upgrades.isUpgraded(UpgradeKey.BOT_PLAYER_MOVE_INDEPENDENTLY) ? 2 : 1;
     return playerCount >= maxPlayers;
   }
 
@@ -158,7 +159,7 @@ class Maze {
     
     // Reset timer for auto-moves
     if (isManual) {
-      if (this.game.points.rngBotAllowPlayerToMoveIndependently && !this.getIsPlayerManuallyControlling()) {
+      if (this.game.upgrades.isUpgraded(UpgradeKey.BOT_PLAYER_MOVE_INDEPENDENTLY) && !this.getIsPlayerManuallyControlling()) {
         // Spawn new rng bot player
         const newPlayer = this.createNewPlayerObj(this.getCurrTile(playerId));
         this.game.rngBot.enableRngBot(newPlayer.id);

@@ -1,31 +1,28 @@
 {
-  "name": "app",
+  "name": "a-mazing-idle",
   "version": "1.0.0",
-  "description": "Signup, Signin, Forgot password, Terms and Conditions and Contact Us boilerplate just the UI ",
+  "description": "A Mazing Idle - Incremental Game",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "compile": "tsc --lib \"ES6,dom\" --downlevelIteration -p .",
-    "build": "browserify src/index.ts -p tsify --debug -o dist/sample.js",
     "build-cli": "browserify -p tsify -t [ babelify --extensions .ts ] src/index.ts > public/bundle.js",
     "build-script": "node ./build.js > public/bundle.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SiddharthaChowdhury/bp-common.git"
+    "url": "git+https://github.com/ImGregHenry/A-Mazing-Idle.git"
   },
-  "author": "Austin4Silvers",
+  "author": "imgreghenry",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/SiddharthaChowdhury/bp-common/issues"
+    "url": "https://github.com/ImGregHenry/A-Mazing-Idle/issues"
   },
-  "homepage": "https://github.com/SiddharthaChowdhury/bp-common#readme",
   "dependencies": {},
   "devDependencies": {
     "babel-preset-es2015": "^6.13.2",
     "babelify": "^7.3.0",
     "browserify": "^13.0.0",
     "tsify": "^2.0.2",
-    "typescript": "^2.0.3"
+    "typescript": "^2.0.3",
+    "gulp-cli": "^2.3.0"
   }
 }

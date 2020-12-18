@@ -1,13 +1,13 @@
 import { IS_FREE_MODE_ENABLED } from "./dev/devUtils";
 import Game from "./Game";
 
-export const BOT_PRIORITIZE_UNVISITED_UPGRADE_COST = 500;
-export const BOT_AVOID_REVISIT_LAST_POSITION_UPGRADE_COST = 1000;
-export const BOT_AUTO_EXIT_MAZE_UPGRADE_COST = 250;
-export const BOT_ALLOW_PLAYER_TO_MOVE_INDEPENDENTLY_UPGRADE_COST = 1500;
+// export const BOT_PRIORITIZE_UNVISITED_UPGRADE_COST = 500;
+// export const BOT_AVOID_REVISIT_LAST_POSITION_UPGRADE_COST = 1000;
+// export const BOT_AUTO_EXIT_MAZE_UPGRADE_COST = 250;
+// export const BOT_ALLOW_PLAYER_TO_MOVE_INDEPENDENTLY_UPGRADE_COST = 1500;
 
-export const BOT_TELEPORT_PLAYER_BACK_TO_BOT_UPGRADE_COST = 1000;
-export const BOT_TELEPORT_BOT_BACK_TO_PLAYER_UPGRADE_COST = 1000;
+// export const BOT_TELEPORT_PLAYER_BACK_TO_BOT_UPGRADE_COST = 1000;
+// export const BOT_TELEPORT_BOT_BACK_TO_PLAYER_UPGRADE_COST = 1000;
 
 const BOT_SPLIT_DIRECTION_UPGRADE_BASE_COST = 1000;
 const BOT_SPLIT_DIRECTION_UPGRADE_BASE_MULTIPLIER = 5;
@@ -56,15 +56,15 @@ class Points {
     public pointsPerVisitUpgradeCount: number;
     public rngMovementSpeedUpgrades: number;
 
-    public rngBotPrioritizeUnvisited: boolean;
-    public rngBotAvoidRevisitLastPosition: boolean;
-    public rngBotAutoExitMaze: boolean;
-    public rngBotAllowPlayerToMoveIndependently: boolean;
+    // public rngBotPrioritizeUnvisited: boolean;
+    // public rngBotAvoidRevisitLastPosition: boolean;
+    // public rngBotAutoExitMaze: boolean;
+    // public rngBotAllowPlayerToMoveIndependently: boolean;
     public rngBotRememberDeadEndTilesUpgrades: number;
     public rngBotSplitDirectionUpgrades: number;
     public rngBotSplitBotAutoMerge: boolean;
-    public rngBotTeleportPlayerBackToBot: boolean;
-    public rngBotTeleportBotBackToPlayer: boolean;
+    // public rngBotTeleportPlayerBackToBot: boolean;
+    // public rngBotTeleportBotBackToPlayer: boolean;
 
     public fruitSpawnRateUpgrades: number;
     public fruitPickupPointsUpgrades: number;
@@ -80,15 +80,15 @@ class Points {
         this.pointsPerVisitUpgradeCount = 0;
         this.rngMovementSpeedUpgrades = 0;
 
-        this.rngBotPrioritizeUnvisited = false;
-        this.rngBotAvoidRevisitLastPosition = false;
-        this.rngBotAutoExitMaze = false;
-        this.rngBotAllowPlayerToMoveIndependently = false;
+        // this.rngBotPrioritizeUnvisited = false;
+        // this.rngBotAvoidRevisitLastPosition = false;
+        // this.rngBotAutoExitMaze = false;
+        // this.rngBotAllowPlayerToMoveIndependently = false;
         this.rngBotRememberDeadEndTilesUpgrades = 0;
         this.rngBotSplitDirectionUpgrades = 0;
         this.rngBotSplitBotAutoMerge = true;
-        this.rngBotTeleportPlayerBackToBot = false;
-        this.rngBotTeleportBotBackToPlayer = false;
+        // this.rngBotTeleportPlayerBackToBot = false;
+        // this.rngBotTeleportBotBackToPlayer = false;
         
         this.fruitSpawnRateUpgrades = 0;
         this.fruitPickupPointsUpgrades = 0;
@@ -120,44 +120,44 @@ class Points {
     }
 
     /* Bot prioritize unvisited */
-    buyBotPrioritizeUnvisitedUpgrade() {
-        const cost = BOT_PRIORITIZE_UNVISITED_UPGRADE_COST;
-        if (!this.canAffordPointsAmount(cost)) {
-            return;
-        }
-        this.rngBotPrioritizeUnvisited = true;
-        this.addPoints(-cost);
-    }
+    // buyBotPrioritizeUnvisitedUpgrade() {
+    //     const cost = BOT_PRIORITIZE_UNVISITED_UPGRADE_COST;
+    //     if (!this.canAffordPointsAmount(cost)) {
+    //         return;
+    //     }
+    //     // this.rngBotPrioritizeUnvisited = true;
+    //     this.addPoints(-cost);
+    // }
 
     /* Auto-exit maze if beside maze exit */
-    buyBotAutoExitMazeUpgrade() {
-        const cost = BOT_AUTO_EXIT_MAZE_UPGRADE_COST
-        if (!this.canAffordPointsAmount(cost)) {
-            return;
-        }
-        this.rngBotAutoExitMaze = true;
-        this.addPoints(-cost);
-    }
+    // buyBotAutoExitMazeUpgrade() {
+    //     const cost = BOT_AUTO_EXIT_MAZE_UPGRADE_COST
+    //     if (!this.canAffordPointsAmount(cost)) {
+    //         return;
+    //     }
+    //     this.rngBotAutoExitMaze = true;
+    //     this.addPoints(-cost);
+    // }
     
     /* Bot avoid backtrack pathing */
-    buyBotAvoidRevisitLastPosition() {
-        const cost = BOT_AVOID_REVISIT_LAST_POSITION_UPGRADE_COST;
-        if (!this.canAffordPointsAmount(cost)) {
-            return;
-        }
-        this.rngBotAvoidRevisitLastPosition = true;
-        this.addPoints(-cost);
-    }
+    // buyBotAvoidRevisitLastPosition() {
+    //     const cost = BOT_AVOID_REVISIT_LAST_POSITION_UPGRADE_COST;
+    //     if (!this.canAffordPointsAmount(cost)) {
+    //         return;
+    //     }
+    //     this.rngBotAvoidRevisitLastPosition = true;
+    //     this.addPoints(-cost);
+    // }
     
     /* Player move independently */
-    buyPlayerMoveIndependently() {
-        const cost = BOT_ALLOW_PLAYER_TO_MOVE_INDEPENDENTLY_UPGRADE_COST;
-        if (!this.canAffordPointsAmount(cost)) {
-            return;
-        }
-        this.game.points.addPoints(-cost);
-        this.rngBotAllowPlayerToMoveIndependently = true;
-    }
+    // buyPlayerMoveIndependently() {
+    //     const cost = BOT_ALLOW_PLAYER_TO_MOVE_INDEPENDENTLY_UPGRADE_COST;
+    //     if (!this.canAffordPointsAmount(cost)) {
+    //         return;
+    //     }
+    //     this.game.points.addPoints(-cost);
+    //     this.rngBotAllowPlayerToMoveIndependently = true;
+    // }
 
     /* Points per visit */
     buyPointsPerVisitUpgrade() {
@@ -188,24 +188,24 @@ class Points {
     }
 
     /* Rng bot teleport to player  */
-    buyBotTeleportBackToPlayer() {
-        const cost = BOT_TELEPORT_BOT_BACK_TO_PLAYER_UPGRADE_COST;
-        if (!this.canAffordPointsAmount(cost)) {
-            return;
-        }
-        this.game.points.addPoints(-cost);
-        this.rngBotTeleportBotBackToPlayer = true;
-    }
+    // buyBotTeleportBackToPlayer() {
+    //     const cost = BOT_TELEPORT_BOT_BACK_TO_PLAYER_UPGRADE_COST;
+    //     if (!this.canAffordPointsAmount(cost)) {
+    //         return;
+    //     }
+    //     this.game.points.addPoints(-cost);
+    //     this.rngBotTeleportBotBackToPlayer = true;
+    // }
 
     /* Rng player teleport to bot  */
-    buyPlayerTeleportBackToBot() {
-        const cost = BOT_TELEPORT_PLAYER_BACK_TO_BOT_UPGRADE_COST;
-        if (!this.canAffordPointsAmount(cost)) {
-            return;
-        }
-        this.game.points.addPoints(-cost);
-        this.rngBotTeleportPlayerBackToBot = true;
-    }
+    // buyPlayerTeleportBackToBot() {
+    //     const cost = BOT_TELEPORT_PLAYER_BACK_TO_BOT_UPGRADE_COST;
+    //     if (!this.canAffordPointsAmount(cost)) {
+    //         return;
+    //     }
+    //     this.game.points.addPoints(-cost);
+    //     this.rngBotTeleportPlayerBackToBot = true;
+    // }
 
     /* Rng bot split directions */
     buyBotSplitUpgrade() {

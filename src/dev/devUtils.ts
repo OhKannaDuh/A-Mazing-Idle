@@ -43,16 +43,16 @@ const getMazeData = () => {
   game1 = new Game(DEV_MODE_DISABLE_UI, true);
   game1.setMaze();
   
-  game1.points.rngBotPrioritizeUnvisited = Boolean($(`#debugInputPrioritizeUnvisited`).val());
-  game1.points.rngBotAvoidRevisitLastPosition = Boolean($(`#debugAvoidRevisit`).val());
-  game1.points.rngBotAutoExitMaze = Boolean($(`#debugAutoExit`).val());
+  // game1.points.rngBotPrioritizeUnvisited = Boolean($(`#debugInputPrioritizeUnvisited`).val());
+  // // game1.points.rngBotAvoidRevisitLastPosition = Boolean($(`#debugAvoidRevisit`).val());
+  // game1.points.rngBotAutoExitMaze = Boolean($(`#debugAutoExit`).val());
   
-  game1.points.mazeSizeUpgradeCount = parseInt($(`#debugMazeUpgradeCount`).val().toString());
-  maxIterationCount = parseInt($(`#debugMaxIterations`).val().toString());
+  // game1.points.mazeSizeUpgradeCount = parseInt($(`#debugMazeUpgradeCount`).val().toString());
+  // maxIterationCount = parseInt($(`#debugMaxIterations`).val().toString());
   
-  game1.points.rngMovementSpeedUpgrades = 1000;
-  game1.points.pointsPerVisitUpgradeCount = 0;
-  game1.points.rngMovementSpeedUpgrades = 20;
+  // game1.points.rngMovementSpeedUpgrades = 1000;
+  // game1.points.pointsPerVisitUpgradeCount = 0;
+  // game1.points.rngMovementSpeedUpgrades = 20;
 
   console.log('start debug maze');
   game1.startGame();

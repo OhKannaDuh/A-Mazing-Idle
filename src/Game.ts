@@ -3,13 +3,14 @@ import Maze, { DEFAULT_PLAYER_ID } from "./Maze";
 import Points from "./Points";
 import RNGBot from "./RNGBot";
 import UserInterface from "./UserInterface";
-
+import UpgradeManager from "./upgrades/UpgradeManager";
 
 class Game {
   public maze: Maze;
   public points: Points;
   public rngBot: RNGBot;
   public ui: UserInterface;
+  public upgrades: UpgradeManager
 
   private isDevMode: boolean;
 
@@ -19,6 +20,7 @@ class Game {
     this.rngBot = new RNGBot(this, isDevMode);
     this.ui = new UserInterface(this, isDisableUi);
     this.isDevMode = isDevMode;
+    this.upgrades = new UpgradeManager(this);
 
     this.ui.setDebugPanelVisible(isDevMode);
     this.ui.init();

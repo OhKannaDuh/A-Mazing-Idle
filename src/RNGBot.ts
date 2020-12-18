@@ -1,5 +1,6 @@
 
 import Game from "./Game";
+import { UpgradeKey } from "./upgrades/UpgradeConstants";
 declare var _: any;
 
 const BASE_MOVEMENT_SPEED = 1000;
@@ -20,7 +21,6 @@ class RNGBot {
 
     //TODO: make an object for each rngbot
     this.rngBotMap = new Map();
-    console.log('rngrngrng')
   }
 
   manualMovementCancelRngBot(playerId) {
@@ -118,7 +118,7 @@ class RNGBot {
       return;
     }
 
-    if (this.game.points.rngBotAutoExitMaze) {
+    if (this.game.upgrades.isUpgraded(UpgradeKey.BOT_AUTO_EXIT_MAZE)) {
       const exitDirsArr = this.game.maze.filterPlayerExitMazeDirection(playerId);
       if (exitDirsArr.length > 0) {
         return exitDirsArr;
@@ -130,7 +130,7 @@ class RNGBot {
     }
     
     // Prioritize any adjacent unvisited tiles if any.
-    if (this.game.points.rngBotPrioritizeUnvisited) {
+    if (this.game.upgrades.isUpgraded(UpgradeKey.BOT_PRIORITIZE_UNVISITED)) {
       const unvisitedDirsArr = this.game.maze.prioritizeUnvisitedDirection(playerId, validDirs);
       if (unvisitedDirsArr.length > 0) {
         return unvisitedDirsArr;
@@ -138,7 +138,7 @@ class RNGBot {
     }
 
     // Avoid revisiting the last position if possible.
-    if (this.game.points.rngBotAvoidRevisitLastPosition) {
+    if (this.game.upgrades.isUpgraded(UpgradeKey.BOT_AVOID_REVISIT_LAST_POSITION)) {
       const noRevisitDirs = this.game.maze.filterAvoidRevisitLastPosition(playerId, validDirs);
       if (noRevisitDirs.length > 0) {
         return noRevisitDirs;
