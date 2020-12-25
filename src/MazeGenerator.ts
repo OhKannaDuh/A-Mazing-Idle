@@ -1,3 +1,5 @@
+import Game from "./Game";
+import { DIRECTIONS_ARR, Tile } from "./Maze";
 
 
 export const PLAYER_COLOR = '#1ec438';
@@ -104,13 +106,49 @@ export const generateNewMaze = (x, y) => {
   return cells;
 }
 
-export const generateIsVisitedArr = (x, y): Array<Array<boolean>> => {
-  const isVisitedArr = new Array();
+export const generateMazeArr = (x: number, y: number, defaultValue: any): Array<Array<any>> => {
+  const mazeArr = new Array<Array<any>>();
   for (let i = 0; i < y; i++) {
-    isVisitedArr[i] = new Array();
+    mazeArr[i] = new Array<number>();
     for (let j = 0; j < x; j++) {
-        isVisitedArr[i][j] = false;
+        mazeArr[i][j] = defaultValue;
     }
   }
-  return isVisitedArr;
+  return mazeArr;
+}
+
+// Generates a maze with a number in each position representing the distance from exit using optimal pathing.
+export const generateMazeSmartPathingArr = (game: Game, maze: Array<Array<number>>, exitTile: Tile): Array<Array<number>> => {
+  const smartPathArr: Array<Array<number>> = generateMazeArr(maze[0].length, maze.length, 0);
+  //TODO: figure out how to handle exit tile better
+  const lastTile = { x: exitTile.x - 1, y: exitTile.y };
+  // Mark first tile visited first -- canMove() cannot handle starting outside of the maze (ie. exit point).
+  smartPathArr[lastTile.y][lastTile.x] = 1;
+
+  const tileQueue = [lastTile];
+  let stepCount = 2;
+  // BFS iteration
+  while(tileQueue.length > 0) {
+    const loopSize = tileQueue.length;
+    
+    // One step in all directions for each tile
+    for (let i = 0; i < loopSize; i++) {
+      const tile = tileQueue.shift();
+
+      for (let dir of DIRECTIONS_ARR) {
+        // Only test valid directions (ie. non-wall, etc.)
+        if (game.maze.canMove(tile, dir, true)) {
+          const newTile = getNewTilePositionByVector(tile, dir);
+          // Don't revisit tiles
+          if (smartPathArr[newTile.y][newTile.x] === 0) {
+            smartPathArr[newTile.y][newTile.x] = stepCount;
+            tileQueue.push(newTile);
+          }
+        }
+      }
+    }
+    stepCount++;
+  }
+
+  return smartPathArr;
 }

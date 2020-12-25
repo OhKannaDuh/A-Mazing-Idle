@@ -1,5 +1,5 @@
 import Game from "./Game";
-import { DEAD_END_COLOR, DOWN, EMPTY_COLOR, generateFruitTileSet, generateIsVisitedArr, generateNewMaze, generateTileKey, getNewTilePositionByVector, isTileEqual, LEFT, PLAYER_COLOR, RIGHT, RNG_BOT_COLOR, UP } from "./MazeGenerator";
+import { DEAD_END_COLOR, DOWN, EMPTY_COLOR, generateFruitTileSet, generateMazeArr, generateMazeSmartPathingArr, generateNewMaze, generateTileKey, getNewTilePositionByVector, isTileEqual, LEFT, PLAYER_COLOR, RIGHT, RNG_BOT_COLOR, UP } from "./MazeGenerator";
 import { UpgradeKey } from "./upgrades/UpgradeConstants";
 declare var $: any;
 
@@ -20,9 +20,14 @@ export const DEFAULT_PLAYER_ID = 0;
 //TODO: find me a home
 interface Player {
   id: number;
-  currTile: any;
-  prevTile: any;
+  currTile: Tile;
+  prevTile: Tile;
   isManuallyControlled: boolean;
+}
+
+export interface Tile {
+  x: number;
+  y: number;
 }
 
 
@@ -32,19 +37,21 @@ class Maze {
   public isDevMode;
   public maze;
   public visitedMaze: Array<Array<boolean>>;
+  public smartPathMaze: Array<Array<number>>;
   public moveCount: number;
   public fruitTileSet: Set<string>;
-  public deadEndTileMap: Map<string, any>;
+  public deadEndTileMap: Map<string, number>;
 
   constructor(game, isDevMode = false) {
     this.game = game;
-    this.playerMap = new Map<number, any>();
+    this.playerMap = new Map<number, Player>();
     this.isDevMode = isDevMode;
     this.maze = null;
     this.visitedMaze = null;
+    this.smartPathMaze = null;
     this.moveCount = 0;
-    this.fruitTileSet = new Set();
-    this.deadEndTileMap = new Map();
+    this.fruitTileSet = new Set<string>();
+    this.deadEndTileMap = new Map<string, number>();
   }
 
   getMazeExitTile() {
@@ -62,8 +69,9 @@ class Maze {
   newMaze() {
     const mazeSize = this.getNextMazeSize();
     this.fruitTileSet = generateFruitTileSet(mazeSize, mazeSize, this.game.points.getFruitSpawnProbability());
-    this.visitedMaze = generateIsVisitedArr(mazeSize, mazeSize);
+    this.visitedMaze = generateMazeArr(mazeSize, mazeSize, false);
     this.maze = generateNewMaze(mazeSize, mazeSize);
+    this.smartPathMaze = generateMazeSmartPathingArr(this.game, this.maze, this.getMazeExitTile());
     this.deadEndTileMap = new Map();
   }
 
@@ -115,7 +123,7 @@ class Maze {
   }
 
   markVisited(tile) {
-    this.game.points.addVisitPoints(this.isVisited(tile.x, tile.y));
+    this.game.points.addVisitPoints(this.isVisited(tile));
     this.visitedMaze[tile.y][tile.x] = true;
   }
 
@@ -123,11 +131,15 @@ class Maze {
     return tile.x < this.getCurrentMazeSize() && tile.y < this.getCurrentMazeSize();
   }
 
-  isVisited(x, y) {
-    return this.visitedMaze[y][x];
+  isVisited(tile: Tile): boolean {
+    return this.visitedMaze[tile.y][tile.x];
   }
 
-  setTileBackgroundColor(tile, isPlayer = false) {
+  getSmartPathingDistanceFromExit(tile: Tile): number {
+    return this.smartPathMaze[tile.y][tile.x];
+  }
+
+  setTileBackgroundColor(tile: Tile, isPlayer: boolean = false): void {
     const tileColor = this.getTileBackgroundColor(tile);
     const new_tile_key = generateTileKey(tile.x, tile.y);
     $(`#${new_tile_key}`).css('background-color', tileColor);
@@ -222,7 +234,7 @@ class Maze {
     return false;
   }
   
-  getTileBackgroundColor(tile) {
+  getTileBackgroundColor(tile: Tile) {
     // Check for a player in the tile
     const playerColor = this.getPlayerAtTileColor(tile);
     if (playerColor != null) {
@@ -232,7 +244,7 @@ class Maze {
     if (this.deadEndTileMap.has(tileKey)) {
       return DEAD_END_COLOR;
     }
-    if (this.isVisited(tile.x, tile.y)) {
+    if (this.isVisited(tile)) {
       return VISITED_TILE_COLOR;
     }
     return EMPTY_COLOR;
@@ -283,10 +295,11 @@ class Maze {
     return this.getPlayer(playerId).currTile;
   }
 
-  canMove(tile, dirVector) {
+  canMove(tile, dirVector, isExcludeExit = false) {
     const newTile = getNewTilePositionByVector(tile, dirVector);
+    
     // Check if maze exit and is valid tile
-    if (this.isMazeExitTile(newTile)) return true;
+    if (this.isMazeExitTile(newTile) && !isExcludeExit) return true;
     if (!this.isValidTile(newTile)) return false;
     
     // Check for walls in current tile in each direction
@@ -391,13 +404,24 @@ class Maze {
     }
   }
 
-  filterPlayerExitMazeDirection(playerId) {
+  filterPlayerExitMazeDirection(playerId, validDirs) {
     if (!this.playerMap.has(playerId)) return;
-    // Check if player is within 1 tile of exit
-    //TODO: instead, store the tile you exit from?
-    const exitMazeDir = DIRECTIONS_ARR.filter((dir) => {
-      const newTile = getNewTilePositionByVector(this.getPlayer(playerId).currTile, dir);
-      return this.isMazeExitTile(newTile)
+
+    const upgradeLevel = this.game.upgrades.getUpgradeLevel(UpgradeKey.AUTO_EXIT_MAZE);
+    const currTile = this.getPlayer(playerId).currTile;
+    const currDistance = this.getSmartPathingDistanceFromExit(currTile);
+    // Check if within X tiles of exit (1 per upgrade)
+    if (currDistance > upgradeLevel) {
+      return [];
+    }
+
+    // Find best direction
+    const exitMazeDir = validDirs.filter((dir) => {
+      const newTile = getNewTilePositionByVector(currTile, dir);
+      
+      // Exit tile or one step closer to exit. If distance 1, MUST be exit tile.
+      return this.isMazeExitTile(newTile) || (currDistance !== 1 && this.isValidTile(newTile)
+          && this.getSmartPathingDistanceFromExit(newTile) === (currDistance - 1));
     });
     return exitMazeDir;
   }
@@ -408,7 +432,7 @@ class Maze {
     const noRevisitDirsArr = validDirs.filter((dir) => {
       const previousTile = this.getPreviousTile(playerId);
       const newTile = getNewTilePositionByVector(this.getCurrTile(playerId), dir);
-      return newTile.x !== previousTile.x || newTile.y !== previousTile.y;
+      return !isTileEqual(newTile, previousTile);
     });
     return noRevisitDirsArr;
   }
@@ -418,7 +442,7 @@ class Maze {
     // Find any unvisited tiles within reach.
     const unvisitedDirsArr = validDirs.filter((dir) => {
       const newTile = getNewTilePositionByVector(this.getCurrTile(playerId), dir);
-      return !this.isVisited(newTile.x, newTile.y);
+      return !this.isVisited(newTile);
     });
     return unvisitedDirsArr;
   }

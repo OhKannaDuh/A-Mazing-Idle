@@ -105,7 +105,6 @@ class RNGBot {
     const possibleNewSplits = this.game.maze.getPossibleSplitBotCount(validDirs)
     if (possibleNewSplits > 0) {
       const numDirectionsToPick = Math.min(possibleNewSplits + 1, validDirs.length);
-      console.log(`Picking ${possibleNewSplits} out of ${numDirectionsToPick}.  Valid dirs: ${validDirs.length}`);
       return this.getRandomXValues(validDirs, numDirectionsToPick);
     }
 
@@ -121,12 +120,13 @@ class RNGBot {
     }
 
     if (this.game.upgrades.isUpgraded(UpgradeKey.AUTO_EXIT_MAZE)) {
-      const exitDirsArr = this.game.maze.filterPlayerExitMazeDirection(playerId);
+      const exitDirsArr = this.game.maze.filterPlayerExitMazeDirection(playerId, validDirs);
       if (exitDirsArr.length > 0) {
         return exitDirsArr;
       }
     }
     
+    // Remove all dead end tiles from possible directions.
     if (this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_REMEMBER_DEADEND_TILES) >= 1) {
       validDirs = this.game.maze.filterDeadEndTiles(playerId, validDirs);
     }
