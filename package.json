@@ -23,6 +23,7 @@
     "browserify": "^13.0.0",
     "tsify": "^2.0.2",
     "typescript": "^2.0.3",
-    "gulp-cli": "^2.3.0"
+    "gulp-cli": "^2.3.0",
+    "lodash": "4.17.20"
   }
 }

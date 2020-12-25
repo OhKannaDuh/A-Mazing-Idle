@@ -1,5 +1,6 @@
 import Game from "../Game";
 import { DEFAULT_MAZE_SIZE } from "../Maze";
+import { UpgradeKey } from "../upgrades/UpgradeConstants";
 declare var $: any;
 
 export const IS_DEV_MODE_ENABLED = false;
@@ -63,12 +64,12 @@ var sumPoints = 0;
 
 
 const printAverages = () => {
-  const mazeSize = DEFAULT_MAZE_SIZE + game1.points.mazeSizeUpgradeCount;
+  const mazeSize = DEFAULT_MAZE_SIZE + game1.upgrades.getUpgradeLevel(UpgradeKey.MAZE_SIZE_UPGRADE);
   
-  // $(`#debugResult`).append(`Avg Moves: ${(sumMoves/iterationCount).toFixed(2)}<br>`);
-  // $(`#debugResult`).append(`Avg New Tile Visits: ${(sumPoints/iterationCount).toFixed(2)}<br>`);
-  // $(`#debugResult`).append(`Avg Tile Revisits: ${((sumMoves-sumPoints)/iterationCount).toFixed(2)}<br>`);
-  // $(`#debugResult`).append(`Maze size: ${mazeSize}<br>`);
+  $(`#debugResult`).append(`Avg Moves: ${(sumMoves/iterationCount).toFixed(2)}<br>`);
+  $(`#debugResult`).append(`Avg New Tile Visits: ${(sumPoints/iterationCount).toFixed(2)}<br>`);
+  $(`#debugResult`).append(`Avg Tile Revisits: ${((sumMoves-sumPoints)/iterationCount).toFixed(2)}<br>`);
+  $(`#debugResult`).append(`Maze size: ${mazeSize}<br>`);
 }
 
 export const printMazeCompleteData = (game) => {
@@ -79,13 +80,13 @@ export const printMazeCompleteData = (game) => {
 
   const completionBonus = game.points.getMazeCompletionBonus();
 
-  // $('#debugTable > tbody').append(`<tr>`);
-  // $('#debugTable > tbody').append(`<td>${(1 +iterationCount)}:   </td>`);
-  // $('#debugTable > tbody').append(`<td>${moveCount}</td>`);
-  // // $('#debugTable > tbody').append(`<td>${totalTime}</td>`);
-  // $('#debugTable > tbody').append(`<td>${(points - completionBonus).toFixed(2)}</td>`);
-  // $('#debugTable > tbody').append(`<td>${(points).toFixed(2)}</td>`);
-  // $('#debugTable > tbody').append(`</tr>`);
+  $('#debugTable > tbody').append(`<tr>`);
+  $('#debugTable > tbody').append(`<td>${(1 +iterationCount)}:   </td>`);
+  $('#debugTable > tbody').append(`<td>${moveCount}</td>`);
+  // $('#debugTable > tbody').append(`<td>${totalTime}</td>`);
+  $('#debugTable > tbody').append(`<td>${(points - completionBonus).toFixed(2)}</td>`);
+  $('#debugTable > tbody').append(`<td>${(points).toFixed(2)}</td>`);
+  $('#debugTable > tbody').append(`</tr>`);
 
   sumMoves += moveCount;
   sumPoints += (points - completionBonus);
@@ -103,12 +104,12 @@ export const printMazeCompleteData = (game) => {
 
 
 const debugHeader = () => {
-  // $('#debugTable > tbody').append(`<tr>`);
-  // $('#debugTable > tbody').append(`<th>#</td>`);
-  // $('#debugTable > tbody').append(`<th>Move Count</th>`);
-  // $('#debugTable > tbody').append(`<th>Points</th>`);
-  // $('#debugTable > tbody').append(`<th>Points (+comp)</th>`);
-  // $('#debugTable > tbody').append(`</tr>`);
+  $('#debugTable > tbody').append(`<tr>`);
+  $('#debugTable > tbody').append(`<th>#</td>`);
+  $('#debugTable > tbody').append(`<th>Move Count</th>`);
+  $('#debugTable > tbody').append(`<th>Points</th>`);
+  $('#debugTable > tbody').append(`<th>Points (+comp)</th>`);
+  $('#debugTable > tbody').append(`</tr>`);
 }
 
 

@@ -52,7 +52,7 @@ class Maze {
   }
 
   getNextMazeSize() {
-    return DEFAULT_MAZE_SIZE + this.game.points.mazeSizeUpgradeCount;
+    return DEFAULT_MAZE_SIZE + this.game.upgrades.getUpgradeLevel(UpgradeKey.MAZE_SIZE_UPGRADE);
   }
 
   getCurrentMazeSize() {
@@ -90,15 +90,14 @@ class Maze {
     return this.playerMap.size;
   }
 
-  isAtPlayerMax() {
-    const playerCount = this.getPlayerCount();
-    const maxPlayers = this.game.upgrades.isUpgraded(UpgradeKey.BOT_PLAYER_MOVE_INDEPENDENTLY) ? 2 : 1;
-    return playerCount >= maxPlayers;
+  getNewPlayerId() {
+    for (let i = 0;; i++) {
+      if (!this.playerMap.has(i)) return i;
+    }
   }
 
   createNewPlayerObj(startTile) {
-    //TODO: interface for player
-    const newPlayer: Player = { id: this.getPlayerCount(), currTile: startTile, prevTile: startTile, isManuallyControlled: false };
+    const newPlayer: Player = { id: this.getNewPlayerId(), currTile: startTile, prevTile: startTile, isManuallyControlled: false };
     this.playerMap.set(newPlayer.id, newPlayer);
     
     this.markVisited(startTile);
@@ -147,11 +146,12 @@ class Maze {
     const currTile = this.getPlayer(playerId).currTile;
     this.game.rngBot.deleteRngBot(playerId);
     this.playerMap.delete(playerId);
-    this.setTileBackgroundColor(currTile);
+    this.setTileBackgroundColor(currTile, true);
     
   }
 
   movePlayer(playerId, dirVector, isManual=false) {
+    if (!this.playerMap.has(playerId)) return;
     if (!this.canMove(this.getCurrTile(playerId), dirVector)) {
       console.log('cannot move!');
       return;
@@ -159,7 +159,7 @@ class Maze {
     
     // Reset timer for auto-moves
     if (isManual) {
-      if (this.game.upgrades.isUpgraded(UpgradeKey.BOT_PLAYER_MOVE_INDEPENDENTLY) && !this.getIsPlayerManuallyControlling()) {
+      if (this.game.upgrades.isUpgraded(UpgradeKey.PLAYER_MOVE_INDEPENDENTLY) && !this.getIsPlayerManuallyControlling()) {
         // Spawn new rng bot player
         const newPlayer = this.createNewPlayerObj(this.getCurrTile(playerId));
         this.game.rngBot.enableRngBot(newPlayer.id);
@@ -263,7 +263,7 @@ class Maze {
       this.game.points.addFruitPickupPoints();
     }
 
-    if (this.game.points.rngBotSplitBotAutoMerge) {
+    if (this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_SPLIT_BOT_AUTO_MERGE)) {
       const playerIdsAtTileArr = this.getPlayerIdsAtTile(player.currTile);
       playerIdsAtTileArr.forEach(killPlayerId => {
         if (killPlayerId !== playerId) {
@@ -274,10 +274,12 @@ class Maze {
   }
 
   getPreviousTile(playerId) {
+    if (!this.playerMap.has(playerId)) return;
     return this.getPlayer(playerId).prevTile;
   }
 
   getCurrTile(playerId) {
+    if (!this.playerMap.has(playerId)) return;
     return this.getPlayer(playerId).currTile;
   }
 
@@ -308,9 +310,10 @@ class Maze {
     if (validDirs.length <= 1) {
       return 0;
     }
-    const splitUpgradeCount = this.game.points.rngBotSplitDirectionUpgrades;
+    
     // Total bots active
     const rngBotCount = this.getPlayerCount(true);
+    const splitUpgradeCount = this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_SPLIT_DIRECTION);
     
     // One bot auto-allowed, and +1 extra bot allowed per upgrade
     return Math.max(0, (splitUpgradeCount + 1 - rngBotCount));
@@ -350,7 +353,7 @@ class Maze {
 
   getDeadEndValue(tile, validDirsArr) {
     let deadEndCount = 0, deadEndMaxVal = 0;
-    const upgradeCount = this.game.points.rngBotRememberDeadEndTilesUpgrades;
+    const upgradeCount = this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_REMEMBER_DEADEND_TILES);
 
     // Count dead ends from valid dirs
     validDirsArr.forEach(dir => {
@@ -370,7 +373,7 @@ class Maze {
   }
 
   updateDeadEndTilesMap(tile) {
-    const upgradeCount = this.game.points.rngBotRememberDeadEndTilesUpgrades;
+    const upgradeCount = this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_REMEMBER_DEADEND_TILES);
     if (upgradeCount === 0) {
       return;
     }
@@ -389,6 +392,7 @@ class Maze {
   }
 
   filterPlayerExitMazeDirection(playerId) {
+    if (!this.playerMap.has(playerId)) return;
     // Check if player is within 1 tile of exit
     //TODO: instead, store the tile you exit from?
     const exitMazeDir = DIRECTIONS_ARR.filter((dir) => {
@@ -399,6 +403,7 @@ class Maze {
   }
 
   filterAvoidRevisitLastPosition(playerId, validDirs) {
+    if (!this.playerMap.has(playerId)) return;
     // Find any tiles that are not the previous tile.
     const noRevisitDirsArr = validDirs.filter((dir) => {
       const previousTile = this.getPreviousTile(playerId);
@@ -409,6 +414,7 @@ class Maze {
   }
   
   prioritizeUnvisitedDirection(playerId, validDirs) {
+    if (!this.playerMap.has(playerId)) return;
     // Find any unvisited tiles within reach.
     const unvisitedDirsArr = validDirs.filter((dir) => {
       const newTile = getNewTilePositionByVector(this.getCurrTile(playerId), dir);
@@ -418,6 +424,7 @@ class Maze {
   }
 
   filterDeadEndTiles(playerId, validDirs) {
+    if (!this.playerMap.has(playerId)) return;
     const nonDeadEndTiles = validDirs.filter((dir) => {
       const newTile = getNewTilePositionByVector(this.getCurrTile(playerId), dir);
       const tileKey = generateTileKey(newTile.x, newTile.y);

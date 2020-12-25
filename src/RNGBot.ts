@@ -37,6 +37,7 @@ class RNGBot {
   }
 
   moveRandomly(playerId) {
+    if (!this.game.maze.playerMap.has(playerId)) return;
     const dirArr = this.chooseRandomDirectionsArr(playerId);
     if (dirArr.length === 0) {
       return;
@@ -54,13 +55,13 @@ class RNGBot {
       this.rngBotMap.set(playerId, { id: playerId, rngBotMoveInterval: null, rngBotReEnableTimer: null });
     }
     const rngBot = this.rngBotMap.get(playerId);
-    let upgradeSpeed = this.game.points.rngMovementSpeedUpgrades;
+    let upgradeSpeed = this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_MOVEMENT_SPEED);
     
     clearInterval(rngBot.rngBotMoveInterval);
     
     rngBot.rngBotMoveInterval = setInterval(() => {
       this.moveRandomly(rngBot.id);
-      if (upgradeSpeed !== this.game.points.rngMovementSpeedUpgrades) {
+      if (upgradeSpeed !== this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_MOVEMENT_SPEED)) {
         this.disableRngBot(rngBot.id);
         this.enableRngBot(rngBot.id);
       }
@@ -69,7 +70,7 @@ class RNGBot {
 
   getBotMoveInterval(isDevMode = false) {
     if (isDevMode) return DEV_MODE_MOVEMENT_SPEED;
-    return BASE_MOVEMENT_SPEED * (Math.pow(BASE_MOVEMENT_REDUCTION, this.game.points.rngMovementSpeedUpgrades));
+    return BASE_MOVEMENT_SPEED * (Math.pow(BASE_MOVEMENT_REDUCTION, this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_MOVEMENT_SPEED)));
   }
 
   disableRngBot(playerId) {
@@ -104,6 +105,7 @@ class RNGBot {
     const possibleNewSplits = this.game.maze.getPossibleSplitBotCount(validDirs)
     if (possibleNewSplits > 0) {
       const numDirectionsToPick = Math.min(possibleNewSplits + 1, validDirs.length);
+      console.log(`Picking ${possibleNewSplits} out of ${numDirectionsToPick}.  Valid dirs: ${validDirs.length}`);
       return this.getRandomXValues(validDirs, numDirectionsToPick);
     }
 
@@ -118,19 +120,19 @@ class RNGBot {
       return;
     }
 
-    if (this.game.upgrades.isUpgraded(UpgradeKey.BOT_AUTO_EXIT_MAZE)) {
+    if (this.game.upgrades.isUpgraded(UpgradeKey.AUTO_EXIT_MAZE)) {
       const exitDirsArr = this.game.maze.filterPlayerExitMazeDirection(playerId);
       if (exitDirsArr.length > 0) {
         return exitDirsArr;
       }
     }
-
-    if (this.game.points.rngBotRememberDeadEndTilesUpgrades >= 1) {
+    
+    if (this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_REMEMBER_DEADEND_TILES) >= 1) {
       validDirs = this.game.maze.filterDeadEndTiles(playerId, validDirs);
     }
     
     // Prioritize any adjacent unvisited tiles if any.
-    if (this.game.upgrades.isUpgraded(UpgradeKey.BOT_PRIORITIZE_UNVISITED)) {
+    if (this.game.upgrades.isUpgraded(UpgradeKey.PRIORITIZE_UNVISITED)) {
       const unvisitedDirsArr = this.game.maze.prioritizeUnvisitedDirection(playerId, validDirs);
       if (unvisitedDirsArr.length > 0) {
         return unvisitedDirsArr;
@@ -138,7 +140,7 @@ class RNGBot {
     }
 
     // Avoid revisiting the last position if possible.
-    if (this.game.upgrades.isUpgraded(UpgradeKey.BOT_AVOID_REVISIT_LAST_POSITION)) {
+    if (this.game.upgrades.isUpgraded(UpgradeKey.AVOID_REVISIT_LAST_POSITION)) {
       const noRevisitDirs = this.game.maze.filterAvoidRevisitLastPosition(playerId, validDirs);
       if (noRevisitDirs.length > 0) {
         return noRevisitDirs;

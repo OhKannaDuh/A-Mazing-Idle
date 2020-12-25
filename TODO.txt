@@ -1,0 +1,11 @@
+Saving:
+--> Save interval
+--> Export upgrade/points to local storage
+
+Bug fixes:
+--> Auto-merge doesn't detect bots that pass over each other
+
+Features:
+--> Maze exit path calculating array
+--> Auto-exit by distance instead of single tile
+--> "Luck" upgrade
