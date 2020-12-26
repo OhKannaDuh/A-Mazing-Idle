@@ -6,19 +6,21 @@ import { FRUIT_PICKUP_POINTS_BASE_AMOUNT,
     POINTS_PER_VISIT_BASE_AMOUNT_MULTIPLIER, TILE_REVISIT_MULTIPLIER, 
     UpgradeKey 
 } from "./upgrades/UpgradeConstants";
+import Serializable from "./models/Serializable";
 
 
-class Points {
+class Points extends Serializable {
     public game: Game;
     public isDevMode: boolean;
     public points: number;
 
     constructor(game: Game, isDevMode = false) {
+        super(['points']);
         this.game = game;
         this.isDevMode = isDevMode;
         this.points = 0.0;
     }
-
+    
     addPoints(amount) {
         this.points += amount;
         this.game.ui.setPointsText();

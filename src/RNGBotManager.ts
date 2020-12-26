@@ -1,5 +1,6 @@
 
 import Game from "./Game";
+import { TileVector } from "./Maze";
 import { UpgradeKey } from "./upgrades/UpgradeConstants";
 declare var _: any;
 
@@ -9,11 +10,16 @@ const AUTO_RE_ENABLE_RNG_BOT_TIMER = 3000;
 
 const DEV_MODE_MOVEMENT_SPEED = 1;
 
+interface RNGBot {
+  id: string;
+  rngBotMoveInterval: any;
+  rngBotReEnableTimer: any
+}
 
-class RNGBot {
+class RNGBotManager {
   public game: Game;
   public isDevMode: boolean;
-  public rngBotMap: Map<number, any>;
+  public rngBotMap: Map<number, RNGBot>;
   
   constructor(game, isDevMode) {
     this.game = game;
@@ -96,7 +102,7 @@ class RNGBot {
     this.rngBotMap.delete(playerId);
   }
 
-  chooseRandomDirectionsArr(playerId): any[] {
+  chooseRandomDirectionsArr(playerId): TileVector[] {
     const validDirs = this.getPossibleDirectionsList(playerId);
     if (!validDirs) {
       return null;
@@ -160,4 +166,4 @@ class RNGBot {
   }
 }
 
-export default RNGBot;
+export default RNGBotManager;

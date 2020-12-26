@@ -8,9 +8,14 @@ declare var $: any;
 $(document).ready(() => {
   if (IS_DEV_MODE_ENABLED && !DEV_MODE_AUTOSTART) return;
   
-  var game: Game = new Game();
+  const game: Game = new Game();
+  
+  game.save.loadGameSaveFromLocalStorage();
+  game.upgrades.updateAllUpgradeUi();
+  game.save.startSaveTimer();
   game.startGame();
-
+  
+  //TODO: this should be in UI
   $(document).keydown(function(event) {
     // Up
     if (event.keyCode === 38) {

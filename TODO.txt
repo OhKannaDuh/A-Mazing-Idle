@@ -9,3 +9,6 @@ Features:
 --> Maze exit path calculating array
 --> Auto-exit by distance instead of single tile
 --> "Luck" upgrade
+
+Refactor:
+--> RNG Bot should all move in sync rather than separate timers.

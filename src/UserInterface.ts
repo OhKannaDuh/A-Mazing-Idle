@@ -17,11 +17,17 @@ class UserInterface {
 
   init() {
     if(this.disableUi) return;
-    this.initText()
+    this.initText();
+    this.initEvents();
   }
 
   initText() {
     this.setPointsText();
+  }
+
+  initEvents() {
+    $(`#manualSaveGame`).click(() => this.game.save.saveGameToLocalStorage());
+    $(`#deleteSaveGame`).click(() => this.game.save.clearLocalStorage());
   }
 
   setDebugPanelVisible(isVisible) {

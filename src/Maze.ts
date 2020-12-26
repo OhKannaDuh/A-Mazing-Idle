@@ -30,6 +30,10 @@ export interface Tile {
   y: number;
 }
 
+export interface TileVector {
+  x: number;
+  y: number;
+}
 
 class Maze {
   public game: Game;

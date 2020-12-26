@@ -1,26 +1,31 @@
 import { printMazeCompleteData } from "./dev/devUtils";
 import Maze, { DEFAULT_PLAYER_ID } from "./Maze";
 import Points from "./Points";
-import RNGBot from "./RNGBot";
+import RNGBotManager from "./RNGBotManager";
 import UserInterface from "./UserInterface";
 import UpgradeManager from "./upgrades/UpgradeManager";
+import Serializable from "./models/Serializable";
+import SaveManager from "./SaveManager";
 
-class Game {
+class Game extends Serializable {
   public maze: Maze;
   public points: Points;
-  public rngBot: RNGBot;
+  public rngBot: RNGBotManager;
   public ui: UserInterface;
-  public upgrades: UpgradeManager
+  public upgrades: UpgradeManager;
+  public save: SaveManager;
 
   private isDevMode: boolean;
 
   constructor(isDisableUi = false, isDevMode = false) {
+    super(['points', 'upgrades']);
     this.maze = new Maze(this);
     this.points = new Points(this, isDevMode);
-    this.rngBot = new RNGBot(this, isDevMode);
+    this.rngBot = new RNGBotManager(this, isDevMode);
     this.ui = new UserInterface(this, isDisableUi);
-    this.isDevMode = isDevMode;
     this.upgrades = new UpgradeManager(this);
+    this.save = new SaveManager(this);
+    this.isDevMode = isDevMode;
 
     this.ui.setDebugPanelVisible(isDevMode);
     this.ui.init();
