@@ -1,9 +1,6 @@
 import Game from "./Game";
 import { generateTileKey, WALL } from "./MazeGenerator";
-// import $ = require('jquery');
-// import * as $ from 'jquery';
 declare var $: any;
-
 
 
 class UserInterface {

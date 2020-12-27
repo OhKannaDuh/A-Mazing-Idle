@@ -4,6 +4,9 @@ Saving:
 
 Bug fixes:
 --> Auto-merge doesn't detect bots that pass over each other
+--> Fix manual player control management + teleport player/bot
+--> Fruit at tile 0,0
+--> Fruit + deadend marking not handled after createPlayer()
 
 Features:
 --> Maze exit path calculating array

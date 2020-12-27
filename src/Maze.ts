@@ -111,9 +111,9 @@ class Maze {
   createNewPlayerObj(startTile) {
     const newPlayer: Player = { id: this.getNewPlayerId(), currTile: startTile, prevTile: startTile, isManuallyControlled: false };
     this.playerMap.set(newPlayer.id, newPlayer);
-    
-    this.markVisited(startTile);
-    this.setTileBackgroundColor(startTile, true);
+    this.updatePlayerTile(newPlayer.id, startTile)
+    // this.markVisited(startTile);
+    // this.setTileBackgroundColor(startTile, true);
     return newPlayer;
   }
 
@@ -163,7 +163,6 @@ class Maze {
     this.game.rngBot.deleteRngBot(playerId);
     this.playerMap.delete(playerId);
     this.setTileBackgroundColor(currTile, true);
-    
   }
 
   movePlayer(playerId, dirVector, isManual=false) {
@@ -186,7 +185,7 @@ class Maze {
     } else {
       this.getPlayer(playerId).isManuallyControlled = false;
     }
-    this.updatePlayerTile(playerId, dirVector);
+    this.updatePlayerTileByTileVector(playerId, dirVector);
     
     this.moveCount++;
   }
@@ -254,9 +253,14 @@ class Maze {
     return EMPTY_COLOR;
   }
 
-  updatePlayerTile(playerId, dirVector) {
+  updatePlayerTileByTileVector(playerId: number, dirVector: TileVector) {
     const player = this.getPlayer(playerId);
     const newTile = getNewTilePositionByVector(player.currTile, dirVector);
+    this.updatePlayerTile(playerId, newTile);
+  }
+
+  updatePlayerTile(playerId: number, newTile: Tile) {
+    const player = this.getPlayer(playerId);
     if (this.isMazeExitTile(newTile)) {
       this.game.completeMaze();
       return;
@@ -339,6 +343,7 @@ class Maze {
   teleportPlayerBackToBot() {
     if (this.getPlayerCount() < 2) return;
 
+    //TODO: fix this to find the manually controlled player.  
     const player = this.getPlayer(DEFAULT_PLAYER_ID);
     const bot = this.getPlayer(1);
     
@@ -348,6 +353,7 @@ class Maze {
   teleportBotBackToPlayer() {
     if (this.getPlayerCount() < 2) return;
 
+    //TODO: fix this to find the manually controlled player.  
     const player = this.getPlayer(DEFAULT_PLAYER_ID);
     const bot = this.getPlayer(1);
     
