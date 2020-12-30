@@ -6,7 +6,7 @@ declare var $: any;
 export const IS_DEV_MODE_ENABLED = false;
 export const DEV_MODE_DISABLE_UI = false;
 export const DEV_MODE_AUTOSTART = false;
-export const IS_FREE_MODE_ENABLED = false;
+export const IS_FREE_MODE_ENABLED = true;
 
 const generateScalingNumbers = () => {
   let startingUpgradeCount = 0;

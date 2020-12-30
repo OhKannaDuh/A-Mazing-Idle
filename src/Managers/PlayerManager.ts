@@ -1,5 +1,5 @@
 import Game from "../Game";
-import { STARTING_POSITION } from "../Maze";
+import { STARTING_POSITION, Tile } from "../Maze";
 import Player from "../models/Player";
 import { UpgradeKey } from "../upgrades/UpgradeConstants";
 import { isTileEqual, PLAYER_COLOR, RNG_BOT_COLOR } from "./MazeGenerator";
@@ -25,8 +25,8 @@ class PlayerManager {
     this.createNewPlayerObj(STARTING_POSITION);
   }
 
-  createNewPlayerObj(startTile) {
-    const newPlayer: Player = new Player(this.game, this.getNewPlayerId(), startTile, startTile);
+  createNewPlayerObj(startTile, isPrimaryBot = false) {
+    const newPlayer: Player = new Player(this.game, this.getNewPlayerId(), startTile, startTile, false, isPrimaryBot);
     this.playerMap.set(newPlayer.id, newPlayer);
     this.game.maze.updatePlayerTile(newPlayer.id, startTile)
     return newPlayer;
@@ -41,20 +41,36 @@ class PlayerManager {
     return null;
   }
 
-  getIsPlayerManuallyControlling() {
+  getIsPlayerManuallyControlling(): boolean {
     return this.getManuallyControlledPlayer() == null ? false : true;
   }
 
-  getPlayerCount(isExcludeManualControl = false) {
+  getPlayerCount(isExcludeManualControl = false): number {
     // If manual controlling, don't count
-    return this.playerMap.size - (isExcludeManualControl && this.getIsPlayerManuallyControlling() ? -1 : 0)    
+    return this.playerMap.size - (isExcludeManualControl && this.getIsPlayerManuallyControlling() ? 1 : 0)    ;
+  }
+
+  isPrimaryBotPresent(): boolean {
+    return this.getPrimaryBot() == null ? false : true;
+  }
+
+  getPrimaryBot(): Player {
+    for (let [id, player] of this.playerMap) {
+      if (player.isPrimaryBot) {
+        return player;
+      }
+    }
+    return null;
   }
   
-  movePlayer(playerId, dirVector, isManual=false) {
+  movePlayer(playerId, dirVector, isManual=false): void {
     const player = this.getPlayer(playerId);
     if (player == null) return;
     if (!this.game.maze.canMove(player.currTile, dirVector)) {
-      this.game.players.deletePlayer(playerId);
+      // Bots that get stuck in deadends.
+      if (!isManual) {
+        this.game.players.deletePlayer(playerId);
+      }
       return;
     }
     
@@ -64,12 +80,17 @@ class PlayerManager {
 
     // Reset timer for auto-moves
     if (isManual) {
-      if (this.game.upgrades.isUpgraded(UpgradeKey.PLAYER_MOVE_INDEPENDENTLY) && !this.getIsPlayerManuallyControlling()) {
-        // Spawn new rng bot player
-        this.createNewPlayerObj(this.getCurrTile(playerId));
+      // Spawn new bot unless it exists already.
+      if (this.game.upgrades.isUpgraded(UpgradeKey.PLAYER_MOVE_INDEPENDENTLY)) {
+        if (!this.isPrimaryBotPresent()) {
+          this.createNewPlayerObj(this.getCurrTile(playerId), true);
+        }
+        // If independence upgraded, don't re-enable the timer to have a bot take over.
+        this.game.rngBot.disableReEnableBotMovementTimer();
+      } else {
+        // Only set the movement timer if independent movement disabled.
+        this.game.rngBot.enableReEnableBotMovementTimer();
       }
-      // Set timer to re-enable bot if no movement after a few seconds
-      this.game.rngBot.enableReEnableBotMovementTimer();
     }
     this.game.maze.updatePlayerTileByTileVector(playerId, dirVector);
   }
@@ -78,30 +99,11 @@ class PlayerManager {
     const playerIdArr = [];
     this.playerMap.forEach((player) => {
       playerIdArr.push(player.id);
-    })
+    });
     return playerIdArr;
   }
-
-  getNewPlayerId() {
-    for (let i = 0;; i++) {
-      if (!this.playerMap.has(i)) return i;
-    }
-  }
-
-  deletePlayer(playerId) {
-    if (!this.playerMap.has(playerId)) return;
-
-    const currTile = this.getPlayer(playerId).currTile;
-    this.playerMap.delete(playerId);
-    this.game.maze.setTileBackgroundColor(currTile, true);
-  }
-
-  getPlayer(playerId): Player {
-    if (!this.playerMap.has(playerId)) return null;
-    return this.playerMap.get(playerId);
-  }
   
-  getPlayerIdsAtTile(tile) {
+  getPlayerIdsAtTile(tile: Tile): number[] {
     const playerIdList = [];
     for (let [id, player] of this.playerMap) {
       if (isTileEqual(tile, player.currTile)) {
@@ -111,7 +113,46 @@ class PlayerManager {
     return playerIdList;
   }
 
-  getPlayerAtTileColor(tile) {
+  getNewPlayerId() {
+    for (let i = 0;; i++) {
+      if (!this.playerMap.has(i)) return i;
+    }
+  }
+
+  deletePlayer(playerId: number): void {
+    if (!this.playerMap.has(playerId)) return;
+
+    const player = this.getPlayer(playerId);
+    const currTile = player.currTile;
+    this.playerMap.delete(playerId);
+
+    // There must always be a primary bot.  Re-assign at random if primary bot deleted.
+    if (player.isPrimaryBot) {
+      this.assignPrimaryBotToPlayer();
+    }
+    this.game.maze.setTileBackgroundColor(currTile, true);
+  }
+
+  // Try to assign a new primary bot based on ID.  Else, pick first bot.
+  assignPrimaryBotToPlayer(playerId: number = null): void {
+    for (let [id, player] of this.playerMap) {
+      if (playerId == null && !player.isManuallyControlled) {
+        player.isPrimaryBot = true;
+        return;
+      }
+      if (player.id === playerId) {
+        player.isPrimaryBot = true;
+        return;
+      }
+    }
+  }
+
+  getPlayer(playerId): Player {
+    if (!this.playerMap.has(playerId)) return null;
+    return this.playerMap.get(playerId);
+  }
+
+  getPlayerColorAtTile(tile: Tile): string {
     for (let [id, player] of this.playerMap) {
       if (isTileEqual(tile, player.currTile)) {
         return player.isManuallyControlled ? PLAYER_COLOR : RNG_BOT_COLOR;
@@ -120,7 +161,7 @@ class PlayerManager {
     return null;
   }
 
-  isOccupiedByPlayer(tile) {
+  isOccupiedByPlayer(tile: Tile): boolean {
     for (let [id, player] of this.playerMap) {
       if (isTileEqual(tile, player.currTile)) {
         return true;
@@ -129,17 +170,17 @@ class PlayerManager {
     return false;
   }
   
-  getPreviousTile(playerId) {
-    if (!this.playerMap.has(playerId)) return;
+  getPreviousTile(playerId: number): Tile {
+    if (!this.playerMap.has(playerId)) return null;
     return this.getPlayer(playerId).prevTile;
   }
 
-  getCurrTile(playerId) {
-    if (!this.playerMap.has(playerId)) return;
+  getCurrTile(playerId: number): Tile {
+    if (!this.playerMap.has(playerId)) return null;
     return this.getPlayer(playerId).currTile;
   }
 
-  playerExists(playerId) {
+  playerExists(playerId: number): boolean {
     return this.playerMap.has(playerId);
   }
 }

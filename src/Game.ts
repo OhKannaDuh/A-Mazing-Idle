@@ -43,8 +43,8 @@ class Game extends Serializable {
     this.resetGame();
     this.maze = new Maze(this);
     this.points.points = 0;
-    this.upgrades.initUpgrades();
-        
+    this.upgrades.resetUpgrades();
+    
     this.startGame();
     this.save.startSaveTimer();
   }
@@ -55,6 +55,7 @@ class Game extends Serializable {
   }
 
   startGame() {
+    this.upgrades.updateAllUpgradeUi();
     this.players.resetAllPlayers();
     this.ui.deleteMaze();
     this.maze.newMaze();

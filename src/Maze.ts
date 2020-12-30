@@ -113,7 +113,7 @@ class Maze {
   
   getTileBackgroundColor(tile: Tile) {
     // Check for a player in the tile
-    const playerColor = this.game.players.getPlayerAtTileColor(tile);
+    const playerColor = this.game.players.getPlayerColorAtTile(tile);
     if (playerColor != null) {
       return playerColor;
     }
@@ -206,23 +206,22 @@ class Maze {
 
   teleportPlayerBackToBot() {
     const manualPlayer = this.game.players.getManuallyControlledPlayer();
-    if (!manualPlayer) return;
-
-    //TODO: fix this to find the manually controlled player.  
-    const player = this.game.players.getPlayer(DEFAULT_PLAYER_ID);
-    const bot = this.game.players.getPlayer(1);
+    const primaryBot = this.game.players.getPrimaryBot();
+    if (!manualPlayer || !primaryBot) return;
     
-    this.updatePlayerTile(player.id, bot.currTile);
+    // Move player and delete the bot.
+    this.updatePlayerTile(manualPlayer.id, primaryBot.currTile);
+    this.game.players.deletePlayer(primaryBot.id);
   }
 
   teleportBotBackToPlayer() {
     const manualPlayer = this.game.players.getManuallyControlledPlayer();
-    if (!manualPlayer) return;
+    const primaryBot = this.game.players.getPrimaryBot();
+    if (!manualPlayer || !primaryBot) return;
 
-    // TODO: figure otu which bot should switch back.
-    const bot = this.game.players.getPlayer(1);
-    
-    this.updatePlayerTile(bot.id, manualPlayer.currTile);
+    // Move player and delete the bot.
+    this.updatePlayerTile(primaryBot.id, manualPlayer.currTile);
+    this.game.players.deletePlayer(primaryBot.id);
   }
 
   isMazeExitTile(tile) {

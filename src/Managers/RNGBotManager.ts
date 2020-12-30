@@ -62,6 +62,8 @@ class RNGBotManager {
     //TODO: this might be better handled within the player class.
     this.rngBotReEnableMovementTimer = setTimeout(() => {
       const player = this.game.players.getManuallyControlledPlayer();
+      if (!player) return;
+      
       player.isManuallyControlled = false;
       this.disableReEnableBotMovementTimer();
     }, AUTO_RE_ENABLE_RNG_BOT_TIMER);
@@ -97,7 +99,7 @@ class RNGBotManager {
       return null;
     }
 
-    const possibleNewSplits = this.game.maze.getPossibleSplitBotCount(validDirs)
+    const possibleNewSplits = this.game.maze.getPossibleSplitBotCount(validDirs);
     if (possibleNewSplits > 0) {
       const numDirectionsToPick = Math.min(possibleNewSplits + 1, validDirs.length);
       return this.getRandomXValues(validDirs, numDirectionsToPick);

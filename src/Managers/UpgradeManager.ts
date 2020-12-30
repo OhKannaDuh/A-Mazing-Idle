@@ -26,10 +26,10 @@ class UpgradeManager extends Serializable {
   constructor(game: Game) {
     super(['upgradeMap']);
     this.game = game;
-    this.initUpgrades();
+    this.resetUpgrades();
   }
 
-  initUpgrades() {
+  resetUpgrades() {
     this.upgradeMap = new Map<UpgradeKey, Upgrade>();
     this.createUpgrade(new AutoExitMazeUpgrade(this.game, UpgradeKey.AUTO_EXIT_MAZE));
     this.createUpgrade(new AvoidRevisitLastPositionUpgrade(this.game, UpgradeKey.AVOID_REVISIT_LAST_POSITION));

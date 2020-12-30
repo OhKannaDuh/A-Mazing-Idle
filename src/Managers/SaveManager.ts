@@ -26,8 +26,6 @@ class SaveManager {
 
   saveGameToLocalStorage() {
     let saveJson = this.createSaveJsonObject();
-    console.log('saving!');
-    console.log(saveJson);
     this.persistSaveToLocalStorage(saveJson);
   }
 
