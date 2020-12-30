@@ -1,12 +1,12 @@
 import Game from "./Game";
-import { generateTileKey, WALL } from "./MazeGenerator";
+import { generateTileKey, WALL } from "./Managers/MazeGenerator";
 declare var $: any;
 
 
 class UserInterface {
   private game: Game;
   private disableUi: boolean;
-
+  
   constructor(game: Game, disableUi: boolean = false) {
     this.game = game;
     this.disableUi = disableUi;
@@ -25,6 +25,7 @@ class UserInterface {
   initEvents() {
     $(`#manualSaveGame`).click(() => this.game.save.saveGameToLocalStorage());
     $(`#deleteSaveGame`).click(() => this.game.save.clearLocalStorage());
+    $(`#newGame`).click(() => this.game.hardResetGame());
   }
 
   setDebugPanelVisible(isVisible) {

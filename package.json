@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build-cli": "browserify -p tsify -t [ babelify --extensions .ts ] src/index.ts > public/bundle.js",
-    "build-script": "node ./build.js > public/bundle.js"
+    "build-script": "node ./build.js > public/bundle.js",
+    "build": "npm run build-script"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@types/jquery": "^3.5.5",
     "babel-preset-es2015": "^6.13.2",
     "babelify": "^7.3.0",
     "browserify": "^13.0.0",

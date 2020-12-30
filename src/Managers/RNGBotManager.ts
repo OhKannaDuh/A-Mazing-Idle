@@ -1,7 +1,6 @@
-
-import Game from "./Game";
-import { TileVector } from "./Maze";
-import { UpgradeKey } from "./upgrades/UpgradeConstants";
+import Game from "../Game";
+import { TileVector } from "../Maze";
+import { UpgradeKey } from "../upgrades/UpgradeConstants";
 declare var _: any;
 
 const BASE_MOVEMENT_SPEED = 1000;
@@ -10,66 +9,36 @@ const AUTO_RE_ENABLE_RNG_BOT_TIMER = 3000;
 
 const DEV_MODE_MOVEMENT_SPEED = 1;
 
-interface RNGBot {
-  id: string;
-  rngBotMoveInterval: any;
-  rngBotReEnableTimer: any
-}
 
 class RNGBotManager {
   public game: Game;
   public isDevMode: boolean;
-  public rngBotMap: Map<number, RNGBot>;
+  public rngBotGlobalInterval: any;
+  public rngBotReEnableMovementTimer: any;
   
   constructor(game, isDevMode) {
     this.game = game;
     this.isDevMode = isDevMode;
-
-    //TODO: make an object for each rngbot
-    this.rngBotMap = new Map();
+    this.rngBotGlobalInterval = null;
+    this.rngBotReEnableMovementTimer = null;
   }
 
-  manualMovementCancelRngBot(playerId) {
-    const rngBot = this.rngBotMap.get(playerId);
-    
-    this.disableRngBot(rngBot.id);
-    clearInterval(rngBot.rngBotReEnableTimer);
-    //TODO: we need to handle splitting in the future -- need another signal for this.
-    if (this.game.maze.getPlayerCount() === 1) {
-      rngBot.rngBotReEnableTimer = setTimeout(() => {
-          this.enableRngBot(rngBot.id);
-      }, AUTO_RE_ENABLE_RNG_BOT_TIMER);
-    }
-  }
-
-  moveRandomly(playerId) {
-    if (!this.game.maze.playerMap.has(playerId)) return;
-    const dirArr = this.chooseRandomDirectionsArr(playerId);
-    if (dirArr.length === 0) {
-      return;
-    }
-    
-    if (dirArr.length === 1) {
-      this.game.maze.movePlayer(playerId, dirArr[0]);
-    } else {
-      this.game.maze.spawnSplitBot(playerId, dirArr);
-    }
-  }
-
-  enableRngBot(playerId) {
-    if (!this.rngBotMap.has(playerId)) {
-      this.rngBotMap.set(playerId, { id: playerId, rngBotMoveInterval: null, rngBotReEnableTimer: null });
-    }
-    const rngBot = this.rngBotMap.get(playerId);
+  enableGlobalRngBot() {
     let upgradeSpeed = this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_MOVEMENT_SPEED);
     
-    clearInterval(rngBot.rngBotMoveInterval);
+    clearInterval(this.rngBotGlobalInterval);
     
-    rngBot.rngBotMoveInterval = setInterval(() => {
-      this.moveRandomly(rngBot.id);
+    this.rngBotGlobalInterval = setInterval(() => {
+      // Move each player.
+      this.game.players.getPlayerIdList().forEach((playerId: number) => {
+        const player = this.game.players.getPlayer(playerId);
+        if (player == null || player.isManuallyControlled) return;
+        this.moveRandomly(playerId);
+      });
+      // Reset the interval with the new time interval
       if (upgradeSpeed !== this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_MOVEMENT_SPEED)) {
-        this.disableRngBot(rngBot.id);
-        this.enableRngBot(rngBot.id);
+        this.disableGlobalRngBot();
+        this.enableGlobalRngBot();
       }
     }, this.getBotMoveInterval(this.isDevMode));
   }
@@ -79,27 +48,47 @@ class RNGBotManager {
     return BASE_MOVEMENT_SPEED * (Math.pow(BASE_MOVEMENT_REDUCTION, this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_MOVEMENT_SPEED)));
   }
 
-  disableRngBot(playerId) {
-    if (!this.rngBotMap.has(playerId)) return;
-    clearInterval(this.rngBotMap.get(playerId).rngBotMoveInterval);
-    this.rngBotMap.get(playerId).rngBotMoveInterval = null;
-    clearInterval(this.rngBotMap.get(playerId).rngBotReEnableTimer);
-    this.rngBotMap.get(playerId).rngBotReEnableTimer = null;
+  disableGlobalRngBot() {
+    clearInterval(this.rngBotGlobalInterval);
+    this.rngBotGlobalInterval = null;
+    clearInterval(this.rngBotReEnableMovementTimer);
+    this.rngBotReEnableMovementTimer = null;
   }
 
-  deleteAllRngBot() {
-    for (let [id, bot] of this.rngBotMap) {
-      this.disableRngBot(id);
-    }
-    this.rngBotMap.clear();
+  // After a short delay, manually controlled bots will start moving again.
+  enableReEnableBotMovementTimer() {
+    this.disableReEnableBotMovementTimer();
+
+    //TODO: this might be better handled within the player class.
+    this.rngBotReEnableMovementTimer = setTimeout(() => {
+      const player = this.game.players.getManuallyControlledPlayer();
+      player.isManuallyControlled = false;
+      this.disableReEnableBotMovementTimer();
+    }, AUTO_RE_ENABLE_RNG_BOT_TIMER);
   }
 
-  deleteRngBot(playerId) {
-    if (!this.rngBotMap.has(playerId)) {
+  disableReEnableBotMovementTimer() {
+    clearTimeout(this.rngBotReEnableMovementTimer);
+    this.rngBotReEnableMovementTimer = null;
+  }
+
+  disableGlobalMovement() {
+    clearInterval(this.rngBotGlobalInterval);
+    this.rngBotGlobalInterval = null;
+  }
+
+  moveRandomly(playerId) {
+    if (!this.game.players.playerExists(playerId)) return;
+    const dirArr = this.chooseRandomDirectionsArr(playerId);
+    if (!dirArr || dirArr.length === 0) {
       return;
     }
-    this.disableRngBot(playerId);
-    this.rngBotMap.delete(playerId);
+    
+    if (dirArr.length === 1) {
+      this.game.players.movePlayer(playerId, dirArr[0]);
+    } else {
+      this.game.maze.spawnSplitBot(playerId, dirArr);
+    }
   }
 
   chooseRandomDirectionsArr(playerId): TileVector[] {

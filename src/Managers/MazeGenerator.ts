@@ -1,5 +1,5 @@
-import Game from "./Game";
-import { DIRECTIONS_ARR, Tile } from "./Maze";
+import Game from "../Game";
+import { DIRECTIONS_ARR, Tile } from "../Maze";
 
 
 export const PLAYER_COLOR = '#1ec438';

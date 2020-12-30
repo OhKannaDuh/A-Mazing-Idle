@@ -1,26 +1,26 @@
-import Upgrade from "./Upgrade";
-import AvoidRevisitLastPositionUpgrade from "./definitions/AvoidRevisitLastPositionUpgrade";
-import PrioritizeUnvisitedUpgrade from "./definitions/PrioritizeUnvisitedUpgrade";
-import AutoExitMazeUpgrade from "./definitions/AutoExitMazeUpgrade";
-import PlayerMoveIndependentlyUpgrade from "./definitions/PlayerMoveIndependentlyUpgrade";
-import TeleportPlayerBacktoBotUpgrade from "./definitions/TeleportPlayerBacktoBotUpgrade";
-import TeleportBotBackToPlayerUpgrade from "./definitions/TeleportBotBackToPlayerUpgrade";
-import FruitPickupPointsMultiplierUpgrade from "./definitions/FruitPickupPointsMultiplierUpgrade";
-import FruitSpawnRateUpgrade from "./definitions/FruitSpawnRateUpgrade";
-import BotRememberDeadEndsUpgrade from "./definitions/BotRememberDeadEndsUpgrade";
-import MazeCompletionBonusUpgrade from "./definitions/MazeCompletionBonusUpgrade";
-import BotMovementSpeedUpgrade from "./definitions/BotMovementSpeedUpgrade";
-import PointsPerVisitUpgrade from "./definitions/PointsPerVisitUpgrade";
-import MazeSizeUpgrade from "./definitions/MazeSizeUpgrade";
-import BotSplitDirectionUpgrade from "./definitions/BotSplitDirectionUpgrade";
-import BotSplitAutoMergeUpgrade from "./definitions/BotSplitAutoMergeUpgrade";
+import Upgrade from "../upgrades/Upgrade";
+import AvoidRevisitLastPositionUpgrade from "../upgrades/definitions/AvoidRevisitLastPositionUpgrade";
+import PrioritizeUnvisitedUpgrade from "../upgrades/definitions/PrioritizeUnvisitedUpgrade";
+import AutoExitMazeUpgrade from "../upgrades/definitions/AutoExitMazeUpgrade";
+import PlayerMoveIndependentlyUpgrade from "../upgrades/definitions/PlayerMoveIndependentlyUpgrade";
+import TeleportPlayerBacktoBotUpgrade from "../upgrades/definitions/TeleportPlayerBacktoBotUpgrade";
+import TeleportBotBackToPlayerUpgrade from "../upgrades/definitions/TeleportBotBackToPlayerUpgrade";
+import FruitPickupPointsMultiplierUpgrade from "../upgrades/definitions/FruitPickupPointsMultiplierUpgrade";
+import FruitSpawnRateUpgrade from "../upgrades/definitions/FruitSpawnRateUpgrade";
+import BotRememberDeadEndsUpgrade from "../upgrades/definitions/BotRememberDeadEndsUpgrade";
+import MazeCompletionBonusUpgrade from "../upgrades/definitions/MazeCompletionBonusUpgrade";
+import BotMovementSpeedUpgrade from "../upgrades/definitions/BotMovementSpeedUpgrade";
+import PointsPerVisitUpgrade from "../upgrades/definitions/PointsPerVisitUpgrade";
+import MazeSizeUpgrade from "../upgrades/definitions/MazeSizeUpgrade";
+import BotSplitDirectionUpgrade from "../upgrades/definitions/BotSplitDirectionUpgrade";
+import BotSplitAutoMergeUpgrade from "../upgrades/definitions/BotSplitAutoMergeUpgrade";
 import Game from "../Game";
-import { UpgradeKey } from "./UpgradeConstants"
+import { UpgradeKey } from "../upgrades/UpgradeConstants"
 import Serializable from "../models/Serializable";
 
 
 class UpgradeManager extends Serializable {
-  private upgradeMap = new Map<UpgradeKey, Upgrade>();
+  private upgradeMap: Map<UpgradeKey, Upgrade>;
   private game: Game;
 
   constructor(game: Game) {
@@ -30,6 +30,7 @@ class UpgradeManager extends Serializable {
   }
 
   initUpgrades() {
+    this.upgradeMap = new Map<UpgradeKey, Upgrade>();
     this.createUpgrade(new AutoExitMazeUpgrade(this.game, UpgradeKey.AUTO_EXIT_MAZE));
     this.createUpgrade(new AvoidRevisitLastPositionUpgrade(this.game, UpgradeKey.AVOID_REVISIT_LAST_POSITION));
     this.createUpgrade(new BotMovementSpeedUpgrade(this.game, UpgradeKey.BOT_MOVEMENT_SPEED));

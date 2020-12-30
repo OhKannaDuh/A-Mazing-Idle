@@ -12,6 +12,10 @@ Features:
 --> Maze exit path calculating array
 --> Auto-exit by distance instead of single tile
 --> "Luck" upgrade
+--> Temporary blockades
+
+Maze Generation:
+--> Find unique maze designs for different maze regions/biomes.
 
 Refactor:
 --> RNG Bot should all move in sync rather than separate timers.

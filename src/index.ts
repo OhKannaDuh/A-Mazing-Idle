@@ -9,32 +9,30 @@ $(document).ready(() => {
   if (IS_DEV_MODE_ENABLED && !DEV_MODE_AUTOSTART) return;
   
   const game: Game = new Game();
-  
-  game.save.loadGameSaveFromLocalStorage();
-  game.upgrades.updateAllUpgradeUi();
-  game.save.startSaveTimer();
+  game.save.loadGameSaveFromLocalStorage(); 
   game.startGame();
+  game.save.startSaveTimer();
   
   //TODO: this should be in UI
   $(document).keydown(function(event) {
     // Up
     if (event.keyCode === 38) {
-      game.maze.movePlayer(DEFAULT_PLAYER_ID, DIRECTION_UP, true);
+      game.players.movePlayer(DEFAULT_PLAYER_ID, DIRECTION_UP, true);
       event.preventDefault();
     }
     // Down
     else if (event.keyCode === 40) {
-      game.maze.movePlayer(DEFAULT_PLAYER_ID, DIRECTION_DOWN, true);
+      game.players.movePlayer(DEFAULT_PLAYER_ID, DIRECTION_DOWN, true);
       event.preventDefault();
     }
     // Left
     else if (event.keyCode === 37) {
-      game.maze.movePlayer(DEFAULT_PLAYER_ID, DIRECTION_LEFT, true);
+      game.players.movePlayer(DEFAULT_PLAYER_ID, DIRECTION_LEFT, true);
       event.preventDefault();
     }
     // Right
     else if (event.keyCode === 39) {
-      game.maze.movePlayer(DEFAULT_PLAYER_ID, DIRECTION_RIGHT, true);
+      game.players.movePlayer(DEFAULT_PLAYER_ID, DIRECTION_RIGHT, true);
       event.preventDefault();
     }
     // E = Teleport Bot to Player

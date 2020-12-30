@@ -1,4 +1,4 @@
-import Game from "./Game";
+import Game from "../Game";
 
 const SAVE_GAME_INTERVAL = 10000;
 const SAVE_GAME_LOCAL_STORE_KEY = 'a-mazing-idle';
@@ -9,31 +9,38 @@ class SaveManager {
 
   constructor(game: Game) {
     this.game = game;
+    this.saveInterval = null;
   }
 
   startSaveTimer(): void {
-    if (this.saveInterval) {
-      clearInterval(this.saveInterval);
-    }
+    this.disableSaveTimer();
     this.saveInterval = setInterval(() => {
       this.saveGameToLocalStorage(); 
     }, SAVE_GAME_INTERVAL);
   }
 
+  disableSaveTimer(): void {
+    clearInterval(this.saveInterval);
+    this.saveInterval = null;
+  }
+
   saveGameToLocalStorage() {
-    const saveJson = this.createSaveJsonObject();
+    let saveJson = this.createSaveJsonObject();
+    console.log('saving!');
+    console.log(saveJson);
     this.persistSaveToLocalStorage(saveJson);
   }
 
   loadGameSaveFromLocalStorage() {
-    const gameObj = this.getSaveJsonFromLocalStorage();
+    let gameObj = this.getSaveJsonFromLocalStorage();
+    if (!gameObj) return;
     this.importSaveJsonObject(gameObj);
   }
   
   createSaveJsonObject = (): object => {
-    const gamePropList = this.game.getSerializablePropertyList();
+    let gamePropList = this.game.getSerializablePropertyList();
   
-    const gameJson = {};
+    let gameJson = {};
     for (let gameProp of gamePropList) {
       gameJson[gameProp] = this.game[gameProp].serialize();
     }
@@ -47,20 +54,25 @@ class SaveManager {
   }
 
   persistSaveToLocalStorage(jsonObj) {
-    const jsonString = JSON.stringify(jsonObj);
+    let jsonString = JSON.stringify(jsonObj);
     localStorage.setItem(SAVE_GAME_LOCAL_STORE_KEY, jsonString);
   }
 
   getSaveJsonFromLocalStorage() {
-    const json = localStorage.getItem(SAVE_GAME_LOCAL_STORE_KEY);
+    let json = localStorage.getItem(SAVE_GAME_LOCAL_STORE_KEY);
     if (json === null || json === "") {
       return null;
     }
-    return JSON.parse(json);
+    try {
+      return JSON.parse(json);
+    } catch (e) {
+      console.log('Failed to parse local game save.  Error: ' + e.message + '.  \n\nLocal Save Json: json');
+      return null;
+    }
   }
 
   clearLocalStorage() {
-    localStorage.removeItem(SAVE_GAME_LOCAL_STORE_KEY);
+    localStorage.clear();
   }
 }
 

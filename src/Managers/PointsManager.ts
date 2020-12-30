@@ -1,12 +1,12 @@
-import { IS_FREE_MODE_ENABLED } from "./dev/devUtils";
-import Game from "./Game";
+import { IS_FREE_MODE_ENABLED } from "../dev/devUtils";
+import Game from "../Game";
 import { FRUIT_PICKUP_POINTS_BASE_AMOUNT, 
     FRUIT_PICKUP_POINTS_BASE_AMOUNT_MULTIPLIER, FRUIT_SPAWN_BASE_PROBABILITY, 
     MAZE_COMPLETION_BONUS_BASE_MULTIPLIER, POINTS_PER_VISIT_BASE_AMOUNT, 
     POINTS_PER_VISIT_BASE_AMOUNT_MULTIPLIER, TILE_REVISIT_MULTIPLIER, 
     UpgradeKey 
-} from "./upgrades/UpgradeConstants";
-import Serializable from "./models/Serializable";
+} from "../upgrades/UpgradeConstants";
+import Serializable from "../models/Serializable";
 
 
 class Points extends Serializable {

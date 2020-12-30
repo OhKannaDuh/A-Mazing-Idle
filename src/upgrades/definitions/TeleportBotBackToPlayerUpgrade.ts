@@ -2,7 +2,7 @@ import Game from "../../Game";
 import Upgrade from "../Upgrade";
 import { TELEPORT_BOT_BACK_TO_PLAYER_UPGRADE_COST, UpgradeKey } from "../UpgradeConstants";
 
-const BUTTON_UI_ID = 'buyPlayerTeleportToBot';
+const BUTTON_UI_ID = 'buyBotTeleportToPlayer';
 const TOOLTIP_TEXT = `Players can teleport their bot back to the themselves by pressing 'e'.`;
 
 class TeleportBotBackToPlayerUpgrade extends Upgrade {
