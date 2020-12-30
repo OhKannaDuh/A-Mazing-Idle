@@ -36,8 +36,7 @@ class Upgrade {
     this.updateUiDisabled();
   }
 
-  //TODO: does this actually need to be single upgraded test?
-  getIsSinglePurchaseUpgraded(): boolean {
+  getIsUpgraded(): boolean {
     return this.upgradeLevel >= 1;
   }
 
@@ -68,6 +67,10 @@ class Upgrade {
 
   getCost(): number {
     throw 'getCost must be implemented.';
+  }
+
+  isUnlocked(): boolean {
+    return true;
   }
 }
 

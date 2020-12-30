@@ -2,7 +2,7 @@ import Game from "../Game";
 import { STARTING_POSITION, Tile } from "../Maze";
 import Player from "../models/Player";
 import { UpgradeKey } from "../upgrades/UpgradeConstants";
-import { isTileEqual, PLAYER_COLOR, RNG_BOT_COLOR } from "./MazeGenerator";
+import { isTileEqual, PLAYER_COLOR, RNG_BOT_COLOR } from "../MazeGenerator";
 
 class PlayerManager {
   public game: Game;
@@ -10,10 +10,6 @@ class PlayerManager {
 
   constructor(game: Game) {
     this.game = game;
-    this.initDefaultValues();
-  }
-  
-  initDefaultValues() {
     this.playerMap = new Map<number, Player>();
   }
 

@@ -8,6 +8,8 @@ import { FRUIT_PICKUP_POINTS_BASE_AMOUNT,
 } from "../upgrades/UpgradeConstants";
 import Serializable from "../models/Serializable";
 
+const SERIALIZABLE_PROPERTIES: string[] = ['points'];
+
 
 class Points extends Serializable {
     public game: Game;
@@ -15,7 +17,7 @@ class Points extends Serializable {
     public points: number;
 
     constructor(game: Game, isDevMode = false) {
-        super(['points']);
+        super(SERIALIZABLE_PROPERTIES);
         this.game = game;
         this.isDevMode = isDevMode;
         this.points = 0.0;
@@ -71,6 +73,13 @@ class Points extends Serializable {
         const tileCount = this.game.maze.getTileCount();
         const upgradeLevel = this.game.upgrades.getUpgradeLevel(UpgradeKey.MAZE_COMPLETION_BONUS);
         return tileCount * (1 + MAZE_COMPLETION_BONUS_BASE_MULTIPLIER * upgradeLevel);
+    }
+
+    getDestructibleWallSpawnProbability() {
+        if (!this.game.upgrades.isUnlocked(UpgradeKey.DESTRUCTIBLE_WALLS)) {
+            return 0;
+        }
+        return 0.05;
     }
 }
 

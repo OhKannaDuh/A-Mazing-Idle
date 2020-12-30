@@ -8,6 +8,8 @@ import Serializable from "./models/Serializable";
 import SaveManager from "./Managers/SaveManager";
 import PlayerManager from "./Managers/PlayerManager";
 
+const SERIALIZABLE_PROPERTIES: string[] = ['points', 'upgrades'];
+
 
 class Game extends Serializable {
   public maze: Maze;
@@ -22,7 +24,7 @@ class Game extends Serializable {
   private isDisableUi: boolean;
   
   constructor(isDisableUi = false, isDevMode = false) {
-    super(['points', 'upgrades']);
+    super(SERIALIZABLE_PROPERTIES);
     this.isDevMode = isDevMode;
     this.isDisableUi = isDisableUi;
     this.maze = new Maze(this);
@@ -38,7 +40,6 @@ class Game extends Serializable {
   }
 
   hardResetGame() {
-    //TODO: this cannot be handled from within this object.
     this.save.clearLocalStorage();
     this.resetGame();
     this.maze = new Maze(this);

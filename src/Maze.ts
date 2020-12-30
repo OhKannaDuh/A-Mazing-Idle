@@ -1,7 +1,8 @@
 import Game from "./Game";
-import { DEAD_END_COLOR, DOWN, EMPTY_COLOR, generateFruitTileSet, generateMazeArr, generateMazeSmartPathingArr, generateNewMaze, generateTileKey, getNewTilePositionByVector, isTileEqual, LEFT, PLAYER_COLOR, RIGHT, RNG_BOT_COLOR, UP } from "./Managers/MazeGenerator";
+import { DEAD_END_COLOR, EMPTY_COLOR, generateFruitTileSet, generateMazeArr, 
+  generateMazeSmartPathingArr, generateNewMaze, generateTileKey, getInverseDirectionIndex, getNewTilePositionByVector, 
+  isTileEqual, MazeDirectionIndex, MazeWallTypes } from "./MazeGenerator";
 import { UpgradeKey } from "./upgrades/UpgradeConstants";
-import Player from "./models/Player";
 declare var $: any;
 
 export const DIRECTION_UP = {x: 0, y: -1};
@@ -17,6 +18,7 @@ export const DEFAULT_MAZE_SIZE = 4;
 export const VISITED_TILE_COLOR = '#7CFCFF';
 export const DEFAULT_PLAYER_ID = 0;
 
+export type MazeArray = Array<Array<Array<number>>>;
 
 export interface Tile {
   x: number;
@@ -31,7 +33,7 @@ export interface TileVector {
 class Maze {
   public game: Game;
   public isDevMode;
-  public maze;
+  public maze: MazeArray;
   public visitedMaze: Array<Array<boolean>>;
   public smartPathMaze: Array<Array<number>>;
   public fruitTileSet: Set<string>;
@@ -63,7 +65,7 @@ class Maze {
     const mazeSize = this.getNextMazeSize();
     this.fruitTileSet = generateFruitTileSet(mazeSize, mazeSize, this.game.points.getFruitSpawnProbability());
     this.visitedMaze = generateMazeArr(mazeSize, mazeSize, false);
-    this.maze = generateNewMaze(mazeSize, mazeSize);
+    this.maze = generateNewMaze(this.game, mazeSize, mazeSize);
     this.smartPathMaze = generateMazeSmartPathingArr(this.game, this.maze, this.getMazeExitTile());
     this.deadEndTileMap = new Map();
   }
@@ -74,7 +76,8 @@ class Maze {
   }
 
   isValidTile(tile) {
-    return tile.x < this.getCurrentMazeSize() && tile.y < this.getCurrentMazeSize();
+    return tile.x >= 0 && tile.x < this.getCurrentMazeSize() 
+        && tile.y >= 0 && tile.y < this.getCurrentMazeSize();
   }
 
   isVisited(tile: Tile): boolean {
@@ -140,6 +143,9 @@ class Maze {
       return;
     }
 
+    // Clear destructible tiles after they move away from the tile
+    this.clearDestructibleTilesFromTile(player.currTile);
+
     player.prevTile = { x: player.currTile.x, y: player.currTile.y };
     player.currTile = { x: newTile.x, y: newTile.y };
     
@@ -167,28 +173,58 @@ class Maze {
     }
   }
 
-  canMove(tile, dirVector, isExcludeExit = false) {
+  clearDestructibleTilesFromTile(tile: Tile) {
+    this.clearDestructibleTileByVector(tile, DIRECTION_UP, MazeDirectionIndex.UP);
+    this.clearDestructibleTileByVector(tile, DIRECTION_DOWN, MazeDirectionIndex.DOWN);
+    this.clearDestructibleTileByVector(tile, DIRECTION_LEFT, MazeDirectionIndex.LEFT);
+    this.clearDestructibleTileByVector(tile, DIRECTION_RIGHT, MazeDirectionIndex.RIGHT);
+  }
+
+  clearDestructibleTileByVector(tile: Tile, direction: TileVector, mazeDirectionIndex: MazeDirectionIndex) {
+    const neighborTile = getNewTilePositionByVector(tile, direction);
+    if (!this.isValidTile(neighborTile)) return;
+    
+    const tileArray = this.maze[tile.y][tile.x];
+    const neighborWallTileArr = this.maze[neighborTile.y][neighborTile.x];
+    // Neighbor has inverse direction
+    const neighborDirectionIndex = getInverseDirectionIndex(mazeDirectionIndex);
+    
+    // Remove destructible wall from current and neighbor tile.
+    if (tileArray[mazeDirectionIndex] === MazeWallTypes.DESTRUCTIBLE_WALL 
+        && neighborWallTileArr[neighborDirectionIndex] === MazeWallTypes.DESTRUCTIBLE_WALL) {
+      tileArray[mazeDirectionIndex] = MazeWallTypes.NO_WALL;
+      neighborWallTileArr[neighborDirectionIndex] = MazeWallTypes.NO_WALL;
+      
+      // Update the UI with the new tile border css.
+      this.game.ui.setTileCss(this.maze, tile.x, tile.y);
+      this.game.ui.setTileCss(this.maze, neighborTile.x, neighborTile.y);
+    }
+  }
+
+  canMove(tile: Tile, dirVector: TileVector, isExcludeExit: boolean = false, isIncludeDestructible: boolean = false): boolean {
     const newTile = getNewTilePositionByVector(tile, dirVector);
     
     // Check if maze exit and is valid tile
     if (this.isMazeExitTile(newTile) && !isExcludeExit) return true;
     if (!this.isValidTile(newTile)) return false;
     
+    let tileVal = null;
     // Check for walls in current tile in each direction
     if (dirVector === DIRECTION_UP) {
-      return this.maze[tile.y][tile.x][UP];
+      tileVal = this.maze[tile.y][tile.x][MazeDirectionIndex.UP];
     }
     else if (dirVector === DIRECTION_DOWN) {
-      return this.maze[tile.y][tile.x][DOWN];
+      tileVal = this.maze[tile.y][tile.x][MazeDirectionIndex.DOWN];
     }
     else if (dirVector === DIRECTION_LEFT) {
-      return this.maze[tile.y][tile.x][LEFT];
+      tileVal = this.maze[tile.y][tile.x][MazeDirectionIndex.LEFT];
     }
     else if (dirVector === DIRECTION_RIGHT) {
-      return this.maze[tile.y][tile.x][RIGHT];
+      tileVal = this.maze[tile.y][tile.x][MazeDirectionIndex.RIGHT];
     }
     
-    return false;
+    return tileVal === MazeWallTypes.NO_WALL 
+      || (isIncludeDestructible && tileVal === MazeWallTypes.DESTRUCTIBLE_WALL);
   }
 
   getPossibleSplitBotCount(validDirs) {
@@ -233,8 +269,8 @@ class Maze {
     return this.getValidDirectionsByTile(currTile);
   }
 
-  getValidDirectionsByTile(tile) {
-    const validDirsArr = DIRECTIONS_ARR.filter((dir) => this.canMove(tile, dir));
+  getValidDirectionsByTile(tile, isIncludeDestructible = false) {
+    const validDirsArr = DIRECTIONS_ARR.filter((dir) => this.canMove(tile, dir, false, isIncludeDestructible));
     return validDirsArr;
   }
 
@@ -244,7 +280,7 @@ class Maze {
 
     // Count dead ends from valid dirs
     validDirsArr.forEach(dir => {
-      const newTile = getNewTilePositionByVector(tile, dir)
+      const newTile = getNewTilePositionByVector(tile, dir);
       const tileKey = generateTileKey(newTile.x, newTile.y);
       if (this.deadEndTileMap.has(tileKey)) {
         deadEndCount++;
@@ -264,7 +300,7 @@ class Maze {
     if (upgradeCount === 0) {
       return;
     }
-    const validDirsArr = this.getValidDirectionsByTile(tile);
+    const validDirsArr = this.getValidDirectionsByTile(tile, true);
     const tileKey = generateTileKey(tile.x, tile.y);
     
     if (validDirsArr.length === 1) {

@@ -14,17 +14,19 @@ import PointsPerVisitUpgrade from "../upgrades/definitions/PointsPerVisitUpgrade
 import MazeSizeUpgrade from "../upgrades/definitions/MazeSizeUpgrade";
 import BotSplitDirectionUpgrade from "../upgrades/definitions/BotSplitDirectionUpgrade";
 import BotSplitAutoMergeUpgrade from "../upgrades/definitions/BotSplitAutoMergeUpgrade";
+import DestructibleWallUpgrade from "../upgrades/definitions/BotSplitAutoMergeUpgrade";
 import Game from "../Game";
 import { UpgradeKey } from "../upgrades/UpgradeConstants"
 import Serializable from "../models/Serializable";
 
+const SERIALIZABLE_PROPERTIES = ['upgradeMap'];
 
 class UpgradeManager extends Serializable {
   private upgradeMap: Map<UpgradeKey, Upgrade>;
   private game: Game;
 
   constructor(game: Game) {
-    super(['upgradeMap']);
+    super(SERIALIZABLE_PROPERTIES);
     this.game = game;
     this.resetUpgrades();
   }
@@ -46,6 +48,8 @@ class UpgradeManager extends Serializable {
     this.createUpgrade(new PrioritizeUnvisitedUpgrade(this.game, UpgradeKey.PRIORITIZE_UNVISITED));
     this.createUpgrade(new TeleportPlayerBacktoBotUpgrade(this.game, UpgradeKey.TELEPORT_PLAYER_BACK_TO_BOT));
     this.createUpgrade(new TeleportBotBackToPlayerUpgrade(this.game, UpgradeKey.TELEPORT_BOT_BACK_TO_PLAYER));
+    // Features
+    this.createUpgrade(new DestructibleWallUpgrade(this.game, UpgradeKey.DESTRUCTIBLE_WALLS));
   }
 
   updateAllUpgradeUi() {
@@ -77,7 +81,7 @@ class UpgradeManager extends Serializable {
   }
 
   isUpgraded(upgradeKey: UpgradeKey) {
-    return this.getUpgrade(upgradeKey).getIsSinglePurchaseUpgraded();
+    return this.getUpgrade(upgradeKey).getIsUpgraded();
   }
 
   serializeProperty(property: string): any {
@@ -102,6 +106,10 @@ class UpgradeManager extends Serializable {
     } else {
       return super.deserializeProperty(property, value);
     }
+  }
+
+  isUnlocked(upgradeKey: UpgradeKey): boolean {
+    return this.upgradeMap.get(upgradeKey).isUnlocked();
   }
 }
 

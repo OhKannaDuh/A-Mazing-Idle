@@ -1,5 +1,6 @@
 import Game from "../Game";
 import { TileVector } from "../Maze";
+import { getNewTilePositionByVector } from "../MazeGenerator";
 import { UpgradeKey } from "../upgrades/UpgradeConstants";
 declare var _: any;
 
@@ -100,8 +101,15 @@ class RNGBotManager {
     }
 
     const possibleNewSplits = this.game.maze.getPossibleSplitBotCount(validDirs);
-    if (possibleNewSplits > 0) {
-      const numDirectionsToPick = Math.min(possibleNewSplits + 1, validDirs.length);
+
+    // Only split if both directions are unvisited.
+    const unvisitedDirs = this.game.upgrades.isUpgraded(UpgradeKey.PRIORITIZE_UNVISITED) 
+      ? this.game.maze.prioritizeUnvisitedDirection(playerId, validDirs)
+      : validDirs;
+    
+    // Must have at least two possible directions and one split available.
+    if (possibleNewSplits >= 1 && unvisitedDirs.length >= 2) {
+      const numDirectionsToPick = Math.min(possibleNewSplits + 1, unvisitedDirs.length);
       return this.getRandomXValues(validDirs, numDirectionsToPick);
     }
 

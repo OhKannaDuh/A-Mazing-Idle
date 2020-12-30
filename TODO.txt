@@ -12,7 +12,8 @@ Features:
 --> Maze exit path calculating array
 --> Auto-exit by distance instead of single tile
 --> "Luck" upgrade
---> Temporary blockades
+--> Destructible walls
+--> 
 
 Maze Generation:
 --> Find unique maze designs for different maze regions/biomes.

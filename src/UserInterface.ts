@@ -1,5 +1,6 @@
 import Game from "./Game";
-import { generateTileKey, WALL } from "./Managers/MazeGenerator";
+import { MazeArray } from "./Maze";
+import { generateTileKey, MazeDirectionIndex, MazeWallTypes } from "./MazeGenerator";
 declare var $: any;
 
 
@@ -46,11 +47,11 @@ class UserInterface {
         $("#maze > tbody").append(`<td id="${selector}">&nbsp;</td>`);
 
         // Draw edges
-        if (maze[y][x][0] == WALL) $(`#${selector}`).css("border-top", "2px solid black");
-        if (maze[y][x][1] == WALL) $(`#${selector}`).css("border-right", "2px solid black");
-        if (maze[y][x][2] == WALL) $(`#${selector}`).css("border-bottom", "2px solid black");
-        if (maze[y][x][3] == WALL) $(`#${selector}`).css("border-left", "2px solid black");
-        
+        // $(`#${selector}`).css("border-top", this.getMazeBorderCss(maze[y][x][MazeDirectionIndex.UP]));
+        // $(`#${selector}`).css("border-right", this.getMazeBorderCss(maze[y][x][MazeDirectionIndex.RIGHT]));
+        // $(`#${selector}`).css("border-bottom", this.getMazeBorderCss(maze[y][x][MazeDirectionIndex.DOWN]));
+        // $(`#${selector}`).css("border-left", this.getMazeBorderCss(maze[y][x][MazeDirectionIndex.LEFT]));
+        this.setTileCss(maze, x, y);
         // Draw fruit in tile.
         if (fruitSet.has(selector)) {
           this.drawBanana(selector);
@@ -58,6 +59,25 @@ class UserInterface {
       }
       
       $("#maze > tbody").append("</tr>");
+    }
+  }
+
+  setTileCss(maze: MazeArray, x: number, y: number) {
+    let selector = generateTileKey(x, y);
+    $(`#${selector}`).css("border-top", this.getMazeBorderCss(maze[y][x][MazeDirectionIndex.UP]));
+    $(`#${selector}`).css("border-right", this.getMazeBorderCss(maze[y][x][MazeDirectionIndex.RIGHT]));
+    $(`#${selector}`).css("border-bottom", this.getMazeBorderCss(maze[y][x][MazeDirectionIndex.DOWN]));
+    $(`#${selector}`).css("border-left", this.getMazeBorderCss(maze[y][x][MazeDirectionIndex.LEFT]));
+    
+  }
+
+  getMazeBorderCss(val: number) {
+    if (val === MazeWallTypes.WALL) {
+      return '2px solid black';
+    } else if (val === MazeWallTypes.DESTRUCTIBLE_WALL) {
+      return '2px dotted black';
+    } else {
+      return 'hidden';
     }
   }
 
