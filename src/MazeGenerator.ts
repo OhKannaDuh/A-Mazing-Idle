@@ -1,4 +1,5 @@
 import Game from "./Game";
+import { MazeItemKey } from "./items/ItemConstants";
 import { DIRECTIONS_ARR, MazeArray, Tile, TileVector } from "./Maze";
 import { UpgradeKey } from "./upgrades/UpgradeConstants";
 
@@ -7,6 +8,9 @@ export const PLAYER_COLOR = '#1ec438';
 export const RNG_BOT_COLOR = '#000000';
 export const EMPTY_COLOR = '#FFFFFF';
 export const DEAD_END_COLOR = '#F13241';
+
+export const DEFAULT_TILE_WIDTH_CSS = '20px';
+
 
 export enum MazeDirectionIndex {
   UP = 0,
@@ -34,21 +38,6 @@ export const getInverseDirectionIndex = (mazeDirIndex: MazeDirectionIndex): Maze
   return null;
 }
 
-
-export const generateFruitTileSet = (x: number, y: number, prob: number): Set<string> => {
-  const fruitTileSet = new Set<string>();
-  //TODO: calculate global probability and assign randomly
-  for (let i = 0; i < y; i++) {
-    for (let j = 0; j < x; j++) {
-      //generate fruit
-      let rand = Math.random();
-      if(rand < prob) {
-        fruitTileSet.add(generateTileKey(i, j));
-      }
-    }
-  }
-  return fruitTileSet;
-}
 
 export const getNewTilePositionByVector = (tile: Tile, vector: TileVector): Tile => {
   return { x: tile.x + vector.x, y: tile.y + vector.y };

@@ -1,5 +1,6 @@
 import Game from "../Game";
 import { DEFAULT_MAZE_SIZE } from "../Maze";
+import { DEFAULT_TILE_WIDTH_CSS } from "../MazeGenerator";
 import { UpgradeKey } from "../upgrades/UpgradeConstants";
 declare var $: any;
 
@@ -23,7 +24,7 @@ const generateScalingNumbers = () => {
     let val = baseVal * Math.pow(valMultiplier, x);
     
     $('#debugTable > tbody').append(`<tr>`);
-    $('#debugTable > tbody').append(`<td width="20px">${x+1}:   </td>`);
+    $('#debugTable > tbody').append(`<td width="${DEFAULT_TILE_WIDTH_CSS}">${x+1}:   </td>`);
     $('#debugTable > tbody').append(`<td width="100px">${cost.toLocaleString()}</td>`);
     $('#debugTable > tbody').append(`<td width="100px">${val.toFixed(4)}</td>`);
     $('#debugTable > tbody').append(`</tr>`);

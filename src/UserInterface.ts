@@ -1,4 +1,5 @@
 import Game from "./Game";
+import MazeItem from "./items/MazeItem";
 import { MazeArray } from "./Maze";
 import { generateTileKey, MazeDirectionIndex, MazeWallTypes } from "./MazeGenerator";
 declare var $: any;
@@ -37,24 +38,22 @@ class UserInterface {
     $("#points").text(`Points: ${this.game.points.points.toLocaleString()}`);
   }
 
-  printMaze(maze, fruitSet) {
+  printMaze(maze: MazeArray) {
     if(this.disableUi) return;
+
     for (let y = 0; y < maze.length; y++) {
       $("#maze > tbody").append("<tr>");
       for (let x = 0; x < maze[y].length; x++) {
-        let selector = generateTileKey(x, y);
+        let tileKey = generateTileKey(x, y);
         // Place cell element
-        $("#maze > tbody").append(`<td id="${selector}">&nbsp;</td>`);
+        $("#maze > tbody").append(`<td id="${tileKey}">&nbsp;</td>`);
 
         // Draw edges
-        // $(`#${selector}`).css("border-top", this.getMazeBorderCss(maze[y][x][MazeDirectionIndex.UP]));
-        // $(`#${selector}`).css("border-right", this.getMazeBorderCss(maze[y][x][MazeDirectionIndex.RIGHT]));
-        // $(`#${selector}`).css("border-bottom", this.getMazeBorderCss(maze[y][x][MazeDirectionIndex.DOWN]));
-        // $(`#${selector}`).css("border-left", this.getMazeBorderCss(maze[y][x][MazeDirectionIndex.LEFT]));
         this.setTileCss(maze, x, y);
+        
         // Draw fruit in tile.
-        if (fruitSet.has(selector)) {
-          this.drawBanana(selector);
+        if (this.game.items.hasMazeItem(tileKey)) {
+          this.game.items.drawItem(tileKey);
         }
       }
       
@@ -68,7 +67,6 @@ class UserInterface {
     $(`#${selector}`).css("border-right", this.getMazeBorderCss(maze[y][x][MazeDirectionIndex.RIGHT]));
     $(`#${selector}`).css("border-bottom", this.getMazeBorderCss(maze[y][x][MazeDirectionIndex.DOWN]));
     $(`#${selector}`).css("border-left", this.getMazeBorderCss(maze[y][x][MazeDirectionIndex.LEFT]));
-    
   }
 
   getMazeBorderCss(val: number) {
@@ -77,6 +75,7 @@ class UserInterface {
     } else if (val === MazeWallTypes.DESTRUCTIBLE_WALL) {
       return '2px dotted black';
     } else {
+      //TODO: make this occupy space still
       return 'hidden';
     }
   }

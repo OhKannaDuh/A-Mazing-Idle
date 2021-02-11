@@ -1,15 +1,16 @@
 import { printMazeCompleteData } from "./dev/devUtils";
-import Maze, { DEFAULT_PLAYER_ID } from "./Maze";
-import Points from "./Managers/PointsManager";
-import RNGBotManager from "./Managers/RNGBotManager";
+import Maze from "./Maze";
+import Points from "./managers/PointsManager";
+import RNGBotManager from "./managers/RNGBotManager";
 import UserInterface from "./UserInterface";
-import UpgradeManager from "./Managers/UpgradeManager";
+import UpgradeManager from "./managers/UpgradeManager";
 import Serializable from "./models/Serializable";
-import SaveManager from "./Managers/SaveManager";
-import PlayerManager from "./Managers/PlayerManager";
+import SaveManager from "./managers/SaveManager";
+import PlayerManager from "./managers/PlayerManager";
+import MazeItemManager from "./managers/MazeItemManager";
+
 
 const SERIALIZABLE_PROPERTIES: string[] = ['points', 'upgrades'];
-
 
 class Game extends Serializable {
   public maze: Maze;
@@ -19,6 +20,7 @@ class Game extends Serializable {
   public ui: UserInterface;
   public upgrades: UpgradeManager;
   public save: SaveManager;
+  public items: MazeItemManager;
 
   private isDevMode: boolean;
   private isDisableUi: boolean;
@@ -34,6 +36,7 @@ class Game extends Serializable {
     this.upgrades = new UpgradeManager(this);
     this.players = new PlayerManager(this);
     this.save = new SaveManager(this);
+    this.items = new MazeItemManager(this);
 
     this.ui.setDebugPanelVisible(this.isDevMode);
     this.ui.init();
@@ -62,7 +65,7 @@ class Game extends Serializable {
     this.maze.newMaze();
     //TODO: re-run maze option, reset visited
     
-    this.ui.printMaze(this.maze.maze, this.maze.fruitTileSet);
+    this.ui.printMaze(this.maze.maze);
     
     this.players.createDefaultPlayer();
     this.rngBot.enableGlobalRngBot();
@@ -84,6 +87,7 @@ class Game extends Serializable {
     this.rngBot.disableGlobalMovement();
     this.rngBot.disableReEnableBotMovementTimer();
     this.players.resetAllPlayers();
+    this.items.clearAllItems();
   }
 }
 

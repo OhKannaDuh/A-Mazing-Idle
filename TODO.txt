@@ -1,22 +1,25 @@
-Saving:
---> Save interval
---> Export upgrade/points to local storage
-
 Bug fixes:
 --> Auto-merge doesn't detect bots that pass over each other
---> Fix manual player control management + teleport player/bot
---> Fruit at tile 0,0
---> Fruit + deadend marking not handled after createPlayer()
+--> If you can't leave a tile that has destructible wall on it, you're trapped.
+--> Destructible walls move the maze a pixel or two.
 
 Features:
---> Maze exit path calculating array
---> Auto-exit by distance instead of single tile
 --> "Luck" upgrade
---> Destructible walls
---> 
+
+Balancing:
+--> Caluclate totals
 
 Maze Generation:
 --> Find unique maze designs for different maze regions/biomes.
 
+Stats Tracker
+--> Total tiles visited
+--> Total tiles revisited
+--> Total points
+--> Total mazes completed
+--> Total points from maze completions
+
 Refactor:
---> RNG Bot should all move in sync rather than separate timers.
+- Maze should have its own class
+- RNG bots should have independent movement speed
+- Custom coloring based on regions

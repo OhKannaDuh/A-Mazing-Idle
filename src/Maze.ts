@@ -1,8 +1,11 @@
 import Game from "./Game";
-import { DEAD_END_COLOR, EMPTY_COLOR, generateFruitTileSet, generateMazeArr, 
+import { DEAD_END_COLOR, EMPTY_COLOR, generateMazeArr, 
   generateMazeSmartPathingArr, generateNewMaze, generateTileKey, getInverseDirectionIndex, getNewTilePositionByVector, 
   isTileEqual, MazeDirectionIndex, MazeWallTypes } from "./MazeGenerator";
 import { UpgradeKey } from "./upgrades/UpgradeConstants";
+import MazeItem from "./items/MazeItem";
+import FruitMazeItem from "./items/definitions/FruitMazeItem";
+import BrainMazeItem from "./items/definitions/BrainMazeItem";
 declare var $: any;
 
 export const DIRECTION_UP = {x: 0, y: -1};
@@ -36,7 +39,7 @@ class Maze {
   public maze: MazeArray;
   public visitedMaze: Array<Array<boolean>>;
   public smartPathMaze: Array<Array<number>>;
-  public fruitTileSet: Set<string>;
+  public itemDropTileMap: Map<string, MazeItem>;
   public deadEndTileMap: Map<string, number>;
 
   constructor(game, isDevMode = false) {
@@ -45,7 +48,6 @@ class Maze {
     this.maze = null;
     this.visitedMaze = null;
     this.smartPathMaze = null;
-    this.fruitTileSet = new Set<string>();
     this.deadEndTileMap = new Map<string, number>();
   }
 
@@ -63,11 +65,12 @@ class Maze {
   
   newMaze() {
     const mazeSize = this.getNextMazeSize();
-    this.fruitTileSet = generateFruitTileSet(mazeSize, mazeSize, this.game.points.getFruitSpawnProbability());
     this.visitedMaze = generateMazeArr(mazeSize, mazeSize, false);
     this.maze = generateNewMaze(this.game, mazeSize, mazeSize);
     this.smartPathMaze = generateMazeSmartPathingArr(this.game, this.maze, this.getMazeExitTile());
     this.deadEndTileMap = new Map();
+    FruitMazeItem.generateFruitItemDrops(this.game, mazeSize, mazeSize);
+    BrainMazeItem.generateBrainItemDrops(this.game, mazeSize, mazeSize);
   }
 
   markVisited(tile) {
@@ -156,11 +159,10 @@ class Maze {
     this.setTileBackgroundColor(newTile, true);
     
     const tileKey = generateTileKey(newTile.x, newTile.y);
-    // Pick up fruits if any
-    if (this.fruitTileSet.has(tileKey)) {
-      this.fruitTileSet.delete(tileKey);
-      this.game.ui.removeBanana(tileKey);
-      this.game.points.addFruitPickupPoints();
+
+    // Pick up fruits if any are on the tile
+    if (this.game.items.hasMazeItem(tileKey)) {
+      this.game.items.pickupItem(tileKey, playerId);
     }
 
     if (this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_SPLIT_BOT_AUTO_MERGE)) {
