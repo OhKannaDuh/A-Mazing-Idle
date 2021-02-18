@@ -6,6 +6,7 @@ import MazeItem from "../MazeItem";
 
 const BACKGROUND_IMAGE_PATH: string = 'img/banana.png';
 
+// Note: This item will bypass destructible walls.
 class FruitMazeItem extends MazeItem {
   constructor(game: Game, tile: Tile, mazeItemKey: MazeItemKey) {
     super(game, tile, mazeItemKey, BACKGROUND_IMAGE_PATH);

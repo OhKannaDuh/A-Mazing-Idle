@@ -56,7 +56,7 @@ const getMazeData = () => {
   // game1.points.pointsPerVisitUpgradeCount = 0;
   // game1.points.rngMovementSpeedUpgrades = 20;
 
-  console.log('start debug maze');
+  console.info('start debug maze');
   game1.startGame();
 }
 

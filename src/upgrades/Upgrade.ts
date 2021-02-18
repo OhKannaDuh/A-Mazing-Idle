@@ -27,7 +27,7 @@ class Upgrade {
 
   buyUpgrade = () => {
     if (!this.canAffordToBuyUpgrade()) {
-      console.log('Cannot afford to buy.');
+      console.error('Cannot afford to buy.');
       return;
     }
     this.game.points.addPoints(-this.getCost());

@@ -124,7 +124,7 @@ class RNGBotManager {
       return;
     }
 
-    if (this.game.upgrades.isUpgraded(UpgradeKey.AUTO_EXIT_MAZE)) {
+    if (this.game.upgrades.isUpgraded(UpgradeKey.AUTO_EXIT_MAZE) || this.game.players.playerHasSmartPathing(playerId)) {
       const exitDirsArr = this.game.maze.filterPlayerExitMazeDirection(playerId, validDirs);
       if (exitDirsArr.length > 0) {
         return exitDirsArr;

@@ -64,7 +64,7 @@ class SaveManager {
     try {
       return JSON.parse(json);
     } catch (e) {
-      console.log('Failed to parse local game save.  Error: ' + e.message + '.  \n\nLocal Save Json: json');
+      console.error('Failed to parse local game save.  Error: ' + e.message + '.  \n\nLocal Save Json: json');
       return null;
     }
   }

@@ -2,7 +2,7 @@ import Game from "../../Game";
 import Upgrade from "../Upgrade";
 import { UpgradeKey } from "../UpgradeConstants";
 
-const BUTTON_UI_ID = '';
+const BUTTON_UI_ID = 'noop';
 const TOOLTIP_TEXT = '';
 
 class DestructibleWallUpgrade extends Upgrade {
@@ -19,7 +19,7 @@ class DestructibleWallUpgrade extends Upgrade {
   }
 
   isUnlocked(): boolean {
-    return true;
+    return false;
   }
 }
 

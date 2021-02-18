@@ -5,9 +5,10 @@ Bug fixes:
 
 Features:
 --> "Luck" upgrade
+--> Points for clearing destructible walls
 
 Balancing:
---> Caluclate totals
+--> Calculate totals
 
 Maze Generation:
 --> Find unique maze designs for different maze regions/biomes.
@@ -23,3 +24,4 @@ Refactor:
 - Maze should have its own class
 - RNG bots should have independent movement speed
 - Custom coloring based on regions
+- Absolute imports only!!!

@@ -23,6 +23,14 @@ class Player {
     this.isPrimaryBot = isPrimaryBot;
     this.smartPathingTileDistanceRemaining = smartPathingTileDistanceRemaining;
   }
+
+  hasSmartPathingRemaining(): boolean {
+    return this.smartPathingTileDistanceRemaining > 0;
+  }
+
+  reduceSmartPathingDistance(distance = 1): void {
+    this.smartPathingTileDistanceRemaining = Math.max(0, this.smartPathingTileDistanceRemaining - distance);
+  }
 }
 
 export default Player;

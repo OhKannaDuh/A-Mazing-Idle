@@ -50,14 +50,13 @@ class MazeItemManager {
     return this.mazeItemMap.has(tileKey);
   }
 
-  //TODO: remove these accessors once we have es6 with the '?' operator.
   public drawItem(tileKey: string): void {
     if (!this.hasMazeItem(tileKey)) return;
     this.getMazeItem(tileKey).drawItem();
   }
   
   public pickupItem(tileKey: string, playerId: number) {
-    if (!tileKey || !this.mazeItemMap.has(tileKey)) return;
+    if (!tileKey || !this.hasMazeItem(tileKey)) return;
     this.mazeItemMap.get(tileKey).triggerPickup(playerId);
     this.mazeItemMap.delete(tileKey);
   }

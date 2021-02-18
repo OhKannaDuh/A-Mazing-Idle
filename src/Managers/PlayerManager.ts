@@ -2,7 +2,7 @@ import Game from "../Game";
 import { STARTING_POSITION, Tile } from "../Maze";
 import Player from "../models/Player";
 import { UpgradeKey } from "../upgrades/UpgradeConstants";
-import { isTileEqual, PLAYER_COLOR, RNG_BOT_COLOR } from "../MazeGenerator";
+import { isTileEqual, PLAYER_COLOR, RNG_BOT_COLOR, SMART_PATHING_PLAYER_COLOR } from "../MazeGenerator";
 
 class PlayerManager {
   public game: Game;
@@ -73,6 +73,7 @@ class PlayerManager {
     // Disable auto-move on current player
     player.isManuallyControlled = isManual;
     player.moveCount++;
+    player.reduceSmartPathingDistance();
 
     // Reset timer for auto-moves
     if (isManual) {
@@ -151,7 +152,13 @@ class PlayerManager {
   getPlayerColorAtTile(tile: Tile): string {
     for (let [id, player] of this.playerMap) {
       if (isTileEqual(tile, player.currTile)) {
-        return player.isManuallyControlled ? PLAYER_COLOR : RNG_BOT_COLOR;
+        if (player.isManuallyControlled) {
+          return PLAYER_COLOR;
+        } else if (player.hasSmartPathingRemaining()) {
+          return SMART_PATHING_PLAYER_COLOR;
+        } else {
+          return RNG_BOT_COLOR;  
+        }
       }
     }
     return null;
@@ -178,6 +185,10 @@ class PlayerManager {
 
   playerExists(playerId: number): boolean {
     return this.playerMap.has(playerId);
+  }
+
+  playerHasSmartPathing(playerId: number): boolean {
+    return this.game.players.getPlayer(playerId).smartPathingTileDistanceRemaining > 0;
   }
 }
 

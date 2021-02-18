@@ -7,6 +7,7 @@ import TeleportPlayerBacktoBotUpgrade from "../upgrades/definitions/TeleportPlay
 import TeleportBotBackToPlayerUpgrade from "../upgrades/definitions/TeleportBotBackToPlayerUpgrade";
 import FruitPickupPointsMultiplierUpgrade from "../upgrades/definitions/FruitPickupPointsMultiplierUpgrade";
 import FruitSpawnRateUpgrade from "../upgrades/definitions/FruitSpawnRateUpgrade";
+import BrainSpawnRateUpgrade from "../upgrades/definitions/BrainSpawnRateUpgrade";
 import BotRememberDeadEndsUpgrade from "../upgrades/definitions/BotRememberDeadEndsUpgrade";
 import MazeCompletionBonusUpgrade from "../upgrades/definitions/MazeCompletionBonusUpgrade";
 import BotMovementSpeedUpgrade from "../upgrades/definitions/BotMovementSpeedUpgrade";
@@ -14,7 +15,7 @@ import PointsPerVisitUpgrade from "../upgrades/definitions/PointsPerVisitUpgrade
 import MazeSizeUpgrade from "../upgrades/definitions/MazeSizeUpgrade";
 import BotSplitDirectionUpgrade from "../upgrades/definitions/BotSplitDirectionUpgrade";
 import BotSplitAutoMergeUpgrade from "../upgrades/definitions/BotSplitAutoMergeUpgrade";
-import DestructibleWallUpgrade from "../upgrades/definitions/BotSplitAutoMergeUpgrade";
+import DestructibleWallUpgrade from "../upgrades/definitions/DestructibleWallUpgrade";
 import Game from "../Game";
 import { UpgradeKey } from "../upgrades/UpgradeConstants"
 import Serializable from "../models/Serializable";
@@ -41,6 +42,7 @@ class UpgradeManager extends Serializable {
     this.createUpgrade(new BotRememberDeadEndsUpgrade(this.game, UpgradeKey.BOT_REMEMBER_DEADEND_TILES));
     this.createUpgrade(new FruitPickupPointsMultiplierUpgrade(this.game, UpgradeKey.FRUIT_PICKUP_POINTS));
     this.createUpgrade(new FruitSpawnRateUpgrade(this.game, UpgradeKey.FRUIT_SPAWN));
+    this.createUpgrade(new BrainSpawnRateUpgrade(this.game, UpgradeKey.BRAIN_SPAWN));
     this.createUpgrade(new MazeCompletionBonusUpgrade(this.game, UpgradeKey.MAZE_COMPLETION_BONUS));
     this.createUpgrade(new MazeSizeUpgrade(this.game, UpgradeKey.MAZE_SIZE_UPGRADE));
     this.createUpgrade(new PlayerMoveIndependentlyUpgrade(this.game, UpgradeKey.PLAYER_MOVE_INDEPENDENTLY));

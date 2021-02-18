@@ -5,7 +5,7 @@ import { FRUIT_SPAWN_UPGRADE_BASE_COST, FRUIT_SPAWN_UPGRADE_BASE_COST_MULTIPLIER
 const BUTTON_UI_ID = 'buyFruitSpawnRateUpgrade';
 const TOOLTIP_TEXT = 'Fruits spawn more frequently.';
 
-class FruitPickupPointsMultiplierUpgrade extends Upgrade {
+class FruitSpawnRateUpgrade extends Upgrade {
   
   constructor(game: Game, upgradeKey: UpgradeKey, upgradeLevel: number = 0) {
     super(game, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel);
@@ -20,4 +20,4 @@ class FruitPickupPointsMultiplierUpgrade extends Upgrade {
   }
 }
 
-export default FruitPickupPointsMultiplierUpgrade;
+export default FruitSpawnRateUpgrade;

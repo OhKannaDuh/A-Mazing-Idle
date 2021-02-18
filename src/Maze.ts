@@ -203,7 +203,7 @@ class Maze {
     }
   }
 
-  canMove(tile: Tile, dirVector: TileVector, isExcludeExit: boolean = false, isIncludeDestructible: boolean = false): boolean {
+  canMove(tile: Tile, dirVector: TileVector, isExcludeExit: boolean = false, isIgnoreDestructibleWalls: boolean = false): boolean {
     const newTile = getNewTilePositionByVector(tile, dirVector);
     
     // Check if maze exit and is valid tile
@@ -226,7 +226,7 @@ class Maze {
     }
     
     return tileVal === MazeWallTypes.NO_WALL 
-      || (isIncludeDestructible && tileVal === MazeWallTypes.DESTRUCTIBLE_WALL);
+      || (isIgnoreDestructibleWalls && tileVal === MazeWallTypes.DESTRUCTIBLE_WALL);
   }
 
   getPossibleSplitBotCount(validDirs) {
@@ -318,19 +318,21 @@ class Maze {
 
   filterPlayerExitMazeDirection(playerId, validDirs) {
     if (!this.game.players.playerExists(playerId)) return;
-
-    const upgradeLevel = this.game.upgrades.getUpgradeLevel(UpgradeKey.AUTO_EXIT_MAZE);
+    
     const currTile = this.game.players.getPlayer(playerId).currTile;
     const currDistance = this.getSmartPathingDistanceFromExit(currTile);
-    // Check if within X tiles of exit (1 per upgrade)
-    if (currDistance > upgradeLevel) {
+    
+    const autoExitMazeUpgradeLevel: number = this.game.upgrades.getUpgradeLevel(UpgradeKey.AUTO_EXIT_MAZE);
+    const playerHasSmartPathing: boolean = this.game.players.playerHasSmartPathing(playerId);
+
+    // Check if within X tiles of exit (1 per upgrade) and player has no smart pathing
+    if (currDistance > autoExitMazeUpgradeLevel && !playerHasSmartPathing) {
       return [];
     }
-
+    
     // Find best direction
     const exitMazeDir = validDirs.filter((dir) => {
       const newTile = getNewTilePositionByVector(currTile, dir);
-      
       // Exit tile or one step closer to exit. If distance 1, MUST be exit tile.
       return this.isMazeExitTile(newTile) || (currDistance !== 1 && this.isValidTile(newTile)
           && this.getSmartPathingDistanceFromExit(newTile) === (currDistance - 1));
