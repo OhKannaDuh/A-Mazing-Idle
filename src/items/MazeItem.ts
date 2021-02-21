@@ -27,6 +27,7 @@ class MazeItem {
 
   protected removeItem() {
     $(`#${this.tileKey}`).css("background-size", "");
+    $(`#${this.tileKey}`).css("background-image", "");
   }
 
   public triggerPickup(playerId: number) {

@@ -12,7 +12,7 @@ class MazeCompletionBonusUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    this.setUiText(`Maze Completion Bonus (${this.upgradeLevel}): ${this.getCost()} pts`)
+    this.setUiText(`Maze Completion Bonus (${this.upgradeLevel}): ${this.getCost().toLocaleString()} pts`);
   }
 
   getCost(): number {

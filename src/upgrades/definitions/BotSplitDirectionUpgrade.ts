@@ -12,7 +12,7 @@ class BotSplitDirectionUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    this.setUiText(`Bot Split Direction (${this.upgradeLevel}): ${this.getCost().toLocaleString()} pts`)
+    this.setUiText(`Bot Split Direction (${this.upgradeLevel}): ${this.getCost().toLocaleString()} pts`);
   }
 
   getCost(): number {

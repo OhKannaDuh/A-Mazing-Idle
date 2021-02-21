@@ -133,7 +133,10 @@ class RNGBotManager {
     
     // Remove all dead end tiles from possible directions.
     if (this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_REMEMBER_DEADEND_TILES) >= 1) {
-      validDirs = this.game.maze.filterDeadEndTiles(playerId, validDirs);
+      const filteredDirs = this.game.maze.filterDeadEndTiles(playerId, validDirs);
+      if (filteredDirs.length > 0) {
+        validDirs = filteredDirs;
+      }
     }
     
     // Prioritize any adjacent unvisited tiles if any.

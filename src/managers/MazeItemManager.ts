@@ -5,7 +5,7 @@ import { Tile } from "../Maze";
 import FruitMazeItem from "../items/definitions/FruitMazeItem";
 import { MazeItemKey } from "../items/ItemConstants";
 import BrainMazeItem from "../items/definitions/BrainMazeItem";
-
+import MultiplierMazeItem from "../items/definitions/MultiplierMazeItem";
 
 class MazeItemManager {
   public mazeItemMap: Map<string, MazeItem>;
@@ -16,6 +16,12 @@ class MazeItemManager {
     this.game = game;
   }
 
+  public static generateMazeItems(game: Game, mazeSize: number) {
+    FruitMazeItem.generateFruitItemDrops(game, mazeSize, mazeSize);
+    BrainMazeItem.generateBrainItemDrops(game, mazeSize, mazeSize);
+    MultiplierMazeItem.generateMazeItemDrops(game, mazeSize, mazeSize);
+  }
+
   public createMazeItem(tile: Tile, mazeItemKey: MazeItemKey) {
     const tileKey = generateTileKey(tile.x, tile.y);
     let mazeItem = null;
@@ -23,6 +29,8 @@ class MazeItemManager {
       mazeItem = new FruitMazeItem(this.game, tile, mazeItemKey);
     } else if (mazeItemKey === MazeItemKey.BRAIN) {
       mazeItem = new BrainMazeItem(this.game, tile, mazeItemKey);
+    } else if (mazeItemKey === MazeItemKey.MULTIPLIER_ITEM) {
+      mazeItem = new MultiplierMazeItem(this.game, tile, mazeItemKey);
     } else {
       console.error('Failed to create maze item of type.  No valid type: ' + mazeItemKey);
       return;

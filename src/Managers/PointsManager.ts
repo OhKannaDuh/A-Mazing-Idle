@@ -6,9 +6,11 @@ import {
   UpgradeKey 
 } from "../upgrades/UpgradeConstants";
 import Serializable from "../models/Serializable";
+import MultiplierMazeItem from "../items/definitions/MultiplierMazeItem";
 
 const SERIALIZABLE_PROPERTIES: string[] = ['points'];
 
+const BASE_POINT_MULTPLIER = 1;
 
 class Points extends Serializable {
   public game: Game;
@@ -25,10 +27,21 @@ class Points extends Serializable {
     this.points = 0.0;
   }
   
-  addPoints(amount: number): void {
-    this.points += amount;
-    this.totalPoints += amount;
+  addPoints(amount: number, playerId: number = null): void {
+    const pointsEarned = amount + this.getPointMultplier(playerId);
+    this.points += pointsEarned;
+    this.totalPoints += pointsEarned;
     this.game.ui.setPointsText();
+  }
+
+  getPointMultplier(playerId: number) {
+    if (!this.game.players.playerExists(playerId)) {
+      return BASE_POINT_MULTPLIER;
+    }
+    const pointMultplier = MultiplierMazeItem.getMazeItemMultiplierStrength(this.game);
+    return this.game.players.getPlayer(playerId).hasMultiplierItemActive
+      ? pointMultplier
+      : BASE_POINT_MULTPLIER;
   }
 
   canAffordPointsAmount(cost: number): boolean {
@@ -46,14 +59,14 @@ class Points extends Serializable {
     return bonus;
   }
 
-  addVisitPoints(isVisitedAlready) {
+  addVisitPoints(isVisitedAlready: boolean, playerId: number) {
     let points = this.getPointsPerVisit(isVisitedAlready);
-    this.addPoints(points);
+    this.addPoints(points, playerId);
   }
 
-  addMazeCompletionBonus() {
+  addMazeCompletionBonus(playerId: number) {
     const bonus = this.getMazeCompletionBonus();
-    this.addPoints(bonus);
+    this.addPoints(bonus, playerId);
   }
 
   //TODO: move these as static functions in the upgrade class.

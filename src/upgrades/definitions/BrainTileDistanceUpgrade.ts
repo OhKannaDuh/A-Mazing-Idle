@@ -2,10 +2,10 @@ import Game from "../../Game";
 import Upgrade from "../Upgrade";
 import { BRAIN_TILE_DISTANCE_UPGRADE_BASE_COST, BRAIN_TILE_DISTANCE_UPGRADE_BASE_COST_MULTIPLIER, UpgradeKey } from "../UpgradeConstants";
 
-const BUTTON_UI_ID = 'buyBrainSpawnRateUpgrade';
-const TOOLTIP_TEXT = 'Brains spawn more frequently. Brains auto-path your bots to the exit up to X distance.';
+const BUTTON_UI_ID = 'buyBrainTileDistanceUpgrade';
+const TOOLTIP_TEXT = 'Bots with an active brain item will auto path X more tiles.';
 
-class BrainSpawnRateUpgrade extends Upgrade {
+class BrainTileDistanceUpgrade extends Upgrade {
   
   constructor(game: Game, upgradeKey: UpgradeKey, upgradeLevel: number = 0) {
     super(game, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel);
@@ -20,4 +20,4 @@ class BrainSpawnRateUpgrade extends Upgrade {
   }
 }
 
-export default BrainSpawnRateUpgrade;
+export default BrainTileDistanceUpgrade;

@@ -12,7 +12,7 @@ class PlayerMoveIndependentlyUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    this.setUiText('Player Can Move Independently: ' + this.getCost())
+    this.setUiText(`Player Can Move Independently: ${this.getCost()} pts`);
   }
 
   getCost(): number {

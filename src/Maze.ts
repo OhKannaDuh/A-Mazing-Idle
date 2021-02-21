@@ -6,6 +6,7 @@ import { UpgradeKey } from "./upgrades/UpgradeConstants";
 import MazeItem from "./items/MazeItem";
 import FruitMazeItem from "./items/definitions/FruitMazeItem";
 import BrainMazeItem from "./items/definitions/BrainMazeItem";
+import MazeItemManager from "./managers/MazeItemManager";
 declare var $: any;
 
 export const DIRECTION_UP = {x: 0, y: -1};
@@ -69,16 +70,15 @@ class Maze {
     this.maze = generateNewMaze(this.game, mazeSize, mazeSize);
     this.smartPathMaze = generateMazeSmartPathingArr(this.game, this.maze, this.getMazeExitTile());
     this.deadEndTileMap = new Map();
-    FruitMazeItem.generateFruitItemDrops(this.game, mazeSize, mazeSize);
-    BrainMazeItem.generateBrainItemDrops(this.game, mazeSize, mazeSize);
+    MazeItemManager.generateMazeItems(this.game, mazeSize);
   }
 
-  markVisited(tile) {
-    this.game.points.addVisitPoints(this.isVisited(tile));
+  markVisited(tile: Tile, playerId: number) {
+    this.game.points.addVisitPoints(this.isVisited(tile), playerId);
     this.visitedMaze[tile.y][tile.x] = true;
   }
 
-  isValidTile(tile) {
+  isValidTile(tile: Tile) {
     return tile.x >= 0 && tile.x < this.getCurrentMazeSize() 
         && tile.y >= 0 && tile.y < this.getCurrentMazeSize();
   }
@@ -142,7 +142,7 @@ class Maze {
   updatePlayerTile(playerId: number, newTile: Tile) {
     const player = this.game.players.getPlayer(playerId);
     if (this.isMazeExitTile(newTile)) {
-      this.game.completeMaze();
+      this.game.completeMaze(playerId);
       return;
     }
 
@@ -152,7 +152,7 @@ class Maze {
     player.prevTile = { x: player.currTile.x, y: player.currTile.y };
     player.currTile = { x: newTile.x, y: newTile.y };
     
-    this.markVisited(newTile);
+    this.markVisited(newTile, playerId);
     this.updateDeadEndTilesMap(newTile);
     
     this.setTileBackgroundColor(player.prevTile);
@@ -169,6 +169,14 @@ class Maze {
       const playerIdsAtTileArr = this.game.players.getPlayerIdsAtTile(player.currTile);
       playerIdsAtTileArr.forEach(killPlayerId => {
         if (killPlayerId !== playerId) {
+          const mergedPlayer = this.game.players.getPlayer(playerId);
+          // Pass along any item passives.
+          if (mergedPlayer.hasMultiplierItemActive) {
+            player.isMultiplierItemActive = true;
+          }
+          if (mergedPlayer.hasSmartPathingRemaining) {
+            player.smartPathingTileDistanceRemaining += mergedPlayer.smartPathingTileDistanceRemaining;
+          }
           this.game.players.deletePlayer(killPlayerId);
         }
       });

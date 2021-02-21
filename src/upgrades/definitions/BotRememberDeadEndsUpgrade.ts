@@ -12,7 +12,7 @@ class BotRememberDeadEndTilesUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    this.setUiText(`Remember Dead Ends (${this.upgradeLevel} Tiles): ${this.getCost().toLocaleString()} pts`)
+    this.setUiText(`Remember Dead Ends (${this.upgradeLevel} Tiles): ${this.getCost().toLocaleString()} pts`);
   }
 
   getCost(): number {

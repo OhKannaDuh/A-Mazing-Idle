@@ -1,17 +1,18 @@
 Bug fixes:
 --> Auto-merge doesn't detect bots that pass over each other
---> If you can't leave a tile that has destructible wall on it, you're trapped.
---> Destructible walls move the maze a pixel or two.
+--> If you can't leave a tile that has destructible wall on it, you're trapped
+--> Destructible walls move the maze a pixel or two
 
 Features:
 --> "Luck" upgrade
 --> Points for clearing destructible walls
+--> Bots move between tiles instead of teleport
 
 Balancing:
 --> Calculate totals
 
 Maze Generation:
---> Find unique maze designs for different maze regions/biomes.
+--> Find unique maze designs for different maze regions/biomes
 
 Stats Tracker
 --> Total tiles visited
@@ -25,3 +26,4 @@ Refactor:
 - RNG bots should have independent movement speed
 - Custom coloring based on regions
 - Absolute imports only!!!
+- Group upgrade definitions in folders

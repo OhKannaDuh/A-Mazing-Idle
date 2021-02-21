@@ -2,7 +2,7 @@ import Game from "../Game";
 import { STARTING_POSITION, Tile } from "../Maze";
 import Player from "../models/Player";
 import { UpgradeKey } from "../upgrades/UpgradeConstants";
-import { isTileEqual, PLAYER_COLOR, RNG_BOT_COLOR, SMART_PATHING_PLAYER_COLOR } from "../MazeGenerator";
+import { isTileEqual, MULTIPLIER_ITEM_PLAYER_COLOR, PLAYER_COLOR, RNG_BOT_COLOR, SMART_PATHING_PLAYER_COLOR } from "../MazeGenerator";
 
 class PlayerManager {
   public game: Game;
@@ -156,6 +156,8 @@ class PlayerManager {
           return PLAYER_COLOR;
         } else if (player.hasSmartPathingRemaining()) {
           return SMART_PATHING_PLAYER_COLOR;
+        } else if (player.hasMultiplierItemActive()) {
+          return MULTIPLIER_ITEM_PLAYER_COLOR;
         } else {
           return RNG_BOT_COLOR;  
         }

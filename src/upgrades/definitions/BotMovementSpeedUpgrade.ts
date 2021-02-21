@@ -12,7 +12,7 @@ class BotMovementSpeedUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    this.setUiText(`Bot Movement Speed (${this.upgradeLevel}): ${this.getCost().toFixed(2)} pts`)
+    this.setUiText(`Bot Movement Speed (${this.upgradeLevel}): ${this.getCost().toFixed(2)} pts`);
   }
 
   getCost(): number {

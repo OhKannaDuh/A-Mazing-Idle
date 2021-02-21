@@ -12,7 +12,7 @@ class BotSplitAutoMergeUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    this.setUiText(`Bot Split Auto Merge: ${this.getCost().toLocaleString()} pts`)
+    this.setUiText(`Bot Split Auto Merge: ${this.getCost().toLocaleString()} pts`);
   }
 
   getCost(): number {

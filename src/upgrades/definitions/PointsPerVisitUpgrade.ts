@@ -12,7 +12,7 @@ class PointsPerVisitUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    this.setUiText(`Points per visit (${this.upgradeLevel}): ${this.getCost().toLocaleString()} pts`)
+    this.setUiText(`Points per visit (${this.upgradeLevel}): ${this.getCost().toLocaleString()} pts`);
   }
 
   getCost(): number {

@@ -71,10 +71,10 @@ class Game extends Serializable {
     this.rngBot.enableGlobalRngBot();
   }
   
-  completeMaze() {
+  completeMaze(playerId: number) {
     this.rngBot.disableGlobalMovement();
     this.players.resetAllPlayers();
-    this.points.addMazeCompletionBonus();
+    this.points.addMazeCompletionBonus(playerId);
 
     if (this.isDevMode) {
       printMazeCompleteData(this);

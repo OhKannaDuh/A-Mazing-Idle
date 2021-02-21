@@ -11,9 +11,10 @@ class Player {
   public moveCount: number;
   public isPrimaryBot: boolean;
   public smartPathingTileDistanceRemaining: number;
+  public isMultiplierItemActive: boolean;
 
   constructor(game: Game, id: number, currTile = null, prevTile = null, isManuallyControlled = false, 
-      isPrimaryBot = false, moveCount = 0, smartPathingTileDistanceRemaining = 0) {
+      isPrimaryBot = false, moveCount = 0, smartPathingTileDistanceRemaining = 0, isMultiplierItemActive = false) {
     this.game = game;
     this.isManuallyControlled = isManuallyControlled;
     this.id = id;
@@ -22,6 +23,7 @@ class Player {
     this.moveCount = moveCount;
     this.isPrimaryBot = isPrimaryBot;
     this.smartPathingTileDistanceRemaining = smartPathingTileDistanceRemaining;
+    this.isMultiplierItemActive = isMultiplierItemActive;
   }
 
   hasSmartPathingRemaining(): boolean {
@@ -30,6 +32,10 @@ class Player {
 
   reduceSmartPathingDistance(distance = 1): void {
     this.smartPathingTileDistanceRemaining = Math.max(0, this.smartPathingTileDistanceRemaining - distance);
+  }
+
+  hasMultiplierItemActive(): boolean {
+    return this.isMultiplierItemActive;
   }
 }
 

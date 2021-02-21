@@ -12,7 +12,7 @@ class AvoidRevisitLastPositionUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    this.setUiText(`Basic Avoid Revisit: ${this.getCost()} pts`)
+    this.setUiText(`Basic Avoid Revisit: ${this.getCost()} pts`);
   }
 
   getCost(): number {

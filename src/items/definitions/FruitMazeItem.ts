@@ -14,7 +14,7 @@ class FruitMazeItem extends MazeItem {
 
   public triggerPickup(playerId: number): void {
     const points = this.getFruitPickupPointsAmount();
-    this.game.points.addPoints(points);
+    this.game.points.addPoints(points, playerId);
     super.triggerPickup(playerId);
   }
   

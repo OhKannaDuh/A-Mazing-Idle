@@ -8,6 +8,7 @@ import TeleportBotBackToPlayerUpgrade from "../upgrades/definitions/TeleportBotB
 import FruitPickupPointsMultiplierUpgrade from "../upgrades/definitions/FruitPickupPointsMultiplierUpgrade";
 import FruitSpawnRateUpgrade from "../upgrades/definitions/FruitSpawnRateUpgrade";
 import BrainSpawnRateUpgrade from "../upgrades/definitions/BrainSpawnRateUpgrade";
+import BrainTileDistanceUpgrade from "../upgrades/definitions/BrainTileDistanceUpgrade";
 import BotRememberDeadEndsUpgrade from "../upgrades/definitions/BotRememberDeadEndsUpgrade";
 import MazeCompletionBonusUpgrade from "../upgrades/definitions/MazeCompletionBonusUpgrade";
 import BotMovementSpeedUpgrade from "../upgrades/definitions/BotMovementSpeedUpgrade";
@@ -16,6 +17,8 @@ import MazeSizeUpgrade from "../upgrades/definitions/MazeSizeUpgrade";
 import BotSplitDirectionUpgrade from "../upgrades/definitions/BotSplitDirectionUpgrade";
 import BotSplitAutoMergeUpgrade from "../upgrades/definitions/BotSplitAutoMergeUpgrade";
 import DestructibleWallUpgrade from "../upgrades/definitions/DestructibleWallUpgrade";
+import MultiplierItemSpawnRateUpgrade from "../upgrades/definitions/MultiplierItemSpawnRateUpgrade";
+import MultiplierItemStrengthUpgrade from "../upgrades/definitions/MultiplierItemStrengthUpgrade";
 import Game from "../Game";
 import { UpgradeKey } from "../upgrades/UpgradeConstants"
 import Serializable from "../models/Serializable";
@@ -34,30 +37,36 @@ class UpgradeManager extends Serializable {
 
   resetUpgrades() {
     this.upgradeMap = new Map<UpgradeKey, Upgrade>();
+    // Maze
+    this.createUpgrade(new PointsPerVisitUpgrade(this.game, UpgradeKey.POINTS_PER_VISIT));
+    this.createUpgrade(new MazeCompletionBonusUpgrade(this.game, UpgradeKey.MAZE_COMPLETION_BONUS));
+    this.createUpgrade(new MazeSizeUpgrade(this.game, UpgradeKey.MAZE_SIZE_UPGRADE));
+    // Bot
     this.createUpgrade(new AutoExitMazeUpgrade(this.game, UpgradeKey.AUTO_EXIT_MAZE));
     this.createUpgrade(new AvoidRevisitLastPositionUpgrade(this.game, UpgradeKey.AVOID_REVISIT_LAST_POSITION));
     this.createUpgrade(new BotMovementSpeedUpgrade(this.game, UpgradeKey.BOT_MOVEMENT_SPEED));
     this.createUpgrade(new BotSplitAutoMergeUpgrade(this.game, UpgradeKey.BOT_SPLIT_BOT_AUTO_MERGE));
     this.createUpgrade(new BotSplitDirectionUpgrade(this.game, UpgradeKey.BOT_SPLIT_DIRECTION));
     this.createUpgrade(new BotRememberDeadEndsUpgrade(this.game, UpgradeKey.BOT_REMEMBER_DEADEND_TILES));
-    this.createUpgrade(new FruitPickupPointsMultiplierUpgrade(this.game, UpgradeKey.FRUIT_PICKUP_POINTS));
-    this.createUpgrade(new FruitSpawnRateUpgrade(this.game, UpgradeKey.FRUIT_SPAWN));
-    this.createUpgrade(new BrainSpawnRateUpgrade(this.game, UpgradeKey.BRAIN_SPAWN));
-    this.createUpgrade(new MazeCompletionBonusUpgrade(this.game, UpgradeKey.MAZE_COMPLETION_BONUS));
-    this.createUpgrade(new MazeSizeUpgrade(this.game, UpgradeKey.MAZE_SIZE_UPGRADE));
+    this.createUpgrade(new BrainTileDistanceUpgrade(this.game, UpgradeKey.BRAIN_TILE_DISTANCE));
     this.createUpgrade(new PlayerMoveIndependentlyUpgrade(this.game, UpgradeKey.PLAYER_MOVE_INDEPENDENTLY));
-    this.createUpgrade(new PointsPerVisitUpgrade(this.game, UpgradeKey.POINTS_PER_VISIT));
     this.createUpgrade(new PrioritizeUnvisitedUpgrade(this.game, UpgradeKey.PRIORITIZE_UNVISITED));
     this.createUpgrade(new TeleportPlayerBacktoBotUpgrade(this.game, UpgradeKey.TELEPORT_PLAYER_BACK_TO_BOT));
     this.createUpgrade(new TeleportBotBackToPlayerUpgrade(this.game, UpgradeKey.TELEPORT_BOT_BACK_TO_PLAYER));
+    // Item
+    this.createUpgrade(new FruitPickupPointsMultiplierUpgrade(this.game, UpgradeKey.FRUIT_PICKUP_POINTS));
+    this.createUpgrade(new FruitSpawnRateUpgrade(this.game, UpgradeKey.FRUIT_SPAWN));
+    this.createUpgrade(new BrainSpawnRateUpgrade(this.game, UpgradeKey.BRAIN_SPAWN));
+    this.createUpgrade(new MultiplierItemSpawnRateUpgrade(this.game, UpgradeKey.MULTIPLIER_ITEM_SPAWN_RATE));
+    this.createUpgrade(new MultiplierItemStrengthUpgrade(this.game, UpgradeKey.MULTIPLIER_ITEM_STRENGTH));
     // Features
     this.createUpgrade(new DestructibleWallUpgrade(this.game, UpgradeKey.DESTRUCTIBLE_WALLS));
   }
 
   updateAllUpgradeUi() {
-    for (let [upgradeKey, val] of this.upgradeMap) {
-      val.updateUiProperties();
-      val.updateUiDisabled();
+    for (let [upgradeKey, upgrade] of this.upgradeMap) {
+      upgrade.updateUiProperties();
+      upgrade.updateUiDisabled();
     }
   }
 
