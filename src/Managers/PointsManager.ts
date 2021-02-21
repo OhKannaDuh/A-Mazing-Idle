@@ -28,7 +28,9 @@ class Points extends Serializable {
   }
   
   addPoints(amount: number, playerId: number = null): void {
-    const pointsEarned = amount + this.getPointMultplier(playerId);
+    const multiplier = this.getPointMultplier(playerId);
+    const pointsEarned = amount * multiplier;
+    
     this.points += pointsEarned;
     this.totalPoints += pointsEarned;
     this.game.ui.setPointsText();
@@ -39,7 +41,8 @@ class Points extends Serializable {
       return BASE_POINT_MULTPLIER;
     }
     const pointMultplier = MultiplierMazeItem.getMazeItemMultiplierStrength(this.game);
-    return this.game.players.getPlayer(playerId).hasMultiplierItemActive
+    
+    return this.game.players.getPlayer(playerId).hasMultiplierItemActive()
       ? pointMultplier
       : BASE_POINT_MULTPLIER;
   }
@@ -50,9 +53,8 @@ class Points extends Serializable {
   }
 
   getPointsPerVisit(isVisitedAlready) {
-    const upgradeLevel = this.game.upgrades.getUpgradeLevel(UpgradeKey.POINTS_PER_VISIT)
+    const upgradeLevel = this.game.upgrades.getUpgradeLevel(UpgradeKey.POINTS_PER_VISIT);
     let bonus = Math.round(100 * POINTS_PER_VISIT_BASE_AMOUNT * Math.pow(POINTS_PER_VISIT_BASE_AMOUNT_MULTIPLIER, upgradeLevel)) / 100;
-    
     if (isVisitedAlready) {
       bonus *= TILE_REVISIT_MULTIPLIER;
     }
@@ -61,6 +63,7 @@ class Points extends Serializable {
 
   addVisitPoints(isVisitedAlready: boolean, playerId: number) {
     let points = this.getPointsPerVisit(isVisitedAlready);
+    if (points === 0) return;
     this.addPoints(points, playerId);
   }
 

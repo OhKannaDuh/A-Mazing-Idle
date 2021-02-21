@@ -21,7 +21,7 @@ class MultiplierMazeItem extends MazeItem {
 
   public static getMazeItemMultiplierStrength(game: Game) {
     const upgradeLevel = game.upgrades.getUpgradeLevel(UpgradeKey.MULTIPLIER_ITEM_STRENGTH);
-    return MULTIPLIER_ITEM_BASE_MULTIPLIER * (upgradeLevel);
+    return MULTIPLIER_ITEM_BASE_MULTIPLIER + (upgradeLevel);
   }
   
   public static getMultiplierItemSpawnProbability(game: Game): number {
