@@ -13,6 +13,7 @@ import BotRememberDeadEndsUpgrade from "../upgrades/definitions/BotRememberDeadE
 import MazeCompletionBonusUpgrade from "../upgrades/definitions/MazeCompletionBonusUpgrade";
 import BotMovementSpeedUpgrade from "../upgrades/definitions/BotMovementSpeedUpgrade";
 import PointsPerVisitUpgrade from "../upgrades/definitions/PointsPerVisitUpgrade";
+import PointsPerRevisitUpgrade from "../upgrades/definitions/PointsPerRevisitUpgrade";
 import MazeSizeUpgrade from "../upgrades/definitions/MazeSizeUpgrade";
 import BotSplitDirectionUpgrade from "../upgrades/definitions/BotSplitDirectionUpgrade";
 import BotSplitAutoMergeUpgrade from "../upgrades/definitions/BotSplitAutoMergeUpgrade";
@@ -37,10 +38,11 @@ class UpgradeManager extends Serializable {
 
   resetUpgrades() {
     this.upgradeMap = new Map<UpgradeKey, Upgrade>();
-    // Maze
+    // Maze / Points
     this.createUpgrade(new PointsPerVisitUpgrade(this.game, UpgradeKey.POINTS_PER_VISIT));
     this.createUpgrade(new MazeCompletionBonusUpgrade(this.game, UpgradeKey.MAZE_COMPLETION_BONUS));
     this.createUpgrade(new MazeSizeUpgrade(this.game, UpgradeKey.MAZE_SIZE_UPGRADE));
+    this.createUpgrade(new PointsPerRevisitUpgrade(this.game, UpgradeKey.POINTS_PER_REVISIT));
     // Bot
     this.createUpgrade(new AutoExitMazeUpgrade(this.game, UpgradeKey.AUTO_EXIT_MAZE));
     this.createUpgrade(new AvoidRevisitLastPositionUpgrade(this.game, UpgradeKey.AVOID_REVISIT_LAST_POSITION));

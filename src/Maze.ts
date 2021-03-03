@@ -171,10 +171,10 @@ class Maze {
         if (killPlayerId !== playerId) {
           const mergedPlayer = this.game.players.getPlayer(playerId);
           // Pass along any item passives.
-          if (mergedPlayer.hasMultiplierItemActive) {
+          if (mergedPlayer.hasMultiplierItemActive()) {
             player.isMultiplierItemActive = true;
           }
-          if (mergedPlayer.hasSmartPathingRemaining) {
+          if (mergedPlayer.hasSmartPathingRemaining()) {
             player.smartPathingTileDistanceRemaining += mergedPlayer.smartPathingTileDistanceRemaining;
           }
           this.game.players.deletePlayer(killPlayerId);
