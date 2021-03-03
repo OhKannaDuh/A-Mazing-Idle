@@ -37,7 +37,7 @@ class MultiplierMazeItem extends MazeItem {
         let rand = Math.random();
         if(rand < spawnProb) {
           const tile: Tile = { x: x, y: y };
-          game.items.createMazeItem(tile, MazeItemKey.MULTIPLIER_ITEM);
+          game.items.createMazeItem(tile, MazeItemKey.MULTIPLIER);
         }
       }
     }

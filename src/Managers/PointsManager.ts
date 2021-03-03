@@ -57,7 +57,6 @@ class Points extends Serializable {
     let pointsPerTile = Math.round(100 * POINTS_PER_VISIT_BASE_AMOUNT * Math.pow(POINTS_PER_VISIT_BASE_AMOUNT_MULTIPLIER, upgradeLevel)) / 100;
     if (isVisitedAlready) {
       pointsPerTile *= this.getPointsPerRevisitMultiplier();
-      console.log('RE: ', pointsPerTile);
     }
     return pointsPerTile;
   }

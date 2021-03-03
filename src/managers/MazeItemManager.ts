@@ -6,6 +6,7 @@ import FruitMazeItem from "../items/definitions/FruitMazeItem";
 import { MazeItemKey } from "../items/ItemConstants";
 import BrainMazeItem from "../items/definitions/BrainMazeItem";
 import MultiplierMazeItem from "../items/definitions/MultiplierMazeItem";
+import BlackHoleMazeItem from "../items/definitions/BlackHoleMazeItem";
 
 class MazeItemManager {
   public mazeItemMap: Map<string, MazeItem>;
@@ -20,6 +21,7 @@ class MazeItemManager {
     FruitMazeItem.generateFruitItemDrops(game, mazeSize, mazeSize);
     BrainMazeItem.generateBrainItemDrops(game, mazeSize, mazeSize);
     MultiplierMazeItem.generateMazeItemDrops(game, mazeSize, mazeSize);
+    BlackHoleMazeItem.generateBlackHoleItemDrops(game, mazeSize, mazeSize);
   }
 
   public createMazeItem(tile: Tile, mazeItemKey: MazeItemKey) {
@@ -29,8 +31,10 @@ class MazeItemManager {
       mazeItem = new FruitMazeItem(this.game, tile, mazeItemKey);
     } else if (mazeItemKey === MazeItemKey.BRAIN) {
       mazeItem = new BrainMazeItem(this.game, tile, mazeItemKey);
-    } else if (mazeItemKey === MazeItemKey.MULTIPLIER_ITEM) {
+    } else if (mazeItemKey === MazeItemKey.MULTIPLIER) {
       mazeItem = new MultiplierMazeItem(this.game, tile, mazeItemKey);
+    } else if (mazeItemKey === MazeItemKey.BLACK_HOLE) {
+      mazeItem = new BlackHoleMazeItem(this.game, tile, mazeItemKey);
     } else {
       console.error('Failed to create maze item of type.  No valid type: ' + mazeItemKey);
       return;

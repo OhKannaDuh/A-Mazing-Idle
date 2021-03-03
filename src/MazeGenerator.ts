@@ -40,6 +40,14 @@ export const getInverseDirectionIndex = (mazeDirIndex: MazeDirectionIndex): Maze
   return null;
 }
 
+export const getRandomMazeTile = (game: Game): Tile => {
+  const size = game.maze.getCurrentMazeSize() - 1;
+  return { x: randomNumber(0, size), y: randomNumber(0, size) };
+}
+
+const randomNumber = (min: number, max: number): number => {  
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
 
 export const getNewTilePositionByVector = (tile: Tile, vector: TileVector): Tile => {
   return { x: tile.x + vector.x, y: tile.y + vector.y };
@@ -85,7 +93,7 @@ export const generateNewMaze = (game: Game, x: number, y: number): MazeArray => 
     
     // Determine if each neighboring cell is in game grid, and whether it has already been checked
     for (var l = 0; l < 4; l++) {
-      if (pot[l][0] > -1 && pot[l][0] < y && pot[l][1] > -1 && pot[l][1] < x && unvis[pot[l][0]][pot[l][1]]) { 
+      if (pot[l][0] > -1 && pot[l][0] < y && pot[l][1] > -1 && pot[l][1] < x && unvis[pot[l][0]][pot[l][1]]) {
         neighbors.push(pot[l]); 
       }
     }
@@ -96,7 +104,6 @@ export const generateNewMaze = (game: Game, x: number, y: number): MazeArray => 
       const next = neighbors[Math.floor(Math.random() * neighbors.length)];
       
       // Remove the wall between the current cell and the chosen neighboring cell
-      
       const destructibleWallSpawnProbability = game.points.getDestructibleWallSpawnProbability();
       const wallType = Math.random() < destructibleWallSpawnProbability ? MazeWallTypes.DESTRUCTIBLE_WALL : MazeWallTypes.NO_WALL;
       
