@@ -1,7 +1,7 @@
 import Game from "../Game";
 import { STARTING_POSITION, Tile } from "../Maze";
 import Player from "../models/Player";
-import { UpgradeKey } from "../upgrades/UpgradeConstants";
+import { UpgradeKey } from "../constants/UpgradeConstants";
 import { isTileEqual, MULTIPLIER_ITEM_PLAYER_COLOR, PLAYER_COLOR, RNG_BOT_COLOR, SMART_PATHING_PLAYER_COLOR } from "../MazeGenerator";
 
 class PlayerManager {

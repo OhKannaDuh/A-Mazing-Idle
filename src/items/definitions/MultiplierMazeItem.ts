@@ -1,8 +1,8 @@
 import Game from "../../Game";
 import { Tile } from "../../Maze";
 import { StatsKey } from "../../models/Stats";
-import { UpgradeKey } from "../../upgrades/UpgradeConstants";
-import { MazeItemKey, MULTIPLIER_ITEM_BASE_MULTIPLIER, MULTIPLIER_ITEM_SPAWN_BASE_PROBABILITY } from "../ItemConstants";
+import { UpgradeKey } from "../../constants/UpgradeConstants";
+import { MazeItemKey, MULTIPLIER_ITEM_BASE_MULTIPLIER, MULTIPLIER_ITEM_SPAWN_BASE_PROBABILITY } from "../../constants/ItemConstants";
 import MazeItem from "../MazeItem";
 
 const BACKGROUND_IMAGE_PATH: string = 'img/multiplierItem.png';

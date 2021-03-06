@@ -9,9 +9,6 @@ Features:
 --> Bots move between tiles instead of teleport
 --> Unlimited splitting
 
-Balancing:
---> Calculate totals
-
 Maze Generation:
 --> Find unique maze designs for different maze regions/biomes
 
@@ -19,19 +16,15 @@ Stats Tracker (Current)
 --> Track points per maze
 --> Points from last maze completions
 
-Stats Tracker (Total)
---> Total tiles visited
---> Total tiles revisited
---> Total points
---> Total mazes completed
---> Total points from maze completions
+Stats Tracker
+--> Tripometer for stats
 
 Refactor:
-- Maze should have its own class
-- RNG bots should have independent movement speed
-- Custom coloring based on regions
-- Absolute imports only!!!
-- Group upgrade definitions in folders
+--> Maze should have its own class
+--> RNG bots should have independent movement speed
+--> Custom coloring based on regions
+--> Absolute imports only!!!
+--> Group upgrade definitions in folders
 
 Regions/Biomes:
 --> Changing fruit type

@@ -1,0 +1,31 @@
+
+export enum MazeItemKey {
+  FRUIT = "FRUIT",
+  BRAIN = "BRAIN",
+  MULTIPLIER = "MULTIPLIER",
+  BLACK_HOLE = "BLACK_HOLE"
+}
+
+export const BANANA_IMAGE_URL = 'img/banana.png'
+export const APPLE_IMAGE_URL = 'img/apple.png'
+export const ORANGE_IMAGE_URL = 'img/orange.png'
+export const GRAPES_IMAGE_URL = 'img/grapes.png'
+export const CHERRY_IMAGE_URL = 'img/cherry.png'
+
+export const FRUIT_SPAWN_UPGRADE_FLAT_INCREASE_PROBABILITY = 0.0005;
+export const FRUIT_SPAWN_BASE_PROBABILITY = 0.005;
+
+export const FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_0 = 20;
+export const FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_1 = 40;
+export const FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_2 = 60;
+export const FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_3 = 80;
+
+export const FRUIT_PICKUP_POINTS_BASE_AMOUNT_MULTIPLIER = 1.15;
+
+export const BRAIN_SPAWN_BASE_PROBABILITY = 0.001;
+export const BRAIN_STARTING_TILE_DISTANCE = 20;
+
+export const MULTIPLIER_ITEM_SPAWN_BASE_PROBABILITY = 0.001;
+export const MULTIPLIER_ITEM_BASE_MULTIPLIER = 2;
+
+export const BLACK_HOLE_ITEM_SPAWN_BASE_PROBABILITY = 0.002;

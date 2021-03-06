@@ -1,10 +1,12 @@
 import { IS_FREE_MODE_ENABLED } from "../dev/devUtils";
 import Game from "../Game";
 import {
-  MAZE_COMPLETION_BONUS_BASE_MULTIPLIER, POINTS_PER_VISIT_BASE_AMOUNT, 
-  POINTS_PER_VISIT_BASE_AMOUNT_MULTIPLIER, TILE_REVISIT_BASE_MULTIPLIER, TILE_REVISIT_BASE_MULTIPLIER_INCREASE_PERCENT, 
+  MAZE_COMPLETION_BONUS_BASE_MULTIPLIER, 
+  POINTS_PER_VISIT_BASE_AMOUNT_MULTIPLIER, 
+  TILE_REVISIT_BASE_MULTIPLIER, 
+  TILE_REVISIT_BASE_MULTIPLIER_INCREASE_PERCENT, 
   UpgradeKey 
-} from "../upgrades/UpgradeConstants";
+} from "../constants/UpgradeConstants";
 import Serializable from "../models/Serializable";
 import MultiplierMazeItem from "../items/definitions/MultiplierMazeItem";
 import { StatsKey } from "../models/Stats";
@@ -62,7 +64,8 @@ class Points extends Serializable {
 
   getPointsPerVisit(isVisitedAlready) {
     const upgradeLevel = this.game.upgrades.getUpgradeLevel(UpgradeKey.POINTS_PER_VISIT);
-    let pointsPerTile = Math.round(100 * POINTS_PER_VISIT_BASE_AMOUNT * Math.pow(POINTS_PER_VISIT_BASE_AMOUNT_MULTIPLIER, upgradeLevel)) / 100;
+    const basePointsAmount = this.game.biomes.getBasePointsPerVisitValue();
+    let pointsPerTile = Math.round(100 * basePointsAmount * Math.pow(POINTS_PER_VISIT_BASE_AMOUNT_MULTIPLIER, upgradeLevel)) / 100;
     if (isVisitedAlready) {
       pointsPerTile *= this.getPointsPerRevisitMultiplier();
     }

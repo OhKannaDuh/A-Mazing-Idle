@@ -23,7 +23,7 @@ export enum StatsKey {
   // Bot Stats
   TOTAL_NUMBER_OF_BOT_SPLITS = "TOTAL_NUMBER_OF_BOT_SPLITS",
   TOTAL_NUMBER_OF_BOT_MERGES = "TOTAL_NUMBER_OF_BOT_MERGES",
-  TOTAL_DEAD_ENDS_MARKED = "TOTAL_NUMBER_DEAD_ENDS_MARKED",
+  TOTAL_NUMBER_DEAD_ENDS_MARKED = "TOTAL_NUMBER_DEAD_ENDS_MARKED",
   
   // Current Maze Stats
   CURRENT_MAZE_POINTS_EARNED = "CURRENT_MAZE_POINTS_EARNED",
@@ -55,7 +55,7 @@ export const STATS_TO_UI_ID_MAP: Map<StatsKey, string> = new Map([
   // Bot Stats
   [StatsKey.TOTAL_NUMBER_OF_BOT_SPLITS, 'statsTotalNumberOfBotSplits'],
   [StatsKey.TOTAL_NUMBER_OF_BOT_MERGES, 'statsTotalNumberOfBotMerges'],
-  [StatsKey.TOTAL_DEAD_ENDS_MARKED, 'statsTotalDeadEndsMarked'],
+  [StatsKey.TOTAL_NUMBER_DEAD_ENDS_MARKED, 'statsTotalDeadEndsMarked'],
   
   // Tile Stats
   [StatsKey.TOTAL_TILES_VISITED, 'statsTotalTilesVisited'],

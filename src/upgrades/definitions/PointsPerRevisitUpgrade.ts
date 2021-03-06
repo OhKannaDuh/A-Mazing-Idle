@@ -1,6 +1,6 @@
 import Game from "../../Game";
 import Upgrade from "../Upgrade";
-import { POINTS_PER_REVISIT_UPGRADE_BASE_COST, POINTS_PER_REVISIT_UPGRADE_BASE_COST_MULTIPLIER, UpgradeKey } from "../UpgradeConstants";
+import { POINTS_PER_REVISIT_UPGRADE_BASE_COST, POINTS_PER_REVISIT_UPGRADE_BASE_COST_MULTIPLIER, UpgradeKey } from "../../constants/UpgradeConstants";
 
 const BUTTON_UI_ID = 'buyPointsPerRevisit';
 const TOOLTIP_TEXT = 'Get more points when you revisit a tile!';

@@ -2,7 +2,7 @@ import Game from "./Game";
 import { DEAD_END_COLOR, EMPTY_COLOR, generateMazeArr, 
   generateMazeSmartPathingArr, generateNewMaze, generateTileKey, getInverseDirectionIndex, getNewTilePositionByVector, 
   isTileEqual, MazeDirectionIndex, MazeWallTypes } from "./MazeGenerator";
-import { UpgradeKey } from "./upgrades/UpgradeConstants";
+import { UpgradeKey } from "./constants/UpgradeConstants";
 import MazeItem from "./items/MazeItem";
 import FruitMazeItem from "./items/definitions/FruitMazeItem";
 import BrainMazeItem from "./items/definitions/BrainMazeItem";
@@ -169,7 +169,7 @@ class Maze {
     
     const tileKey = generateTileKey(newTile.x, newTile.y);
 
-    // Pick up fruits if any are on the tile
+    // Pick up items if any are on the tile
     if (this.game.items.hasMazeItem(tileKey)) {
       this.game.items.pickupItem(tileKey, playerId);
     }
@@ -177,16 +177,20 @@ class Maze {
     if (this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_SPLIT_BOT_AUTO_MERGE)) {
       const playerIdsAtTileArr = this.game.players.getPlayerIdsAtTile(player.currTile);
       playerIdsAtTileArr.forEach(killPlayerId => {
-        if (killPlayerId !== playerId) {
+        const mergedPlayer = this.game.players.getPlayer(killPlayerId);
+
+        if (killPlayerId !== playerId && !mergedPlayer.isManuallyControlled) {
           this.game.stats.addStatsToKey(1, StatsKey.TOTAL_NUMBER_OF_BOT_MERGES);
 
-          const mergedPlayer = this.game.players.getPlayer(playerId);
-          // Pass along any item passives.
+          // Pass along any bot passives.
           if (mergedPlayer.hasMultiplierItemActive()) {
             player.isMultiplierItemActive = true;
           }
           if (mergedPlayer.hasSmartPathingRemaining()) {
             player.smartPathingTileDistanceRemaining += mergedPlayer.smartPathingTileDistanceRemaining;
+          }
+          if (mergedPlayer.isPrimaryBot) {
+            player.isPrimaryBot = true;
           }
           this.game.players.deletePlayer(killPlayerId);
         }
@@ -325,14 +329,14 @@ class Maze {
     const tileKey = generateTileKey(tile.x, tile.y);
     
     if (validDirsArr.length === 1) {
-      this.game.stats.addStatsToKey(1, StatsKey.TOTAL_DEAD_ENDS_MARKED);
+      this.game.stats.addStatsToKey(1, StatsKey.TOTAL_NUMBER_DEAD_ENDS_MARKED);
       this.deadEndTileMap.set(tileKey, 1);
       return;
     }
     
     const deadEndDistance = this.getDeadEndValue(tile, validDirsArr);
     if (deadEndDistance != null) {
-      this.game.stats.addStatsToKey(1, StatsKey.TOTAL_DEAD_ENDS_MARKED);
+      this.game.stats.addStatsToKey(1, StatsKey.TOTAL_NUMBER_DEAD_ENDS_MARKED);
       this.deadEndTileMap.set(tileKey, deadEndDistance);
     }
   }

@@ -1,6 +1,6 @@
 import Game from "../../Game";
 import Upgrade from "../Upgrade";
-import { FRUIT_SPAWN_UPGRADE_BASE_COST, FRUIT_SPAWN_UPGRADE_BASE_COST_MULTIPLIER, UpgradeKey } from "../UpgradeConstants";
+import { FRUIT_SPAWN_UPGRADE_BASE_COST, FRUIT_SPAWN_UPGRADE_BASE_COST_MULTIPLIER, UpgradeKey } from "../../constants/UpgradeConstants";
 
 const BUTTON_UI_ID = 'buyFruitSpawnRateUpgrade';
 const TOOLTIP_TEXT = 'Fruits spawn more frequently.';

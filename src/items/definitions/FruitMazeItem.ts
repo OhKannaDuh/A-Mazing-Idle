@@ -1,15 +1,18 @@
 import Game from "../../Game";
 import { Tile } from "../../Maze";
-import { UpgradeKey } from "../../upgrades/UpgradeConstants";
-import { FRUIT_PICKUP_POINTS_BASE_AMOUNT, FRUIT_PICKUP_POINTS_BASE_AMOUNT_MULTIPLIER, FRUIT_SPAWN_BASE_PROBABILITY, FRUIT_SPAWN_UPGRADE_FLAT_INCREASE_PROBABILITY, MazeItemKey } from "../ItemConstants";
+import { UpgradeKey } from "../../constants/UpgradeConstants";
+import { FRUIT_PICKUP_POINTS_BASE_AMOUNT_MULTIPLIER, FRUIT_SPAWN_BASE_PROBABILITY, FRUIT_SPAWN_UPGRADE_FLAT_INCREASE_PROBABILITY, MazeItemKey } from "../../constants/ItemConstants";
 import MazeItem from "../MazeItem";
 import { StatsKey } from "../../models/Stats";
-const BACKGROUND_IMAGE_PATH: string = 'img/banana.png';
 
 // Note: This item will bypass destructible walls.
 class FruitMazeItem extends MazeItem {
   constructor(game: Game, tile: Tile, mazeItemKey: MazeItemKey) {
-    super(game, tile, mazeItemKey, BACKGROUND_IMAGE_PATH, StatsKey.TOTAL_FRUIT_ITEMS_PICKED_UP);
+    super(game, tile, mazeItemKey, null, StatsKey.TOTAL_FRUIT_ITEMS_PICKED_UP);
+  }
+
+  public getBackgroundImagePath(): string {
+    return this.game.biomes.getFruitItemImageUrl();
   }
 
   public triggerPickup(playerId: number): void {
@@ -21,7 +24,8 @@ class FruitMazeItem extends MazeItem {
   
   private getFruitPickupPointsAmount(): number {
     const upgradeLevel = this.game.upgrades.getUpgradeLevel(UpgradeKey.FRUIT_PICKUP_POINTS);
-    return FRUIT_PICKUP_POINTS_BASE_AMOUNT * Math.pow(FRUIT_PICKUP_POINTS_BASE_AMOUNT_MULTIPLIER, upgradeLevel);
+    const baseAmount = this.game.biomes.getBaseFruitItemPickupValue();
+    return baseAmount * Math.pow(FRUIT_PICKUP_POINTS_BASE_AMOUNT_MULTIPLIER, upgradeLevel);
   }
 
   public static getFruitSpawnProbability(game: Game): number {
@@ -30,7 +34,7 @@ class FruitMazeItem extends MazeItem {
     return FRUIT_SPAWN_BASE_PROBABILITY + (FRUIT_SPAWN_UPGRADE_FLAT_INCREASE_PROBABILITY * upgradeLevel);
   }
 
-  public static generateFruitItemDrops(game: Game, sizeX: number, sizeY: number) {
+  public static generateFruitItemDrops(game: Game, sizeX: number, sizeY: number): void {
     const spawnProb: number = FruitMazeItem.getFruitSpawnProbability(game);
     
     //TODO: calculate global probability and assign randomly

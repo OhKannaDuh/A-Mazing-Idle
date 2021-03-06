@@ -2,7 +2,7 @@ import Game from "../../Game";
 import { Tile } from "../../Maze";
 import { getRandomMazeTile } from "../../MazeGenerator";
 import { StatsKey } from "../../models/Stats";
-import { BLACK_HOLE_ITEM_SPAWN_BASE_PROBABILITY, MazeItemKey } from "../ItemConstants";
+import { BLACK_HOLE_ITEM_SPAWN_BASE_PROBABILITY, MazeItemKey } from "../../constants/ItemConstants";
 import MazeItem from "../MazeItem";
 
 const BACKGROUND_IMAGE_PATH: string = 'img/blackHole.png';

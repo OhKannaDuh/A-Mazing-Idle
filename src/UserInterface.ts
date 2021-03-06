@@ -29,6 +29,7 @@ class UserInterface {
     $(`#manualSaveGame`).click(() => this.game.save.saveGameToLocalStorage());
     $(`#deleteSaveGame`).click(() => this.game.save.clearLocalStorage());
     $(`#newGame`).click(() => this.game.hardResetGame());
+    $(`#clearAllStats`).click(() => this.game.stats.initStatsMap());
   }
 
   public setDebugPanelVisible(isVisible) {

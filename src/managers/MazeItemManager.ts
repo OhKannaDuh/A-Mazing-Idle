@@ -3,7 +3,7 @@ import { generateTileKey } from "../MazeGenerator";
 import MazeItem from "../items/MazeItem";
 import { Tile } from "../Maze";
 import FruitMazeItem from "../items/definitions/FruitMazeItem";
-import { MazeItemKey } from "../items/ItemConstants";
+import { MazeItemKey } from "../constants/ItemConstants";
 import BrainMazeItem from "../items/definitions/BrainMazeItem";
 import MultiplierMazeItem from "../items/definitions/MultiplierMazeItem";
 import BlackHoleMazeItem from "../items/definitions/BlackHoleMazeItem";

@@ -2,7 +2,7 @@ import Game from "../Game";
 import { TileVector } from "../Maze";
 import { getNewTilePositionByVector } from "../MazeGenerator";
 import { StatsKey } from "../models/Stats";
-import { UpgradeKey } from "../upgrades/UpgradeConstants";
+import { UpgradeKey } from "../constants/UpgradeConstants";
 declare var _: any;
 
 const BASE_MOVEMENT_SPEED = 1000;

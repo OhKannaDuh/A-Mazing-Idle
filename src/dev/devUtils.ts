@@ -1,7 +1,7 @@
 import Game from "../Game";
 import { DEFAULT_MAZE_SIZE } from "../Maze";
 import { DEFAULT_TILE_WIDTH_CSS } from "../MazeGenerator";
-import { UpgradeKey } from "../upgrades/UpgradeConstants";
+import { UpgradeKey } from "../constants/UpgradeConstants";
 declare var $: any;
 
 export const IS_DEV_MODE_ENABLED = false;

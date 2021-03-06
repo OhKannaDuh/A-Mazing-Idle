@@ -1,6 +1,6 @@
 import Game from "../../Game";
 import Upgrade from "../Upgrade";
-import { SPLIT_BOT_AUTO_MERGE_UPGRADE_COST, UpgradeKey } from "../UpgradeConstants";
+import { SPLIT_BOT_AUTO_MERGE_UPGRADE_COST, UpgradeKey } from "../../constants/UpgradeConstants";
 
 const BUTTON_UI_ID = 'buySplitBotAutoMerge';
 const TOOLTIP_TEXT = 'When bots step on the same tile, they will merge together and re-split on the next available opportunity.';

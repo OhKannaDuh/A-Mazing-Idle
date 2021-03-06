@@ -19,7 +19,6 @@ class StatsManager extends Serializable {
     for (let statsKey in StatsKey) {
       this.statsMap.set(statsKey as StatsKey, DEFAULT_STAT_VALUE);
     }
-    
     this.game.ui.updateAllStatsKey();
   }
   

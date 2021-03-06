@@ -2,7 +2,7 @@ import Game from "../Game";
 import { Tile } from "../Maze";
 import { DEFAULT_TILE_WIDTH_CSS, generateTileKey } from "../MazeGenerator";
 import { StatsKey } from "../models/Stats";
-import { MazeItemKey } from "./ItemConstants";
+import { MazeItemKey } from "../constants/ItemConstants";
 
 
 class MazeItem {
@@ -23,17 +23,23 @@ class MazeItem {
     this.pickUpStatsKey = pickUpStatsKey;
   }
 
-  public drawItem() {
-    $(`#${this.tileKey}`).css("background-image", `url("${this.backgroundImagePath}")`);
+  public getBackgroundImagePath(): string {
+    return this.backgroundImagePath;
+  }
+
+  public drawItem(): void {
+    $(`#${this.tileKey}`).css("background-image", `url("${this.getBackgroundImagePath()}")`);
+    $(`#${this.tileKey}`).css("background-repeat", `no-repeat`);
+    $(`#${this.tileKey}`).css("background-position", `center`);
     $(`#${this.tileKey}`).css("background-size", '22px');
   }
 
-  protected removeItem() {
+  protected removeItem(): void {
     $(`#${this.tileKey}`).css("background-size", "");
     $(`#${this.tileKey}`).css("background-image", "");
   }
 
-  public triggerPickup(playerId: number) {
+  public triggerPickup(playerId: number): void {
     this.removeItem();
     this.game.stats.addStatsToKey(1, this.pickUpStatsKey);
   }

@@ -20,8 +20,9 @@ import BotSplitAutoMergeUpgrade from "../upgrades/definitions/BotSplitAutoMergeU
 import DestructibleWallUpgrade from "../upgrades/definitions/DestructibleWallUpgrade";
 import MultiplierItemSpawnRateUpgrade from "../upgrades/definitions/MultiplierItemSpawnRateUpgrade";
 import MultiplierItemStrengthUpgrade from "../upgrades/definitions/MultiplierItemStrengthUpgrade";
+import BiomeUpgrade from "../upgrades/definitions/BiomeUpgrade";
 import Game from "../Game";
-import { UpgradeKey } from "../upgrades/UpgradeConstants"
+import { UpgradeKey } from "../constants/UpgradeConstants"
 import Serializable from "../models/Serializable";
 
 const SERIALIZABLE_PROPERTIES = ['upgradeMap'];
@@ -33,11 +34,11 @@ class UpgradeManager extends Serializable {
   constructor(game: Game) {
     super(SERIALIZABLE_PROPERTIES);
     this.game = game;
-    this.resetUpgrades();
   }
 
-  resetUpgrades() {
+  initUpgrades() {
     this.upgradeMap = new Map<UpgradeKey, Upgrade>();
+    
     // Maze / Points
     this.createUpgrade(new PointsPerVisitUpgrade(this.game, UpgradeKey.POINTS_PER_VISIT));
     this.createUpgrade(new MazeCompletionBonusUpgrade(this.game, UpgradeKey.MAZE_COMPLETION_BONUS));
@@ -63,6 +64,8 @@ class UpgradeManager extends Serializable {
     this.createUpgrade(new MultiplierItemStrengthUpgrade(this.game, UpgradeKey.MULTIPLIER_ITEM_STRENGTH));
     // Features
     this.createUpgrade(new DestructibleWallUpgrade(this.game, UpgradeKey.DESTRUCTIBLE_WALLS));
+    // Biomes
+    this.createUpgrade(new BiomeUpgrade(this.game, UpgradeKey.BIOME));
   }
 
   updateAllUpgradeUi() {
@@ -73,7 +76,6 @@ class UpgradeManager extends Serializable {
   }
 
   createUpgrade(upgrade: Upgrade) {
-    upgrade.upgradeLevel = this.getInitialUpgradeLevel(upgrade.upgradeKey);
     this.upgradeMap.set(upgrade.upgradeKey, upgrade);
   }
 
@@ -82,11 +84,6 @@ class UpgradeManager extends Serializable {
       throw `Unexpected upgrade key found: ${upgradeKey}`;
     }
     return this.upgradeMap.get(upgradeKey);
-  }
-
-  getInitialUpgradeLevel(upgradeKey: UpgradeKey) {
-    //TODO: use for saving.
-    return 0;
   }
 
   getUpgradeLevel(upgradeKey: UpgradeKey) {

@@ -1,8 +1,8 @@
 import Game from "../../Game";
 import { Tile } from "../../Maze";
 import { StatsKey } from "../../models/Stats";
-import { BRAIN_TILE_DISTANCE_UPGRADE_INCREASE_AMOUNT, UpgradeKey } from "../../upgrades/UpgradeConstants";
-import { BRAIN_SPAWN_BASE_PROBABILITY, BRAIN_STARTING_TILE_DISTANCE, MazeItemKey } from "../ItemConstants";
+import { BRAIN_TILE_DISTANCE_UPGRADE_INCREASE_AMOUNT, UpgradeKey } from "../../constants/UpgradeConstants";
+import { BRAIN_SPAWN_BASE_PROBABILITY, BRAIN_STARTING_TILE_DISTANCE, MazeItemKey } from "../../constants/ItemConstants";
 import MazeItem from "../MazeItem";
 
 const BACKGROUND_IMAGE_PATH: string = 'img/brain.png';

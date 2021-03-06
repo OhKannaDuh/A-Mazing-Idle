@@ -1,6 +1,6 @@
 import Game from "../../Game";
 import Upgrade from "../Upgrade";
-import { AVOID_REVISIT_LAST_POSITION_UPGRADE_COST, UpgradeKey } from "../UpgradeConstants";
+import { AVOID_REVISIT_LAST_POSITION_UPGRADE_COST, UpgradeKey } from "../../constants/UpgradeConstants";
 
 const BUTTON_UI_ID = 'buyBotAvoidRevisitLastPosition';
 const TOOLTIP_TEXT = 'Bots will avoid revisiting the position that they were just at.';

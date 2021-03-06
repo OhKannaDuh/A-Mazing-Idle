@@ -2,7 +2,7 @@ import { IS_FREE_MODE_ENABLED } from '../dev/devUtils';
 import Game from '../Game';
 import { StatsKey } from '../models/Stats';
 import UserInterface from '../UserInterface';
-import { UpgradeKey } from './UpgradeConstants';
+import { UpgradeKey } from '../constants/UpgradeConstants';
 declare var $: any;
 
 
@@ -22,8 +22,9 @@ class Upgrade {
     this.tooptipText = tooltipText;
     this.upgradeLevel = upgradeCount;
     this.isSinglePurchase = isSinglePurchase;
-    this.updateUiProperties();
-    this.updateUiDisabled();
+
+    // this.updateUiProperties();
+    // this.updateUiDisabled();
     this.initClickEvent();
   }
 
@@ -60,7 +61,7 @@ class Upgrade {
   }
 
   isDisabled(): boolean {
-    return this.isSinglePurchase && this.upgradeLevel >= 1;
+    return (this.isSinglePurchase && this.upgradeLevel >= 1) || this.isMaxUpgradeLevel();
   }
   
   updateUiProperties(): void {
@@ -81,6 +82,10 @@ class Upgrade {
 
   getPrettyPrintCost(): string {
     return this.prettyPrint(this.getCost());
+  }
+
+  isMaxUpgradeLevel(): boolean {
+    return false;
   }
 }
 

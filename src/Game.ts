@@ -8,8 +8,10 @@ import Serializable from "./models/Serializable";
 import SaveManager from "./managers/SaveManager";
 import PlayerManager from "./managers/PlayerManager";
 import MazeItemManager from "./managers/MazeItemManager";
-import StatsManager from "./managers/StatsManager.ts";
+import StatsManager from "./managers/StatsManager";
+import BiomeManager from "./managers/BiomeManager";
 import { StatsKey } from "./models/Stats";
+import { UpgradeKey } from "./constants/UpgradeConstants";
 
 
 const SERIALIZABLE_PROPERTIES: string[] = ['points', 'upgrades', 'stats'];
@@ -24,6 +26,7 @@ class Game extends Serializable {
   public save: SaveManager;
   public items: MazeItemManager;
   public stats: StatsManager;
+  public biomes: BiomeManager;
 
   private isDevMode: boolean;
   private isDisableUi: boolean;
@@ -35,13 +38,16 @@ class Game extends Serializable {
     this.maze = new Maze(this);
     this.points = new Points(this, this.isDevMode);
     this.rngBot = new RNGBotManager(this, this.isDevMode);
+    this.biomes = new BiomeManager(this);
     this.ui = new UserInterface(this, this.isDisableUi);
     this.upgrades = new UpgradeManager(this);
     this.players = new PlayerManager(this);
     this.save = new SaveManager(this);
     this.items = new MazeItemManager(this);
     this.stats = new StatsManager(this);
-
+    
+    this.upgrades.initUpgrades();
+    this.upgrades.updateAllUpgradeUi();
     this.ui.setDebugPanelVisible(this.isDevMode);
     this.ui.init();
     this.stats.initStatsMap();
@@ -52,7 +58,7 @@ class Game extends Serializable {
     this.resetGame();
     this.maze = new Maze(this);
     this.points.points = 0;
-    this.upgrades.resetUpgrades();
+    this.upgrades.initUpgrades();
     this.stats.initStatsMap();
     
     this.startGame();
