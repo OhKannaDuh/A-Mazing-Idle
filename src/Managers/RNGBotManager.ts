@@ -1,6 +1,7 @@
 import Game from "../Game";
 import { TileVector } from "../Maze";
 import { getNewTilePositionByVector } from "../MazeGenerator";
+import { StatsKey } from "../models/Stats";
 import { UpgradeKey } from "../upgrades/UpgradeConstants";
 declare var _: any;
 
@@ -110,6 +111,7 @@ class RNGBotManager {
     // Must have at least two possible directions and one split available.
     if (possibleNewSplits >= 1 && unvisitedDirs.length >= 2) {
       const numDirectionsToPick = Math.min(possibleNewSplits + 1, unvisitedDirs.length);
+      this.game.stats.addStatsToKey(numDirectionsToPick - 1, StatsKey.TOTAL_NUMBER_OF_BOT_SPLITS);
       return this.getRandomXValues(validDirs, numDirectionsToPick);
     }
 

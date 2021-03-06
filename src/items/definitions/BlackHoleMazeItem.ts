@@ -1,15 +1,15 @@
 import Game from "../../Game";
 import { Tile } from "../../Maze";
 import { getRandomMazeTile } from "../../MazeGenerator";
+import { StatsKey } from "../../models/Stats";
 import { BLACK_HOLE_ITEM_SPAWN_BASE_PROBABILITY, MazeItemKey } from "../ItemConstants";
 import MazeItem from "../MazeItem";
 
 const BACKGROUND_IMAGE_PATH: string = 'img/blackHole.png';
 
-// Note: This item will bypass destructible walls.
 class BlackHoleMazeItem extends MazeItem {
   constructor(game: Game, tile: Tile, mazeItemKey: MazeItemKey) {
-    super(game, tile, mazeItemKey, BACKGROUND_IMAGE_PATH);
+    super(game, tile, mazeItemKey, BACKGROUND_IMAGE_PATH, StatsKey.TOTAL_BLACK_HOLE_ITEMS_PICKED_UP);
   }
 
   public triggerPickup(playerId: number): void {

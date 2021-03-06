@@ -13,7 +13,7 @@ class PointsPerRevisitUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    this.setUiText(`Points Per Re-Visit (${this.upgradeLevel}%): ${parseFloat(this.getCost().toFixed(0)).toLocaleString()} pts`);
+    this.setUiText(`Points Per Re-Visit (${this.upgradeLevel}%): ${this.getPrettyPrintCost()} pts`);
   }
 
   getCost(): number {

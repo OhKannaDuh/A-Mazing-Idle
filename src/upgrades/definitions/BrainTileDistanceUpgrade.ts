@@ -12,7 +12,7 @@ class BrainTileDistanceUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    this.setUiText(`Brain Tile Distance (${this.upgradeLevel}): ${this.getCost().toLocaleString()} pts`);
+    this.setUiText(`Brain Tile Distance (${this.upgradeLevel}): ${this.getPrettyPrintCost()} pts`);
   }
 
   getCost(): number {

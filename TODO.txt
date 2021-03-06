@@ -7,6 +7,7 @@ Features:
 --> "Luck" upgrade
 --> Points for clearing destructible walls
 --> Bots move between tiles instead of teleport
+--> Unlimited splitting
 
 Balancing:
 --> Calculate totals
@@ -14,7 +15,11 @@ Balancing:
 Maze Generation:
 --> Find unique maze designs for different maze regions/biomes
 
-Stats Tracker
+Stats Tracker (Current)
+--> Track points per maze
+--> Points from last maze completions
+
+Stats Tracker (Total)
 --> Total tiles visited
 --> Total tiles revisited
 --> Total points
@@ -27,3 +32,7 @@ Refactor:
 - Custom coloring based on regions
 - Absolute imports only!!!
 - Group upgrade definitions in folders
+
+Regions/Biomes:
+--> Changing fruit type
+--> Changing base point value

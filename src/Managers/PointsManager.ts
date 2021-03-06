@@ -7,6 +7,7 @@ import {
 } from "../upgrades/UpgradeConstants";
 import Serializable from "../models/Serializable";
 import MultiplierMazeItem from "../items/definitions/MultiplierMazeItem";
+import { StatsKey } from "../models/Stats";
 
 const SERIALIZABLE_PROPERTIES: string[] = ['points'];
 
@@ -15,10 +16,7 @@ const BASE_POINT_MULTPLIER = 1;
 class Points extends Serializable {
   public game: Game;
   public isDevMode: boolean;
-  // Current points
   public points: number;
-  // Total points earned in this playthrough
-  public totalPoints: number;
 
   constructor(game: Game, isDevMode = false) {
     super(SERIALIZABLE_PROPERTIES);
@@ -27,12 +25,22 @@ class Points extends Serializable {
     this.points = 0.0;
   }
   
-  addPoints(amount: number, playerId: number = null): void {
+  addPoints(amount: number, playerId: number = null, statsKeyList: StatsKey[] = null): void {
     const multiplier = this.getPointMultplier(playerId);
     const pointsEarned = amount * multiplier;
     
     this.points += pointsEarned;
-    this.totalPoints += pointsEarned;
+    
+    this.game.stats.addStatsToKeyList(pointsEarned, statsKeyList);
+    this.game.stats.addStatsToKey(pointsEarned, StatsKey.TOTAL_POINTS_EARNED);
+    this.game.stats.addStatsToKey((pointsEarned - amount), StatsKey.TOTAL_POINTS_EARNED_FROM_MULTIPLIER_ITEM);
+    
+    this.game.ui.setPointsText();
+  }
+
+  spendPoints(amount: number) {
+    this.points -= amount;
+    this.game.stats.addStatsToKey(amount, StatsKey.TOTAL_POINTS_SPENT);
     this.game.ui.setPointsText();
   }
 
@@ -69,12 +77,15 @@ class Points extends Serializable {
   addVisitPoints(isVisitedAlready: boolean, playerId: number) {
     let points = this.getPointsPerVisit(isVisitedAlready);
     if (points === 0) return;
-    this.addPoints(points, playerId);
+    const stats = isVisitedAlready 
+      ? [StatsKey.TOTAL_POINTS_EARNED_FROM_REVISITED_TILES]
+      : [StatsKey.TOTAL_POINTS_EARNED_FROM_VISITED_TILES];
+    this.addPoints(points, playerId, stats);
   }
 
   addMazeCompletionBonus(playerId: number) {
     const bonus = this.getMazeCompletionBonus();
-    this.addPoints(bonus, playerId);
+    this.addPoints(bonus, playerId, [StatsKey.TOTAL_POINTS_EARNED_FROM_MAZE_COMPLETIONS]);
   }
 
   //TODO: move these as static functions in the upgrade class.

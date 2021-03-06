@@ -1,5 +1,7 @@
 import { IS_FREE_MODE_ENABLED } from '../dev/devUtils';
 import Game from '../Game';
+import { StatsKey } from '../models/Stats';
+import UserInterface from '../UserInterface';
 import { UpgradeKey } from './UpgradeConstants';
 declare var $: any;
 
@@ -30,7 +32,7 @@ class Upgrade {
       console.error('Cannot afford to buy.');
       return;
     }
-    this.game.points.addPoints(-this.getCost());
+    this.game.points.spendPoints(this.getCost());
     this.upgradeLevel++;
     this.updateUiProperties();
     this.updateUiDisabled();
@@ -71,6 +73,14 @@ class Upgrade {
 
   isUnlocked(): boolean {
     return true;
+  }
+
+  prettyPrint(val): string {
+    return UserInterface.getPrettyPrintNumberNoDecimals(val);
+  }
+
+  getPrettyPrintCost(): string {
+    return this.prettyPrint(this.getCost());
   }
 }
 

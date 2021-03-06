@@ -7,6 +7,7 @@ import MazeItem from "./items/MazeItem";
 import FruitMazeItem from "./items/definitions/FruitMazeItem";
 import BrainMazeItem from "./items/definitions/BrainMazeItem";
 import MazeItemManager from "./managers/MazeItemManager";
+import { StatsKey } from "./models/Stats";
 declare var $: any;
 
 export const DIRECTION_UP = {x: 0, y: -1};
@@ -74,7 +75,15 @@ class Maze {
   }
 
   markVisited(tile: Tile, playerId: number) {
-    this.game.points.addVisitPoints(this.isVisited(tile), playerId);
+    const isTileVisited = this.isVisited(tile);
+    this.game.points.addVisitPoints(isTileVisited, playerId);
+    
+    if (isTileVisited) {
+      this.game.stats.addStatsToKey(1, StatsKey.TOTAL_TILES_VISITED);
+    } else {
+      this.game.stats.addStatsToKey(1, StatsKey.TOTAL_TILES_REVISITED);
+    }
+
     this.visitedMaze[tile.y][tile.x] = true;
   }
 
@@ -169,6 +178,8 @@ class Maze {
       const playerIdsAtTileArr = this.game.players.getPlayerIdsAtTile(player.currTile);
       playerIdsAtTileArr.forEach(killPlayerId => {
         if (killPlayerId !== playerId) {
+          this.game.stats.addStatsToKey(1, StatsKey.TOTAL_NUMBER_OF_BOT_MERGES);
+
           const mergedPlayer = this.game.players.getPlayer(playerId);
           // Pass along any item passives.
           if (mergedPlayer.hasMultiplierItemActive()) {
@@ -314,12 +325,14 @@ class Maze {
     const tileKey = generateTileKey(tile.x, tile.y);
     
     if (validDirsArr.length === 1) {
+      this.game.stats.addStatsToKey(1, StatsKey.TOTAL_DEAD_ENDS_MARKED);
       this.deadEndTileMap.set(tileKey, 1);
       return;
     }
     
     const deadEndDistance = this.getDeadEndValue(tile, validDirsArr);
     if (deadEndDistance != null) {
+      this.game.stats.addStatsToKey(1, StatsKey.TOTAL_DEAD_ENDS_MARKED);
       this.deadEndTileMap.set(tileKey, deadEndDistance);
     }
   }

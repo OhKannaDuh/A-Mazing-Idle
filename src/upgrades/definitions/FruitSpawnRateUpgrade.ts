@@ -12,7 +12,7 @@ class FruitSpawnRateUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    this.setUiText(`Fruit Spawn Rate (${this.upgradeLevel}): ${this.getCost().toLocaleString()} pts`);
+    this.setUiText(`Fruit Spawn Rate (${this.upgradeLevel}): ${this.getPrettyPrintCost()} pts`);
   }
 
   getCost(): number {

@@ -12,7 +12,7 @@ class AutoExitMazeUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    this.setUiText(`Auto Exit Maze Distance (${this.upgradeLevel} tiles): ${this.getCost().toLocaleString()} pts`);
+    this.setUiText(`Auto Exit Maze Distance (${this.upgradeLevel} tiles): ${this.getPrettyPrintCost()} pts`);
   }
 
   getCost(): number {

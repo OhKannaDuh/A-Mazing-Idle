@@ -12,7 +12,7 @@ class FruitPickupPointsMultiplierUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    this.setUiText(`Fruit Pickup Points (${this.upgradeLevel}): ${this.getCost().toLocaleString()} pts`);
+    this.setUiText(`Fruit Pickup Points (${this.upgradeLevel}): ${this.getPrettyPrintCost()} pts`);
   }
 
   getCost(): number {

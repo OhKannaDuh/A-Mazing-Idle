@@ -12,7 +12,7 @@ class TeleportBotBackToPlayerUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    this.setUiText(`Teleport Bot Back to Player: ${this.getCost()} pts`);
+    this.setUiText(`Teleport Bot Back to Player: ${this.getPrettyPrintCost()} pts`);
   }
 
   getCost(): number {

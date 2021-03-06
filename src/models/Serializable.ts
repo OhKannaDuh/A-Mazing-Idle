@@ -1,34 +1,54 @@
 
+const MAP_TYPE_PREFIX = "~~";
+
 class Serializable {
   public serializablePropertyList: string[] = [];
 
-  constructor(serializablePropertyList: string[]) {
-    this.serializablePropertyList = serializablePropertyList;
+  constructor(basicPropertyList: string[] = []) {
+    this.serializablePropertyList = basicPropertyList;
   }
 
-  getSerializablePropertyList(): string[] {
-    return this.serializablePropertyList;
+  private stringifyMap(value: Map<any, any>) {
+    return JSON.stringify([...value.entries()]);
   }
 
-  serializeProperty(property: string): any {
+  private destringifyMap(value: string): Map<any, any> {
+    // Trim prefix
+    const str = value.substr(MAP_TYPE_PREFIX.length);
+    return JSON.parse(str).reduce((m, [key, val])=> m.set(key, val) , new Map());
+  }
+
+  public serializeProperty(property: string): any {
+    if (typeof this[property] === 'object') {
+      return MAP_TYPE_PREFIX + this.stringifyMap(this[property]);
+    }
     return this[property];
   }
 
-  deserializeProperty(property: string, value: any): void {
-    this[property] = value;
+  public deserializeProperty(property: string, value: any): void {
+    if (value && typeof value === 'string' && value.startsWith(MAP_TYPE_PREFIX)) {
+      this[property] = this.destringifyMap(value);
+    } else {
+      this[property] = value;
+    }
+  }
+  
+  public getSerializablePropertyList(): string[] {
+    return this.serializablePropertyList;
   }
 
-  serialize(): object {
+  public serialize(): object {
     const gamePropList = this.getSerializablePropertyList();
 
     let jsonObj = {};
     for (let prop of gamePropList) {
       jsonObj[prop] = this.serializeProperty(prop);
     }
+
     return jsonObj;
   }
 
-  deserialize(jsonObj: object): void {
+  public deserialize(jsonObj: object): void {
     for (let prop in jsonObj) {
       this.deserializeProperty(prop, jsonObj[prop]);
     }

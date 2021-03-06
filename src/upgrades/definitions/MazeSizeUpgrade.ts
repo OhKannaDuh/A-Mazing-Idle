@@ -12,7 +12,7 @@ class MazeSizeUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    this.setUiText(`Maze Size (${this.upgradeLevel}): ${this.getCost().toLocaleString()} pts`);
+    this.setUiText(`Maze Size (${this.upgradeLevel}): ${this.getPrettyPrintCost()} pts`);
   }
 
   getCost(): number {

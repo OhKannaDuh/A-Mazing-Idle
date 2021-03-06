@@ -12,7 +12,7 @@ class MultiplierItemStrengthUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    this.setUiText(`Multiplier Item Strength (${this.upgradeLevel}): ${this.getCost().toLocaleString()} pts`);
+    this.setUiText(`Multiplier Item Strength (${this.upgradeLevel}): ${this.getPrettyPrintCost()} pts`);
   }
 
   getCost(): number {

@@ -18,6 +18,23 @@
           width: 20px;
           height: 20px;
       }
+
+      #upgradeTab {
+        padding: 5px;
+        flex: 0 0 500px;
+        border: 2px solid black;
+      }
+
+      #statsTab {
+        padding: 5px;
+        flex: 1;
+        border: 2px solid black;
+      }
+
+      #tabsRoot {
+        margin-top: 30px;
+        display: flex;
+      }
     </style>
 </head>
 <body>
@@ -26,55 +43,85 @@
         <table id="maze">
           <tbody></tbody>
         </table>
+        <div id='tabsRoot'>
+          <div id='upgradeTab'>
+            <h3>Points!</h3>
+            <div id='points'>Points:</div>
         
-        <br />
-        <h3>Points!</h3>
-        <div id='points'>Points:</div>
-    
-        <h3>Maze Upgrades!</h3>
-        <button id='buyMazeSize'>Increase Maze Size:</button>
-        <br />
-        <button id='buyPointsPerVisit'>Points Per Visit:</button>
-        <br />
-        <button id='buyMazeCompletionBonusUpgrade'>Maze Completion Bonus:</button>
-        <br />
-        <button id='buyPointsPerRevisit'>Points Per Tile Re-Visit:</button>
-        <br />
-        
-        <h3>Item Upgrades!</h3>
-        <button id='buyFruitSpawnRateUpgrade'>Fruit Spawn Rate:</button>
-        <br />
-        <button id='buyFruitPickupPointsUpgrade'>Fruit Pickup Points:</button>
-        <br />
-        <button id='buyBrainSpawnRateUpgrade'>Brain Spawn Rate:</button>
-        <br />
-        <button id='buyBrainTileDistanceUpgrade'>Brain Auto Pathing Distance:</button>
-        <br />
-        <button id='buyMultiplierItemSpawnRateUpgrade'>Multiplier Item Spawn Rate:</button>
-        <br />
-        <button id='buyMultiplierItemStrengthUpgrade'>Multiplier Item Strength:</button>
+            <h3>Maze Upgrades!</h3>
+            <button id='buyMazeSize'>Increase Maze Size:</button>
+            <br />
+            <button id='buyPointsPerVisit'>Points Per Visit:</button>
+            <br />
+            <button id='buyPointsPerRevisit'>Points Per Tile Re-Visit:</button>
+            <br />
+            <button id='buyMazeCompletionBonusUpgrade'>Maze Completion Bonus:</button>
+            <br />
+            
+            <h3>Item Upgrades!</h3>
+            <button id='buyFruitSpawnRateUpgrade'>Fruit Spawn Rate:</button>
+            <br />
+            <button id='buyFruitPickupPointsUpgrade'>Fruit Pickup Points:</button>
+            <br />
+            <button id='buyBrainSpawnRateUpgrade'>Brain Spawn Rate:</button>
+            <br />
+            <button id='buyBrainTileDistanceUpgrade'>Brain Auto Pathing Distance:</button>
+            <br />
+            <button id='buyMultiplierItemSpawnRateUpgrade'>Multiplier Item Spawn Rate:</button>
+            <br />
+            <button id='buyMultiplierItemStrengthUpgrade'>Multiplier Item Strength:</button>
 
-        <h3>Bot Upgrades!</h3>
-        <button id='buyBotMoveFaster'>Move Faster:</button>
-        <br />
-        <button id='buyBotAvoidRevisitLastPosition'>Avoid Revisit Last Position:</button>
-        <br />
-        <button id='buyBotPrioritizeUnvisited'>Prioritize Unvisited:</button>
-        <br />
-        <button id='buyBotAutoExitMaze'>Auto-Exit Maze:</button>
-        <br />
-        <button id='buyBotRememberDeadEnds'>Remember Dead Ends (1 Tiles):</button>
-        <br />
-        <button id='buyBotSplitDirections'>Bot split directions:</button>
-        <br />
-        <button id='buySplitBotAutoMerge'>Bot Split Bot Auto Merge:</button>
-        
-        <h3>Manual Movement!</h3>
-        <button id='buyPlayerMoveIndependently'>Allow Player to Move Independently:</button>
-        <br />
-        <button id='buyPlayerTeleportToBot'>Player teleport to bot:</button>
-        <br />
-        <button id='buyBotTeleportToPlayer'>Bot teleport to player:</button>
+            <h3>Bot Upgrades!</h3>
+            <button id='buyBotMoveFaster'>Move Faster:</button>
+            <br />
+            <button id='buyBotAvoidRevisitLastPosition'>Avoid Revisit Last Position:</button>
+            <br />
+            <button id='buyBotPrioritizeUnvisited'>Prioritize Unvisited:</button>
+            <br />
+            <button id='buyBotAutoExitMaze'>Auto-Exit Maze:</button>
+            <br />
+            <button id='buyBotRememberDeadEnds'>Remember Dead Ends (1 Tiles):</button>
+            <br />
+            <button id='buyBotSplitDirections'>Bot split directions:</button>
+            <br />
+            <button id='buySplitBotAutoMerge'>Bot Split Bot Auto Merge:</button>
+            
+            <h3>Manual Movement!</h3>
+            <button id='buyPlayerMoveIndependently'>Allow Player to Move Independently:</button>
+            <br />
+            <button id='buyPlayerTeleportToBot'>Player teleport to bot:</button>
+            <br />
+            <button id='buyBotTeleportToPlayer'>Bot teleport to player:</button>
+          </div>
+          <div id='statsTab'>
+            <h3>Stats!</h3>
+            <h4>Points earned</h4>
+            <div>Total: <span id='statsTotalPointsEarned'></span></div>
+            <div>Total Spent: <span id='statsTotalPointsSpent'></span></div>
+            <br />
+            <div>Visited Tiles: <span id='statsTotalPointsEarnedFromVisitedTiles'></span></div>
+            <div>Revisited Tiles: <span id='statsTotalPointsEarnedFromRevisitedTiles'></span></div>
+            <div>Maze Completions: <span id='statsTotalPointsEarnedFromMazeCompletions'></span></div>
+            <div>Fruit Item Pickups: <span id='statsTotalPointsEarnedFromFruits'></span></div>
+            <div>Multplier Item Pts: <span id='statsTotalPointsEarnedFromMultiplierItem'></span></div>
+            
+            <h4>Maze Stats</h4>
+            <div>Total Unique Tiles Visited: <span id='statsTotalTilesVisited'></span></div>
+            <div>Total Tiles Revisited: <span id='statsTotalTilesRevisited'></span></div>
+            <div>Total Mazes Completed: <span id='statsTotalMazesCompleted'></span></div>
+            
+            <h4>Bot Stats</h4>
+            <div>Total Bot Splits: <span id='statsTotalNumberOfBotSplits'></span></div>
+            <div>Total Bot Merges: <span id='statsTotalNumberOfBotMerges'></span></div>
+            <div>Total Dead Ends Marked: <span id='statsTotalDeadEndsMarked'></span></div>
+            
+            <h4>Item Pickup Stats</h4>
+            <div>Fruits: <span id='statsTotalFruitItemsPickedUp'></span></div>
+            <div>Brains: <span id='statsTotalBrainItemsPickedUp'></span></div>
+            <div>Black Holes: <span id='statsTotalBlackHoleItemsPickedUp'></span></div>
+            <div>Multiplier: <span id='statsTotalMultiplierItemsPickedUp'></span></div>
+          </div>
+        </div>
 
         <h3>Saving</h3>
         <button id='newGame'>New Game</button>

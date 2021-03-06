@@ -8,9 +8,11 @@ import Serializable from "./models/Serializable";
 import SaveManager from "./managers/SaveManager";
 import PlayerManager from "./managers/PlayerManager";
 import MazeItemManager from "./managers/MazeItemManager";
+import StatsManager from "./managers/StatsManager.ts";
+import { StatsKey } from "./models/Stats";
 
 
-const SERIALIZABLE_PROPERTIES: string[] = ['points', 'upgrades'];
+const SERIALIZABLE_PROPERTIES: string[] = ['points', 'upgrades', 'stats'];
 
 class Game extends Serializable {
   public maze: Maze;
@@ -21,6 +23,7 @@ class Game extends Serializable {
   public upgrades: UpgradeManager;
   public save: SaveManager;
   public items: MazeItemManager;
+  public stats: StatsManager;
 
   private isDevMode: boolean;
   private isDisableUi: boolean;
@@ -37,9 +40,11 @@ class Game extends Serializable {
     this.players = new PlayerManager(this);
     this.save = new SaveManager(this);
     this.items = new MazeItemManager(this);
+    this.stats = new StatsManager(this);
 
     this.ui.setDebugPanelVisible(this.isDevMode);
     this.ui.init();
+    this.stats.initStatsMap();
   }
 
   hardResetGame() {
@@ -48,6 +53,7 @@ class Game extends Serializable {
     this.maze = new Maze(this);
     this.points.points = 0;
     this.upgrades.resetUpgrades();
+    this.stats.initStatsMap();
     
     this.startGame();
     this.save.startSaveTimer();
@@ -59,6 +65,7 @@ class Game extends Serializable {
   }
 
   startGame() {
+    this.ui.updateAllStatsKey();
     this.upgrades.updateAllUpgradeUi();
     this.players.resetAllPlayers();
     this.ui.deleteMaze();
@@ -75,6 +82,9 @@ class Game extends Serializable {
     this.rngBot.disableGlobalMovement();
     this.players.resetAllPlayers();
     this.points.addMazeCompletionBonus(playerId);
+
+    this.stats.addStatsToKey(1, StatsKey.TOTAL_MAZES_COMPLETED);
+    this.stats.clearCurrentMazeStats();
 
     if (this.isDevMode) {
       printMazeCompleteData(this);

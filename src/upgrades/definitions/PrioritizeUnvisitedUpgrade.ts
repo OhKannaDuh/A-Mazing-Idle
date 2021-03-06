@@ -12,7 +12,7 @@ class PrioritizeUnvisitedUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    this.setUiText(`Basic Prioritize Unvisited: ${this.getCost()} pts`);
+    this.setUiText(`Basic Prioritize Unvisited: ${this.getPrettyPrintCost()} pts`);
   }
 
   getCost(): number {
