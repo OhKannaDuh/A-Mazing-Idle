@@ -72,10 +72,11 @@ class UserInterface {
   }
 
   private getMazeBorderCss(val: number) {
+    const borderColor = this.game.colors.getMazeWallColor();
     if (val === MazeWallTypes.WALL) {
-      return '2px solid black';
+      return `2px solid ${borderColor}`;
     } else if (val === MazeWallTypes.DESTRUCTIBLE_WALL) {
-      return '2px dotted black';
+      return `2px dotted ${borderColor}`;
     } else {
       //TODO: make this occupy space still
       return 'hidden';

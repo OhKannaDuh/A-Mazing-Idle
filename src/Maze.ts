@@ -1,12 +1,17 @@
 import Game from "./Game";
-import { DEAD_END_COLOR, EMPTY_COLOR, generateMazeArr, 
-  generateMazeSmartPathingArr, generateNewMaze, generateTileKey, getInverseDirectionIndex, getNewTilePositionByVector, 
-  isTileEqual, MazeDirectionIndex, MazeWallTypes } from "./MazeGenerator";
+import { 
+  generateMazeArr, 
+  generateMazeSmartPathingArr, 
+  generateNewMaze, 
+  generateTileKey, 
+  getInverseDirectionIndex, 
+  getNewTilePositionByVector, 
+  isTileEqual, 
+  MazeDirectionIndex, 
+  MazeWallTypes 
+} from "./MazeGenerator";
 import { UpgradeKey } from "./constants/UpgradeConstants";
 import MazeItem from "./items/MazeItem";
-import FruitMazeItem from "./items/definitions/FruitMazeItem";
-import BrainMazeItem from "./items/definitions/BrainMazeItem";
-import MazeItemManager from "./managers/MazeItemManager";
 import { StatsKey } from "./models/Stats";
 declare var $: any;
 
@@ -20,7 +25,6 @@ export const STARTING_POSITION = {x: 0, y: 0};
 
 export const DEFAULT_MAZE_SIZE = 4;
 
-export const VISITED_TILE_COLOR = '#7CFCFF';
 export const DEFAULT_PLAYER_ID = 0;
 
 export type MazeArray = Array<Array<Array<number>>>;
@@ -106,6 +110,7 @@ class Maze {
     $(`#${new_tile_key}`).css('background-color', tileColor);
     $(`#${new_tile_key}`).css('-moz-border-radius', isPlayer ? '90%' : '0%');
     $(`#${new_tile_key}`).css('border-radius', isPlayer ? '90%' : '0%');
+    $(`#${new_tile_key}`).css('z-index', -1);
   }
 
   getTileCount() {
@@ -134,12 +139,12 @@ class Maze {
     }
     const tileKey = generateTileKey(tile.x, tile.y);
     if (this.deadEndTileMap.has(tileKey)) {
-      return DEAD_END_COLOR;
+      return this.game.colors.getDeadEndTileColor();
     }
     if (this.isVisited(tile)) {
-      return VISITED_TILE_COLOR;
+      return this.game.colors.getVisitedTileColor();
     }
-    return EMPTY_COLOR;
+    return this.game.colors.getTileColor();
   }
 
   updatePlayerTileByTileVector(playerId: number, dirVector: TileVector) {

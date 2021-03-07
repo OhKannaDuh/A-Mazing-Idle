@@ -10,6 +10,7 @@ import PlayerManager from "./managers/PlayerManager";
 import MazeItemManager from "./managers/MazeItemManager";
 import StatsManager from "./managers/StatsManager";
 import BiomeManager from "./managers/BiomeManager";
+import ColorManager from "./managers/ColorManager";
 import { StatsKey } from "./models/Stats";
 import { UpgradeKey } from "./constants/UpgradeConstants";
 
@@ -27,6 +28,7 @@ class Game extends Serializable {
   public items: MazeItemManager;
   public stats: StatsManager;
   public biomes: BiomeManager;
+  public colors: ColorManager;
 
   private isDevMode: boolean;
   private isDisableUi: boolean;
@@ -45,6 +47,7 @@ class Game extends Serializable {
     this.save = new SaveManager(this);
     this.items = new MazeItemManager(this);
     this.stats = new StatsManager(this);
+    this.colors = new ColorManager(this);
     
     this.upgrades.initUpgrades();
     this.upgrades.updateAllUpgradeUi();

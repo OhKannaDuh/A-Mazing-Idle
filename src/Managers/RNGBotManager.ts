@@ -59,6 +59,7 @@ class RNGBotManager {
 
   // After a short delay, manually controlled bots will start moving again.
   enableReEnableBotMovementTimer() {
+    return;
     this.disableReEnableBotMovementTimer();
 
     //TODO: this might be better handled within the player class.

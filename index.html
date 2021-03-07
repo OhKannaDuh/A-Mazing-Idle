@@ -9,6 +9,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
     <script src="public/bundle.js"></script>
     <style type="text/css">
+      #body {
+        background-color: black;
+        color: white;
+      }
+
       #maze {
           border-collapse: collapse;
           border: 0px;
@@ -37,8 +42,8 @@
       }
     </style>
 </head>
-<body>
-    <div>
+<body id='body'>
+    <div id='root'>
         <div id='noop'></div>
         <table id="maze">
           <tbody></tbody>

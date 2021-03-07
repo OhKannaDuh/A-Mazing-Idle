@@ -2,7 +2,7 @@ import Game from "../Game";
 import { STARTING_POSITION, Tile } from "../Maze";
 import Player from "../models/Player";
 import { UpgradeKey } from "../constants/UpgradeConstants";
-import { isTileEqual, MULTIPLIER_ITEM_PLAYER_COLOR, PLAYER_COLOR, RNG_BOT_COLOR, SMART_PATHING_PLAYER_COLOR } from "../MazeGenerator";
+import { isTileEqual } from "../MazeGenerator";
 
 class PlayerManager {
   public game: Game;
@@ -150,16 +150,16 @@ class PlayerManager {
   }
 
   getPlayerColorAtTile(tile: Tile): string {
-    for (let [id, player] of this.playerMap) {
+    for (let player of this.playerMap.values()) {
       if (isTileEqual(tile, player.currTile)) {
         if (player.isManuallyControlled) {
-          return PLAYER_COLOR;
+          return this.game.colors.getPlayerColor();
         } else if (player.hasSmartPathingRemaining()) {
-          return SMART_PATHING_PLAYER_COLOR;
+          return this.game.colors.getSmartPathingPlayerColor();
         } else if (player.hasMultiplierItemActive()) {
-          return MULTIPLIER_ITEM_PLAYER_COLOR;
+          return this.game.colors.getMultiplierItemPlayerColor();
         } else {
-          return RNG_BOT_COLOR;  
+          return this.game.colors.getBotColor();
         }
       }
     }

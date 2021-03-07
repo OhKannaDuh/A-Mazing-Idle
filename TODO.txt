@@ -4,6 +4,7 @@ Bug fixes:
 --> Destructible walls move the maze a pixel or two
 
 Features:
+--> Offline play
 --> "Luck" upgrade
 --> Points for clearing destructible walls
 --> Bots move between tiles instead of teleport
@@ -18,6 +19,8 @@ Stats Tracker (Current)
 
 Stats Tracker
 --> Tripometer for stats
+--> Total time played
+--> Current maze stats
 
 Refactor:
 --> Maze should have its own class
