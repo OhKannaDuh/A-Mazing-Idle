@@ -17,11 +17,29 @@ class MazeItemManager {
     this.game = game;
   }
 
-  public static generateMazeItems(game: Game, mazeSize: number) {
-    FruitMazeItem.generateFruitItemDrops(game, mazeSize, mazeSize);
-    BrainMazeItem.generateBrainItemDrops(game, mazeSize, mazeSize);
-    MultiplierMazeItem.generateMazeItemDrops(game, mazeSize, mazeSize);
-    BlackHoleMazeItem.generateBlackHoleItemDrops(game, mazeSize, mazeSize);
+  public generateMazeItems(mazeSizeX: number, mazeSizeY: number) {
+    for (let mazeItemKey in MazeItemKey) {
+      this.generateMazeItemDrops(mazeItemKey as MazeItemKey, mazeSizeX, mazeSizeY);
+    }
+  }
+ 
+  public isMazeItemUnlocked(mazeItemKey: MazeItemKey) {
+    return this.game.biomes.isMazeItemUnlocked(mazeItemKey);
+  }
+
+  public getMazeItemSpawnProbability(mazeItemKey: MazeItemKey) {
+    if (mazeItemKey === MazeItemKey.FRUIT) {
+      return FruitMazeItem.getFruitSpawnProbability(this.game);
+    } else if (mazeItemKey === MazeItemKey.BRAIN) {
+      return BrainMazeItem.getBrainSpawnProbability(this.game);
+    } else if (mazeItemKey === MazeItemKey.MULTIPLIER) {
+      return MultiplierMazeItem.getMultiplierItemSpawnProbability(this.game);
+    } else if (mazeItemKey === MazeItemKey.BLACK_HOLE) {
+      return BlackHoleMazeItem.getBlackHoleSpawnProbability();
+    } else {
+      console.error('Failed to create maze item of type.  No valid type: ' + mazeItemKey);
+      return;
+    }
   }
 
   public createMazeItem(tile: Tile, mazeItemKey: MazeItemKey) {
@@ -71,6 +89,25 @@ class MazeItemManager {
     if (!tileKey || !this.hasMazeItem(tileKey)) return;
     this.mazeItemMap.get(tileKey).triggerPickup(playerId);
     this.mazeItemMap.delete(tileKey);
+  }
+
+  public generateMazeItemDrops(mazeItemKey: MazeItemKey, mazeSizeX: number, mazeSizeY: number): void {
+    if (!this.isMazeItemUnlocked(mazeItemKey)) {
+      return;
+    }
+
+    const spawnProb: number = this.game.items.getMazeItemSpawnProbability(mazeItemKey);
+    
+    //TODO: calculate global probability and assign randomly
+    for (let y = 0; y < mazeSizeX; y++) {
+      for (let x = 0; x < mazeSizeY; x++) {
+        let rand = Math.random();
+        if(rand < spawnProb) {
+          const tile: Tile = { x: x, y: y };
+          this.game.items.createMazeItem(tile, mazeItemKey);
+        }
+      }
+    }
   }
 }
 

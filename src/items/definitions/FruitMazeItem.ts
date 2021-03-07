@@ -27,26 +27,10 @@ class FruitMazeItem extends MazeItem {
     const baseAmount = this.game.biomes.getBaseFruitItemPickupValue();
     return baseAmount * Math.pow(FRUIT_PICKUP_POINTS_BASE_AMOUNT_MULTIPLIER, upgradeLevel);
   }
-
+  
   public static getFruitSpawnProbability(game: Game): number {
     const upgradeLevel = game.upgrades.getUpgradeLevel(UpgradeKey.FRUIT_SPAWN);
-    
     return FRUIT_SPAWN_BASE_PROBABILITY + (FRUIT_SPAWN_UPGRADE_FLAT_INCREASE_PROBABILITY * upgradeLevel);
-  }
-
-  public static generateFruitItemDrops(game: Game, sizeX: number, sizeY: number): void {
-    const spawnProb: number = FruitMazeItem.getFruitSpawnProbability(game);
-    
-    //TODO: calculate global probability and assign randomly
-    for (let y = 0; y < sizeY; y++) {
-      for (let x = 0; x < sizeX; x++) {
-        let rand = Math.random();
-        if(rand < spawnProb) {
-          const tile: Tile = { x: x, y: y };
-          game.items.createMazeItem(tile, MazeItemKey.FRUIT);
-        }
-      }
-    }
   }
 }
 

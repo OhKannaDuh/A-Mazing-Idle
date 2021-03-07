@@ -22,9 +22,7 @@ class Upgrade {
     this.tooptipText = tooltipText;
     this.upgradeLevel = upgradeCount;
     this.isSinglePurchase = isSinglePurchase;
-
-    // this.updateUiProperties();
-    // this.updateUiDisabled();
+    
     this.initClickEvent();
   }
 
@@ -37,6 +35,7 @@ class Upgrade {
     this.upgradeLevel++;
     this.updateUiProperties();
     this.updateUiDisabled();
+    this.updateVisibility();
   }
 
   getIsUpgraded(): boolean {
@@ -52,11 +51,16 @@ class Upgrade {
     $(`#${this.uiId}`).text(text);
   }
 
-  updateUiDisabled() {
+  updateVisibility(): void {
+    $(`#${this.uiId}`).css('display',  this.isUnlocked() ? 'block' : 'none');
+  }
+
+  updateUiDisabled(): void {
     $(`#${this.uiId}`).prop("disabled", this.isDisabled());
   }
 
-  initClickEvent() {
+  initClickEvent(): void {
+    $(`#${this.uiId}`).unbind("click");
     $(`#${this.uiId}`).click(() => this.buyUpgrade());
   }
 
@@ -73,7 +77,7 @@ class Upgrade {
   }
 
   isUnlocked(): boolean {
-    return true;
+    return this.game.biomes.isUpgradeUnlocked(this.upgradeKey);
   }
 
   prettyPrint(val): string {

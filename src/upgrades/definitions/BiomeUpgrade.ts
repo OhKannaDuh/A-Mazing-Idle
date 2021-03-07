@@ -17,7 +17,7 @@ class BiomeUpgrade extends Upgrade {
   }
 
   public getCost(): number {
-    const nextBiomeKey = this.game.biomes.getNextBiomeKey();
+    const nextBiomeKey = this.game.biomes.getCurrentBiomeKey();
     if (!BIOME_UPGRADE_COST.has(nextBiomeKey)) {
       return 0;
     }
@@ -25,8 +25,7 @@ class BiomeUpgrade extends Upgrade {
   }
 
   public isMaxUpgradeLevel(): boolean {
-    // return this.game.biomes.getMaxBiomeLevel() === this.upgradeLevel;
-    return false;
+    return this.game.biomes.getMaxBiomeLevel() === this.upgradeLevel;
   }
 }
 

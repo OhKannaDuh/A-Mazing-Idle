@@ -4,8 +4,11 @@ import {
   BiomeKey, 
   BIOME_BASE_FRUIT_ITEM_PICKUP_VALUE, 
   BIOME_BASE_POINTS_PER_VISIT_VALUE, 
-  BIOME_IMAGE_URL_MAP 
+  BIOME_IMAGE_URL_MAP, 
+  BIOME_ITEM_UNLOCKS,
+  BIOME_UPGRADE_UNLOCKS
 } from "../constants/BiomeConstants";
+import { MazeItemKey } from "../constants/ItemConstants";
 
 class BiomeManager {
   private game: Game;
@@ -38,6 +41,25 @@ class BiomeManager {
 
   public getMaxBiomeLevel(): number {
     return Object.keys(BiomeKey).length;
+  }
+
+  public isMazeItemUnlocked(itemKey: MazeItemKey): boolean {
+    // Assume unlocked if unlisted.
+    return BIOME_ITEM_UNLOCKS.has(itemKey)
+      ? this.isBiomeKeyUnlocked(BIOME_ITEM_UNLOCKS.get(itemKey))
+      : true;
+  }
+
+  public isUpgradeUnlocked(upgradeKey: UpgradeKey): boolean {
+    // Assume unlocked if unlisted.
+    return BIOME_UPGRADE_UNLOCKS.has(upgradeKey)
+      ? this.isBiomeKeyUnlocked(BIOME_UPGRADE_UNLOCKS.get(upgradeKey))
+      : true;
+  }
+
+  public isBiomeKeyUnlocked(biomeKey: BiomeKey) {
+    const currentBiomeKey = this.getCurrentBiomeKey();
+    return currentBiomeKey >= biomeKey;
   }
 }
 

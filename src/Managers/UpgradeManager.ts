@@ -72,6 +72,7 @@ class UpgradeManager extends Serializable {
     for (let [upgradeKey, upgrade] of this.upgradeMap) {
       upgrade.updateUiProperties();
       upgrade.updateUiDisabled();
+      upgrade.updateVisibility();
     }
   }
 

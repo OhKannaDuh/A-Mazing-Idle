@@ -71,7 +71,7 @@ class Maze {
     this.maze = generateNewMaze(this.game, mazeSize, mazeSize);
     this.smartPathMaze = generateMazeSmartPathingArr(this.game, this.maze, this.getMazeExitTile());
     this.deadEndTileMap = new Map();
-    MazeItemManager.generateMazeItems(this.game, mazeSize);
+    this.game.items.generateMazeItems(mazeSize, mazeSize);
   }
 
   markVisited(tile: Tile, playerId: number) {
@@ -79,9 +79,9 @@ class Maze {
     this.game.points.addVisitPoints(isTileVisited, playerId);
     
     if (isTileVisited) {
-      this.game.stats.addStatsToKey(1, StatsKey.TOTAL_TILES_VISITED);
-    } else {
       this.game.stats.addStatsToKey(1, StatsKey.TOTAL_TILES_REVISITED);
+    } else {
+      this.game.stats.addStatsToKey(1, StatsKey.TOTAL_TILES_VISITED);
     }
 
     this.visitedMaze[tile.y][tile.x] = true;

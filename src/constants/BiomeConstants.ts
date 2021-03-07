@@ -1,24 +1,29 @@
 import { 
   APPLE_IMAGE_URL, 
   BANANA_IMAGE_URL, 
+  CHERRY_IMAGE_URL, 
   FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_0, 
   FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_1, 
   FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_2, 
   FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_3, 
+  FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_4, 
   GRAPES_IMAGE_URL, 
+  MazeItemKey, 
   ORANGE_IMAGE_URL 
 } from "./ItemConstants";
 import { 
-  BIOME_0_PURCHASE_COST,
-  BIOME_1_PURCHASE_COST,
-  BIOME_2_PURCHASE_COST,
-  BIOME_3_PURCHASE_COST,
+  BIOME_0_UPGRADE_COST,
+  BIOME_1_UPGRADE_COST,
+  BIOME_2_UPGRADE_COST,
+  BIOME_3_UPGRADE_COST,
+  BIOME_4_UPGRADE_COST,
   POINTS_PER_VISIT_BASE_AMOUNT_BIOME_0, 
   POINTS_PER_VISIT_BASE_AMOUNT_BIOME_1, 
   POINTS_PER_VISIT_BASE_AMOUNT_BIOME_2, 
-  POINTS_PER_VISIT_BASE_AMOUNT_BIOME_3 
+  POINTS_PER_VISIT_BASE_AMOUNT_BIOME_3, 
+  POINTS_PER_VISIT_BASE_AMOUNT_BIOME_4,
+  UpgradeKey
 } from "./UpgradeConstants";
-
 
 
 export enum BiomeKey {
@@ -27,6 +32,7 @@ export enum BiomeKey {
   BIOME_1 = 1,
   BIOME_2 = 2,
   BIOME_3 = 3,
+  BIOME_4 = 4,
 }
 
 export const BIOME_IMAGE_URL_MAP: Map<BiomeKey, string> = new Map([
@@ -34,6 +40,7 @@ export const BIOME_IMAGE_URL_MAP: Map<BiomeKey, string> = new Map([
   [BiomeKey.BIOME_1, APPLE_IMAGE_URL],
   [BiomeKey.BIOME_2, GRAPES_IMAGE_URL],
   [BiomeKey.BIOME_3, ORANGE_IMAGE_URL],
+  [BiomeKey.BIOME_4, CHERRY_IMAGE_URL],
 ]);
 
 export const BIOME_BASE_POINTS_PER_VISIT_VALUE: Map<BiomeKey, number> = new Map([
@@ -41,6 +48,7 @@ export const BIOME_BASE_POINTS_PER_VISIT_VALUE: Map<BiomeKey, number> = new Map(
   [BiomeKey.BIOME_1, POINTS_PER_VISIT_BASE_AMOUNT_BIOME_1],
   [BiomeKey.BIOME_2, POINTS_PER_VISIT_BASE_AMOUNT_BIOME_2],
   [BiomeKey.BIOME_3, POINTS_PER_VISIT_BASE_AMOUNT_BIOME_3],
+  [BiomeKey.BIOME_4, POINTS_PER_VISIT_BASE_AMOUNT_BIOME_4],
 ]);
 
 export const BIOME_BASE_FRUIT_ITEM_PICKUP_VALUE: Map<BiomeKey, number> = new Map([
@@ -48,11 +56,49 @@ export const BIOME_BASE_FRUIT_ITEM_PICKUP_VALUE: Map<BiomeKey, number> = new Map
   [BiomeKey.BIOME_1, FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_1],
   [BiomeKey.BIOME_2, FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_2],
   [BiomeKey.BIOME_3, FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_3],
+  [BiomeKey.BIOME_4, FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_4],
 ]);
 
 export const BIOME_UPGRADE_COST: Map<BiomeKey, number> = new Map([
-  [BiomeKey.BIOME_0, BIOME_0_PURCHASE_COST],
-  [BiomeKey.BIOME_1, BIOME_1_PURCHASE_COST],
-  [BiomeKey.BIOME_2, BIOME_2_PURCHASE_COST],
-  [BiomeKey.BIOME_3, BIOME_3_PURCHASE_COST],
+  [BiomeKey.BIOME_0, BIOME_0_UPGRADE_COST],
+  [BiomeKey.BIOME_1, BIOME_1_UPGRADE_COST],
+  [BiomeKey.BIOME_2, BIOME_2_UPGRADE_COST],
+  [BiomeKey.BIOME_3, BIOME_3_UPGRADE_COST],
+  [BiomeKey.BIOME_4, BIOME_4_UPGRADE_COST],
+]);
+
+export const BIOME_ITEM_UNLOCKS: Map<MazeItemKey, BiomeKey> = new Map([
+  [MazeItemKey.FRUIT, BiomeKey.BIOME_0],
+  [MazeItemKey.BLACK_HOLE, BiomeKey.BIOME_1],
+  [MazeItemKey.BRAIN, BiomeKey.BIOME_2],
+  [MazeItemKey.MULTIPLIER, BiomeKey.BIOME_3],
+]);
+
+export const BIOME_UPGRADE_UNLOCKS: Map<UpgradeKey, BiomeKey> = new Map([
+  // Biome 0
+  [UpgradeKey.MAZE_SIZE_UPGRADE, BiomeKey.BIOME_0],
+  [UpgradeKey.MAZE_COMPLETION_BONUS, BiomeKey.BIOME_0],
+  [UpgradeKey.POINTS_PER_VISIT, BiomeKey.BIOME_0],
+  [UpgradeKey.FRUIT_SPAWN, BiomeKey.BIOME_0],
+  [UpgradeKey.FRUIT_PICKUP_POINTS, BiomeKey.BIOME_0],
+  [UpgradeKey.BOT_MOVEMENT_SPEED, BiomeKey.BIOME_0],
+  [UpgradeKey.AVOID_REVISIT_LAST_POSITION, BiomeKey.BIOME_0],
+  [UpgradeKey.PRIORITIZE_UNVISITED, BiomeKey.BIOME_0],
+  [UpgradeKey.BIOME, BiomeKey.BIOME_0],
+  
+  // Biome 1
+  [UpgradeKey.BOT_REMEMBER_DEADEND_TILES, BiomeKey.BIOME_1],
+  [UpgradeKey.BOT_SPLIT_DIRECTION, BiomeKey.BIOME_1],
+  [UpgradeKey.AUTO_EXIT_MAZE, BiomeKey.BIOME_1],
+  
+  // Biome 2
+  [UpgradeKey.TILE_REVISIT_MULTIPLIER, BiomeKey.BIOME_2],
+  [UpgradeKey.DESTRUCTIBLE_WALLS, BiomeKey.BIOME_2],
+  [UpgradeKey.BRAIN_TILE_DISTANCE, BiomeKey.BIOME_2],
+  [UpgradeKey.BRAIN_SPAWN, BiomeKey.BIOME_2],
+  [UpgradeKey.BOT_SPLIT_BOT_AUTO_MERGE, BiomeKey.BIOME_2],
+  
+  // Biome 3
+  [UpgradeKey.MULTIPLIER_ITEM_SPAWN_RATE, BiomeKey.BIOME_3],
+  [UpgradeKey.MULTIPLIER_ITEM_STRENGTH, BiomeKey.BIOME_3],
 ]);

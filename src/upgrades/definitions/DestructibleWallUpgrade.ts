@@ -17,10 +17,6 @@ class DestructibleWallUpgrade extends Upgrade {
   getCost(): number {
     return 0;
   }
-
-  isUnlocked(): boolean {
-    return false;
-  }
 }
 
 export default DestructibleWallUpgrade;
