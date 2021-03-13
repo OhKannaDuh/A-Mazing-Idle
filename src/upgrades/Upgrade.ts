@@ -52,7 +52,7 @@ class Upgrade {
   }
 
   updateVisibility(): void {
-    $(`#${this.uiId}`).css('display',  this.isUnlocked() ? 'block' : 'none');
+    $(`#${this.uiId}`).css('display',  (this.isUnlocked() && !this.isMaxUpgradeLevel()) ? 'block' : 'none');
   }
 
   updateUiDisabled(): void {
@@ -65,7 +65,8 @@ class Upgrade {
   }
 
   isDisabled(): boolean {
-    return (this.isSinglePurchase && this.upgradeLevel >= 1) || this.isMaxUpgradeLevel();
+    //TODO: refactor out isSinglePurchase
+    return (this.isSinglePurchase && this.upgradeLevel >= 1) || this.isMaxUpgradeLevel() || !this.canAffordToBuyUpgrade();
   }
   
   updateUiProperties(): void {
@@ -89,7 +90,7 @@ class Upgrade {
   }
 
   isMaxUpgradeLevel(): boolean {
-    return false;
+    return this.isSinglePurchase && this.upgradeLevel >= 1;
   }
 }
 

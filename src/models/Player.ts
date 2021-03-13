@@ -12,9 +12,11 @@ class Player {
   public isPrimaryBot: boolean;
   public smartPathingTileDistanceRemaining: number;
   public isMultiplierItemActive: boolean;
+  public isUnlimitedSplit: boolean;
 
   constructor(game: Game, id: number, currTile = null, prevTile = null, isManuallyControlled = false, 
-      isPrimaryBot = false, moveCount = 0, smartPathingTileDistanceRemaining = 0, isMultiplierItemActive = false) {
+      isPrimaryBot = false, moveCount = 0, smartPathingTileDistanceRemaining = 0, isMultiplierItemActive = false,
+      isUnlimitedSplit = false) {
     this.game = game;
     this.isManuallyControlled = isManuallyControlled;
     this.id = id;
@@ -24,6 +26,7 @@ class Player {
     this.isPrimaryBot = isPrimaryBot;
     this.smartPathingTileDistanceRemaining = smartPathingTileDistanceRemaining;
     this.isMultiplierItemActive = isMultiplierItemActive;
+    this.isUnlimitedSplit = isUnlimitedSplit;
   }
 
   hasSmartPathingRemaining(): boolean {

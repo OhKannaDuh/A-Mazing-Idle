@@ -59,7 +59,6 @@ class RNGBotManager {
 
   // After a short delay, manually controlled bots will start moving again.
   enableReEnableBotMovementTimer() {
-    return;
     this.disableReEnableBotMovementTimer();
 
     //TODO: this might be better handled within the player class.
@@ -102,7 +101,10 @@ class RNGBotManager {
       return null;
     }
 
-    const possibleNewSplits = this.game.maze.getPossibleSplitBotCount(validDirs);
+    const player = this.game.players.getPlayer(playerId);
+    const possibleNewSplits = player.isUnlimitedSplit 
+      ? validDirs.length
+      : this.game.maze.getPossibleSplitBotCount(validDirs);
 
     // Only split if both directions are unvisited.
     const unvisitedDirs = this.game.upgrades.isUpgraded(UpgradeKey.PRIORITIZE_UNVISITED) 
@@ -123,9 +125,11 @@ class RNGBotManager {
 
   getPossibleDirectionsList(playerId) {
     let validDirs = this.game.maze.getValidDirectionsByPlayerId(playerId);
-    if (validDirs.length === 0) {
+    const player = this.game.players.getPlayer(playerId);
+    if (validDirs.length === 0 || !player) {
       return;
     }
+    
 
     if (this.game.upgrades.isUpgraded(UpgradeKey.AUTO_EXIT_MAZE) || this.game.players.playerHasSmartPathing(playerId)) {
       const exitDirsArr = this.game.maze.filterPlayerExitMazeDirection(playerId, validDirs);

@@ -29,20 +29,6 @@ class MultiplierMazeItem extends MazeItem {
     const upgradeLevel = game.upgrades.getUpgradeLevel(UpgradeKey.MULTIPLIER_ITEM_SPAWN_RATE);
     return MULTIPLIER_ITEM_SPAWN_BASE_PROBABILITY * (1 + upgradeLevel);
   }
-
-  public static generateMazeItemDrops(game: Game, sizeX: number, sizeY: number) {
-    const spawnProb: number = MultiplierMazeItem.getMultiplierItemSpawnProbability(game);
-    //TODO: calculate global probability and assign randomly
-    for (let y = 0; y < sizeY; y++) {
-      for (let x = 0; x < sizeX; x++) {
-        let rand = Math.random();
-        if(rand < spawnProb) {
-          const tile: Tile = { x: x, y: y };
-          game.items.createMazeItem(tile, MazeItemKey.MULTIPLIER);
-        }
-      }
-    }
-  }
 }
 
 export default MultiplierMazeItem;

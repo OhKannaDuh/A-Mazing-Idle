@@ -36,6 +36,7 @@ class Points extends Serializable {
     this.game.stats.addStatsToKeyList(pointsEarned, statsKeyList);
     this.game.stats.addStatsToKey(pointsEarned, StatsKey.TOTAL_POINTS_EARNED);
     this.game.stats.addStatsToKey((pointsEarned - amount), StatsKey.TOTAL_POINTS_EARNED_FROM_MULTIPLIER_ITEM);
+    this.game.upgrades.updateAllUpgradeUi();
     
     this.game.ui.setPointsText();
   }
@@ -44,6 +45,7 @@ class Points extends Serializable {
     this.points -= amount;
     this.game.stats.addStatsToKey(amount, StatsKey.TOTAL_POINTS_SPENT);
     this.game.ui.setPointsText();
+    this.game.upgrades.updateAllUpgradeUi();
   }
 
   getPointMultplier(playerId: number) {

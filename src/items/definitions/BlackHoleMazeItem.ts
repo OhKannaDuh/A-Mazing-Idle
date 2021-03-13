@@ -13,7 +13,6 @@ class BlackHoleMazeItem extends MazeItem {
   }
 
   public triggerPickup(playerId: number): void {
-    //TODO: move player to somewhere or other.
     super.triggerPickup(playerId);
     const newTile = getRandomMazeTile(this.game);
     this.game.maze.updatePlayerTile(playerId, newTile);
@@ -21,21 +20,6 @@ class BlackHoleMazeItem extends MazeItem {
   
   public static getBlackHoleSpawnProbability(): number {
     return BLACK_HOLE_ITEM_SPAWN_BASE_PROBABILITY;
-  }
-
-  public static generateBlackHoleItemDrops(game: Game, sizeX: number, sizeY: number) {
-    const spawnProb: number = BlackHoleMazeItem.getBlackHoleSpawnProbability();
-    
-    //TODO: calculate global probability and assign randomly
-    for (let y = 0; y < sizeY; y++) {
-      for (let x = 0; x < sizeX; x++) {
-        let rand = Math.random();
-        if(rand < spawnProb) {
-          const tile: Tile = { x: x, y: y };
-          game.items.createMazeItem(tile, MazeItemKey.BLACK_HOLE);
-        }
-      }
-    }
   }
 }
 

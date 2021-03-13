@@ -20,10 +20,13 @@ import BotSplitAutoMergeUpgrade from "../upgrades/definitions/BotSplitAutoMergeU
 import DestructibleWallUpgrade from "../upgrades/definitions/DestructibleWallUpgrade";
 import MultiplierItemSpawnRateUpgrade from "../upgrades/definitions/MultiplierItemSpawnRateUpgrade";
 import MultiplierItemStrengthUpgrade from "../upgrades/definitions/MultiplierItemStrengthUpgrade";
+import MultiplierItemExtraBotUpgrade from "../upgrades/definitions/items/MultiplierItemExtraBotUpgrade";
+import UnlimitedSplitsItemExtraBotUpgrade from "../upgrades/definitions/items/UnlimitedSplitsItemExtraBotUpgrade";
 import BiomeUpgrade from "../upgrades/definitions/BiomeUpgrade";
 import Game from "../Game";
 import { UpgradeKey } from "../constants/UpgradeConstants"
 import Serializable from "../models/Serializable";
+
 
 const SERIALIZABLE_PROPERTIES = ['upgradeMap'];
 
@@ -62,6 +65,9 @@ class UpgradeManager extends Serializable {
     this.createUpgrade(new BrainSpawnRateUpgrade(this.game, UpgradeKey.BRAIN_SPAWN));
     this.createUpgrade(new MultiplierItemSpawnRateUpgrade(this.game, UpgradeKey.MULTIPLIER_ITEM_SPAWN_RATE));
     this.createUpgrade(new MultiplierItemStrengthUpgrade(this.game, UpgradeKey.MULTIPLIER_ITEM_STRENGTH));
+    this.createUpgrade(new MultiplierItemExtraBotUpgrade(this.game, UpgradeKey.MULTIPLIER_ITEM_EXTRA_BOT));
+    this.createUpgrade(new UnlimitedSplitsItemExtraBotUpgrade(this.game, UpgradeKey.UNLIMITED_SPLIT_ITEM_EXTRA_BOT));
+    
     // Features
     this.createUpgrade(new DestructibleWallUpgrade(this.game, UpgradeKey.DESTRUCTIBLE_WALLS));
     // Biomes

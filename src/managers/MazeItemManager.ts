@@ -7,6 +7,9 @@ import { MazeItemKey } from "../constants/ItemConstants";
 import BrainMazeItem from "../items/definitions/BrainMazeItem";
 import MultiplierMazeItem from "../items/definitions/MultiplierMazeItem";
 import BlackHoleMazeItem from "../items/definitions/BlackHoleMazeItem";
+import UnlimitedSplitsItem from "../items/definitions/UnlimitedSplitsItem";
+import { UpgradeKey } from "../constants/UpgradeConstants";
+
 
 class MazeItemManager {
   public mazeItemMap: Map<string, MazeItem>;
@@ -27,6 +30,7 @@ class MazeItemManager {
     return this.game.biomes.isMazeItemUnlocked(mazeItemKey);
   }
 
+  //TODO: wtf? why is this not stored in the maze item base class.  Hello?  Greg?
   public getMazeItemSpawnProbability(mazeItemKey: MazeItemKey) {
     if (mazeItemKey === MazeItemKey.FRUIT) {
       return FruitMazeItem.getFruitSpawnProbability(this.game);
@@ -36,6 +40,8 @@ class MazeItemManager {
       return MultiplierMazeItem.getMultiplierItemSpawnProbability(this.game);
     } else if (mazeItemKey === MazeItemKey.BLACK_HOLE) {
       return BlackHoleMazeItem.getBlackHoleSpawnProbability();
+    } else if (mazeItemKey === MazeItemKey.UNLIMITED_SPLITS) {
+      return UnlimitedSplitsItem.getBlackHoleSpawnProbability();
     } else {
       console.error('Failed to create maze item of type.  No valid type: ' + mazeItemKey);
       return;
@@ -53,6 +59,8 @@ class MazeItemManager {
       mazeItem = new MultiplierMazeItem(this.game, tile, mazeItemKey);
     } else if (mazeItemKey === MazeItemKey.BLACK_HOLE) {
       mazeItem = new BlackHoleMazeItem(this.game, tile, mazeItemKey);
+    } else if (mazeItemKey === MazeItemKey.UNLIMITED_SPLITS) {
+      mazeItem = new UnlimitedSplitsItem(this.game, tile, mazeItemKey);
     } else {
       console.error('Failed to create maze item of type.  No valid type: ' + mazeItemKey);
       return;
@@ -87,8 +95,13 @@ class MazeItemManager {
   
   public pickupItem(tileKey: string, playerId: number) {
     if (!tileKey || !this.hasMazeItem(tileKey)) return;
-    this.mazeItemMap.get(tileKey).triggerPickup(playerId);
     this.mazeItemMap.delete(tileKey);
+
+    const mazeItem = this.mazeItemMap.get(tileKey);
+    mazeItem.triggerPickup(playerId);
+    this.applyItemToExtraBots(mazeItem, playerId);
+    
+    
   }
 
   public generateMazeItemDrops(mazeItemKey: MazeItemKey, mazeSizeX: number, mazeSizeY: number): void {
@@ -108,6 +121,24 @@ class MazeItemManager {
         }
       }
     }
+  }
+
+  public getItemUseExtraBotCount(itemKey: MazeItemKey): number {
+    if (itemKey === MazeItemKey.UNLIMITED_SPLITS) {
+      return this.game.upgrades.getUpgradeLevel(UpgradeKey.UNLIMITED_SPLIT_ITEM_EXTRA_BOT);
+    } else if (itemKey === MazeItemKey.MULTIPLIER) {
+      return this.game.upgrades.getUpgradeLevel(UpgradeKey.MULTIPLIER_ITEM_EXTRA_BOT);
+    }
+    return 0;
+  }
+  
+  public applyItemToExtraBots(mazeItem: MazeItem, playerId: number): void {
+    const extraBotCount = this.getItemUseExtraBotCount(mazeItem.mazeItemKey);
+    if (extraBotCount === 0) {
+      return;
+    }
+
+    const this.game.players.getPlayerIdList();
   }
 }
 

@@ -1,4 +1,5 @@
 Bug fixes:
+--> (*)Fruit costs should be mapped to fruit type.
 --> Auto-merge doesn't detect bots that pass over each other
 --> If you can't leave a tile that has destructible wall on it, you're trapped
 --> Destructible walls move the maze a pixel or two
@@ -8,7 +9,7 @@ Features:
 --> "Luck" upgrade
 --> Points for clearing destructible walls
 --> Bots move between tiles instead of teleport
---> Unlimited splitting
+--> (*)Unlimited splitting
 
 Maze Generation:
 --> Find unique maze designs for different maze regions/biomes
@@ -18,11 +19,13 @@ Stats Tracker (Current)
 --> Points from last maze completions
 
 Stats Tracker
+--> Points/sec calculator (used for offline too)
 --> Tripometer for stats
 --> Total time played
 --> Current maze stats
 
 Refactor:
+--> (*)Refactor "isSinglePurchase" from upgrades
 --> Maze should have its own class
 --> RNG bots should have independent movement speed
 --> Custom coloring based on regions

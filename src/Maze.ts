@@ -263,7 +263,8 @@ class Maze {
     }
     
     // Total bots active
-    const rngBotCount = this.game.players.getPlayerCount(true);
+    const shouldIgnoreManualPlayer = this.game.upgrades.isUpgraded(UpgradeKey.PLAYER_MOVE_INDEPENDENTLY);
+    const rngBotCount = this.game.players.getPlayerCount(shouldIgnoreManualPlayer);
     const splitUpgradeCount = this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_SPLIT_DIRECTION);
     
     // One bot auto-allowed, and +1 extra bot allowed per upgrade
