@@ -5,11 +5,10 @@ Bug fixes:
 --> Destructible walls move the maze a pixel or two
 
 Features:
---> Offline play
+--> (*)Offline play
 --> "Luck" upgrade
 --> Points for clearing destructible walls
 --> Bots move between tiles instead of teleport
---> (*)Unlimited splitting
 
 Maze Generation:
 --> Find unique maze designs for different maze regions/biomes
@@ -25,13 +24,8 @@ Stats Tracker
 --> Current maze stats
 
 Refactor:
---> (*)Refactor "isSinglePurchase" from upgrades
 --> Maze should have its own class
---> RNG bots should have independent movement speed
---> Custom coloring based on regions
---> Absolute imports only!!!
---> Group upgrade definitions in folders
+--> (?)RNG bots should have independent movement speed
 
 Regions/Biomes:
---> Changing fruit type
---> Changing base point value
+(?)
