@@ -1,3 +1,16 @@
 {
-	"presets": ["es2015"]
+	"presets": ["es2015"],
+	"plugins": [
+    ["module-resolver", {
+      "root": ["./src"],
+      "alias": {
+        "upgrades": "./src/upgrades",
+        "constants": "./src/constants",
+				"dev": "./src/dev",
+				"items": "./src/items",
+				"managers": "./src/managers",
+				"models": "./src/models"
+      }
+    }]
+  ]
 }

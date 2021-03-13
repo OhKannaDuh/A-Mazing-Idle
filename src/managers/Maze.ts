@@ -1,4 +1,4 @@
-import Game from "./Game";
+import Game from "managers/Game";
 import { 
   generateMazeArr, 
   generateMazeSmartPathingArr, 
@@ -9,10 +9,10 @@ import {
   isTileEqual, 
   MazeDirectionIndex, 
   MazeWallTypes 
-} from "./MazeGenerator";
-import { UpgradeKey } from "./constants/UpgradeConstants";
-import MazeItem from "./items/MazeItem";
-import { StatsKey } from "./models/Stats";
+} from "managers/MazeGenerator";
+import { UpgradeKey } from "constants/UpgradeConstants";
+import MazeItem from "items/MazeItem";
+import { StatsKey } from "models/Stats";
 declare var $: any;
 
 export const DIRECTION_UP = {x: 0, y: -1};

@@ -1,8 +1,8 @@
-import Game from "../Game";
-import { STARTING_POSITION, Tile } from "../Maze";
-import Player from "../models/Player";
-import { UpgradeKey } from "../constants/UpgradeConstants";
-import { isTileEqual } from "../MazeGenerator";
+import { UpgradeKey } from "constants/UpgradeConstants";
+import Game from "managers/Game";
+import { STARTING_POSITION, Tile } from "managers/Maze";
+import { isTileEqual } from "managers/MazeGenerator";
+import Player from "models/Player";
 
 class PlayerManager {
   public game: Game;
@@ -13,22 +13,22 @@ class PlayerManager {
     this.playerMap = new Map<number, Player>();
   }
 
-  resetAllPlayers() {
+  public resetAllPlayers() {
     this.playerMap.clear();
   }
 
-  createDefaultPlayer() {
+  public createDefaultPlayer() {
     this.createNewPlayerObj(STARTING_POSITION);
   }
 
-  createNewPlayerObj(startTile, isPrimaryBot = false) {
+  public createNewPlayerObj(startTile, isPrimaryBot = false) {
     const newPlayer: Player = new Player(this.game, this.getNewPlayerId(), startTile, startTile, false, isPrimaryBot);
     this.playerMap.set(newPlayer.id, newPlayer);
     this.game.maze.updatePlayerTile(newPlayer.id, startTile)
     return newPlayer;
   }
   
-  getManuallyControlledPlayer(): Player {
+  public getManuallyControlledPlayer(): Player {
     for (let [id, player] of this.playerMap) {
       if (player.isManuallyControlled) {
         return player;
@@ -37,20 +37,20 @@ class PlayerManager {
     return null;
   }
 
-  getIsPlayerManuallyControlling(): boolean {
+  public getIsPlayerManuallyControlling(): boolean {
     return this.getManuallyControlledPlayer() == null ? false : true;
   }
 
-  getPlayerCount(isExcludeManualControl = false): number {
+  public getPlayerCount(isExcludeManualControl = false): number {
     // If manual controlling, don't count
     return this.playerMap.size - (isExcludeManualControl && this.getIsPlayerManuallyControlling() ? 1 : 0)    ;
   }
 
-  isPrimaryBotPresent(): boolean {
+  private isPrimaryBotPresent(): boolean {
     return this.getPrimaryBot() == null ? false : true;
   }
 
-  getPrimaryBot(): Player {
+  public getPrimaryBot(): Player {
     for (let [id, player] of this.playerMap) {
       if (player.isPrimaryBot) {
         return player;
@@ -59,7 +59,7 @@ class PlayerManager {
     return null;
   }
   
-  movePlayer(playerId, dirVector, isManual=false): void {
+  public movePlayer(playerId, dirVector, isManual=false): void {
     const player = this.getPlayer(playerId);
     if (player == null) return;
     if (!this.game.maze.canMove(player.currTile, dirVector)) {
@@ -92,7 +92,7 @@ class PlayerManager {
     this.game.maze.updatePlayerTileByTileVector(playerId, dirVector);
   }
 
-  getPlayerIdList() {
+  public getPlayerIdList(): number[] {
     const playerIdArr = [];
     this.playerMap.forEach((player) => {
       playerIdArr.push(player.id);
@@ -100,7 +100,7 @@ class PlayerManager {
     return playerIdArr;
   }
   
-  getPlayerIdsAtTile(tile: Tile): number[] {
+  public getPlayerIdsAtTile(tile: Tile): number[] {
     const playerIdList = [];
     for (let [id, player] of this.playerMap) {
       if (isTileEqual(tile, player.currTile)) {
@@ -110,13 +110,13 @@ class PlayerManager {
     return playerIdList;
   }
 
-  getNewPlayerId() {
+  private getNewPlayerId() {
     for (let i = 0;; i++) {
       if (!this.playerMap.has(i)) return i;
     }
   }
 
-  deletePlayer(playerId: number): void {
+  public deletePlayer(playerId: number): void {
     if (!this.playerMap.has(playerId)) return;
 
     const player = this.getPlayer(playerId);
@@ -131,7 +131,7 @@ class PlayerManager {
   }
 
   // Try to assign a new primary bot based on ID.  Else, pick first bot.
-  assignPrimaryBotToPlayer(playerId: number = null): void {
+  private assignPrimaryBotToPlayer(playerId: number = null): void {
     for (let [id, player] of this.playerMap) {
       if (playerId == null && !player.isManuallyControlled) {
         player.isPrimaryBot = true;
@@ -144,12 +144,12 @@ class PlayerManager {
     }
   }
 
-  getPlayer(playerId): Player {
+  public getPlayer(playerId): Player {
     if (!this.playerMap.has(playerId)) return null;
     return this.playerMap.get(playerId);
   }
 
-  getPlayerColorAtTile(tile: Tile): string {
+  public getPlayerColorAtTile(tile: Tile): string {
     for (let player of this.playerMap.values()) {
       if (isTileEqual(tile, player.currTile)) {
         if (player.isManuallyControlled) {
@@ -166,7 +166,7 @@ class PlayerManager {
     return null;
   }
 
-  isOccupiedByPlayer(tile: Tile): boolean {
+  public isOccupiedByPlayer(tile: Tile): boolean {
     for (let [id, player] of this.playerMap) {
       if (isTileEqual(tile, player.currTile)) {
         return true;
@@ -175,21 +175,21 @@ class PlayerManager {
     return false;
   }
   
-  getPreviousTile(playerId: number): Tile {
+  public getPreviousTile(playerId: number): Tile {
     if (!this.playerMap.has(playerId)) return null;
     return this.getPlayer(playerId).prevTile;
   }
 
-  getCurrTile(playerId: number): Tile {
+  public getCurrTile(playerId: number): Tile {
     if (!this.playerMap.has(playerId)) return null;
     return this.getPlayer(playerId).currTile;
   }
 
-  playerExists(playerId: number): boolean {
+  public playerExists(playerId: number): boolean {
     return this.playerMap.has(playerId);
   }
 
-  playerHasSmartPathing(playerId: number): boolean {
+  public playerHasSmartPathing(playerId: number): boolean {
     return this.game.players.getPlayer(playerId).smartPathingTileDistanceRemaining > 0;
   }
 }

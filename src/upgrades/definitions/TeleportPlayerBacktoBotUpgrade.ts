@@ -1,6 +1,6 @@
-import Game from "../../Game";
-import Upgrade from "../Upgrade";
-import { TELEPORT_PLAYER_BACK_TO_BOT_UPGRADE_COST, UpgradeKey } from "../../constants/UpgradeConstants";
+import Game from "managers/Game";
+import Upgrade from "upgrades/Upgrade";
+import { TELEPORT_PLAYER_BACK_TO_BOT_UPGRADE_COST, UpgradeKey } from "constants/UpgradeConstants";
 
 const BUTTON_UI_ID = 'buyPlayerTeleportToBot';
 const TOOLTIP_TEXT = `Players can teleport their themselves back to the bot by pressing 'q'.`;

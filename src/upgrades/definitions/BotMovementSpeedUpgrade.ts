@@ -1,6 +1,6 @@
-import Game from "../../Game";
-import Upgrade from "../Upgrade";
-import { BOT_MOVEMENT_UPGRADE_BASE_COST, BOT_MOVEMENT_UPGRADE_BASE_COST_MUTLIPLIER, UpgradeKey } from "../../constants/UpgradeConstants";
+import Game from "managers/Game";
+import Upgrade from "upgrades/Upgrade";
+import { BOT_MOVEMENT_UPGRADE_BASE_COST, BOT_MOVEMENT_UPGRADE_BASE_COST_MUTLIPLIER, UpgradeKey } from "constants/UpgradeConstants";
 
 const BUTTON_UI_ID = 'buyBotMoveFaster';
 const TOOLTIP_TEXT = 'Bots will avoid revisiting the position that they were just at.';

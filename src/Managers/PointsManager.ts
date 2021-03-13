@@ -1,15 +1,10 @@
-import { IS_FREE_MODE_ENABLED } from "../dev/devUtils";
-import Game from "../Game";
-import {
-  MAZE_COMPLETION_BONUS_BASE_MULTIPLIER, 
-  POINTS_PER_VISIT_BASE_AMOUNT_MULTIPLIER, 
-  TILE_REVISIT_BASE_MULTIPLIER, 
-  TILE_REVISIT_BASE_MULTIPLIER_INCREASE_PERCENT, 
-  UpgradeKey 
-} from "../constants/UpgradeConstants";
-import Serializable from "../models/Serializable";
-import MultiplierMazeItem from "../items/definitions/MultiplierMazeItem";
-import { StatsKey } from "../models/Stats";
+import { UpgradeKey, POINTS_PER_VISIT_BASE_AMOUNT_MULTIPLIER, TILE_REVISIT_BASE_MULTIPLIER, TILE_REVISIT_BASE_MULTIPLIER_INCREASE_PERCENT, MAZE_COMPLETION_BONUS_BASE_MULTIPLIER } from "constants/UpgradeConstants";
+import { IS_FREE_MODE_ENABLED } from "dev/devUtils";
+import Game from "managers/Game";
+import MultiplierMazeItem from "items/definitions/MultiplierMazeItem";
+import Serializable from "models/Serializable";
+import { StatsKey } from "models/Stats";
+
 
 const SERIALIZABLE_PROPERTIES: string[] = ['points'];
 

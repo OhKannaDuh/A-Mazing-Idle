@@ -1,6 +1,6 @@
-import Game from "../../../Game";
-import Upgrade from "../../Upgrade";
-import { UpgradeKey, MULTIPLIER_ITEM_EXTRA_BOT_UPGRADE_BASE_COST, MULTIPLIER_ITEM_EXTRA_BOT_UPGRADE_BASE_COST_MULTIPLIER } from "../../../constants/UpgradeConstants";
+import Game from "managers/Game";
+import Upgrade from "upgrades/Upgrade";
+import { UpgradeKey, MULTIPLIER_ITEM_EXTRA_BOT_UPGRADE_BASE_COST, MULTIPLIER_ITEM_EXTRA_BOT_UPGRADE_BASE_COST_MULTIPLIER } from "constants/UpgradeConstants";
 
 const BUTTON_UI_ID = 'buyMultiplierItemExtraBotUpgrade';
 const TOOLTIP_TEXT = 'Multiplier item applies to +1 extra bot.';

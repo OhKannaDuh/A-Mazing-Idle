@@ -1,6 +1,6 @@
-import Game from "../Game";
-import Serializable from "../models/Serializable";
-import { CURRENT_MAZE_STATS, StatsKey } from "../models/Stats";
+import Game from "managers/Game";
+import Serializable from "models/Serializable";
+import { CURRENT_MAZE_STATS, StatsKey } from "models/Stats";
 
 const DEFAULT_STAT_VALUE = 0;
 const SERIALIZABLE_PROPERTIES: string[] = ['statsMap'];

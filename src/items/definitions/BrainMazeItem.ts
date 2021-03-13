@@ -1,9 +1,9 @@
-import Game from "../../Game";
-import { Tile } from "../../Maze";
-import { StatsKey } from "../../models/Stats";
-import { BRAIN_TILE_DISTANCE_UPGRADE_INCREASE_AMOUNT, UpgradeKey } from "../../constants/UpgradeConstants";
-import { BRAIN_SPAWN_BASE_PROBABILITY, BRAIN_STARTING_TILE_DISTANCE, MazeItemKey } from "../../constants/ItemConstants";
-import MazeItem from "../MazeItem";
+import Game from "managers/Game";
+import { Tile } from "managers/Maze";
+import { StatsKey } from "models/Stats";
+import { BRAIN_TILE_DISTANCE_UPGRADE_INCREASE_AMOUNT, UpgradeKey } from "constants/UpgradeConstants";
+import { BRAIN_SPAWN_BASE_PROBABILITY, BRAIN_STARTING_TILE_DISTANCE, MazeItemKey } from "constants/ItemConstants";
+import MazeItem from "items/MazeItem";
 
 const BACKGROUND_IMAGE_PATH: string = 'img/brain.png';
 
@@ -26,8 +26,7 @@ class BrainMazeItem extends MazeItem {
     return BRAIN_STARTING_TILE_DISTANCE + (upgradeLevel * BRAIN_TILE_DISTANCE_UPGRADE_INCREASE_AMOUNT);
   }
 
-  public static getBrainSpawnProbability(game: Game): number {
-    // 1% increase per upgrade
+  public static getItemSpawnProbability(game: Game): number {
     const upgradeLevel = game.upgrades.getUpgradeLevel(UpgradeKey.BRAIN_SPAWN);
     return BRAIN_SPAWN_BASE_PROBABILITY * (1 + upgradeLevel);
   }

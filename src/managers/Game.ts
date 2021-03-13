@@ -1,18 +1,17 @@
-import { printMazeCompleteData } from "./dev/devUtils";
-import Maze from "./Maze";
-import Points from "./managers/PointsManager";
-import RNGBotManager from "./managers/RNGBotManager";
-import UserInterface from "./UserInterface";
-import UpgradeManager from "./managers/UpgradeManager";
-import Serializable from "./models/Serializable";
-import SaveManager from "./managers/SaveManager";
-import PlayerManager from "./managers/PlayerManager";
-import MazeItemManager from "./managers/MazeItemManager";
-import StatsManager from "./managers/StatsManager";
-import BiomeManager from "./managers/BiomeManager";
-import ColorManager from "./managers/ColorManager";
-import { StatsKey } from "./models/Stats";
-import { UpgradeKey } from "./constants/UpgradeConstants";
+import { printMazeCompleteData } from "dev/devUtils";
+import Maze from "managers/Maze";
+import Points from "managers/PointsManager";
+import RNGBotManager from "managers/RNGBotManager";
+import UserInterface from "managers/UserInterface";
+import UpgradeManager from "managers/UpgradeManager";
+import Serializable from "models/Serializable";
+import SaveManager from "managers/SaveManager";
+import PlayerManager from "managers/PlayerManager";
+import MazeItemManager from "managers/MazeItemManager";
+import StatsManager from "managers/StatsManager";
+import BiomeManager from "managers/BiomeManager";
+import ColorManager from "managers/ColorManager";
+import { StatsKey } from "models/Stats";
 
 
 const SERIALIZABLE_PROPERTIES: string[] = ['points', 'upgrades', 'stats'];

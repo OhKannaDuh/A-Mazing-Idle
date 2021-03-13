@@ -1,8 +1,7 @@
-import Game from "./Game";
-import MazeItem from "./items/MazeItem";
-import { MazeArray } from "./Maze";
-import { generateTileKey, MazeDirectionIndex, MazeWallTypes } from "./MazeGenerator";
-import { CURRENT_MAZE_STATS, StatsKey, STATS_TO_UI_ID_MAP } from "./models/Stats";
+import Game from "managers/Game";
+import { MazeArray } from "managers/Maze";
+import { generateTileKey, MazeDirectionIndex, MazeWallTypes } from "managers/MazeGenerator";
+import { CURRENT_MAZE_STATS, StatsKey, STATS_TO_UI_ID_MAP } from "models/Stats";
 declare var $: any;
 
 

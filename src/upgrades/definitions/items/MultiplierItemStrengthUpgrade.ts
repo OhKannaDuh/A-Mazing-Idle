@@ -1,6 +1,6 @@
-import Game from "../../Game";
-import Upgrade from "../Upgrade";
-import { MULTIPLIER_ITEM_STRENGTH_BASE_COST, MULTIPLIER_ITEM_STRENGTH_BASE_COST_MULTIPLIER, UpgradeKey } from "../../constants/UpgradeConstants";
+import Game from "managers/Game";
+import Upgrade from "upgrades/Upgrade";
+import { MULTIPLIER_ITEM_STRENGTH_BASE_COST, MULTIPLIER_ITEM_STRENGTH_BASE_COST_MULTIPLIER, UpgradeKey } from "constants/UpgradeConstants";
 
 const BUTTON_UI_ID = 'buyMultiplierItemStrengthUpgrade';
 const TOOLTIP_TEXT = 'Multiplier item applies a multiplier to all items and visited tiles. This upgrade will increase the strength.';

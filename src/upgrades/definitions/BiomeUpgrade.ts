@@ -1,7 +1,7 @@
-import Game from "../../Game";
-import Upgrade from "../Upgrade";
-import { UpgradeKey } from "../../constants/UpgradeConstants";
-import { BIOME_UPGRADE_COST } from "../../constants/BiomeConstants";
+import Game from "managers/Game";
+import Upgrade from "upgrades/Upgrade";
+import { UpgradeKey } from "constants/UpgradeConstants";
+import { BIOME_UPGRADE_COST } from "constants/BiomeConstants";
 
 const BUTTON_UI_ID = 'buyBiomeUpgrade';
 const TOOLTIP_TEXT = 'This will bring you to a brand new biome with more difficult mazes, but with new items and much higher point rewards!';

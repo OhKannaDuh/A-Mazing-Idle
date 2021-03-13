@@ -1,6 +1,6 @@
-import Game from "../../Game";
-import Upgrade from "../Upgrade";
-import { MAZE_SIZE_UPGRADE_BASE_COST, MAZE_SIZE_UPGRADE_BASE_COST_MULTIPLIER, UpgradeKey } from "../../constants/UpgradeConstants";
+import Game from "managers/Game";
+import Upgrade from "upgrades/Upgrade";
+import { MAZE_SIZE_UPGRADE_BASE_COST, MAZE_SIZE_UPGRADE_BASE_COST_MULTIPLIER, UpgradeKey } from "constants/UpgradeConstants";
 
 const BUTTON_UI_ID = 'buyMazeSize';
 const TOOLTIP_TEXT = 'Maze is increased in size by 1 for both x/y dimension!';

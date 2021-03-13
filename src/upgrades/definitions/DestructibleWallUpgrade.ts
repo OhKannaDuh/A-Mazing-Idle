@@ -1,6 +1,6 @@
-import Game from "../../Game";
-import Upgrade from "../Upgrade";
-import { UpgradeKey } from "../../constants/UpgradeConstants";
+import Game from "managers/Game";
+import Upgrade from "upgrades/Upgrade";
+import { UpgradeKey } from "constants/UpgradeConstants";
 
 const BUTTON_UI_ID = 'noop';
 const TOOLTIP_TEXT = '';

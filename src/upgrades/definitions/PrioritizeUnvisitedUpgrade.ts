@@ -1,6 +1,6 @@
-import Game from "../../Game";
-import Upgrade from "../Upgrade";
-import { PRIORITIZE_UNVISITED_UPGRADE_COST as PRIORITIZE_UNVISITED_UPGRADE_COST, UpgradeKey } from "../../constants/UpgradeConstants";
+import Game from "managers/Game";
+import Upgrade from "upgrades/Upgrade";
+import { PRIORITIZE_UNVISITED_UPGRADE_COST as PRIORITIZE_UNVISITED_UPGRADE_COST, UpgradeKey } from "constants/UpgradeConstants";
 
 const BUTTON_UI_ID = 'buyBotPrioritizeUnvisited';
 const TOOLTIP_TEXT = 'Bots will always prioritize an unvisited tile before a previously visited one.';

@@ -1,7 +1,5 @@
-import Game from "./Game";
-import { MazeItemKey } from "./constants/ItemConstants";
-import { DIRECTIONS_ARR, MazeArray, Tile, TileVector } from "./Maze";
-import { UpgradeKey } from "./constants/UpgradeConstants";
+import Game from "managers/Game";
+import { DIRECTIONS_ARR, MazeArray, Tile, TileVector } from "managers/Maze";
 
 
 export const PLAYER_COLOR = '#1EC438';

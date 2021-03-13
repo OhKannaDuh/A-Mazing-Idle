@@ -1,8 +1,8 @@
-import Game from "../Game";
-import { Tile } from "../Maze";
-import { DEFAULT_TILE_WIDTH_CSS, generateTileKey } from "../MazeGenerator";
-import { StatsKey } from "../models/Stats";
-import { MazeItemKey } from "../constants/ItemConstants";
+import { MazeItemKey } from "constants/ItemConstants";
+import Game from "managers/Game";
+import { Tile } from "managers/Maze";
+import { generateTileKey } from "managers/MazeGenerator";
+import { StatsKey } from "models/Stats";
 
 
 class MazeItem {
@@ -42,6 +42,10 @@ class MazeItem {
   public triggerPickup(playerId: number): void {
     this.removeItem();
     this.game.stats.addStatsToKey(1, this.pickUpStatsKey);
+  }
+
+  public static getItemSpawnProbability(game: Game): number {
+    return 0;
   }
 }
 

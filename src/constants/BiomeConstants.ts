@@ -1,3 +1,5 @@
+import BiomeColorPalette from "models/BiomeColorPalette";
+import { BIOME_0_COLOR_PALETTE, BIOME_1_COLOR_PALETTE } from "constants/ColorConstants";
 import { 
   APPLE_IMAGE_URL, 
   BANANA_IMAGE_URL, 
@@ -14,7 +16,7 @@ import {
   FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_6,
   FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_7,
   FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_8
-} from "./ItemConstants";
+} from "constants/ItemConstants";
 import { 
   BIOME_0_UPGRADE_COST,
   BIOME_1_UPGRADE_COST,
@@ -32,7 +34,7 @@ import {
   POINTS_PER_VISIT_BASE_AMOUNT_BIOME_5,
   POINTS_PER_VISIT_BASE_AMOUNT_BIOME_6,
   POINTS_PER_VISIT_BASE_AMOUNT_BIOME_7
-} from "./UpgradeConstants";
+} from "constants/UpgradeConstants";
 
 
 export enum BiomeKey {
@@ -95,6 +97,18 @@ export const BIOME_UPGRADE_COST: Map<BiomeKey, number> = new Map([
   [BiomeKey.BIOME_6, BIOME_6_UPGRADE_COST],
   [BiomeKey.BIOME_7, BIOME_6_UPGRADE_COST],
   [BiomeKey.BIOME_8, BIOME_6_UPGRADE_COST],
+]);
+
+export const BIOME_COLOR_PALETTE_MAP = new Map<BiomeKey, BiomeColorPalette>([
+  [BiomeKey.BIOME_0, BIOME_0_COLOR_PALETTE],
+  [BiomeKey.BIOME_1, BIOME_1_COLOR_PALETTE],
+  [BiomeKey.BIOME_2, BIOME_1_COLOR_PALETTE],
+  [BiomeKey.BIOME_3, BIOME_1_COLOR_PALETTE],
+  [BiomeKey.BIOME_4, BIOME_1_COLOR_PALETTE],
+  [BiomeKey.BIOME_5, BIOME_1_COLOR_PALETTE],
+  [BiomeKey.BIOME_6, BIOME_1_COLOR_PALETTE],
+  [BiomeKey.BIOME_7, BIOME_1_COLOR_PALETTE],
+  [BiomeKey.BIOME_8, BIOME_1_COLOR_PALETTE]
 ]);
 
 export const BIOME_ITEM_UNLOCKS: Map<MazeItemKey, BiomeKey> = new Map([

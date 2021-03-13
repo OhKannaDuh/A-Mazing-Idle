@@ -1,6 +1,6 @@
-import Game from "../../../Game";
-import Upgrade from "../../Upgrade";
-import { UpgradeKey, UNLIMITED_SPLIT_ITEM_EXTRA_BOT_UPGRADE_BASE_COST_MULTIPLIER, UNLIMITED_SPLIT_ITEM_EXTRA_BOT_UPGRADE_BASE_COST } from "../../../constants/UpgradeConstants";
+import Game from "managers/Game";
+import Upgrade from "upgrades/Upgrade";
+import { UpgradeKey, UNLIMITED_SPLIT_ITEM_EXTRA_BOT_UPGRADE_BASE_COST_MULTIPLIER, UNLIMITED_SPLIT_ITEM_EXTRA_BOT_UPGRADE_BASE_COST } from "constants/UpgradeConstants";
 
 const BUTTON_UI_ID = 'buyUnlimitedSplitItemExtraBotUpgrade';
 const TOOLTIP_TEXT = 'Unlimited split item applies to +1 extra bot.';

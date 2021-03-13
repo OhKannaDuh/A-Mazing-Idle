@@ -1,12 +1,12 @@
-import Game from "../../Game";
-import { Tile } from "../../Maze";
-import { StatsKey } from "../../models/Stats";
-import { UpgradeKey } from "../../constants/UpgradeConstants";
-import { MazeItemKey, MULTIPLIER_ITEM_BASE_MULTIPLIER, MULTIPLIER_ITEM_SPAWN_BASE_PROBABILITY } from "../../constants/ItemConstants";
-import MazeItem from "../MazeItem";
+import { MazeItemKey, MULTIPLIER_ITEM_BASE_MULTIPLIER, MULTIPLIER_ITEM_SPAWN_BASE_PROBABILITY } from "constants/ItemConstants";
+import { UpgradeKey } from "constants/UpgradeConstants";
+import Game from "managers/Game";
+import MazeItem from "items/MazeItem";
+import { Tile } from "managers/Maze";
+import { StatsKey } from "models/Stats";
+
 
 const BACKGROUND_IMAGE_PATH: string = 'img/multiplierItem.png';
-
 
 class MultiplierMazeItem extends MazeItem {
   constructor(game: Game, tile: Tile, mazeItemKey: MazeItemKey) {
@@ -25,7 +25,7 @@ class MultiplierMazeItem extends MazeItem {
     return MULTIPLIER_ITEM_BASE_MULTIPLIER + (upgradeLevel);
   }
   
-  public static getMultiplierItemSpawnProbability(game: Game): number {
+  public static getItemSpawnProbability(game: Game): number {
     const upgradeLevel = game.upgrades.getUpgradeLevel(UpgradeKey.MULTIPLIER_ITEM_SPAWN_RATE);
     return MULTIPLIER_ITEM_SPAWN_BASE_PROBABILITY * (1 + upgradeLevel);
   }

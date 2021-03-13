@@ -1,6 +1,6 @@
-import Game from "../../Game";
-import Upgrade from "../Upgrade";
-import { AUTO_EXIT_MAZE_UPGRADE_BASE_COST, AUTO_EXIT_MAZE_UPGRADE_BASE_COST_MULTIPLIER, UpgradeKey } from "../../constants/UpgradeConstants";
+import Game from "managers/Game";
+import Upgrade from "upgrades/Upgrade";
+import { AUTO_EXIT_MAZE_UPGRADE_BASE_COST, AUTO_EXIT_MAZE_UPGRADE_BASE_COST_MULTIPLIER, UpgradeKey } from "constants/UpgradeConstants";
 
 const BUTTON_UI_ID = 'buyBotAutoExitMaze';
 const TOOLTIP_TEXT = 'When a bot is within X non-walled tiles of the maze exit, it will automatically navigate to the exit.';

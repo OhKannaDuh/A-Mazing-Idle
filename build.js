@@ -2,7 +2,7 @@ const browserify = require('browserify');
 const tsify = require('tsify');
 const babelify = require('babelify');
 
-browserify()
+browserify({"basedir": "."})
 	.add('src/index.ts')
 	.plugin(tsify)
 	.transform(babelify, { extensions: ['.ts'] })

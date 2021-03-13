@@ -1,7 +1,7 @@
-import { IS_DEV_MODE_ENABLED, DEV_MODE_AUTOSTART } from "./dev/devUtils";
-import Game from "./Game";
-import { DEFAULT_PLAYER_ID, DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_UP } from "./Maze";
-import { UpgradeKey } from "./constants/UpgradeConstants";
+import { IS_DEV_MODE_ENABLED, DEV_MODE_AUTOSTART } from "dev/devUtils";
+import Game from "managers/Game";
+import { DEFAULT_PLAYER_ID, DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_UP } from "managers/Maze";
+import { UpgradeKey } from "constants/UpgradeConstants";
 declare var $: any;
 
 

@@ -1,6 +1,6 @@
-import { BIOME_COLOR_PALETTE_MAP } from "../constants/ColorConstants";
-import Game from "../Game";
-import BiomeColorPalette from "../models/BiomeColorPalette";
+import { BIOME_COLOR_PALETTE_MAP } from "constants/BiomeConstants";
+import Game from "managers/Game";
+import BiomeColorPalette from "models/BiomeColorPalette";
 
 
 class ColorManager {

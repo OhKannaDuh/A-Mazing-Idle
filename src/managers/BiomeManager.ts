@@ -1,14 +1,7 @@
-import Game from "../Game";
-import { UpgradeKey } from "../constants/UpgradeConstants";
-import { 
-  BiomeKey, 
-  BIOME_BASE_FRUIT_ITEM_PICKUP_VALUE, 
-  BIOME_BASE_POINTS_PER_VISIT_VALUE, 
-  BIOME_IMAGE_URL_MAP, 
-  BIOME_ITEM_UNLOCKS,
-  BIOME_UPGRADE_UNLOCKS
-} from "../constants/BiomeConstants";
-import { MazeItemKey } from "../constants/ItemConstants";
+import { BIOME_BASE_POINTS_PER_VISIT_VALUE, BIOME_IMAGE_URL_MAP, BIOME_BASE_FRUIT_ITEM_PICKUP_VALUE, BiomeKey, BIOME_ITEM_UNLOCKS, BIOME_UPGRADE_UNLOCKS } from "constants/BiomeConstants";
+import { MazeItemKey } from "constants/ItemConstants";
+import { UpgradeKey } from "constants/UpgradeConstants";
+import Game from "managers/Game";
 
 class BiomeManager {
   private game: Game;

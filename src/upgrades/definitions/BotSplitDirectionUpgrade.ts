@@ -1,6 +1,6 @@
-import Game from "../../Game";
-import Upgrade from "../Upgrade";
-import { SPLIT_DIRECTION_UPGRADE_BASE_COST, SPLIT_DIRECTION_UPGRADE_BASE_MULTIPLIER, UpgradeKey } from "../../constants/UpgradeConstants";
+import Game from "managers/Game";
+import Upgrade from "upgrades/Upgrade";
+import { SPLIT_DIRECTION_UPGRADE_BASE_COST, SPLIT_DIRECTION_UPGRADE_BASE_MULTIPLIER, UpgradeKey } from "constants/UpgradeConstants";
 
 const BUTTON_UI_ID = 'buyBotSplitDirections';
 const TOOLTIP_TEXT = 'Bots will split into two different bots when different pathways are available to it up to X total times.';

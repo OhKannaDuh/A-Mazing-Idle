@@ -1,4 +1,4 @@
-import Game from "../Game";
+import Game from "managers/Game";
 
 const SAVE_GAME_INTERVAL = 10000;
 const SAVE_GAME_LOCAL_STORE_KEY = 'a-mazing-idle';

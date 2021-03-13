@@ -8,11 +8,10 @@
     "sourceMap": true,
     "jsx": "react",
     "lib": ["es6", "dom"],
-    "types": ["jquery", "node"],
     "target": "es6",
     "strict": false,
     "noImplicitUseStrict": true,
-    "moduleResolution": "node"
+    "baseUrl": "./src"
   },
   "files": [
       "./src/index.ts"

@@ -1,11 +1,11 @@
-import Game from "../../Game";
-import { Tile } from "../../Maze";
-import { UpgradeKey } from "../../constants/UpgradeConstants";
-import { FRUIT_PICKUP_POINTS_BASE_AMOUNT_MULTIPLIER, FRUIT_SPAWN_BASE_PROBABILITY, FRUIT_SPAWN_UPGRADE_FLAT_INCREASE_PROBABILITY, MazeItemKey } from "../../constants/ItemConstants";
-import MazeItem from "../MazeItem";
-import { StatsKey } from "../../models/Stats";
+import Game from "managers/Game";
+import { Tile } from "managers/Maze";
+import { UpgradeKey } from "constants/UpgradeConstants";
+import { FRUIT_PICKUP_POINTS_BASE_AMOUNT_MULTIPLIER, FRUIT_SPAWN_BASE_PROBABILITY, FRUIT_SPAWN_UPGRADE_FLAT_INCREASE_PROBABILITY, MazeItemKey } from "constants/ItemConstants";
+import MazeItem from "items/MazeItem";
+import { StatsKey } from "models/Stats";
 
-// Note: This item will bypass destructible walls.
+
 class FruitMazeItem extends MazeItem {
   constructor(game: Game, tile: Tile, mazeItemKey: MazeItemKey) {
     super(game, tile, mazeItemKey, null, StatsKey.TOTAL_FRUIT_ITEMS_PICKED_UP);
@@ -28,7 +28,7 @@ class FruitMazeItem extends MazeItem {
     return baseAmount * Math.pow(FRUIT_PICKUP_POINTS_BASE_AMOUNT_MULTIPLIER, upgradeLevel);
   }
   
-  public static getFruitSpawnProbability(game: Game): number {
+  public static getItemSpawnProbability(game: Game): number {
     const upgradeLevel = game.upgrades.getUpgradeLevel(UpgradeKey.FRUIT_SPAWN);
     return FRUIT_SPAWN_BASE_PROBABILITY + (FRUIT_SPAWN_UPGRADE_FLAT_INCREASE_PROBABILITY * upgradeLevel);
   }

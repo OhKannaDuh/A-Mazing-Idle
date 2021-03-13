@@ -1,6 +1,4 @@
-import BiomeColorPalette from "../models/BiomeColorPalette";
-import { BiomeKey } from "./BiomeConstants";
-
+import BiomeColorPalette from "models/BiomeColorPalette";
 
 
 export const DEFAULT_PLAYER_COLOR = '#1EC438';
@@ -13,7 +11,7 @@ export const DEFAULT_VISITED_TILE_COLOR = '#7CFCFF';
 export const DEFAULT_MAZE_WALL_COLOR = 'black';
 
 
-const BIOME_0_COLOR_PALETTE = new BiomeColorPalette(
+export const BIOME_0_COLOR_PALETTE = new BiomeColorPalette(
   DEFAULT_PLAYER_COLOR, 
   DEFAULT_RNG_BOT_COLOR,
   DEFAULT_EMPTY_COLOR,
@@ -23,7 +21,7 @@ const BIOME_0_COLOR_PALETTE = new BiomeColorPalette(
   DEFAULT_SMART_PATHING_PLAYER_COLOR,
   DEFAULT_MULTIPLIER_ITEM_PLAYER_COLOR
 );
-const BIOME_1_COLOR_PALETTE = new BiomeColorPalette(
+export const BIOME_1_COLOR_PALETTE = new BiomeColorPalette(
   DEFAULT_PLAYER_COLOR, 
   DEFAULT_RNG_BOT_COLOR,
   DEFAULT_EMPTY_COLOR,
@@ -33,11 +31,3 @@ const BIOME_1_COLOR_PALETTE = new BiomeColorPalette(
   DEFAULT_SMART_PATHING_PLAYER_COLOR,
   DEFAULT_MULTIPLIER_ITEM_PLAYER_COLOR,
 );
-
-export const BIOME_COLOR_PALETTE_MAP = new Map<BiomeKey, BiomeColorPalette>([
-  [BiomeKey.BIOME_0, BIOME_0_COLOR_PALETTE],
-  [BiomeKey.BIOME_1, BIOME_1_COLOR_PALETTE],
-  [BiomeKey.BIOME_2, BIOME_1_COLOR_PALETTE],
-  [BiomeKey.BIOME_3, BIOME_1_COLOR_PALETTE],
-  [BiomeKey.BIOME_4, BIOME_1_COLOR_PALETTE]
-]);

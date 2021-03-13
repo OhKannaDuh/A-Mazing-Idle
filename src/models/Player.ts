@@ -1,5 +1,5 @@
-import Game from "../Game";
-import { Tile } from "../Maze";
+import Game from "managers/Game";
+import { Tile } from "managers/Maze";
 
 
 class Player {

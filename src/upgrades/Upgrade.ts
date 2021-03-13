@@ -1,8 +1,7 @@
-import { IS_FREE_MODE_ENABLED } from '../dev/devUtils';
-import Game from '../Game';
-import { StatsKey } from '../models/Stats';
-import UserInterface from '../UserInterface';
-import { UpgradeKey } from '../constants/UpgradeConstants';
+import { IS_FREE_MODE_ENABLED } from 'dev/devUtils';
+import Game from 'managers/Game';
+import UserInterface from 'managers/UserInterface';
+import { UpgradeKey } from 'constants/UpgradeConstants';
 declare var $: any;
 
 

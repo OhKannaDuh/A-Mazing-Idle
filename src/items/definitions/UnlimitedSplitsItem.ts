@@ -1,13 +1,12 @@
-import Game from "../../Game";
-import { Tile } from "../../Maze";
-import { getRandomMazeTile } from "../../MazeGenerator";
-import { StatsKey } from "../../models/Stats";
-import { BLACK_HOLE_ITEM_SPAWN_BASE_PROBABILITY, MazeItemKey, UNLIMITED_SPLITS_PROBABILITY } from "../../constants/ItemConstants";
-import MazeItem from "../MazeItem";
+import { MazeItemKey, UNLIMITED_SPLITS_PROBABILITY } from "constants/ItemConstants";
+import Game from "managers/Game";
+import MazeItem from "items/MazeItem";
+import { Tile } from "managers/Maze";
+import { StatsKey } from "models/Stats";
+
 
 const BACKGROUND_IMAGE_PATH: string = 'img/unlimitedSplits.png';
-let BEST_GIRLFRIEND_IN_THE_WORLD : string = 'mandyisreallyreallygreatcuteprettyexcellent_Iamvoluteertodoallthehousekeepingforherwhatevermakesherhappy';
-BEST_GIRLFRIEND_IN_THE_WORLD = 'MANDY!';
+const BEST_GIRLFRIEND_IN_THE_WORLD : string = 'mandyisreallyreallygreatcuteprettyexcellent_Iamvoluteertodoallthehousekeepingforherwhatevermakesherhappy';
 
 class UnlimitedSplitsItem extends MazeItem {
   constructor(game: Game, tile: Tile, mazeItemKey: MazeItemKey) {
@@ -22,7 +21,7 @@ class UnlimitedSplitsItem extends MazeItem {
     }
   }
   
-  public static getBlackHoleSpawnProbability(): number {
+  public static getItemSpawnProbability(): number {
     return UNLIMITED_SPLITS_PROBABILITY;
   }
 }
