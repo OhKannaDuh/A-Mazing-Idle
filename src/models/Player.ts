@@ -13,10 +13,11 @@ class Player {
   public smartPathingTileDistanceRemaining: number;
   public isMultiplierItemActive: boolean;
   public isUnlimitedSplitItemActive: boolean;
+  public ghostItemTileDistanceRemaining: number;
 
   constructor(game: Game, id: number, currTile = null, prevTile = null, isManuallyControlled = false, 
       isPrimaryBot = false, moveCount = 0, smartPathingTileDistanceRemaining = 0, isMultiplierItemActive = false,
-      isUnlimitedSplitItemActive = false) {
+      isUnlimitedSplitItemActive = false, ghostItemTileDistanceRemaining = 0) {
     this.game = game;
     this.isManuallyControlled = isManuallyControlled;
     this.id = id;
@@ -27,6 +28,7 @@ class Player {
     this.smartPathingTileDistanceRemaining = smartPathingTileDistanceRemaining;
     this.isMultiplierItemActive = isMultiplierItemActive;
     this.isUnlimitedSplitItemActive = isUnlimitedSplitItemActive;
+    this.ghostItemTileDistanceRemaining = ghostItemTileDistanceRemaining;
   }
 
   hasSmartPathingRemaining(): boolean {
@@ -43,6 +45,14 @@ class Player {
 
   hasUnlimitedSplitItemActive(): boolean {
     return this.isUnlimitedSplitItemActive;
+  }
+
+  hasGhostItemActive(): boolean {
+    return this.ghostItemTileDistanceRemaining > 0;
+  }
+  
+  reduceGhostPathingDistance(distance = 1): void {
+    this.ghostItemTileDistanceRemaining = Math.max(0, this.ghostItemTileDistanceRemaining - distance);
   }
 }
 

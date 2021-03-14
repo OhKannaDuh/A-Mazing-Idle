@@ -232,13 +232,14 @@ class Maze {
     }
   }
 
-  canMove(tile: Tile, dirVector: TileVector, isExcludeExit: boolean = false, isIgnoreDestructibleWalls: boolean = false): boolean {
+  canMove(tile: Tile, dirVector: TileVector, isExcludeExit: boolean = false, isIgnoreDestructibleWalls: boolean = false, isIgnoreWalls: boolean = false): boolean {
     const newTile = getNewTilePositionByVector(tile, dirVector);
     
     // Check if maze exit and is valid tile
     if (this.isMazeExitTile(newTile) && !isExcludeExit) return true;
     if (!this.isValidTile(newTile)) return false;
-    
+    if (isIgnoreWalls) return true;
+
     let tileVal = null;
     // Check for walls in current tile in each direction
     if (dirVector === DIRECTION_UP) {
@@ -297,12 +298,12 @@ class Maze {
   }
   
   getValidDirectionsByPlayerId(playerId) {
-    const currTile = this.game.players.getPlayer(playerId).currTile;
-    return this.getValidDirectionsByTile(currTile);
+    const player = this.game.players.getPlayer(playerId);
+    return this.getValidDirectionsByTile(player.currTile, player.hasGhostItemActive());
   }
 
-  getValidDirectionsByTile(tile, isIncludeDestructible = false) {
-    const validDirsArr = DIRECTIONS_ARR.filter((dir) => this.canMove(tile, dir, false, isIncludeDestructible));
+  getValidDirectionsByTile(tile, isIgnoreWalls = false, isIncludeDestructible = false) {
+    const validDirsArr = DIRECTIONS_ARR.filter((dir) => this.canMove(tile, dir, false, isIncludeDestructible, isIgnoreWalls));
     return validDirsArr;
   }
 
@@ -332,7 +333,7 @@ class Maze {
     if (upgradeCount === 0) {
       return;
     }
-    const validDirsArr = this.getValidDirectionsByTile(tile, true);
+    const validDirsArr = this.getValidDirectionsByTile(tile, false, true);
     const tileKey = generateTileKey(tile.x, tile.y);
     
     if (validDirsArr.length === 1) {

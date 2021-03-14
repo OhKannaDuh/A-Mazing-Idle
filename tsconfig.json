@@ -11,7 +11,15 @@
     "target": "es6",
     "strict": false,
     "noImplicitUseStrict": true,
-    "baseUrl": "./src"
+    "baseUrl": "./src",
+    "paths": {
+      "upgrades/*": ["upgrades/*"],
+      "constants/*": ["constants/*"],
+      "dev/*": ["dev/*"],
+      "items/*": ["items/*"],
+      "managers/*": ["managers/*"],
+      "models/*": ["models/*"]
+    }
   },
   "files": [
       "./src/index.ts"

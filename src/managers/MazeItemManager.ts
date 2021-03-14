@@ -6,6 +6,7 @@ import BlackHoleMazeItem from "items/definitions/BlackHoleMazeItem";
 import BrainMazeItem from "items/definitions/BrainMazeItem";
 import FruitMazeItem from "items/definitions/FruitMazeItem";
 import MultiplierMazeItem from "items/definitions/MultiplierMazeItem";
+import GhostMazeItem from "items/definitions/GhostMazeItem";
 import MazeItem from "items/MazeItem";
 import { Tile } from "managers/Maze";
 import { generateTileKey } from "managers/MazeGenerator";
@@ -42,6 +43,8 @@ class MazeItemManager {
       return BlackHoleMazeItem.getItemSpawnProbability(this.game);
     } else if (mazeItemKey === MazeItemKey.UNLIMITED_SPLITS) {
       return UnlimitedSplitsItem.getItemSpawnProbability();
+    } else if (mazeItemKey === MazeItemKey.GHOST) {
+      return GhostMazeItem.getItemSpawnProbability();
     } else {
       console.error('Failed to create maze item of type.  No valid type: ' + mazeItemKey);
       return;
@@ -61,6 +64,8 @@ class MazeItemManager {
       mazeItem = new BlackHoleMazeItem(this.game, tile, mazeItemKey);
     } else if (mazeItemKey === MazeItemKey.UNLIMITED_SPLITS) {
       mazeItem = new UnlimitedSplitsItem(this.game, tile, mazeItemKey);
+    } else if (mazeItemKey === MazeItemKey.GHOST) {
+      mazeItem = new GhostMazeItem(this.game, tile, mazeItemKey);
     } else {
       console.error('Failed to create maze item of type.  No valid type: ' + mazeItemKey);
       return;

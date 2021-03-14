@@ -7,11 +7,11 @@ Bug fixes:
 Features:
 --> (*) Offline play
 --> (*) Display upgrade stat instead of level
---> (*) Unlimited splitting
 --> (*) Points for clearing destructible walls
 --> (*) Ghost item (walk through walls)
 --> (*) Finish line (auto-complete maze)
 --> (*) Debounce speed of manual movement
+--> (*) Allow option for splits on visited tiles
 --> "Luck" upgrade
 --> Bots move between tiles instead of teleport
 

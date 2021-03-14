@@ -27,6 +27,7 @@
     "gulp-cli": "^2.3.0",
     "lodash": "4.17.20",
     "tsify": "^2.0.2",
-    "typescript": "^2.0.3"
+    "typescript": "^2.0.3",
+    "priorityjs": "1.2.3"
   }
 }
