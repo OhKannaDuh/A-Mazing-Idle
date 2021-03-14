@@ -63,10 +63,8 @@ class PlayerManager {
     const player = this.getPlayer(playerId);
     if (player == null) return;
     if (!this.game.maze.canMove(player.currTile, dirVector)) {
-      // Bots that get stuck in deadends.
-      if (!isManual) {
-        this.game.players.deletePlayer(playerId);
-      }
+      // If player can't move, ensure no destructible tiles are holding them
+      this.game.maze.clearDestructibleTilesFromTile(player.currTile);
       return;
     }
     
@@ -158,6 +156,8 @@ class PlayerManager {
           return this.game.colors.getSmartPathingPlayerColor();
         } else if (player.hasMultiplierItemActive()) {
           return this.game.colors.getMultiplierItemPlayerColor();
+        } else if (player.hasUnlimitedSplitItemActive()) {
+          return this.game.colors.getUnlimitedSplitPlayerColor();
         } else {
           return this.game.colors.getBotColor();
         }

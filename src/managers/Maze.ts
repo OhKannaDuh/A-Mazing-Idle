@@ -113,11 +113,11 @@ class Maze {
     $(`#${new_tile_key}`).css('z-index', -1);
   }
 
-  getTileCount() {
+  getTileCount(): number {
     return this.maze.length * this.maze[0].length;
   }
 
-  spawnSplitBot(playerId, dirArr) {
+  spawnSplitBot(playerId: number, dirArr, isUnlimitedSplit: boolean): void {
     const currTile = this.game.players.getCurrTile(playerId);
     for (let i = 0; i < dirArr.length; i++) {
       if (i === 0) {
@@ -128,6 +128,7 @@ class Maze {
       // Spawn new split bot in the new tile
       const newTile = getNewTilePositionByVector(currTile, dirArr[i]);
       const newPlayer = this.game.players.createNewPlayerObj(newTile);
+      newPlayer.isUnlimitedSplitItemActive = isUnlimitedSplit;
     }
   }
   

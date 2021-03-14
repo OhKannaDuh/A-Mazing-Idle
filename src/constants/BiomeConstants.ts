@@ -113,10 +113,10 @@ export const BIOME_COLOR_PALETTE_MAP = new Map<BiomeKey, BiomeColorPalette>([
 
 export const BIOME_ITEM_UNLOCKS: Map<MazeItemKey, BiomeKey> = new Map([
   [MazeItemKey.FRUIT, BiomeKey.BIOME_1],
-  [MazeItemKey.UNLIMITED_SPLITS, BiomeKey.BIOME_1],
-  [MazeItemKey.BLACK_HOLE, BiomeKey.BIOME_7],
+  [MazeItemKey.UNLIMITED_SPLITS, BiomeKey.BIOME_8],
+  [MazeItemKey.BLACK_HOLE, BiomeKey.BIOME_8],
   [MazeItemKey.BRAIN, BiomeKey.BIOME_6],
-  [MazeItemKey.MULTIPLIER, BiomeKey.BIOME_7],
+  [MazeItemKey.MULTIPLIER, BiomeKey.BIOME_2],
 ]);
 
 export const BIOME_UPGRADE_UNLOCKS: Map<UpgradeKey, BiomeKey> = new Map([
@@ -147,7 +147,7 @@ export const BIOME_UPGRADE_UNLOCKS: Map<UpgradeKey, BiomeKey> = new Map([
   [UpgradeKey.UNLIMITED_SPLIT_ITEM_EXTRA_BOT, BiomeKey.BIOME_4],
   
   // Biome X
-  [UpgradeKey.DESTRUCTIBLE_WALLS, BiomeKey.BIOME_6],
+  [UpgradeKey.DESTRUCTIBLE_WALLS, BiomeKey.BIOME_8],
   [UpgradeKey.BRAIN_TILE_DISTANCE, BiomeKey.BIOME_6],
   [UpgradeKey.BRAIN_SPAWN, BiomeKey.BIOME_6],
   [UpgradeKey.POINTS_PER_REVISIT, BiomeKey.BIOME_7],

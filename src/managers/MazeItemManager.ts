@@ -143,6 +143,7 @@ class MazeItemManager {
     // Apply item to as many bots as possible based on upgrade level.
     for (let extraBotPlayerId of playerIdList) {
       const extraBotPlayer = this.game.players.getPlayer(extraBotPlayerId);
+      //TODO: check if item is applied already!?!?!
       if (extraBotPlayer) {
         mazeItem.triggerPickup(extraBotPlayerId);
         extraBotCount--;

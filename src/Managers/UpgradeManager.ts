@@ -28,8 +28,8 @@ import { UpgradeKey } from "constants/UpgradeConstants"
 import Serializable from "models/Serializable";
 import { IS_GLOBAL_UNLOCK_ENABLED } from "dev/devUtils";
 
-
-const SERIALIZABLE_PROPERTIES = ['upgradeMap'];
+const UPGRADE_MAP_PROPERTY_KEY = 'upgradeMap';
+const SERIALIZABLE_PROPERTIES = [UPGRADE_MAP_PROPERTY_KEY];
 
 class UpgradeManager extends Serializable {
   private upgradeMap: Map<UpgradeKey, Upgrade>;
@@ -40,7 +40,7 @@ class UpgradeManager extends Serializable {
     this.game = game;
   }
 
-  initUpgrades() {
+  public initUpgrades() {
     this.upgradeMap = new Map<UpgradeKey, Upgrade>();
     
     // Maze / Points
@@ -68,14 +68,13 @@ class UpgradeManager extends Serializable {
     this.createUpgrade(new MultiplierItemStrengthUpgrade(this.game, UpgradeKey.MULTIPLIER_ITEM_STRENGTH));
     this.createUpgrade(new MultiplierItemExtraBotUpgrade(this.game, UpgradeKey.MULTIPLIER_ITEM_EXTRA_BOT));
     this.createUpgrade(new UnlimitedSplitsItemExtraBotUpgrade(this.game, UpgradeKey.UNLIMITED_SPLIT_ITEM_EXTRA_BOT));
-    
     // Features
     this.createUpgrade(new DestructibleWallUpgrade(this.game, UpgradeKey.DESTRUCTIBLE_WALLS));
     // Biomes
     this.createUpgrade(new BiomeUpgrade(this.game, UpgradeKey.BIOME));
   }
 
-  updateAllUpgradeUi() {
+  public updateAllUpgradeUi() {
     for (let [upgradeKey, upgrade] of this.upgradeMap) {
       upgrade.updateUiProperties();
       upgrade.updateUiDisabled();
@@ -83,28 +82,28 @@ class UpgradeManager extends Serializable {
     }
   }
 
-  createUpgrade(upgrade: Upgrade) {
+  private createUpgrade(upgrade: Upgrade) {
     this.upgradeMap.set(upgrade.upgradeKey, upgrade);
   }
 
-  getUpgrade(upgradeKey: UpgradeKey) {
+  public getUpgrade(upgradeKey: UpgradeKey) {
     if (!this.upgradeMap.has(upgradeKey)) {
-      throw `Unexpected upgrade key found: ${upgradeKey}`;
+      console.error(`Unexpected upgrade key found: ${upgradeKey}`);
     }
     return this.upgradeMap.get(upgradeKey);
   }
 
-  getUpgradeLevel(upgradeKey: UpgradeKey) {
+  public getUpgradeLevel(upgradeKey: UpgradeKey) {
     return this.getUpgrade(upgradeKey).upgradeLevel;
   }
 
-  isUpgraded(upgradeKey: UpgradeKey) {
+  public isUpgraded(upgradeKey: UpgradeKey) {
     return this.getUpgrade(upgradeKey).getIsUpgraded();
   }
 
-  serializeProperty(property: string): any {
+  public serializeProperty(property: string): any {
     // Upgrade map will export the upgrade level of each key
-    if (property === 'upgradeMap') {
+    if (property === UPGRADE_MAP_PROPERTY_KEY) {
       const obj = {};
       for (let [k, v] of this.upgradeMap) {
         obj[k] = v.upgradeLevel;
@@ -115,9 +114,9 @@ class UpgradeManager extends Serializable {
     }
   }
 
-  deserializeProperty(property: string, value: any): void {
+  public deserializeProperty(property: string, value: any): void {
     // Upgrade map will restore the upgrade level of each key
-    if (property === 'upgradeMap') {
+    if (property === UPGRADE_MAP_PROPERTY_KEY) {
       for (let upgradeKey in value) {
         this.upgradeMap.get(upgradeKey as UpgradeKey).upgradeLevel = parseInt(value[upgradeKey]);
       }
@@ -126,7 +125,7 @@ class UpgradeManager extends Serializable {
     }
   }
 
-  isUnlocked(upgradeKey: UpgradeKey): boolean {
+  public isUnlocked(upgradeKey: UpgradeKey): boolean {
     if (IS_GLOBAL_UNLOCK_ENABLED) return true;
     return this.upgradeMap.get(upgradeKey).isUnlocked();
   }

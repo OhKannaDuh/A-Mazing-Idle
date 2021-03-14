@@ -20,7 +20,7 @@ class MultiplierItemExtraBotUpgrade extends Upgrade {
   }
 
   isMaxUpgradeLevel(): boolean {
-    return this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_SPLIT_DIRECTION) >= this.upgradeLevel;
+    return this.upgradeLevel >= this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_SPLIT_DIRECTION);
   }
 }
 

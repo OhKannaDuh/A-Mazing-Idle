@@ -91,7 +91,7 @@ class RNGBotManager {
     if (dirArr.length === 1) {
       this.game.players.movePlayer(playerId, dirArr[0]);
     } else {
-      this.game.maze.spawnSplitBot(playerId, dirArr);
+      this.game.maze.spawnSplitBot(playerId, dirArr, this.game.players.getPlayer(playerId).isUnlimitedSplitItemActive);
     }
   }
 
@@ -102,7 +102,7 @@ class RNGBotManager {
     }
 
     const player = this.game.players.getPlayer(playerId);
-    const possibleNewSplits = player.isUnlimitedSplit 
+    const possibleNewSplits = player.isUnlimitedSplitItemActive 
       ? validDirs.length
       : this.game.maze.getPossibleSplitBotCount(validDirs);
 

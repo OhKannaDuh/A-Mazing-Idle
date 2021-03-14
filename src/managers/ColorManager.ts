@@ -43,6 +43,10 @@ class ColorManager {
     return this.getBiomeColorPalette().multiplierItemPlayerColor;
   }
 
+  public getUnlimitedSplitPlayerColor(): string {
+    return this.getBiomeColorPalette().unlimitedSplitBotPlayerColor;
+  }
+
   public getSmartPathingPlayerColor(): string {
     return this.getBiomeColorPalette().smartPathingPlayerColor;
   }

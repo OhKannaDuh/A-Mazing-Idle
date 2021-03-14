@@ -2,13 +2,6 @@ import Game from "managers/Game";
 import { DIRECTIONS_ARR, MazeArray, Tile, TileVector } from "managers/Maze";
 
 
-export const PLAYER_COLOR = '#1EC438';
-export const RNG_BOT_COLOR = '#000000';
-export const EMPTY_COLOR = '#FFFFFF';
-export const DEAD_END_COLOR = '#F13241';
-export const MULTIPLIER_ITEM_PLAYER_COLOR = '#E3E95C';
-export const SMART_PATHING_PLAYER_COLOR = '#dbaed8';
-
 export const DEFAULT_TILE_WIDTH_CSS = '20px';
 
 
