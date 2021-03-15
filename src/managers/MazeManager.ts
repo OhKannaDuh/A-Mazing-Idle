@@ -17,6 +17,7 @@ import {
 import { UpgradeKey } from "constants/UpgradeConstants";
 import { StatsKey } from "models/Stats";
 import { BacktrackerMaze } from "maze/BackTrackerMaze";
+import { BinaryTreeMaze } from "maze/BinaryTreeMaze";
 import { MazeCell } from "models/MazeCell";
 import { Maze } from "models/Maze";
 declare var $: any;
@@ -70,6 +71,7 @@ class MazeManager {
     const mazeSize = this.getNextMazeSize();
     //TODO: vary based on time zone
     this.maze = new BacktrackerMaze(mazeSize);
+    // this.maze = new BinaryTreeMaze(mazeSize);
     this.smartPathMaze = generateMazeSmartPathingArr(this.game, this.maze);
     this.deadEndTileMap = new Map();
     this.game.items.generateMazeItems(mazeSize, mazeSize);
@@ -283,7 +285,7 @@ class MazeManager {
   }
 
   public isMazeExitTile(tile: Tile): boolean {
-    return isTileEqual(tile, this.maze.exitTile);
+    return isTileEqual(tile, this.maze.externalExitTile);
   }
   
   public getValidDirectionsByPlayerId(playerId) {

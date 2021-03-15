@@ -1,5 +1,5 @@
 import { Array2D, MazeGridArray, Tile, TileVector } from "managers/MazeManager";
-import { DIRECTIONS_ARR, DIRECTION_RIGHT, generateMazeArr, MazeDirectionIndex, MazeWallTypes } from "managers/MazeUtils";
+import { DIRECTIONS_ARR, DIRECTION_RIGHT, generateMazeArr, getInverseDirectionIndex, getMazeDirectionIndexFromTileVector, getNewTilePositionByVector, getTileVectorFromMazeDirectionIndex, MazeDirectionIndex, MazeWallTypes } from "managers/MazeUtils";
 import { MazeCell } from "models/MazeCell";
 
 
@@ -9,9 +9,9 @@ export class Maze {
   public sizeX: number;
   public sizeY: number;
 
-  //TODO: use exit tile to clear exit wall tile
   public startTile: Tile;
-  public exitTile: Tile;
+  public externalExitTile: Tile;
+  public internalExitTile: Tile;
   public exitDirectionVector: TileVector;
 
   constructor(mazeSize: number) {
@@ -19,6 +19,14 @@ export class Maze {
     this.sizeY = mazeSize;
     this.setStartAndEndTile();
     this.generateMazeGrid();
+    this.generateVisitedArray();
+  }
+
+  public generateMaze() {
+    const exitCell = this.getCell(this.internalExitTile);
+    this.removeWallByTileVector(exitCell, this.exitDirectionVector);
+    
+    // Reset visited array
     this.generateVisitedArray();
   }
   
@@ -41,7 +49,7 @@ export class Maze {
     }
   }
 
-  public generateVisitedArray() {
+  public generateVisitedArray(): void {
     this.visitedGrid = generateMazeArr(this.sizeX, this.sizeY, false);
   }
   
@@ -67,8 +75,11 @@ export class Maze {
 
   public setStartAndEndTile(): void {
     this.startTile = { x: 0, y: 0 };
-    this.exitTile = { x: this.sizeX, y: this.sizeY - 1 };
+
+    this.internalExitTile = { x: this.sizeX - 1, y: this.sizeY - 1 };
     this.exitDirectionVector = DIRECTION_RIGHT;
+
+    this.externalExitTile = getNewTilePositionByVector(this.internalExitTile, this.exitDirectionVector);
   }
 
   public getNeighbors(cell: MazeCell): MazeCell[] {
@@ -81,5 +92,14 @@ export class Maze {
       }
     }
     return neighborsArr;
+  }
+
+  public removeWallByDirIndex(mazeCell: MazeCell, directionIndex: MazeDirectionIndex): void {
+    mazeCell.setWallTypeAtIndex(directionIndex, MazeWallTypes.NO_WALL);
+  }
+
+  public removeWallByTileVector(mazeCell: MazeCell, tileVector: TileVector): void {
+    const directionIndex = getMazeDirectionIndexFromTileVector(tileVector);
+    this.removeWallByDirIndex(mazeCell, directionIndex);
   }
 }

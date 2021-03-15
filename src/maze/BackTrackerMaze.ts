@@ -16,18 +16,16 @@ export class BacktrackerMaze extends Maze {
     this.current = null;
     this.stack = [];
     this.isDone = false;
-    this.generateBacktracker();
+    this.generateMaze();
   }
 
-  public generateBacktracker = () => {
+  public generateMaze() {
     this.current = this.grid[0][0];
     this.backtrackDFS();
-
-    // Reset visited array
-    this.generateVisitedArray();
+    super.generateMaze();
   }
 
-  public backtrackDFS() {
+  private backtrackDFS() {
     while(!this.isDone) {
       if (!this.current.isVisited) {
         this.current.isVisited = true;
@@ -51,24 +49,23 @@ export class BacktrackerMaze extends Maze {
         //TODO: this should compare tile diff vectors with direction vectors
         // TOP
         if (this.current.y - next.y === 1) {
-          this.current.walls[MazeDirectionIndex.UP] = MazeWallTypes.NO_WALL;
-          next.walls[MazeDirectionIndex.DOWN] = MazeWallTypes.NO_WALL;
+          this.removeWallByDirIndex(this.current, MazeDirectionIndex.UP);
+          this.removeWallByDirIndex(next, MazeDirectionIndex.DOWN);
         }
         // RIGHT
         else if (this.current.x - next.x === -1) {
-          this.current.walls[MazeDirectionIndex.RIGHT] = MazeWallTypes.NO_WALL;
-          next.walls[MazeDirectionIndex.LEFT] = MazeWallTypes.NO_WALL;
+          this.removeWallByDirIndex(this.current, MazeDirectionIndex.RIGHT);
+          this.removeWallByDirIndex(next, MazeDirectionIndex.LEFT);
         } 
         // BOTTOM
         else if (this.current.y - next.y === -1) {
-          this.current.walls[MazeDirectionIndex.DOWN] = MazeWallTypes.NO_WALL;
-          next.walls[MazeDirectionIndex.UP] = MazeWallTypes.NO_WALL;
+          this.removeWallByDirIndex(this.current, MazeDirectionIndex.DOWN);
+          this.removeWallByDirIndex(next, MazeDirectionIndex.UP);
         } 
         // LEFT
         else if (this.current.x - next.x === 1) {
-          
-          this.current.walls[MazeDirectionIndex.LEFT] = MazeWallTypes.NO_WALL;
-          next.walls[MazeDirectionIndex.RIGHT] = MazeWallTypes.NO_WALL;
+          this.removeWallByDirIndex(this.current, MazeDirectionIndex.LEFT);
+          this.removeWallByDirIndex(next, MazeDirectionIndex.RIGHT);
         }
     
         this.current = next;

@@ -30,6 +30,32 @@ export const STARTING_POSITION = {x: 0, y: 0};
 export const DEFAULT_MAZE_SIZE = 4;
 
 
+export const getTileVectorFromMazeDirectionIndex = (mazeDirIndex: MazeDirectionIndex): TileVector => {
+  if (mazeDirIndex === MazeDirectionIndex.UP) {
+    return DIRECTION_UP;
+  } else if (mazeDirIndex === MazeDirectionIndex.DOWN) {
+    return DIRECTION_DOWN;
+  } if (mazeDirIndex === MazeDirectionIndex.LEFT) {
+    return DIRECTION_LEFT;
+  } if (mazeDirIndex === MazeDirectionIndex.RIGHT) {
+    return DIRECTION_RIGHT;
+  } 
+  return null;
+}
+
+export const getMazeDirectionIndexFromTileVector = (tileVector: TileVector): MazeDirectionIndex => {
+  if (isTileEqual(tileVector, DIRECTION_UP)) {
+    return MazeDirectionIndex.UP;
+  } else if (isTileEqual(tileVector, DIRECTION_DOWN)) {
+    return MazeDirectionIndex.DOWN;
+  } if (isTileEqual(tileVector, DIRECTION_LEFT)) {
+    return MazeDirectionIndex.LEFT;
+  } if (isTileEqual(tileVector, DIRECTION_RIGHT)) {
+    return MazeDirectionIndex.RIGHT;
+  }
+  return null;
+}
+
 export const getInverseDirectionIndex = (mazeDirIndex: MazeDirectionIndex): MazeDirectionIndex => {
   if (mazeDirIndex === MazeDirectionIndex.UP) {
     return MazeDirectionIndex.DOWN;
@@ -52,7 +78,8 @@ export const getRandomMazeTile = (game: Game): Tile => {
   return { x: randomNumber(0, size), y: randomNumber(0, size) };
 }
 
-const randomNumber = (min: number, max: number): number => {  
+export const randomNumber = (min: number, max: number): number => {  
+  if (min === max) return max;
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
@@ -67,78 +94,6 @@ export const isTileEqual = (tile1: Tile, tile2: Tile): boolean => {
 export const generateTileKey = (x: number, y: number): string => {
   return `${x}-${y}`;
 }
-
-// export const generateNewMaze = (game: Game, x: number, y: number): MazeArray => {
-  
-//   // Establish variables and starting grid
-//   let totalCells = x * y;
-//   let cells: MazeArray = new Array();
-//   let unvis = new Array();
-//   for (let i = 0; i < y; i++) {
-//     cells[i] = new Array();
-//     unvis[i] = new Array();
-//     for (let j = 0; j < x; j++) {
-//       cells[i][j] = [0, 0, 0, 0];
-//       unvis[i][j] = true;
-//     }
-//   }
-  
-//   const CELL_X = 1;
-//   const CELL_Y = 0;
-//   // Set a random position to start from
-//   let currentCell = [Math.floor(Math.random()*y), Math.floor(Math.random()*x)];
-//   let path = [currentCell];
-//   unvis[currentCell[0]][currentCell[1]] = false;
-//   var visited = 1;
-  
-//   // Loop through all available cell positions
-//   while (visited < totalCells) {
-//     // Determine neighboring cells
-//     //TODO: helper fxn to find neighbor cells
-//     var pot = [
-//       [currentCell[CELL_Y] - 1, currentCell[CELL_X], 0, 2],
-//       [currentCell[CELL_Y], currentCell[CELL_X] + 1, 1, 3],
-//       [currentCell[CELL_Y] + 1, currentCell[CELL_X], 2, 0],
-//       [currentCell[CELL_Y], currentCell[CELL_X] - 1, 3, 1]
-//     ];
-//     var neighbors = new Array();
-    
-//     // Determine if each neighboring cell is in game grid, and whether it has already been checked
-//     for (var l = 0; l < 4; l++) {
-//       //TODO: remove unncessary isvalid checks
-//       if (pot[l][CELL_Y] > -1 && pot[l][CELL_Y] < y && pot[l][CELL_X] > -1 && pot[l][CELL_X] < x && unvis[pot[l][CELL_Y]][pot[l][CELL_X]]) {
-//         neighbors.push(pot[l]); 
-//       }
-//     }
-    
-//     // If at least one active neighboring cell has been found
-//     if (neighbors.length) {
-//       // Choose one of the neighbors at random
-//       const next = neighbors[Math.floor(Math.random() * neighbors.length)];
-      
-//       // Remove the wall between the current cell and the chosen neighboring cell
-//       const destructibleWallSpawnProbability = game.points.getDestructibleWallSpawnProbability();
-//       const wallType = Math.random() < destructibleWallSpawnProbability ? MazeWallTypes.DESTRUCTIBLE_WALL : MazeWallTypes.NO_WALL;
-      
-//       cells[currentCell[0]][currentCell[1]][next[2]] = wallType;
-//       cells[next[0]][next[1]][next[3]] = wallType;
-      
-//       // Mark the neighbor as visited, and set it as the current cell
-//       unvis[next[0]][next[1]] = false;
-//       visited++;
-//       currentCell = [next[0], next[1]];
-//       path.push(currentCell);
-//     }
-//     // Otherwise go back up a step and keep going
-//     else {
-//       currentCell = path.pop();
-//     }
-//   }
-
-//   // Set entrance/exit
-//   cells[x-1][y-1][MazeDirectionIndex.RIGHT] = MazeWallTypes.NO_WALL;
-//   return cells;
-// }
 
 export const generateMazeArr = <T>(x: number, y: number, defaultValue: T): Array<Array<T>> => {
   const mazeArr = new Array<Array<any>>();
@@ -157,7 +112,7 @@ export const generateMazeSmartPathingArr = (game: Game, maze: Maze): Array2D<num
   //TODO: figure out how to handle exit tile better
   // const lastTile = maze.exitTile
   
-  const lastTile = getNewTilePositionByVector(maze.exitTile, getInverseTileVector(maze.exitDirectionVector));
+  const lastTile = getNewTilePositionByVector(maze.externalExitTile, getInverseTileVector(maze.exitDirectionVector));
   // Mark first tile visited first -- canMove() cannot handle starting outside of the maze (ie. exit point).
   smartPathArr[lastTile.y][lastTile.x] = 1;
 
