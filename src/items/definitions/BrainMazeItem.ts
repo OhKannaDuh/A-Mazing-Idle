@@ -1,5 +1,5 @@
 import Game from "managers/Game";
-import { Tile } from "managers/Maze";
+import { Tile } from "managers/MazeManager";
 import { StatsKey } from "models/Stats";
 import { BRAIN_TILE_DISTANCE_UPGRADE_INCREASE_AMOUNT, UpgradeKey } from "constants/UpgradeConstants";
 import { BRAIN_SPAWN_BASE_PROBABILITY, BRAIN_STARTING_TILE_DISTANCE, MazeItemKey } from "constants/ItemConstants";

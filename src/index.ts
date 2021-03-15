@@ -1,9 +1,9 @@
 import { IS_DEV_MODE_ENABLED, DEV_MODE_AUTOSTART } from "dev/devUtils";
 import Game from "managers/Game";
-import { DEFAULT_PLAYER_ID, DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_UP } from "managers/Maze";
+import { DEFAULT_PLAYER_ID } from "managers/MazeManager";
 import { UpgradeKey } from "constants/UpgradeConstants";
+import { DIRECTION_UP, DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT } from "managers/MazeUtils";
 declare var $: any;
-
 
 $(document).ready(() => {
   if (IS_DEV_MODE_ENABLED && !DEV_MODE_AUTOSTART) return;
@@ -12,6 +12,12 @@ $(document).ready(() => {
   game.save.loadGameSaveFromLocalStorage(); 
   game.startGame();
   game.save.startSaveTimer();
+
+  // const backtrack = new BacktrackerV2(10, 10);
+  
+  // game.ui.printMazeV2(backtrack);
+
+  // backtrackerTest();
   
   //TODO: this should be in UI
   $(document).keydown(function(event) {

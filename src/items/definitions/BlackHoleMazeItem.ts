@@ -1,6 +1,6 @@
 import Game from "managers/Game";
-import { Tile } from "managers/Maze";
-import { getRandomMazeTile } from "managers/MazeGenerator";
+import { Tile } from "managers/MazeManager";
+import { getRandomMazeTile } from "managers/MazeUtils";
 import { StatsKey } from "models/Stats";
 import { BLACK_HOLE_ITEM_SPAWN_BASE_PROBABILITY, MazeItemKey } from "constants/ItemConstants";
 import MazeItem from "items/MazeItem";

@@ -1,5 +1,5 @@
 import { printMazeCompleteData } from "dev/devUtils";
-import Maze from "managers/Maze";
+import MazeManager from "managers/MazeManager";
 import Points from "managers/PointsManager";
 import RNGBotManager from "managers/RNGBotManager";
 import UserInterface from "managers/UserInterface";
@@ -17,7 +17,7 @@ import { StatsKey } from "models/Stats";
 const SERIALIZABLE_PROPERTIES: string[] = ['points', 'upgrades', 'stats'];
 
 class Game extends Serializable {
-  public maze: Maze;
+  public maze: MazeManager;
   public points: Points;
   public rngBot: RNGBotManager;
   public players: PlayerManager;
@@ -36,7 +36,7 @@ class Game extends Serializable {
     super(SERIALIZABLE_PROPERTIES);
     this.isDevMode = isDevMode;
     this.isDisableUi = isDisableUi;
-    this.maze = new Maze(this);
+    this.maze = new MazeManager(this);
     this.points = new Points(this, this.isDevMode);
     this.rngBot = new RNGBotManager(this, this.isDevMode);
     this.biomes = new BiomeManager(this);
@@ -58,7 +58,7 @@ class Game extends Serializable {
   hardResetGame() {
     this.save.clearLocalStorage();
     this.resetGame();
-    this.maze = new Maze(this);
+    this.maze = new MazeManager(this);
     this.points.points = 0;
     this.upgrades.initUpgrades();
     this.stats.initStatsMap();
@@ -80,7 +80,7 @@ class Game extends Serializable {
     this.maze.newMaze();
     //TODO: re-run maze option, reset visited
     
-    this.ui.printMaze(this.maze.maze);
+    this.ui.printMazeV2(this.maze.maze);
     
     this.players.createDefaultPlayer();
     this.rngBot.enableGlobalRngBot();

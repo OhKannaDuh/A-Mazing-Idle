@@ -1,33 +1,31 @@
 import Game from "managers/Game";
 import { 
-  generateMazeArr, 
+  DEFAULT_MAZE_SIZE,
+  DIRECTIONS_ARR,
+  DIRECTION_DOWN,
+  DIRECTION_LEFT,
+  DIRECTION_RIGHT,
+  DIRECTION_UP,
   generateMazeSmartPathingArr, 
-  generateNewMaze, 
   generateTileKey, 
   getInverseDirectionIndex, 
   getNewTilePositionByVector, 
   isTileEqual, 
   MazeDirectionIndex, 
   MazeWallTypes 
-} from "managers/MazeGenerator";
+} from "managers/MazeUtils";
 import { UpgradeKey } from "constants/UpgradeConstants";
-import MazeItem from "items/MazeItem";
 import { StatsKey } from "models/Stats";
+import { BacktrackerMaze } from "maze/BackTrackerMaze";
+import { MazeCell } from "models/MazeCell";
+import { Maze } from "models/Maze";
 declare var $: any;
 
-export const DIRECTION_UP = {x: 0, y: -1};
-export const DIRECTION_DOWN = {x: 0, y: 1};
-export const DIRECTION_LEFT = {x: -1, y: 0};
-export const DIRECTION_RIGHT = {x: 1, y: 0};
-
-export const DIRECTIONS_ARR = [DIRECTION_UP, DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT];
-export const STARTING_POSITION = {x: 0, y: 0};
-
-export const DEFAULT_MAZE_SIZE = 4;
 
 export const DEFAULT_PLAYER_ID = 0;
 
-export type MazeArray = Array<Array<Array<number>>>;
+export type Array2D<T> = Array<Array<T>>;
+export type MazeGridArray = Array2D<MazeCell>;
 
 export interface Tile {
   x: number;
@@ -39,13 +37,12 @@ export interface TileVector {
   y: number;
 }
 
-class Maze {
+class MazeManager {
   public game: Game;
   public isDevMode;
-  public maze: MazeArray;
-  public visitedMaze: Array<Array<boolean>>;
-  public smartPathMaze: Array<Array<number>>;
-  public itemDropTileMap: Map<string, MazeItem>;
+  public maze: Maze;
+  public visitedMaze: Array2D<boolean>;
+  public smartPathMaze: Array2D<number>;
   public deadEndTileMap: Map<string, number>;
 
   constructor(game, isDevMode = false) {
@@ -57,28 +54,28 @@ class Maze {
     this.deadEndTileMap = new Map<string, number>();
   }
 
-  getMazeExitTile() {
+  public getMazeExitTile() {
     return { x: this.getCurrentMazeSize(), y: this.getCurrentMazeSize() - 1 }; 
   }
 
-  getNextMazeSize() {
+  public getNextMazeSize() {
     return DEFAULT_MAZE_SIZE + this.game.upgrades.getUpgradeLevel(UpgradeKey.MAZE_SIZE_UPGRADE);
   }
 
-  getCurrentMazeSize() {
-    return this.maze.length;
+  public getCurrentMazeSize() {
+    return this.maze.sizeX;
   }
   
-  newMaze() {
+  public newMaze() {
     const mazeSize = this.getNextMazeSize();
-    this.visitedMaze = generateMazeArr(mazeSize, mazeSize, false);
-    this.maze = generateNewMaze(this.game, mazeSize, mazeSize);
-    this.smartPathMaze = generateMazeSmartPathingArr(this.game, this.maze, this.getMazeExitTile());
+    //TODO: vary based on time zone
+    this.maze = new BacktrackerMaze(mazeSize);
+    this.smartPathMaze = generateMazeSmartPathingArr(this.game, this.maze);
     this.deadEndTileMap = new Map();
     this.game.items.generateMazeItems(mazeSize, mazeSize);
   }
 
-  markVisited(tile: Tile, playerId: number) {
+  public markVisited(tile: Tile, playerId: number) {
     const isTileVisited = this.isVisited(tile);
     this.game.points.addVisitPoints(isTileVisited, playerId);
     
@@ -88,23 +85,18 @@ class Maze {
       this.game.stats.addStatsToKey(1, StatsKey.TOTAL_TILES_VISITED);
     }
 
-    this.visitedMaze[tile.y][tile.x] = true;
+    this.maze.setVisited(tile);
   }
 
-  isValidTile(tile: Tile) {
-    return tile.x >= 0 && tile.x < this.getCurrentMazeSize() 
-        && tile.y >= 0 && tile.y < this.getCurrentMazeSize();
+  public isVisited(tile: Tile): boolean {
+    return this.maze.isVisited(tile);
   }
 
-  isVisited(tile: Tile): boolean {
-    return this.visitedMaze[tile.y][tile.x];
-  }
-
-  getSmartPathingDistanceFromExit(tile: Tile): number {
+  public getSmartPathingDistanceFromExit(tile: Tile): number {
     return this.smartPathMaze[tile.y][tile.x];
   }
 
-  setTileBackgroundColor(tile: Tile, isPlayer: boolean = false): void {
+  public setTileBackgroundColor(tile: Tile, isPlayer: boolean = false): void {
     const tileColor = this.getTileBackgroundColor(tile);
     const new_tile_key = generateTileKey(tile.x, tile.y);
     $(`#${new_tile_key}`).css('background-color', tileColor);
@@ -113,11 +105,11 @@ class Maze {
     $(`#${new_tile_key}`).css('z-index', -1);
   }
 
-  getTileCount(): number {
-    return this.maze.length * this.maze[0].length;
+  public getTileCount(): number {
+    return this.maze.sizeX * this.maze.sizeY;
   }
 
-  spawnSplitBot(playerId: number, dirArr, isUnlimitedSplit: boolean): void {
+  public spawnSplitBot(playerId: number, dirArr, isUnlimitedSplit: boolean): void {
     const currTile = this.game.players.getCurrTile(playerId);
     for (let i = 0; i < dirArr.length; i++) {
       if (i === 0) {
@@ -132,7 +124,7 @@ class Maze {
     }
   }
   
-  getTileBackgroundColor(tile: Tile) {
+  public getTileBackgroundColor(tile: Tile) {
     // Check for a player in the tile
     const playerColor = this.game.players.getPlayerColorAtTile(tile);
     if (playerColor != null) {
@@ -148,13 +140,13 @@ class Maze {
     return this.game.colors.getTileColor();
   }
 
-  updatePlayerTileByTileVector(playerId: number, dirVector: TileVector) {
+  public updatePlayerTileByTileVector(playerId: number, dirVector: TileVector) {
     const playerCurrTile = this.game.players.getCurrTile(playerId);
     const newTile = getNewTilePositionByVector(playerCurrTile, dirVector);
     this.updatePlayerTile(playerId, newTile);
   }
 
-  updatePlayerTile(playerId: number, newTile: Tile) {
+  public updatePlayerTile(playerId: number, newTile: Tile) {
     const player = this.game.players.getPlayer(playerId);
     if (this.isMazeExitTile(newTile)) {
       this.game.completeMaze(playerId);
@@ -204,62 +196,59 @@ class Maze {
     }
   }
 
-  clearDestructibleTilesFromTile(tile: Tile) {
+  public clearDestructibleTilesFromTile(tile: Tile) {
     this.clearDestructibleTileByVector(tile, DIRECTION_UP, MazeDirectionIndex.UP);
     this.clearDestructibleTileByVector(tile, DIRECTION_DOWN, MazeDirectionIndex.DOWN);
     this.clearDestructibleTileByVector(tile, DIRECTION_LEFT, MazeDirectionIndex.LEFT);
     this.clearDestructibleTileByVector(tile, DIRECTION_RIGHT, MazeDirectionIndex.RIGHT);
   }
 
-  clearDestructibleTileByVector(tile: Tile, direction: TileVector, mazeDirectionIndex: MazeDirectionIndex) {
+  public clearDestructibleTileByVector(tile: Tile, direction: TileVector, mazeDirectionIndex: MazeDirectionIndex): void {
     const neighborTile = getNewTilePositionByVector(tile, direction);
-    if (!this.isValidTile(neighborTile)) return;
+    if (!this.maze.isValidTile(neighborTile)) return;
     
-    const tileArray = this.maze[tile.y][tile.x];
-    const neighborWallTileArr = this.maze[neighborTile.y][neighborTile.x];
     // Neighbor has inverse direction
     const neighborDirectionIndex = getInverseDirectionIndex(mazeDirectionIndex);
     
-    // Remove destructible wall from current and neighbor tile.
-    if (tileArray[mazeDirectionIndex] === MazeWallTypes.DESTRUCTIBLE_WALL 
-        && neighborWallTileArr[neighborDirectionIndex] === MazeWallTypes.DESTRUCTIBLE_WALL) {
-      tileArray[mazeDirectionIndex] = MazeWallTypes.NO_WALL;
-      neighborWallTileArr[neighborDirectionIndex] = MazeWallTypes.NO_WALL;
-      
-      // Update the UI with the new tile border css.
-      this.game.ui.setTileCss(this.maze, tile.x, tile.y);
-      this.game.ui.setTileCss(this.maze, neighborTile.x, neighborTile.y);
+    if (this.maze.getCellWallType(tile, mazeDirectionIndex) === MazeWallTypes.DESTRUCTIBLE_WALL
+        && this.maze.getCellWallType(tile, neighborDirectionIndex) === MazeWallTypes.DESTRUCTIBLE_WALL) {
+        this.maze.getCell(tile).setWallTypeAtIndex(mazeDirectionIndex, MazeWallTypes.NO_WALL);
+        this.maze.getCell(neighborTile).setWallTypeAtIndex(neighborDirectionIndex, MazeWallTypes.NO_WALL);
+        
+        // Update the UI with the new tile border css.
+        this.game.ui.setTileCssV2(this.maze, tile);
+        this.game.ui.setTileCssV2(this.maze, neighborTile);
     }
   }
 
-  canMove(tile: Tile, dirVector: TileVector, isExcludeExit: boolean = false, isIgnoreDestructibleWalls: boolean = false, isIgnoreWalls: boolean = false): boolean {
+  public canMove(tile: Tile, dirVector: TileVector, isExcludeExit: boolean = false, isIgnoreDestructibleWalls: boolean = false, isIgnoreWalls: boolean = false): boolean {
     const newTile = getNewTilePositionByVector(tile, dirVector);
     
     // Check if maze exit and is valid tile
     if (this.isMazeExitTile(newTile) && !isExcludeExit) return true;
-    if (!this.isValidTile(newTile)) return false;
+    if (!this.maze.isValidTile(newTile)) return false;
     if (isIgnoreWalls) return true;
 
-    let tileVal = null;
+    let tileVal: MazeWallTypes = null;
     // Check for walls in current tile in each direction
     if (dirVector === DIRECTION_UP) {
-      tileVal = this.maze[tile.y][tile.x][MazeDirectionIndex.UP];
+      tileVal = this.maze.getCellWallType(tile, MazeDirectionIndex.UP);
     }
     else if (dirVector === DIRECTION_DOWN) {
-      tileVal = this.maze[tile.y][tile.x][MazeDirectionIndex.DOWN];
+      tileVal = this.maze.getCellWallType(tile, MazeDirectionIndex.DOWN);
     }
     else if (dirVector === DIRECTION_LEFT) {
-      tileVal = this.maze[tile.y][tile.x][MazeDirectionIndex.LEFT];
+      tileVal = this.maze.getCellWallType(tile, MazeDirectionIndex.LEFT);
     }
     else if (dirVector === DIRECTION_RIGHT) {
-      tileVal = this.maze[tile.y][tile.x][MazeDirectionIndex.RIGHT];
+      tileVal = this.maze.getCellWallType(tile, MazeDirectionIndex.RIGHT);
     }
     
     return tileVal === MazeWallTypes.NO_WALL 
       || (isIgnoreDestructibleWalls && tileVal === MazeWallTypes.DESTRUCTIBLE_WALL);
   }
 
-  getPossibleSplitBotCount(validDirs) {
+  public getPossibleSplitBotCount(validDirs) {
     if (validDirs.length <= 1) {
       return 0;
     }
@@ -273,7 +262,7 @@ class Maze {
     return Math.max(0, (splitUpgradeCount + 1 - rngBotCount));
   }
 
-  teleportPlayerBackToBot() {
+  public teleportPlayerBackToBot(): void {
     const manualPlayer = this.game.players.getManuallyControlledPlayer();
     const primaryBot = this.game.players.getPrimaryBot();
     if (!manualPlayer || !primaryBot) return;
@@ -283,7 +272,7 @@ class Maze {
     this.game.players.deletePlayer(primaryBot.id);
   }
 
-  teleportBotBackToPlayer() {
+  public teleportBotBackToPlayer(): void {
     const manualPlayer = this.game.players.getManuallyControlledPlayer();
     const primaryBot = this.game.players.getPrimaryBot();
     if (!manualPlayer || !primaryBot) return;
@@ -293,21 +282,21 @@ class Maze {
     this.game.players.deletePlayer(primaryBot.id);
   }
 
-  isMazeExitTile(tile) {
-    return isTileEqual(tile, this.getMazeExitTile());
+  public isMazeExitTile(tile: Tile): boolean {
+    return isTileEqual(tile, this.maze.exitTile);
   }
   
-  getValidDirectionsByPlayerId(playerId) {
+  public getValidDirectionsByPlayerId(playerId) {
     const player = this.game.players.getPlayer(playerId);
     return this.getValidDirectionsByTile(player.currTile, player.hasGhostItemActive());
   }
 
-  getValidDirectionsByTile(tile, isIgnoreWalls = false, isIncludeDestructible = false) {
+  public getValidDirectionsByTile(tile, isIgnoreWalls = false, isIncludeDestructible = false) {
     const validDirsArr = DIRECTIONS_ARR.filter((dir) => this.canMove(tile, dir, false, isIncludeDestructible, isIgnoreWalls));
     return validDirsArr;
   }
 
-  getDeadEndValue(tile, validDirsArr) {
+  public getDeadEndValue(tile, validDirsArr) {
     let deadEndCount = 0, deadEndMaxVal = 0;
     const upgradeCount = this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_REMEMBER_DEADEND_TILES);
 
@@ -328,7 +317,7 @@ class Maze {
     return null;
   }
 
-  updateDeadEndTilesMap(tile) {
+  public updateDeadEndTilesMap(tile) {
     const upgradeCount = this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_REMEMBER_DEADEND_TILES);
     if (upgradeCount === 0) {
       return;
@@ -349,7 +338,7 @@ class Maze {
     }
   }
 
-  filterPlayerExitMazeDirection(playerId, validDirs) {
+  public filterPlayerExitMazeDirection(playerId, validDirs) {
     if (!this.game.players.playerExists(playerId)) return;
     
     const currTile = this.game.players.getPlayer(playerId).currTile;
@@ -367,13 +356,13 @@ class Maze {
     const exitMazeDir = validDirs.filter((dir) => {
       const newTile = getNewTilePositionByVector(currTile, dir);
       // Exit tile or one step closer to exit. If distance 1, MUST be exit tile.
-      return this.isMazeExitTile(newTile) || (currDistance !== 1 && this.isValidTile(newTile)
+      return this.isMazeExitTile(newTile) || (currDistance !== 1 && this.maze.isValidTile(newTile)
           && this.getSmartPathingDistanceFromExit(newTile) === (currDistance - 1));
     });
     return exitMazeDir;
   }
 
-  filterAvoidRevisitLastPosition(playerId, validDirs) {
+  public filterAvoidRevisitLastPosition(playerId, validDirs) {
     if (!this.game.players.playerExists(playerId)) return;
     // Find any tiles that are not the previous tile.
     const noRevisitDirsArr = validDirs.filter((dir) => {
@@ -384,7 +373,7 @@ class Maze {
     return noRevisitDirsArr;
   }
   
-  prioritizeUnvisitedDirection(playerId, validDirs) {
+  public prioritizeUnvisitedDirection(playerId, validDirs) {
     if (!this.game.players.playerExists(playerId)) return;
     // Find any unvisited tiles within reach.
     const unvisitedDirsArr = validDirs.filter((dir) => {
@@ -394,7 +383,7 @@ class Maze {
     return unvisitedDirsArr;
   }
 
-  filterDeadEndTiles(playerId, validDirs) {
+  public filterDeadEndTiles(playerId, validDirs) {
     if (!this.game.players.playerExists(playerId)) return;
 
     const nonDeadEndTiles = validDirs.filter((dir) => {
@@ -406,4 +395,4 @@ class Maze {
   }
 }
 
-export default Maze;
+export default MazeManager;

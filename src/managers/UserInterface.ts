@@ -1,6 +1,8 @@
 import Game from "managers/Game";
-import { MazeArray } from "managers/Maze";
-import { generateTileKey, MazeDirectionIndex, MazeWallTypes } from "managers/MazeGenerator";
+import { MazeGridArray, Tile } from "managers/MazeManager";
+import { generateTileKey, MazeDirectionIndex, MazeWallTypes } from "managers/MazeUtils";
+import { BacktrackerMaze } from "maze/BackTrackerMaze";
+import { Maze } from "models/Maze";
 import { CURRENT_MAZE_STATS, StatsKey, STATS_TO_UI_ID_MAP } from "models/Stats";
 declare var $: any;
 
@@ -38,19 +40,18 @@ class UserInterface {
   public setPointsText() {
     $("#points").text(`Points: ${UserInterface.getPrettyPrintNumberNoDecimals(this.game.points.points)}`);
   }
-
-  public printMaze(maze: MazeArray) {
-    if(this.disableUi) return;
-
-    for (let y = 0; y < maze.length; y++) {
+  
+  public printMazeV2(maze: Maze) {     
+    for (let y = 0; y < maze.grid.length; y++) {
       $("#maze > tbody").append("<tr>");
-      for (let x = 0; x < maze[y].length; x++) {
+
+      for (let x = 0; x < maze.grid[y].length; x++) {
         let tileKey = generateTileKey(x, y);
         // Place cell element
         $("#maze > tbody").append(`<td id="${tileKey}">&nbsp;</td>`);
 
         // Draw edges
-        this.setTileCss(maze, x, y);
+        this.setTileCssV2(maze, { x: x, y: y });
         
         // Draw fruit in tile.
         if (this.game.items.hasMazeItem(tileKey)) {
@@ -61,16 +62,16 @@ class UserInterface {
       $("#maze > tbody").append("</tr>");
     }
   }
-
-  public setTileCss(maze: MazeArray, x: number, y: number) {
-    let selector = generateTileKey(x, y);
-    $(`#${selector}`).css("border-top", this.getMazeBorderCss(maze[y][x][MazeDirectionIndex.UP]));
-    $(`#${selector}`).css("border-right", this.getMazeBorderCss(maze[y][x][MazeDirectionIndex.RIGHT]));
-    $(`#${selector}`).css("border-bottom", this.getMazeBorderCss(maze[y][x][MazeDirectionIndex.DOWN]));
-    $(`#${selector}`).css("border-left", this.getMazeBorderCss(maze[y][x][MazeDirectionIndex.LEFT]));
+  
+  public setTileCssV2(maze: Maze, tile: Tile) {
+    let cssSelector = generateTileKey(tile.x, tile.y);
+    $(`#${cssSelector}`).css("border-top", this.getMazeBorderCss(maze.getCellWallType(tile, MazeDirectionIndex.UP)));
+    $(`#${cssSelector}`).css("border-right", this.getMazeBorderCss(maze.getCellWallType(tile, MazeDirectionIndex.RIGHT)));
+    $(`#${cssSelector}`).css("border-bottom", this.getMazeBorderCss(maze.getCellWallType(tile, MazeDirectionIndex.DOWN)));
+    $(`#${cssSelector}`).css("border-left", this.getMazeBorderCss(maze.getCellWallType(tile, MazeDirectionIndex.LEFT)));
   }
 
-  private getMazeBorderCss(val: number) {
+  private getMazeBorderCss(val: MazeWallTypes) {
     const borderColor = this.game.colors.getMazeWallColor();
     if (val === MazeWallTypes.WALL) {
       return `2px solid ${borderColor}`;

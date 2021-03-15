@@ -1,6 +1,6 @@
 import Game from "managers/Game";
-import { DEFAULT_MAZE_SIZE } from "managers/Maze";
 import { UpgradeKey } from "constants/UpgradeConstants";
+import { DEFAULT_MAZE_SIZE } from "managers/MazeUtils";
 declare var $: any;
 
 export const IS_DEV_MODE_ENABLED = false;

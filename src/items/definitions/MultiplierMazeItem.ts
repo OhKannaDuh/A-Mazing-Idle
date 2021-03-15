@@ -2,7 +2,7 @@ import { MazeItemKey, MULTIPLIER_ITEM_BASE_MULTIPLIER, MULTIPLIER_ITEM_SPAWN_BAS
 import { UpgradeKey } from "constants/UpgradeConstants";
 import Game from "managers/Game";
 import MazeItem from "items/MazeItem";
-import { Tile } from "managers/Maze";
+import { Tile } from "managers/MazeManager";
 import { StatsKey } from "models/Stats";
 
 

@@ -1,7 +1,7 @@
 import { MazeItemKey } from "constants/ItemConstants";
 import Game from "managers/Game";
-import { Tile } from "managers/Maze";
-import { generateTileKey } from "managers/MazeGenerator";
+import { Tile } from "managers/MazeManager";
+import { generateTileKey } from "managers/MazeUtils";
 import { StatsKey } from "models/Stats";
 
 

@@ -8,8 +8,8 @@ import FruitMazeItem from "items/definitions/FruitMazeItem";
 import MultiplierMazeItem from "items/definitions/MultiplierMazeItem";
 import GhostMazeItem from "items/definitions/GhostMazeItem";
 import MazeItem from "items/MazeItem";
-import { Tile } from "managers/Maze";
-import { generateTileKey } from "managers/MazeGenerator";
+import { Tile } from "managers/MazeManager";
+import { generateTileKey } from "managers/MazeUtils";
 
 
 class MazeItemManager {

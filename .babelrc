@@ -9,7 +9,8 @@
 				"dev": "./src/dev",
 				"items": "./src/items",
 				"managers": "./src/managers",
-				"models": "./src/models"
+				"models": "./src/models",
+        "maze": "./src/maze"
       }
     }]
   ]

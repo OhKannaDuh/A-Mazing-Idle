@@ -1,6 +1,6 @@
 import { UpgradeKey } from "constants/UpgradeConstants";
 import Game from "managers/Game";
-import { TileVector } from "managers/Maze";
+import { TileVector } from "managers/MazeManager";
 import { StatsKey } from "models/Stats";
 
 declare var _: any;

@@ -1,7 +1,7 @@
 import { MazeItemKey, UNLIMITED_SPLITS_PROBABILITY } from "constants/ItemConstants";
 import Game from "managers/Game";
 import MazeItem from "items/MazeItem";
-import { Tile } from "managers/Maze";
+import { Tile } from "managers/MazeManager";
 import { StatsKey } from "models/Stats";
 
 

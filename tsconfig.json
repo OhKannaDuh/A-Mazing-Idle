@@ -12,13 +12,15 @@
     "strict": false,
     "noImplicitUseStrict": true,
     "baseUrl": "./src",
+    "moduleResolution": "node",
     "paths": {
       "upgrades/*": ["upgrades/*"],
       "constants/*": ["constants/*"],
       "dev/*": ["dev/*"],
       "items/*": ["items/*"],
       "managers/*": ["managers/*"],
-      "models/*": ["models/*"]
+      "models/*": ["models/*"],
+      "maze/*": ["maze/*"]
     }
   },
   "files": [

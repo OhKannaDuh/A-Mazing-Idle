@@ -1,7 +1,7 @@
 import { UpgradeKey } from "constants/UpgradeConstants";
 import Game from "managers/Game";
-import { STARTING_POSITION, Tile } from "managers/Maze";
-import { isTileEqual } from "managers/MazeGenerator";
+import { Tile } from "managers/MazeManager";
+import { isTileEqual } from "managers/MazeUtils";
 import Player from "models/Player";
 
 class PlayerManager {
@@ -18,7 +18,7 @@ class PlayerManager {
   }
 
   public createDefaultPlayer() {
-    this.createNewPlayerObj(STARTING_POSITION);
+    this.createNewPlayerObj(this.game.maze.maze.startTile);
   }
 
   public createNewPlayerObj(startTile, isPrimaryBot = false) {
