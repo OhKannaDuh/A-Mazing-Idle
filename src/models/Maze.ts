@@ -1,5 +1,5 @@
 import { Array2D, MazeGridArray, Tile, TileVector } from "managers/MazeManager";
-import { DIRECTIONS_ARR, DIRECTION_RIGHT, generateMazeArr, getInverseDirectionIndex, getMazeDirectionIndexFromTileVector, getNewTilePositionByVector, getTileVectorFromMazeDirectionIndex, MazeDirectionIndex, MazeWallTypes } from "managers/MazeUtils";
+import { DIRECTIONS_ARR, DIRECTION_RIGHT, generateMazeArr, getInverseDirectionIndex, getMazeDirectionIndexFromTileVector, getNewTilePositionByVector, getTileFromTileKey, getTileVectorFromMazeDirectionIndex, MazeDirectionIndex, MazeWallTypes } from "managers/MazeUtils";
 import { MazeCell } from "models/MazeCell";
 
 
@@ -69,6 +69,10 @@ export class Maze {
     return this.grid[tile.y][tile.x];
   }
 
+  public getCellByTileKey(tileKey: string): MazeCell {
+    return this.getCell(getTileFromTileKey(tileKey));
+  }
+
   public getCellWallType(tile: Tile, wallDirectionIndex: MazeDirectionIndex): MazeWallTypes {
     return this.getCell(tile).walls[wallDirectionIndex];
   }
@@ -96,10 +100,12 @@ export class Maze {
 
   public removeWallByDirIndex(mazeCell: MazeCell, directionIndex: MazeDirectionIndex): void {
     mazeCell.setWallTypeAtIndex(directionIndex, MazeWallTypes.NO_WALL);
+    console.log('removing: (', mazeCell.x, ',', mazeCell.y, ') => ', directionIndex);
   }
 
   public removeWallByTileVector(mazeCell: MazeCell, tileVector: TileVector): void {
     const directionIndex = getMazeDirectionIndexFromTileVector(tileVector);
+    
     this.removeWallByDirIndex(mazeCell, directionIndex);
   }
 }

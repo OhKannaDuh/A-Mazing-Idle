@@ -1,5 +1,5 @@
 import { Tile } from 'managers/MazeManager';
-import { MazeDirectionIndex, MazeWallTypes } from 'managers/MazeUtils';
+import { generateTileKey, MazeDirectionIndex, MazeWallTypes } from 'managers/MazeUtils';
 
 export class MazeCell {
   public x: number;
@@ -19,5 +19,9 @@ export class MazeCell {
 
 	public setWallTypeAtIndex(wallDirectionIndex: MazeDirectionIndex, wallType: MazeWallTypes) {
 		this.walls[wallDirectionIndex] = wallType;
+	}
+
+	public getTileKey(): string {
+		return generateTileKey(this.x, this.y);
 	}
 }

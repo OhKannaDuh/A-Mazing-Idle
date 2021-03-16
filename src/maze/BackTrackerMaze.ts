@@ -4,8 +4,6 @@ import { MazeCell } from "models/MazeCell";
 
 
 export class BacktrackerMaze extends Maze {
-  public sizeX: number;
-  public sizeY: number;
 
   public current: MazeCell;
   public stack;

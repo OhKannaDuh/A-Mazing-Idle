@@ -1,6 +1,7 @@
 import Game from "managers/Game";
 import { Array2D, MazeGridArray, Tile, TileVector } from "managers/MazeManager";
 import { Maze } from "models/Maze";
+import { MazeCell } from "models/MazeCell";
 
 
 export const DEFAULT_TILE_WIDTH_CSS = '20px';
@@ -75,10 +76,10 @@ export const getInverseTileVector = (tileVector: TileVector) => {
 
 export const getRandomMazeTile = (game: Game): Tile => {
   const size = game.maze.getCurrentMazeSize() - 1;
-  return { x: randomNumber(0, size), y: randomNumber(0, size) };
+  return { x: getRandomNumber(0, size), y: getRandomNumber(0, size) };
 }
 
-export const randomNumber = (min: number, max: number): number => {  
+export const getRandomNumber = (min: number, max: number): number => {  
   if (min === max) return max;
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
@@ -93,6 +94,17 @@ export const isTileEqual = (tile1: Tile, tile2: Tile): boolean => {
 
 export const generateTileKey = (x: number, y: number): string => {
   return `${x}-${y}`;
+}
+
+export const getTileFromTileKey = (tileKey: string): Tile => {
+  const keys = tileKey.split('-');
+  return { x: parseInt(keys[0]), y: parseInt(keys[1]) };
+}
+
+export const getCellNeighborDirection = (startCell: MazeCell, endCell: MazeCell): TileVector => {
+  // Assumption: these are actually neighboring cells
+  const cellDiff = { x: endCell.x - startCell.x, y: endCell.y - startCell.y };
+  return cellDiff;
 }
 
 export const generateMazeArr = <T>(x: number, y: number, defaultValue: T): Array<Array<T>> => {
