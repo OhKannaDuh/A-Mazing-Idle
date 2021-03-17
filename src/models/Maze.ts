@@ -100,7 +100,6 @@ export class Maze {
 
   public removeWallByDirIndex(mazeCell: MazeCell, directionIndex: MazeDirectionIndex): void {
     mazeCell.setWallTypeAtIndex(directionIndex, MazeWallTypes.NO_WALL);
-    console.log('removing: (', mazeCell.x, ',', mazeCell.y, ') => ', directionIndex);
   }
 
   public removeWallByTileVector(mazeCell: MazeCell, tileVector: TileVector): void {

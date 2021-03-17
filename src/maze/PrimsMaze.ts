@@ -1,44 +1,71 @@
-import { getCellNeighborDirection, getInverseTileVector, getRandomNumber, MazeDirectionIndex, MazeWallTypes } from "managers/MazeUtils";
+import { getCellNeighborDirectionIndex, getCellNeighborTileVector, getInverseTileVector, getMazeDirectionIndexFromTileVector, getRandomNumber, MazeDirectionIndex, MazeWallTypes } from "managers/MazeUtils";
 import { Maze } from "models/Maze";
 import { MazeCell } from "models/MazeCell";
+import queue from "priorityjs";
 
+
+type DirectionCellPair = [MazeDirectionIndex, MazeCell]
 
 export class PrimsMaze extends Maze {
   private visitedCellSet: Set<string>;
   private nextToVisitSet: Set<string>;
+  private queue: queue.PriorityQueue<DirectionCellPair>;
+  private startingX: number;
+  private startingY: number;
 
   constructor(mazeSize: number) {
     super(mazeSize);
     this.visitedCellSet = new Set<string>();
     this.nextToVisitSet = new Set<string>();
+    this.startingX = getRandomNumber(0, this.sizeX - 1);
+    this.startingY = getRandomNumber(0, this.sizeY - 1);
+    this.queue = new queue.PriorityQ<DirectionCellPair>((dirCellPair1, dirCellPair2) => {
+      const cell1Dir = this.mapPriorityVal(dirCellPair1);
+      const cell2Dir = this.mapPriorityVal(dirCellPair2);
+      return cell1Dir <= cell2Dir;
+    });
     this.generateMaze();
   }
 
+  private mapPriorityVal(dirCellPair: DirectionCellPair) {
+    return Math.random();
+    // const dir = dirCellPair[0];
+    // const val = Math.random();
+    // if (dir === MazeDirectionIndex.UP) return val*.1;
+    // if (dir === MazeDirectionIndex.DOWN) return val*5;
+    // if (dir === MazeDirectionIndex.RIGHT) return val*5;
+    // if (dir === MazeDirectionIndex.LEFT) return val*.1;
+    // return 0; 
+  }
+
+  private getDistanceFromStart(cell: MazeCell): number {
+    return Math.sqrt(Math.abs(cell.x-this.startingX)^2 + Math.abs(cell.y-this.startingY)^2);
+  }
+
   public generateMaze(): void {
-    const startingX = getRandomNumber(0, this.sizeX - 1);
-    const startingY = getRandomNumber(0, this.sizeX - 1);  //TODO: randomize me
-    
-    const startCell = this.getCell({ x: startingX, y: startingY });
+    const startCell = this.getCell({ x: this.startingX, y: this.startingY });
 
     this.setCellVisited(startCell);
-    
     this.addUnvisitedNeighborsToNext(startCell);
     this.prims();
   }
 
   private getNextCellToVisit(): MazeCell {
-    const nextIndex = getRandomNumber(0, this.nextToVisitSet.size - 1);
+    const nextCell: MazeCell = this.queue.pop()[1];
     
     // Remove from to-visit list
-    const nextTileKey = Array.from(this.nextToVisitSet)[nextIndex];
+    const nextTileKey = nextCell.getTileKey();
     this.nextToVisitSet.delete(nextTileKey);
     return this.getCellByTileKey(nextTileKey);
   }
 
   private prims() {
-    while (this.nextToVisitSet.size > 0) {
+    while (this.queue.size() > 0) {
       // Choose a random unvisited cell
       let currentCell = this.getNextCellToVisit();
+      if (this.isCellVisited(currentCell)) {
+        return;
+      }
       this.setCellVisited(currentCell);
       this.addUnvisitedNeighborsToNext(currentCell);
       
@@ -53,7 +80,7 @@ export class PrimsMaze extends Maze {
       const connectToNeighbor = visitedNeighbors[getRandomNumber(0, visitedNeighbors.length - 1)];
       
       // Remove wall between them
-      const tileVector = getCellNeighborDirection(currentCell, connectToNeighbor);
+      const tileVector = getCellNeighborTileVector(currentCell, connectToNeighbor);
       this.removeWallByTileVector(currentCell, tileVector);
       this.removeWallByTileVector(connectToNeighbor, getInverseTileVector(tileVector));
     }
@@ -64,8 +91,11 @@ export class PrimsMaze extends Maze {
       
     // Add all unvisited neighbors to the to-visit list
     for (let neighbor of neighbors) {
-      if (!this.isCellVisited(neighbor)) {
+      // Avoid duplicate adding neighbors (visited + already in queue)
+      if (!this.isCellVisited(neighbor) && !this.nextToVisitSet.has(neighbor.getTileKey())) {
+        const dirIndex = getCellNeighborDirectionIndex(cell, neighbor);
         this.nextToVisitSet.add(neighbor.getTileKey());
+        this.queue.push([dirIndex, neighbor]);
       }
     }
   }

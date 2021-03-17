@@ -54,6 +54,7 @@ export const getMazeDirectionIndexFromTileVector = (tileVector: TileVector): Maz
   } if (isTileEqual(tileVector, DIRECTION_RIGHT)) {
     return MazeDirectionIndex.RIGHT;
   }
+  console.error("Invalid tile vector being converted to direction index.");
   return null;
 }
 
@@ -101,10 +102,15 @@ export const getTileFromTileKey = (tileKey: string): Tile => {
   return { x: parseInt(keys[0]), y: parseInt(keys[1]) };
 }
 
-export const getCellNeighborDirection = (startCell: MazeCell, endCell: MazeCell): TileVector => {
+export const getCellNeighborTileVector = (startCell: MazeCell, endCell: MazeCell): TileVector => {
   // Assumption: these are actually neighboring cells
   const cellDiff = { x: endCell.x - startCell.x, y: endCell.y - startCell.y };
   return cellDiff;
+}
+
+export const getCellNeighborDirectionIndex = (startCell: MazeCell, endCell: MazeCell): MazeDirectionIndex => {
+  const tileVector = getCellNeighborTileVector(startCell, endCell);
+  return getMazeDirectionIndexFromTileVector(tileVector);
 }
 
 export const generateMazeArr = <T>(x: number, y: number, defaultValue: T): Array<Array<T>> => {

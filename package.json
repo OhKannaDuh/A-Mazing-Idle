@@ -6,7 +6,8 @@
   "scripts": {
     "build-cli": "browserify -p tsify -t [ babelify --extensions .ts ] src/index.ts > public/bundle.js",
     "build-script": "node ./build.js > public/bundle.js",
-    "build": "npm run build-script"
+    "build": "npm run build-script",
+    "gogogo": "watchify ./build.js -o public/bundle.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "lodash": "4.17.20",
     "tsify": "^2.0.2",
     "typescript": "^2.0.3",
-    "priorityjs": "1.2.3"
+    "priorityjs": "1.2.3",
+    "watchify": "4.0.0"
   }
 }
