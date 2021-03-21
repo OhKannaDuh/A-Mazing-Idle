@@ -107,7 +107,7 @@ class RNGBotManager {
       : this.game.maze.getPossibleSplitBotCount(validDirs);
 
     // Only split if both directions are unvisited.
-    const unvisitedDirs = this.game.upgrades.isUpgraded(UpgradeKey.PRIORITIZE_UNVISITED) 
+    const unvisitedDirs = this.game.upgrades.isUpgraded(UpgradeKey.PRIORITIZE_UNVISITED)
       ? this.game.maze.prioritizeUnvisitedDirection(playerId, validDirs)
       : validDirs;
     

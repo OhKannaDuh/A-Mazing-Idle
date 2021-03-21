@@ -1,4 +1,4 @@
-import { getCellNeighborDirectionIndex, getCellNeighborTileVector, getInverseTileVector, getMazeDirectionIndexFromTileVector, getRandomNumber, MazeDirectionIndex, MazeWallTypes } from "managers/MazeUtils";
+import { getCellNeighborDirectionIndex, getCellNeighborTileVector, getInverseTileVector, getMazeDirectionIndexFromTileVector, getRandomNumber, MazeDirectionIndex, MazeGridType, MazeWallTypes } from "managers/MazeUtils";
 import { Maze } from "models/Maze";
 import { MazeCell } from "models/MazeCell";
 import queue from "priorityjs";
@@ -13,12 +13,15 @@ export class PrimsMaze extends Maze {
   private startingX: number;
   private startingY: number;
 
-  constructor(mazeSize: number) {
-    super(mazeSize);
+  constructor(mazeSizeX: number, mazeSizeY: number, mazeGridType: MazeGridType) {
+    super(mazeSizeX, mazeSizeY, mazeGridType);
     this.visitedCellSet = new Set<string>();
     this.nextToVisitSet = new Set<string>();
-    this.startingX = getRandomNumber(0, this.sizeX - 1);
-    this.startingY = getRandomNumber(0, this.sizeY - 1);
+    
+    // Consider making this random.
+    this.startingX = this.grid.internalStartTile.x;
+    this.startingY = this.grid.internalStartTile.y;
+    
     this.queue = new queue.PriorityQ<DirectionCellPair>((dirCellPair1, dirCellPair2) => {
       const cell1Dir = this.mapPriorityVal(dirCellPair1);
       const cell2Dir = this.mapPriorityVal(dirCellPair2);
@@ -39,12 +42,11 @@ export class PrimsMaze extends Maze {
   }
 
   private getDistanceFromStart(cell: MazeCell): number {
-    return Math.sqrt(Math.abs(cell.x-this.startingX)^2 + Math.abs(cell.y-this.startingY)^2);
+    return Math.sqrt(Math.pow(cell.x-this.startingX, 2) + Math.pow(cell.y-this.startingY, 2));
   }
 
   public generateMaze(): void {
     const startCell = this.getCell({ x: this.startingX, y: this.startingY });
-
     this.setCellVisited(startCell);
     this.addUnvisitedNeighborsToNext(startCell);
     this.prims();
@@ -105,6 +107,7 @@ export class PrimsMaze extends Maze {
     return visitedNeighbors;
   }
 
+  //TODO: visited cell set needs MazeGrid integration
   private setCellVisited(cell: MazeCell): void {
     this.visitedCellSet.add(cell.getTileKey());
   }

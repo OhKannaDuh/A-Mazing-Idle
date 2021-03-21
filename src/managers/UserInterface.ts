@@ -42,10 +42,10 @@ class UserInterface {
   }
   
   public printMazeV2(maze: Maze) {     
-    for (let y = 0; y < maze.grid.length; y++) {
+    for (let y = 0; y < maze.grid.sizeY; y++) {
       $("#maze > tbody").append("<tr>");
 
-      for (let x = 0; x < maze.grid[y].length; x++) {
+      for (let x = 0; x < maze.grid.sizeX; x++) {
         let tileKey = generateTileKey(x, y);
         // Place cell element
         $("#maze > tbody").append(`<td id="${tileKey}">&nbsp;</td>`);
@@ -77,6 +77,8 @@ class UserInterface {
       return `2px solid ${borderColor}`;
     } else if (val === MazeWallTypes.DESTRUCTIBLE_WALL) {
       return `2px dotted ${borderColor}`;
+    } else if (val === MazeWallTypes.OUT_OF_BOUNDS_WALL) {
+      return;
     } else {
       //TODO: make this occupy space still
       return 'hidden';

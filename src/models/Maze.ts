@@ -1,72 +1,35 @@
-import { Array2D, MazeGridArray, Tile, TileVector } from "managers/MazeManager";
-import { DIRECTIONS_ARR, DIRECTION_RIGHT, generateMazeArr, getInverseDirectionIndex, getMazeDirectionIndexFromTileVector, getNewTilePositionByVector, getTileFromTileKey, getTileVectorFromMazeDirectionIndex, MazeDirectionIndex, MazeWallTypes } from "managers/MazeUtils";
+import { Tile, TileVector } from "managers/MazeManager";
+import { DIRECTIONS_ARR, getMazeDirectionIndexFromTileVector, getTileFromTileKey, MazeDirectionIndex, MazeGridType, MazeWallTypes } from "managers/MazeUtils";
 import { MazeCell } from "models/MazeCell";
-
+import { MazeGrid } from "models/MazeGrid";
+import { PlusSignMazeGrid } from "mazeGrid/PlusSignMazeGrid";
 
 export class Maze {
-  public grid: MazeGridArray;
-  public visitedGrid: Array2D<boolean>;
-  public sizeX: number;
-  public sizeY: number;
+  public grid: MazeGrid;
 
-  public startTile: Tile;
-  public externalExitTile: Tile;
-  public internalExitTile: Tile;
-  public exitDirectionVector: TileVector;
-
-  constructor(mazeSize: number) {
-    this.sizeX = mazeSize;
-    this.sizeY = mazeSize;
-    this.setStartAndEndTile();
-    this.generateMazeGrid();
-    this.generateVisitedArray();
+  constructor(mazeSizeX: number, mazeSizeY: number, mazeGridType: MazeGridType) {
+    // TODO: inject type of grid here
+    this.generateGrid(mazeSizeX, mazeSizeY, mazeGridType);
   }
 
-  public generateMaze() {
-    const exitCell = this.getCell(this.internalExitTile);
-    this.removeWallByTileVector(exitCell, this.exitDirectionVector);
-    
+  public generateMaze(): void {
     // Reset visited array
-    this.generateVisitedArray();
+    this.grid.resetVisitedTiles();
   }
   
-  public isValidCell(x: number, y: number): boolean {
-    return x >= 0 && x < this.sizeX 
-        && y >= 0 && y < this.sizeY;
-  }
-  
-  public isValidTile(tile: Tile): boolean {
-    return this.isValidCell(tile.x, tile.y);
-  }
-  
-  public generateMazeGrid() {
-    this.grid = [];
-    for (let y = 0; y < this.sizeY; y++) {
-      this.grid[y] = new Array();
-      for (let x = 0; x < this.sizeX; x++) {
-        this.grid[y][x] = new MazeCell(x, y);
-      }
+  public generateGrid(mazeSizeX: number, mazeSizeY: number, mazeGridType: MazeGridType): void {
+    if (mazeGridType === MazeGridType.SQUARE) {
+      this.grid = new MazeGrid(mazeSizeX, mazeSizeY, mazeGridType);
+    } else if (mazeGridType === MazeGridType.PLUS_SIGN) {
+      this.grid = new PlusSignMazeGrid(mazeSizeX, mazeSizeY);
+    } else if (mazeGridType === MazeGridType.DIAMOND) {
+      // this.grid = new DiamondMazeGrid(mazeSizeX, mazeSizeY);
+      throw "You didn't make this yet!";
     }
   }
 
-  public generateVisitedArray(): void {
-    this.visitedGrid = generateMazeArr(this.sizeX, this.sizeY, false);
-  }
-  
-  public isVisited(tile: Tile): boolean {
-    return this.visitedGrid[tile.y][tile.x];
-  }
-
-  public setVisited(tile: Tile): void {
-    if (!this.isValidCell(tile.x, tile.y)) return;
-    this.visitedGrid[tile.y][tile.x] = true;
-  }
-  
   public getCell(tile: Tile): MazeCell {
-    if (!this.isValidCell(tile.x, tile.y)) {
-      return null;
-    }
-    return this.grid[tile.y][tile.x];
+    return this.grid.getCell(tile)
   }
 
   public getCellByTileKey(tileKey: string): MazeCell {
@@ -74,23 +37,14 @@ export class Maze {
   }
 
   public getCellWallType(tile: Tile, wallDirectionIndex: MazeDirectionIndex): MazeWallTypes {
-    return this.getCell(tile).walls[wallDirectionIndex];
-  }
-
-  public setStartAndEndTile(): void {
-    this.startTile = { x: 0, y: 0 };
-
-    this.internalExitTile = { x: this.sizeX - 1, y: this.sizeY - 1 };
-    this.exitDirectionVector = DIRECTION_RIGHT;
-
-    this.externalExitTile = getNewTilePositionByVector(this.internalExitTile, this.exitDirectionVector);
+    return this.grid.getCell(tile, true).walls[wallDirectionIndex];
   }
 
   public getNeighbors(cell: MazeCell): MazeCell[] {
     const neighborsArr: MazeCell[] = [];
     
     for (let dir of DIRECTIONS_ARR) {
-      let neighbor = this.getCell({ x: cell.x + dir.x, y: cell.y + dir.y });
+      let neighbor = this.grid.getCell({ x: cell.x + dir.x, y: cell.y + dir.y });
       if (neighbor) {
         neighborsArr.push(neighbor);
       }
@@ -98,6 +52,7 @@ export class Maze {
     return neighborsArr;
   }
 
+  //TODO: util fxn maybe?
   public removeWallByDirIndex(mazeCell: MazeCell, directionIndex: MazeDirectionIndex): void {
     mazeCell.setWallTypeAtIndex(directionIndex, MazeWallTypes.NO_WALL);
   }

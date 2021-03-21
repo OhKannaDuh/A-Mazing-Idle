@@ -13,11 +13,8 @@ $(document).ready(() => {
   game.startGame();
   game.save.startSaveTimer();
 
-  // const backtrack = new BacktrackerV2(10, 10);
-  
   // game.ui.printMazeV2(backtrack);
 
-  // backtrackerTest();
   
   //TODO: this should be in UI
   $(document).keydown(function(event) {

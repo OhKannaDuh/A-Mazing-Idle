@@ -1,21 +1,24 @@
 import { TileVector } from "managers/MazeManager";
-import { DIRECTION_LEFT, DIRECTION_UP, getInverseTileVector, getNewTilePositionByVector, getRandomMazeTile, MazeDirectionIndex, MazeWallTypes, getRandomNumber } from "managers/MazeUtils";
+import { DIRECTION_LEFT, DIRECTION_UP, getInverseTileVector, getNewTilePositionByVector, getRandomMazeTile, MazeDirectionIndex, MazeWallTypes, getRandomNumber, MazeGridType } from "managers/MazeUtils";
 import { Maze } from "models/Maze";
 import { MazeCell } from "models/MazeCell";
 
+const VALID_DIR_ARR = [DIRECTION_LEFT, DIRECTION_UP];
 
 export class BinaryTreeMaze extends Maze {
-  constructor(mazeSize: number) {
-    super(mazeSize);
+  
+  constructor(mazeSizeX: number, mazeSizeY: number, mazeGridType: MazeGridType) {
+    if (mazeGridType === MazeGridType.PLUS_SIGN) {
+      throw 'Invalid grid type PLUS_SIGN for binary tree maze.'
+    }
+    super(mazeSizeX, mazeSizeY, mazeGridType);
     this.generateMaze();
-    
-    // Reset visited array
-    this.generateVisitedArray();
   }
 
   public generateMaze(): void {
-    for (let y = 0; y < this.sizeY; y++) {
-      for (let x = 0;  x < this.sizeX; x++) {
+    for (let y = 0; y < this.grid.sizeY; y++) {
+      for (let x = 0;  x < this.grid.sizeX; x++) {
+        if (!this.grid.isValidTile({ x: x, y: y})) continue;
         const validDirs = this.getValidDirs(x, y);
         if (validDirs.length === 0) {
           continue;
@@ -44,15 +47,16 @@ export class BinaryTreeMaze extends Maze {
 
   public getValidDirs(x: number, y: number): TileVector[] {
     // Biased LEFT and UP. Defend against edge case movements.
-    if (y === 0 && x === 0) {
-      return [];
-    } else if (x === 0) {
-      return [DIRECTION_UP];
-    } else if (y === 0) {
-      return [DIRECTION_LEFT];
+
+    const validDirs = [];
+
+    for (let dir of VALID_DIR_ARR) {
+      let testTile = getNewTilePositionByVector(dir, { x: x, y: y})
+      if (this.grid.isValidTile(testTile)) {
+        validDirs.push(dir);
+      }
     }
-    else {
-      return [DIRECTION_LEFT, DIRECTION_UP];
-    }
+    
+    return validDirs;
   }
 }

@@ -18,7 +18,7 @@ class PlayerManager {
   }
 
   public createDefaultPlayer() {
-    this.createNewPlayerObj(this.game.maze.maze.startTile);
+    this.createNewPlayerObj(this.game.maze.getGrid().internalStartTile);
   }
 
   public createNewPlayerObj(startTile, isPrimaryBot = false) {

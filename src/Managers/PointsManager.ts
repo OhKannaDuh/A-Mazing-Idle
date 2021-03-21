@@ -84,7 +84,7 @@ class Points extends Serializable {
 
   //TODO: move these as static functions in the upgrade class.
   private getMazeCompletionBonus() {
-    const tileCount = this.game.maze.getTileCount();
+    const tileCount = this.game.maze.getGrid().getTileCount();
     const upgradeLevel = this.game.upgrades.getUpgradeLevel(UpgradeKey.MAZE_COMPLETION_BONUS);
     return tileCount * (1 + MAZE_COMPLETION_BONUS_BASE_MULTIPLIER * upgradeLevel);
   }

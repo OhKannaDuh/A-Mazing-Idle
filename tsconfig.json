@@ -20,7 +20,8 @@
       "items/*": ["items/*"],
       "managers/*": ["managers/*"],
       "models/*": ["models/*"],
-      "maze/*": ["maze/*"]
+      "maze/*": ["maze/*"],
+      "mazeGrid/*": ["mazeGrid/*"]
     }
   },
   "files": [

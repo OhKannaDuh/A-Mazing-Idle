@@ -10,7 +10,8 @@
 				"items": "./src/items",
 				"managers": "./src/managers",
 				"models": "./src/models",
-        "maze": "./src/maze"
+        "maze": "./src/maze",
+        "mazeGrid": "./src/mazeGrid"
       }
     }]
   ]

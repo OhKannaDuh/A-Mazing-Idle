@@ -6,6 +6,11 @@ import { MazeCell } from "models/MazeCell";
 
 export const DEFAULT_TILE_WIDTH_CSS = '20px';
 
+export enum MazeGridType {
+  SQUARE = "SQUARE",
+  PLUS_SIGN = "PLUS_SIGN",
+  DIAMOND = "DIAMOND"
+}
 
 export enum MazeDirectionIndex {
   UP = 0,
@@ -18,6 +23,7 @@ export enum MazeWallTypes {
   WALL = 0,
   NO_WALL = 1,
   DESTRUCTIBLE_WALL = 2,
+  OUT_OF_BOUNDS_WALL = 3,
 }
 
 export const DIRECTION_UP: TileVector = {x: 0, y: -1};
@@ -75,6 +81,7 @@ export const getInverseTileVector = (tileVector: TileVector) => {
   return { x: -tileVector.x, y: -tileVector.y };
 }
 
+//TODO: this needs to be randomized based on valid grid tiles
 export const getRandomMazeTile = (game: Game): Tile => {
   const size = game.maze.getCurrentMazeSize() - 1;
   return { x: getRandomNumber(0, size), y: getRandomNumber(0, size) };
@@ -114,9 +121,9 @@ export const getCellNeighborDirectionIndex = (startCell: MazeCell, endCell: Maze
 }
 
 export const generateMazeArr = <T>(x: number, y: number, defaultValue: T): Array<Array<T>> => {
-  const mazeArr = new Array<Array<any>>();
+  const mazeArr = new Array<Array<T>>();
   for (let i = 0; i < y; i++) {
-    mazeArr[i] = new Array<number>();
+    mazeArr[i] = new Array<T>();
     for (let j = 0; j < x; j++) {
         mazeArr[i][j] = defaultValue;
     }
@@ -126,11 +133,11 @@ export const generateMazeArr = <T>(x: number, y: number, defaultValue: T): Array
 
 // Generates a maze with a number in each position representing the distance from exit using optimal pathing.
 export const generateMazeSmartPathingArr = (game: Game, maze: Maze): Array2D<number> => {
-  const smartPathArr: Array2D<number> = generateMazeArr(maze.sizeX, maze.sizeY, 0);
+  const smartPathArr: Array2D<number> = generateMazeArr(maze.grid.sizeX, maze.grid.sizeY, 0);
   //TODO: figure out how to handle exit tile better
-  // const lastTile = maze.exitTile
+  const lastTile = maze.grid.internalExitTile;
   
-  const lastTile = getNewTilePositionByVector(maze.externalExitTile, getInverseTileVector(maze.exitDirectionVector));
+  
   // Mark first tile visited first -- canMove() cannot handle starting outside of the maze (ie. exit point).
   smartPathArr[lastTile.y][lastTile.x] = 1;
 
