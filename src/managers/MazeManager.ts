@@ -73,8 +73,8 @@ class MazeManager {
   public newMaze() {
     const mazeSize = this.getNextMazeSize();
     //TODO: vary based on time zone
-    this.maze = new BacktrackerMaze(mazeSize, mazeSize, MazeGridType.PLUS_SIGN);
-    // this.maze = new PrimsMaze(mazeSize, mazeSize, MazeGridType.PLUS_SIGN);
+    // this.maze = new BacktrackerMaze(mazeSize, mazeSize, MazeGridType.RECTANGLE);
+    this.maze = new PrimsMaze(mazeSize, mazeSize, MazeGridType.DIAMOND);
     // this.maze = new BinaryTreeMaze(mazeSize, mazeSize, MazeGridType.PLUS_SIGN);
     this.smartPathMaze = generateMazeSmartPathingArr(this.game, this.maze);
     this.deadEndTileMap = new Map();

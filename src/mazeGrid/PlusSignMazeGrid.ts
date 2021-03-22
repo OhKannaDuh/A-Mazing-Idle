@@ -11,7 +11,7 @@ export class PlusSignMazeGrid extends MazeGrid {
     super(mazeSizeX + bufferX, mazeSizeY + bufferY, MazeGridType.PLUS_SIGN);
   }
 
-  public generateMazeGrid() {
+  public generateMazeGrid(): void {
     // Generate a normal grid and then mark cells dead
     super.generateMazeGrid();
 
@@ -36,7 +36,7 @@ export class PlusSignMazeGrid extends MazeGrid {
     return Math.ceil(this.sizeY / 3);
   }
 
-  private markCellRangeCornerDead(xStart, xEnd, yStart, yEnd) {
+  private markCellRangeCornerDead(xStart: number, xEnd: number, yStart: number, yEnd: number): void {
     for (let x = xStart; x < xEnd; x++) {
       for (let y = yStart; y < yEnd; y++) {
         this.setDeadCell({ x: x, y: y});

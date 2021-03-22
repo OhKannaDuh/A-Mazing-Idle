@@ -3,6 +3,9 @@ import { DIRECTIONS_ARR, getMazeDirectionIndexFromTileVector, getTileFromTileKey
 import { MazeCell } from "models/MazeCell";
 import { MazeGrid } from "models/MazeGrid";
 import { PlusSignMazeGrid } from "mazeGrid/PlusSignMazeGrid";
+import { RectangleMazeGrid } from "mazeGrid/RectangleMazeGrid";
+import { DiamondMazeGrid } from "mazeGrid/DiamondMazeGrid";
+import { SquareMazeGrid } from "mazeGrid/SquareMazeGrid";
 
 export class Maze {
   public grid: MazeGrid;
@@ -19,12 +22,15 @@ export class Maze {
   
   public generateGrid(mazeSizeX: number, mazeSizeY: number, mazeGridType: MazeGridType): void {
     if (mazeGridType === MazeGridType.SQUARE) {
-      this.grid = new MazeGrid(mazeSizeX, mazeSizeY, mazeGridType);
+      this.grid = new SquareMazeGrid(mazeSizeX, mazeSizeY);
     } else if (mazeGridType === MazeGridType.PLUS_SIGN) {
       this.grid = new PlusSignMazeGrid(mazeSizeX, mazeSizeY);
+    } else if (mazeGridType === MazeGridType.RECTANGLE) {
+      this.grid = new RectangleMazeGrid(mazeSizeX, mazeSizeY);
     } else if (mazeGridType === MazeGridType.DIAMOND) {
-      // this.grid = new DiamondMazeGrid(mazeSizeX, mazeSizeY);
-      throw "You didn't make this yet!";
+      this.grid = new DiamondMazeGrid(mazeSizeX, mazeSizeY);
+    } else {
+      throw `You didn't make this yet! ${mazeGridType}`;
     }
   }
 

@@ -8,6 +8,7 @@ export const DEFAULT_TILE_WIDTH_CSS = '20px';
 
 export enum MazeGridType {
   SQUARE = "SQUARE",
+  RECTANGLE = "RECTANGLE",
   PLUS_SIGN = "PLUS_SIGN",
   DIAMOND = "DIAMOND"
 }
