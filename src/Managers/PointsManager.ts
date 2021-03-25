@@ -3,7 +3,7 @@ import Game from "managers/Game";
 import MultiplierMazeItem from "items/definitions/MultiplierMazeItem";
 import Serializable from "models/Serializable";
 import { StatsKey } from "models/Stats";
-
+import { PointsHistoryTracker } from "models/PointsHistoryTracker";
 
 const SERIALIZABLE_PROPERTIES: string[] = ['points'];
 
@@ -13,23 +13,26 @@ class Points extends Serializable {
   public game: Game;
   public isDevMode: boolean;
   public points: number;
+  public pointsHistoryTracker: PointsHistoryTracker;
 
   constructor(game: Game, isDevMode = false) {
     super(SERIALIZABLE_PROPERTIES);
     this.game = game;
     this.isDevMode = isDevMode;
     this.points = 0.0;
+    this.pointsHistoryTracker = new PointsHistoryTracker(this.game, StatsKey.AVERAGE_POINTS_EARNED_PER_SECOND);
   }
   
-  public addPoints(amount: number, playerId: number = null, statsKeyList: StatsKey[] = null): void {
+  public addPoints(baseValue: number, playerId: number = null, statsKeyList: StatsKey[] = null): void {
     const multiplier = this.getPointMultplier(playerId);
-    const pointsEarned = amount * multiplier;
+    const pointsEarned = baseValue * multiplier;
     
     this.points += pointsEarned;
     
     this.game.stats.addStatsToKeyList(pointsEarned, statsKeyList);
     this.game.stats.addStatsToKey(pointsEarned, StatsKey.TOTAL_POINTS_EARNED);
-    this.game.stats.addStatsToKey((pointsEarned - amount), StatsKey.TOTAL_POINTS_EARNED_FROM_MULTIPLIER_ITEM);
+    this.game.stats.addStatsToKey((pointsEarned - baseValue), StatsKey.TOTAL_POINTS_EARNED_FROM_MULTIPLIER_ITEM);
+    this.game.points.pointsHistoryTracker.addNumber(pointsEarned);
     this.game.upgrades.updateAllUpgradeUi();
     
     this.game.ui.setPointsText();

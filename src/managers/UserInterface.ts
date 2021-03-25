@@ -16,32 +16,32 @@ class UserInterface {
     this.disableUi = disableUi;
   }
 
-  public init() {
+  public init(): void {
     if(this.disableUi) return;
     this.initText();
     this.initEvents();
   }
 
-  private initText() {
+  private initText(): void {
     this.setPointsText();
   }
 
-  private initEvents() {
+  private initEvents(): void {
     $(`#manualSaveGame`).click(() => this.game.save.saveGameToLocalStorage());
     $(`#deleteSaveGame`).click(() => this.game.save.clearLocalStorage());
     $(`#newGame`).click(() => this.game.hardResetGame());
     $(`#clearAllStats`).click(() => this.game.stats.initStatsMap());
   }
 
-  public setDebugPanelVisible(isVisible) {
+  public setDebugPanelVisible(isVisible): void {
     $("#debug").css("display", isVisible ? "block" : "none");
   }
 
-  public setPointsText() {
+  public setPointsText(): void {
     $("#points").text(`Points: ${UserInterface.getPrettyPrintNumberNoDecimals(this.game.points.points)}`);
   }
   
-  public printMazeV2(maze: Maze) {     
+  public printMazeV2(maze: Maze): void {     
     for (let y = 0; y < maze.grid.sizeY; y++) {
       $("#maze > tbody").append("<tr>");
 
@@ -61,7 +61,7 @@ class UserInterface {
     }
   }
   
-  public setTileCssV2(maze: Maze, tile: Tile) {
+  public setTileCssV2(maze: Maze, tile: Tile): void {
     let cssSelector = generateTileKey(tile.x, tile.y);
     $(`#${cssSelector}`).css("border-top", this.getMazeBorderCss(maze.getCellWallType(tile, MazeDirectionIndex.UP)));
     $(`#${cssSelector}`).css("border-right", this.getMazeBorderCss(maze.getCellWallType(tile, MazeDirectionIndex.RIGHT)));
@@ -69,7 +69,7 @@ class UserInterface {
     $(`#${cssSelector}`).css("border-left", this.getMazeBorderCss(maze.getCellWallType(tile, MazeDirectionIndex.LEFT)));
   }
 
-  private getMazeBorderCss(val: MazeWallTypes) {
+  private getMazeBorderCss(val: MazeWallTypes): string {
     const borderColor = this.game.colors.getMazeWallColor();
     if (val === MazeWallTypes.WALL) {
       return `2px solid ${borderColor}`;
@@ -83,13 +83,13 @@ class UserInterface {
     }
   }
 
-  public deleteMaze() {
+  public deleteMaze(): void {
     if(this.disableUi) return;
     $("#maze td").remove();
     $("#maze tr").remove();
   }
 
-  public updateStatsKey(statsKey: StatsKey) {
+  public updateStatsKey(statsKey: StatsKey): void {
     
     if (!STATS_TO_UI_ID_MAP.has(statsKey)) {
       console.debug('No stats key UI registered for: ', statsKey);
@@ -106,13 +106,14 @@ class UserInterface {
     $(`#${statsUiId}`).text(' ' + UserInterface.getPrettyPrintNumberNoDecimals(statsValue));
   }
 
-  public updateAllStatsKey() {
+  public updateAllStatsKey(): void {
     for (let statsKey of STATS_TO_UI_ID_MAP.keys()) {
       this.updateStatsKey(statsKey as StatsKey); 
     }
   }
 
-  public static getPrettyPrintNumberNoDecimals(num: number) {
+  public static getPrettyPrintNumberNoDecimals(num: number): string {
+    if (!num) return '0';
     return parseInt(num.toFixed(0)).toLocaleString();
   }
 }

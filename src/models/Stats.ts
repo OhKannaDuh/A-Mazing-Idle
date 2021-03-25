@@ -32,6 +32,8 @@ export enum StatsKey {
   CURRENT_MAZE_UNIQUE_TILES_VISITED = "CURRENT_MAZE_UNIQUE_TILES_VISITED",
   CURRENT_MAZE_TILES_REVISITED = "CURRENT_MAZE_TOTAL_TILES_REVISITED",
 
+  AVERAGE_POINTS_EARNED_PER_SECOND = "AVERAGE_POINTS_EARNED_PER_SECOND",
+
   //TODO: eventually do these probably
   // TOTAL_MANUAL_TILES_VISITED = "TOTAL_MANUAL_TILES_VISITED",
   // TOTAL_DESTRUCTIBLE_WALLS_DESTROYED = "TOTAL_DESTRUCTIBLE_WALLS_DESTROYED",
@@ -68,7 +70,10 @@ export const STATS_TO_UI_ID_MAP: Map<StatsKey, string> = new Map([
   [StatsKey.TOTAL_FRUIT_ITEMS_PICKED_UP, 'statsTotalFruitItemsPickedUp'],
   [StatsKey.TOTAL_BRAIN_ITEMS_PICKED_UP, 'statsTotalBrainItemsPickedUp'],
   [StatsKey.TOTAL_BLACK_HOLE_ITEMS_PICKED_UP, 'statsTotalBlackHoleItemsPickedUp'],
-  [StatsKey.TOTAL_MULTIPLIER_ITEMS_PICKED_UP, 'statsTotalMultiplierItemsPickedUp']
+  [StatsKey.TOTAL_MULTIPLIER_ITEMS_PICKED_UP, 'statsTotalMultiplierItemsPickedUp'],
+
+  // Average
+  [StatsKey.AVERAGE_POINTS_EARNED_PER_SECOND, 'averagePointsEarnedPerSecond']
 ]);
 
 export const CURRENT_MAZE_STATS: Set<StatsKey> = new Set(

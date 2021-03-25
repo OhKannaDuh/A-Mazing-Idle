@@ -37,10 +37,15 @@ class StatsManager extends Serializable {
     return this.statsMap.has(statsKey);
   }
 
-  public addStatsToKey(amount: number, statsKey: StatsKey): void {
-    const oldVal = this.getStat(statsKey);
-    this.statsMap.set(statsKey, amount + oldVal);
+  public addStatsToKey(value: number, statsKey: StatsKey): void {
+    const oldValue = this.getStat(statsKey);
+    this.statsMap.set(statsKey, value + oldValue);
 
+    this.game.ui.updateStatsKey(statsKey);
+  }
+
+  public setStatsToKey(value: number, statsKey: StatsKey): void {
+    this.statsMap.set(statsKey, value);
     this.game.ui.updateStatsKey(statsKey);
   }
   

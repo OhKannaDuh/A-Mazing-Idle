@@ -27,11 +27,9 @@ Stats Tracker (Current)
 
 Refactor:
 --> Linter!
---> (*) Maze items should be persisted in cell object, not independently
 --> (*) Fruit costs should be mapped to fruit type.
 --> (*) Biome mapping/unlock/handling
---> Maze should have its own class
---> (?)RNG bots should have independent movement speed
+--> (?) RNG bots should have independent movement speed
 
 Regions/Biomes:
 (?)

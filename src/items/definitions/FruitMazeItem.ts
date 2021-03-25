@@ -4,7 +4,6 @@ import { UpgradeKey } from "constants/UpgradeConstants";
 import { FRUIT_PICKUP_POINTS_BASE_AMOUNT_MULTIPLIER, FRUIT_SPAWN_BASE_PROBABILITY, FRUIT_SPAWN_UPGRADE_FLAT_INCREASE_PROBABILITY, MazeItemKey } from "constants/ItemConstants";
 import MazeItem from "items/MazeItem";
 import { StatsKey } from "models/Stats";
-// import { StatsKey } from "models/Stats";
 
 
 class FruitMazeItem extends MazeItem {
