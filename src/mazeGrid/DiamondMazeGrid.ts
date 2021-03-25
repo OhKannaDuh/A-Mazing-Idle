@@ -60,7 +60,6 @@ export class DiamondMazeGrid extends MazeGrid {
     // Bottom left edge
     for (let y = edgeDistance+1; y < this.sizeY; y++) {
       for (let x = 0; x < y - edgeDistance; x++) {
-        
         this.setDeadCell({ x: x, y: y});
       }
     }

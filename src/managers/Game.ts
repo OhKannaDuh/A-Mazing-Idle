@@ -105,7 +105,6 @@ class Game extends Serializable {
     this.rngBot.disableGlobalMovement();
     this.rngBot.disableReEnableBotMovementTimer();
     this.players.resetAllPlayers();
-    this.items.clearAllItems();
   }
 }
 

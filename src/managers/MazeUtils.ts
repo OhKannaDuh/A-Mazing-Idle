@@ -82,13 +82,13 @@ export const getInverseTileVector = (tileVector: TileVector) => {
   return { x: -tileVector.x, y: -tileVector.y };
 }
 
-//TODO: this needs to be randomized based on valid grid tiles
 export const getRandomMazeTile = (game: Game): Tile => {
-  const size = game.maze.getCurrentMazeSize() - 1;
-  return { x: getRandomNumber(0, size), y: getRandomNumber(0, size) };
+  const cellList: MazeCell[] = game.maze.getGrid().getAllCells();
+  const randomIndex = getRandomInteger(0, cellList.length-1);
+  return cellList[randomIndex].getTile();
 }
 
-export const getRandomNumber = (min: number, max: number): number => {  
+export const getRandomInteger = (min: number, max: number): number => {  
   if (min === max) return max;
   return Math.floor(Math.random() * (max - min + 1) + min);
 }

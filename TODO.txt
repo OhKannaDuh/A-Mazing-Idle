@@ -34,3 +34,9 @@ Refactor:
 
 Regions/Biomes:
 (?)
+
+
+TODAY:
+- Random start/end spawns
+- Random item spawns
+- Fix 'walls' missing exception (getPossibleDirectionsList -> getValidDirectionsByTile )

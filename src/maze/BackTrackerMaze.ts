@@ -26,7 +26,7 @@ export class BacktrackerMaze extends Maze {
   private backtrackDFS() {
     while(!this.isDone) {
       if (!this.current.isVisited) {
-        this.current.isVisited = true;
+        this.current.setVisited();
         this.stack.push(this.current);
       }
     

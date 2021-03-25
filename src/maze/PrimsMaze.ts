@@ -1,10 +1,10 @@
-import { getCellNeighborDirectionIndex, getCellNeighborTileVector, getInverseTileVector, getMazeDirectionIndexFromTileVector, getRandomNumber, MazeDirectionIndex, MazeGridType, MazeWallTypes } from "managers/MazeUtils";
+import { getCellNeighborDirectionIndex, getCellNeighborTileVector, getInverseTileVector, getMazeDirectionIndexFromTileVector, getRandomInteger, MazeDirectionIndex, MazeGridType, MazeWallTypes } from "managers/MazeUtils";
 import { Maze } from "models/Maze";
 import { MazeCell } from "models/MazeCell";
 import queue from "priorityjs";
 
+type DirectionCellPair = [MazeDirectionIndex, MazeCell];
 
-type DirectionCellPair = [MazeDirectionIndex, MazeCell]
 
 export class PrimsMaze extends Maze {
   private visitedCellSet: Set<string>;
@@ -79,7 +79,7 @@ export class PrimsMaze extends Maze {
         return;
       }
       // Pick one randomly
-      const connectToNeighbor = visitedNeighbors[getRandomNumber(0, visitedNeighbors.length - 1)];
+      const connectToNeighbor = visitedNeighbors[getRandomInteger(0, visitedNeighbors.length - 1)];
       
       // Remove wall between them
       const tileVector = getCellNeighborTileVector(currentCell, connectToNeighbor);

@@ -1,7 +1,6 @@
 import { TileVector } from "managers/MazeManager";
-import { DIRECTION_LEFT, DIRECTION_UP, getInverseTileVector, getNewTilePositionByVector, getRandomMazeTile, MazeDirectionIndex, MazeWallTypes, getRandomNumber, MazeGridType } from "managers/MazeUtils";
+import { DIRECTION_LEFT, DIRECTION_UP, getInverseTileVector, getNewTilePositionByVector, getRandomInteger, MazeGridType } from "managers/MazeUtils";
 import { Maze } from "models/Maze";
-import { MazeCell } from "models/MazeCell";
 
 const VALID_DIR_ARR = [DIRECTION_LEFT, DIRECTION_UP];
 
@@ -24,7 +23,7 @@ export class BinaryTreeMaze extends Maze {
           continue;
         }
         // Choose random direction and determine it's inverse
-        const randomIndex = getRandomNumber(0, validDirs.length-1);
+        const randomIndex = getRandomInteger(0, validDirs.length-1);
         const randomTileVector = validDirs[randomIndex];
         const inverseTileVector = getInverseTileVector(randomTileVector);
         

@@ -78,7 +78,7 @@ class MazeManager {
     // this.maze = new BinaryTreeMaze(mazeSize, mazeSize, MazeGridType.PLUS_SIGN);
     this.smartPathMaze = generateMazeSmartPathingArr(this.game, this.maze);
     this.deadEndTileMap = new Map();
-    this.game.items.generateMazeItems(mazeSize, mazeSize);
+    this.game.items.generateMazeItems();
   }
 
   public markVisited(tile: Tile, playerId: number) {
@@ -164,12 +164,8 @@ class MazeManager {
     this.setTileBackgroundColor(player.prevTile);
     this.setTileBackgroundColor(newTile, true);
     
-    const tileKey = generateTileKey(newTile.x, newTile.y);
-
     // Pick up items if any are on the tile
-    if (this.game.items.hasMazeItem(tileKey)) {
-      this.game.items.pickupItem(tileKey, playerId);
-    }
+    this.game.items.pickupItem(newTile, playerId);
 
     if (this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_SPLIT_BOT_AUTO_MERGE)) {
       const playerIdsAtTileArr = this.game.players.getPlayerIdsAtTile(player.currTile);

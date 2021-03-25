@@ -53,10 +53,8 @@ class UserInterface {
         // Draw edges
         this.setTileCssV2(maze, { x: x, y: y });
         
-        // Draw fruit in tile.
-        if (this.game.items.hasMazeItem(tileKey)) {
-          this.game.items.drawItem(tileKey);
-        }
+        // Draw item if present
+        this.game.items.drawItem({ x: x, y: y});
       }
       
       $("#maze > tbody").append("</tr>");
@@ -94,7 +92,7 @@ class UserInterface {
   public updateStatsKey(statsKey: StatsKey) {
     
     if (!STATS_TO_UI_ID_MAP.has(statsKey)) {
-      console.error('No stats key UI registered for: ', statsKey);
+      console.debug('No stats key UI registered for: ', statsKey);
       return;
     }
     
@@ -102,7 +100,7 @@ class UserInterface {
     const statsUiId = STATS_TO_UI_ID_MAP.get(statsKey);
     
     if (!$(`#${statsUiId}`)) {
-      console.error("No UI component registerd to stats key: ", statsUiId);
+      console.info("No UI component registerd to stats key: ", statsUiId);
       return;
     }
     $(`#${statsUiId}`).text(' ' + UserInterface.getPrettyPrintNumberNoDecimals(statsValue));

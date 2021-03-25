@@ -79,7 +79,10 @@ export class MazeGrid {
     // Exit tile is not visited.
     //TODO: evaluate if we can handle this better.
     if (isTileEqual(tile, this.externalExitTile)) return false;
-    return this.getCell(tile).isVisited;
+    const cell = this.getCell(tile);
+    if (cell) {
+      return cell.isVisited;
+    }
   }
 
   public setVisited(tile: Tile): void {
@@ -101,5 +104,18 @@ export class MazeGrid {
 
   public isMazeExitTile(tile: Tile): boolean {
     return isTileEqual(tile, this.externalExitTile);
+  }
+  
+  public getAllCells(): MazeCell[] {
+    const cellList: MazeCell[] = [];
+    for (let y = 0; y < this.sizeY; y++) {
+      for (let x = 0; x < this.sizeX; x++) {
+        const cell = this.getCell({ x: x, y: y});
+        if (cell && !cell.isCellDead()) {
+          cellList.push(cell);
+        }
+      }
+    }
+    return cellList;
   }
 }
