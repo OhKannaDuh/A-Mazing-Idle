@@ -1,5 +1,17 @@
 import { Array2D, Tile, TileVector } from "managers/MazeManager";
-import { DIRECTION_RIGHT, getMazeDirectionIndexFromTileVector, getNewTilePositionByVector, getTileFromTileKey, isTileEqual, MazeDirectionIndex, MazeGridType, MazeWallTypes } from "managers/MazeUtils";
+import { 
+  getExitDirectionByGridLocation, 
+  getGridCellByLocation, 
+  getMazeDirectionIndexFromTileVector, 
+  getNewTilePositionByVector, 
+  getRandomInteger, 
+  getTileFromTileKey, 
+  GridLocation, 
+  isTileEqual, 
+  MazeDirectionIndex, 
+  MazeGridType, 
+  MazeWallTypes 
+} from "managers/MazeUtils";
 import { MazeCell } from "models/MazeCell";
 
 
@@ -11,10 +23,11 @@ export class MazeGrid {
   public sizeY: number;
   private tileCount: number;
   public mazeGridType: MazeGridType;
+  private isRandomStartLocation: boolean = true;
 
   public internalStartTile: Tile;
-  public externalExitTile: Tile;
   public internalExitTile: Tile;
+  public externalExitTile: Tile;
   public exitDirectionVector: TileVector;
   
   constructor(sizeX: number, sizeY: number, mazeGridType: MazeGridType) {
@@ -37,16 +50,36 @@ export class MazeGrid {
       }
     }
   }
-  
-  protected setStartAndEndTile(): void {
-    this.internalStartTile = { x: 0, y: 0 };
 
-    this.internalExitTile = { x: this.sizeX - 1, y: this.sizeY - 1 };
+  public setStartAndEndTile() {
+    const startGridLocation = this.chooseMazeStartGridLocation();
+    const startGridCell = getGridCellByLocation(this, startGridLocation);
+    if (!startGridCell || startGridCell.isCellDead()) {
+      throw 'Invalid grid cell starting point.';
+    }
+    this.internalStartTile = startGridCell;
     
-    this.exitDirectionVector = DIRECTION_RIGHT;
+    const exitGridLocation = this.chooseMazeEndGridLocation(startGridLocation);
+    const exitGridCell = getGridCellByLocation(this, exitGridLocation);
+    if (!exitGridCell || exitGridCell.isCellDead()) {
+      throw 'Invalid grid cell ending point.';
+    }
+    this.internalExitTile = exitGridCell;
+    this.exitDirectionVector = getExitDirectionByGridLocation(exitGridLocation);
     this.externalExitTile = getNewTilePositionByVector(this.internalExitTile, this.exitDirectionVector);
-    this.getCell(this.internalExitTile).setWallTypeAtIndex(getMazeDirectionIndexFromTileVector(DIRECTION_RIGHT), MazeWallTypes.NO_WALL);
+    
+    this.getCell(this.internalExitTile).setWallTypeAtIndex(getMazeDirectionIndexFromTileVector(this.exitDirectionVector), MazeWallTypes.NO_WALL);
   }
+  
+  // protected setStartAndEndTile(): void {
+  //   this.internalStartTile = { x: 0, y: 0 };
+
+  //   this.internalExitTile = { x: this.sizeX - 1, y: this.sizeY - 1 };
+    
+  //   this.exitDirectionVector = DIRECTION_RIGHT;
+  //   this.externalExitTile = getNewTilePositionByVector(this.internalExitTile, this.exitDirectionVector);
+  //   this.getCell(this.internalExitTile).setWallTypeAtIndex(getMazeDirectionIndexFromTileVector(DIRECTION_RIGHT), MazeWallTypes.NO_WALL);
+  // }
 
   public resetVisitedTiles(): void {
     for (let y = 0; y < this.sizeY; y++) {
@@ -117,5 +150,32 @@ export class MazeGrid {
       }
     }
     return cellList;
+  }
+
+  private chooseMazeStartGridLocation(): GridLocation {
+    const validStartLocations = this.getValidStartLocations();
+    if (this.isRandomStartLocation) {
+      return validStartLocations[getRandomInteger(0, validStartLocations.length - 1)];
+    }
+    return validStartLocations[0];
+  }
+
+  private chooseMazeEndGridLocation(startingLocation: GridLocation): GridLocation {
+    const validEndLocationsSet = new Set(this.getValidExitLocations());
+    validEndLocationsSet.delete(startingLocation);
+    const validEndLocations = Array.from(validEndLocationsSet);
+
+    if (this.isRandomStartLocation) {
+      return validEndLocations[getRandomInteger(0, validEndLocations.length - 1)];
+    }
+    return validEndLocations[0];
+  }
+  
+  protected getValidStartLocations(): GridLocation[] {
+    throw `No starting locations defined for grid type: ${this.mazeGridType}.`;
+  }
+
+  protected getValidExitLocations(): GridLocation[] {
+    throw `No ending locations defined for grid type: ${this.mazeGridType}`;
   }
 }

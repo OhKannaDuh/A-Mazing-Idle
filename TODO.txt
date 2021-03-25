@@ -5,13 +5,14 @@ Bug fixes:
 --> Destructible walls move the maze a pixel or two
 
 Features:
+--> (*) Icon for exit
 --> (*) Offline play
 --> (*) Display upgrade stat instead of level
---> (*) Points for clearing destructible walls
---> (*) Finish line (auto-complete maze)
 --> (*) Debounce speed of manual movement
---> (*) Allow option for splits on visited tiles
+--> Allow option for splits on visited tiles
+--> Points for clearing destructible walls
 --> "Luck" upgrade
+--> Finish line (auto-complete maze)
 --> Bots move between tiles instead of teleport
 
 Maze Generation:
@@ -34,9 +35,5 @@ Refactor:
 
 Regions/Biomes:
 (?)
-
-
-TODAY:
-- Random start/end spawns
-- Random item spawns
-- Fix 'walls' missing exception (getPossibleDirectionsList -> getValidDirectionsByTile )
+--> Maze Grid Types
+--> Maze start/end variations

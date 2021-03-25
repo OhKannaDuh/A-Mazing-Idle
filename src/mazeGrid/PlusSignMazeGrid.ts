@@ -1,14 +1,14 @@
-import { DIRECTION_RIGHT, getMazeDirectionIndexFromTileVector, getNewTilePositionByVector, MazeGridType, MazeWallTypes } from "managers/MazeUtils";
+import { DIRECTION_RIGHT, getMazeDirectionIndexFromTileVector, getNewTilePositionByVector, GridLocation, MazeGridType, MazeWallTypes } from "managers/MazeUtils";
 import { MazeCell } from "models/MazeCell";
 import { MazeGrid } from "models/MazeGrid";
 
 
 
 export class PlusSignMazeGrid extends MazeGrid {
-  constructor(mazeSizeX: number, mazeSizeY: number) {
+  constructor(mazeSizeX: number) {
     const bufferX = Math.ceil(mazeSizeX / 3);
-    const bufferY = Math.ceil(mazeSizeY / 3);
-    super(mazeSizeX + bufferX, mazeSizeY + bufferY, MazeGridType.PLUS_SIGN);
+    const bufferY = Math.ceil(mazeSizeX / 3);
+    super(mazeSizeX + bufferX, mazeSizeX + bufferY, MazeGridType.PLUS_SIGN);
   }
 
   public generateMazeGrid(): void {
@@ -44,16 +44,34 @@ export class PlusSignMazeGrid extends MazeGrid {
     }
   }
   
-  protected setStartAndEndTile(): void {
-    // Bottom of the left/right side of plus sign
-    const middleXOffset = this.getXRange() - 1;
-    const middleYOffset = this.getYRange() - 1;
-    this.internalStartTile = { x: 0, y: this.getXRange() + middleXOffset };
+  // protected setStartAndEndTile(): void {
+  //   // Bottom of the left/right side of plus sign
+  //   const middleXOffset = this.getXRange() - 1;
+  //   const middleYOffset = this.getYRange() - 1;
+  //   this.internalStartTile = { x: 0, y: this.getXRange() + middleXOffset };
 
-    this.internalExitTile = { x: this.sizeX - 1, y: this.getYRange() + middleYOffset };
+  //   this.internalExitTile = { x: this.sizeX - 1, y: this.getYRange() + middleYOffset };
     
-    this.exitDirectionVector = DIRECTION_RIGHT;
-    this.externalExitTile = getNewTilePositionByVector(this.internalExitTile, this.exitDirectionVector);
-    this.getCell(this.internalExitTile).setWallTypeAtIndex(getMazeDirectionIndexFromTileVector(DIRECTION_RIGHT), MazeWallTypes.NO_WALL);
+  //   this.exitDirectionVector = DIRECTION_RIGHT;
+  //   this.externalExitTile = getNewTilePositionByVector(this.internalExitTile, this.exitDirectionVector);
+  //   this.getCell(this.internalExitTile).setWallTypeAtIndex(getMazeDirectionIndexFromTileVector(DIRECTION_RIGHT), MazeWallTypes.NO_WALL);
+  // }
+
+  protected getValidStartLocations(): GridLocation[] {
+    return [
+      GridLocation.MIDDLE_LEFT,
+      GridLocation.TOP_MIDDLE,
+      GridLocation.BOTTOM_MIDDLE,
+      GridLocation.MIDDLE_RIGHT
+    ];
+  }
+
+  protected getValidExitLocations(): GridLocation[] {
+    return [
+      GridLocation.MIDDLE_RIGHT,
+      GridLocation.TOP_MIDDLE,
+      GridLocation.BOTTOM_MIDDLE,
+      GridLocation.MIDDLE_LEFT
+    ];
   }
 }

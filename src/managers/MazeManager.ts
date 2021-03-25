@@ -65,17 +65,13 @@ class MazeManager {
   public getNextMazeSize() {
     return DEFAULT_MAZE_SIZE + this.game.upgrades.getUpgradeLevel(UpgradeKey.MAZE_SIZE_UPGRADE);
   }
-
-  public getCurrentMazeSize() {
-    return this.maze.grid.sizeX;
-  }
   
   public newMaze() {
     const mazeSize = this.getNextMazeSize();
     //TODO: vary based on time zone
-    // this.maze = new BacktrackerMaze(mazeSize, mazeSize, MazeGridType.RECTANGLE);
-    this.maze = new PrimsMaze(mazeSize, mazeSize, MazeGridType.DIAMOND);
-    // this.maze = new BinaryTreeMaze(mazeSize, mazeSize, MazeGridType.PLUS_SIGN);
+    // this.maze = new BacktrackerMaze(mazeSize, MazeGridType.RECTANGLE);
+    this.maze = new PrimsMaze(mazeSize, MazeGridType.RECTANGLE);
+    // this.maze = new BinaryTreeMaze(mazeSize, MazeGridType.PLUS_SIGN);
     this.smartPathMaze = generateMazeSmartPathingArr(this.game, this.maze);
     this.deadEndTileMap = new Map();
     this.game.items.generateMazeItems();

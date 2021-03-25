@@ -13,8 +13,8 @@ export class PrimsMaze extends Maze {
   private startingX: number;
   private startingY: number;
 
-  constructor(mazeSizeX: number, mazeSizeY: number, mazeGridType: MazeGridType) {
-    super(mazeSizeX, mazeSizeY, mazeGridType);
+  constructor(mazeSizeX: number, mazeGridType: MazeGridType) {
+    super(mazeSizeX, mazeGridType);
     this.visitedCellSet = new Set<string>();
     this.nextToVisitSet = new Set<string>();
     

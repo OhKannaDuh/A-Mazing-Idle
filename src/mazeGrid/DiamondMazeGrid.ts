@@ -1,4 +1,4 @@
-import { DIRECTION_RIGHT, getMazeDirectionIndexFromTileVector, getNewTilePositionByVector, MazeGridType, MazeWallTypes } from "managers/MazeUtils";
+import { DIRECTION_RIGHT, getMazeDirectionIndexFromTileVector, getNewTilePositionByVector, GridLocation, MazeGridType, MazeWallTypes } from "managers/MazeUtils";
 import { MazeGrid } from "models/MazeGrid";
 
 // Odd based diamond (single edge piece on each side)
@@ -33,7 +33,7 @@ const isOdd = (num: number): boolean => {
 
 export class DiamondMazeGrid extends MazeGrid {
 
-  constructor(mazeSizeX: number, mazeSizeY: number) {
+  constructor(mazeSizeX: number) {
     const diamondOddLength = getDiamondOddLength(mazeSizeX);
     super(diamondOddLength, diamondOddLength, MazeGridType.DIAMOND);
   }
@@ -77,17 +77,21 @@ export class DiamondMazeGrid extends MazeGrid {
     }
   }
   
-  protected setStartAndEndTile(): void {
-    // Far left side single-edge piece
-    const singleSideDistance = this.getSingleSideDistance();
-    this.internalStartTile = { x: 0, y: singleSideDistance };
-    
-    
+  protected getValidStartLocations(): GridLocation[] {
+    return [
+      GridLocation.MIDDLE_LEFT,
+      GridLocation.MIDDLE_RIGHT,
+      GridLocation.TOP_MIDDLE,
+      GridLocation.BOTTOM_MIDDLE
+    ];
+  }
 
-    // Far right side single-edge piece
-    this.internalExitTile = { x: this.sizeX - 1, y: singleSideDistance };
-    this.exitDirectionVector = DIRECTION_RIGHT;
-    this.externalExitTile = getNewTilePositionByVector(this.internalExitTile, this.exitDirectionVector);
-    this.getCell(this.internalExitTile).setWallTypeAtIndex(getMazeDirectionIndexFromTileVector(DIRECTION_RIGHT), MazeWallTypes.NO_WALL);
+  protected getValidExitLocations(): GridLocation[] {
+    return [
+      GridLocation.MIDDLE_RIGHT,
+      GridLocation.MIDDLE_LEFT,
+      GridLocation.TOP_MIDDLE,
+      GridLocation.BOTTOM_MIDDLE
+    ];
   }
 }

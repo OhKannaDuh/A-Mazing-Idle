@@ -10,9 +10,9 @@ import { SquareMazeGrid } from "mazeGrid/SquareMazeGrid";
 export class Maze {
   public grid: MazeGrid;
 
-  constructor(mazeSizeX: number, mazeSizeY: number, mazeGridType: MazeGridType) {
+  constructor(mazeSizeX: number, mazeGridType: MazeGridType) {
     // TODO: inject type of grid here
-    this.generateGrid(mazeSizeX, mazeSizeY, mazeGridType);
+    this.generateGrid(mazeSizeX, mazeGridType);
   }
 
   public generateMaze(): void {
@@ -20,15 +20,15 @@ export class Maze {
     this.grid.resetVisitedTiles();
   }
   
-  public generateGrid(mazeSizeX: number, mazeSizeY: number, mazeGridType: MazeGridType): void {
+  public generateGrid(mazeSizeX: number, mazeGridType: MazeGridType): void {
     if (mazeGridType === MazeGridType.SQUARE) {
-      this.grid = new SquareMazeGrid(mazeSizeX, mazeSizeY);
+      this.grid = new SquareMazeGrid(mazeSizeX);
     } else if (mazeGridType === MazeGridType.PLUS_SIGN) {
-      this.grid = new PlusSignMazeGrid(mazeSizeX, mazeSizeY);
+      this.grid = new PlusSignMazeGrid(mazeSizeX);
     } else if (mazeGridType === MazeGridType.RECTANGLE) {
-      this.grid = new RectangleMazeGrid(mazeSizeX, mazeSizeY);
+      this.grid = new RectangleMazeGrid(mazeSizeX);
     } else if (mazeGridType === MazeGridType.DIAMOND) {
-      this.grid = new DiamondMazeGrid(mazeSizeX, mazeSizeY);
+      this.grid = new DiamondMazeGrid(mazeSizeX);
     } else {
       throw `You didn't make this yet! ${mazeGridType}`;
     }

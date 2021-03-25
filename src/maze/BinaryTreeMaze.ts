@@ -6,11 +6,11 @@ const VALID_DIR_ARR = [DIRECTION_LEFT, DIRECTION_UP];
 
 export class BinaryTreeMaze extends Maze {
   
-  constructor(mazeSizeX: number, mazeSizeY: number, mazeGridType: MazeGridType) {
+  constructor(mazeSizeX: number, mazeGridType: MazeGridType) {
     if (mazeGridType === MazeGridType.PLUS_SIGN) {
       throw 'Invalid grid type PLUS_SIGN for binary tree maze.'
     }
-    super(mazeSizeX, mazeSizeY, mazeGridType);
+    super(mazeSizeX, mazeGridType);
     this.generateMaze();
   }
 

@@ -6,11 +6,11 @@ import { MazeCell } from "models/MazeCell";
 export class BacktrackerMaze extends Maze {
 
   public current: MazeCell;
-  public stack;
+  public stack: MazeCell[];
   public isDone: boolean;
 
-  constructor(mazeSizeX: number, mazeSizeY: number, mazeGridType: MazeGridType) {
-    super(mazeSizeX, mazeSizeY, mazeGridType);
+  constructor(mazeSizeX: number, mazeGridType: MazeGridType) {
+    super(mazeSizeX, mazeGridType);
     this.current = null;
     this.stack = [];
     this.isDone = false;

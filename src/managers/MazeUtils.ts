@@ -2,6 +2,7 @@ import Game from "managers/Game";
 import { Array2D, MazeGridArray, Tile, TileVector } from "managers/MazeManager";
 import { Maze } from "models/Maze";
 import { MazeCell } from "models/MazeCell";
+import { MazeGrid } from "models/MazeGrid";
 
 
 export const DEFAULT_TILE_WIDTH_CSS = '20px';
@@ -169,4 +170,70 @@ export const generateMazeSmartPathingArr = (game: Game, maze: Maze): Array2D<num
   }
 
   return smartPathArr;
+}
+
+export enum GridLocation {
+  TOP_LEFT = "TOP_LEFT",
+  TOP_MIDDLE = "TOP_MIDDLE",
+  TOP_RIGHT = "TOP_RIGHT",
+  BOTTOM_LEFT = "BOTTOM_LEFT",
+  BOTTOM_MIDDLE = "BOTTOM_MIDDLE",
+  BOTTOM_RIGHT = "BOTTOM_RIGHT",
+  MIDDLE_LEFT = "MIDDLE_LEFT",
+  MIDDLE_RIGHT = "MIDDLE_RIGHT",
+  MIDDLE_MIDDLE = "MIDDLE_MIDDLE"
+}
+
+export const getGridCellByLocation = (grid: MazeGrid, gridLocation: GridLocation): MazeCell => {
+  const maxX = grid.sizeX - 1, maxY = grid.sizeY - 1;
+  const minX = 0, minY = 0;
+  if (gridLocation == GridLocation.TOP_LEFT) {
+    return grid.getCell({ x: minX, y: minY });
+  } else if (gridLocation == GridLocation.TOP_RIGHT) {
+    return grid.getCell({ x: maxX, y: minY });
+  } else if (gridLocation == GridLocation.BOTTOM_LEFT) {
+    return grid.getCell({ x: minX, y: maxY });
+  } else if (gridLocation == GridLocation.BOTTOM_RIGHT) {
+    return grid.getCell({ x: maxX, y: maxY });
+  } else if (gridLocation == GridLocation.TOP_MIDDLE) {
+    return grid.getCell({ x: getMiddle(maxX), y: minY });
+  } else if (gridLocation == GridLocation.BOTTOM_MIDDLE) {
+    return grid.getCell({ x: getMiddle(maxX), y: maxY });
+  } else if (gridLocation == GridLocation.MIDDLE_LEFT) {
+    return grid.getCell({ x: minX, y: getMiddle(maxY) });
+  } else if (gridLocation == GridLocation.MIDDLE_RIGHT) {
+    return grid.getCell({ x: maxX, y: getMiddle(maxY) });
+  } else if (gridLocation == GridLocation.MIDDLE_MIDDLE) {
+    return grid.getCell({ x: getMiddle(maxX), y: getMiddle(maxY) });
+  }
+  console.error('Invalid GridLocation: ', gridLocation);
+  return null; 
+}
+
+const getMiddle = (end: number): number => {
+  return Math.floor(end / 2);
+}
+
+export const getExitDirectionByGridLocation = (gridLocation: GridLocation): TileVector => {
+  if (gridLocation == GridLocation.TOP_LEFT) {
+    return DIRECTION_LEFT;
+  } else if (gridLocation == GridLocation.TOP_RIGHT) {
+    return DIRECTION_RIGHT;
+  } else if (gridLocation == GridLocation.BOTTOM_LEFT) {
+    return DIRECTION_LEFT;
+  } else if (gridLocation == GridLocation.BOTTOM_RIGHT) {
+    return DIRECTION_RIGHT;
+  } else if (gridLocation == GridLocation.TOP_MIDDLE) {
+    return DIRECTION_UP;
+  } else if (gridLocation == GridLocation.BOTTOM_MIDDLE) {
+    return DIRECTION_DOWN;
+  } else if (gridLocation == GridLocation.MIDDLE_LEFT) {
+    return DIRECTION_LEFT;
+  } else if (gridLocation == GridLocation.MIDDLE_RIGHT) {
+    return DIRECTION_RIGHT;
+  } else if (gridLocation == GridLocation.MIDDLE_MIDDLE) {
+    return null;
+  }
+  console.error('Invalid GridLocation exit: ', gridLocation)
+  return null;
 }
