@@ -5,7 +5,7 @@ import { PRIORITIZE_UNVISITED_UPGRADE_COST as PRIORITIZE_UNVISITED_UPGRADE_COST,
 const BUTTON_UI_ID = 'buyBotPrioritizeUnvisited';
 const TOOLTIP_TEXT = 'Bots will always prioritize an unvisited tile before a previously visited one.';
 
-class PrioritizeUnvisitedUpgrade extends Upgrade {
+export class PrioritizeUnvisitedUpgrade extends Upgrade {
   
   constructor(game: Game, upgradeKey: UpgradeKey, upgradeLevel = 0) {
     super(game, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel, true);
@@ -19,5 +19,3 @@ class PrioritizeUnvisitedUpgrade extends Upgrade {
     return PRIORITIZE_UNVISITED_UPGRADE_COST;
   }
 }
-
-export default PrioritizeUnvisitedUpgrade;

@@ -5,7 +5,7 @@ import { TELEPORT_BOT_BACK_TO_PLAYER_UPGRADE_COST, UpgradeKey } from "constants/
 const BUTTON_UI_ID = 'buyBotTeleportToPlayer';
 const TOOLTIP_TEXT = `Players can teleport their bot back to the themselves by pressing 'e'.`;
 
-class TeleportBotBackToPlayerUpgrade extends Upgrade {
+export class TeleportBotBackToPlayerUpgrade extends Upgrade {
   
   constructor(game: Game, upgradeKey: UpgradeKey, upgradeLevel: number = 0) {
     super(game, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel, true);
@@ -19,5 +19,3 @@ class TeleportBotBackToPlayerUpgrade extends Upgrade {
     return TELEPORT_BOT_BACK_TO_PLAYER_UPGRADE_COST;
   }
 }
-
-export default TeleportBotBackToPlayerUpgrade;

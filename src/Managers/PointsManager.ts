@@ -1,7 +1,7 @@
 import { UpgradeKey, POINTS_PER_VISIT_BASE_AMOUNT_MULTIPLIER, TILE_REVISIT_BASE_MULTIPLIER, TILE_REVISIT_BASE_MULTIPLIER_INCREASE_PERCENT, MAZE_COMPLETION_BONUS_BASE_MULTIPLIER } from "constants/UpgradeConstants";
 import Game from "managers/Game";
 import MultiplierMazeItem from "items/definitions/MultiplierMazeItem";
-import Serializable from "models/Serializable";
+import { Serializable } from "models/Serializable";
 import { StatsKey } from "models/Stats";
 import { PointsHistoryTracker } from "models/PointsHistoryTracker";
 
@@ -9,7 +9,7 @@ const SERIALIZABLE_PROPERTIES: string[] = ['points'];
 
 const BASE_POINT_MULTPLIER = 1;
 
-class Points extends Serializable {
+export class Points extends Serializable {
   public game: Game;
   public isDevMode: boolean;
   public points: number;
@@ -51,7 +51,7 @@ class Points extends Serializable {
     }
     const pointMultplier = MultiplierMazeItem.getMazeItemMultiplierStrength(this.game);
     
-    return this.game.players.getPlayer(playerId).hasMultiplierItemActive()
+    return this.game.players.getPlayer(playerId).isMultiplierPowerUpActive()
       ? pointMultplier
       : BASE_POINT_MULTPLIER;
   }
@@ -99,5 +99,3 @@ class Points extends Serializable {
     return 0.03;
   }
 }
-
-export default Points;

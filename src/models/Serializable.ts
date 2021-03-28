@@ -1,7 +1,7 @@
 
 const MAP_TYPE_PREFIX = "~~";
 
-class Serializable {
+export class Serializable {
   public serializablePropertyList: string[] = [];
 
   constructor(basicPropertyList: string[] = []) {
@@ -54,5 +54,3 @@ class Serializable {
     }
   }
 }
-
-export default Serializable;

@@ -4,7 +4,7 @@ import { Tile } from "managers/MazeManager";
 import { isTileEqual } from "managers/MazeUtils";
 import Player from "models/Player";
 
-class PlayerManager {
+export class PlayerManager {
   public game: Game;
   public playerMap: Map<number, Player>;
 
@@ -155,7 +155,7 @@ class PlayerManager {
           return this.game.colors.getPlayerColor();
         } else if (player.hasSmartPathingRemaining()) {
           return this.game.colors.getSmartPathingPlayerColor();
-        } else if (player.hasMultiplierItemActive()) {
+        } else if (player.isMultiplierPowerUpActive()) {
           return this.game.colors.getMultiplierItemPlayerColor();
         } else if (player.hasUnlimitedSplitItemActive()) {
           return this.game.colors.getUnlimitedSplitPlayerColor();
@@ -194,5 +194,3 @@ class PlayerManager {
     return this.game.players.getPlayer(playerId).smartPathingTileDistanceRemaining > 0;
   }
 }
-
-export default PlayerManager;

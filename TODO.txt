@@ -15,11 +15,7 @@ Features:
 --> Finish line (auto-complete maze)
 --> Bots move between tiles instead of teleport
 
-Maze Generation:
---> Find unique maze designs for different maze regions/biomes
-
 Stats Tracker (Current)
---> (*) Points/sec calculator (used for offline too)
 --> Tripometer for stats
 --> Total time played
 --> Current maze stats
@@ -35,3 +31,8 @@ Regions/Biomes:
 (?)
 --> Maze Grid Types
 --> Maze start/end variations
+
+Power Ups: 
+--> Handle merges.
+--> Handle dynamic update?
+--> Figure out how to handle split/merges.

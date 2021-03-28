@@ -1,37 +1,35 @@
 import Upgrade from "upgrades/Upgrade";
-import AvoidRevisitLastPositionUpgrade from "upgrades/definitions/bots/AvoidRevisitLastPositionUpgrade";
-import PrioritizeUnvisitedUpgrade from "upgrades/definitions/bots/PrioritizeUnvisitedUpgrade";
-import AutoExitMazeUpgrade from "upgrades/definitions/bots/AutoExitMazeUpgrade";
-import PlayerMoveIndependentlyUpgrade from "upgrades/definitions/bots/PlayerMoveIndependentlyUpgrade";
-import TeleportPlayerBacktoBotUpgrade from "upgrades/definitions/bots/TeleportPlayerBacktoBotUpgrade";
-import TeleportBotBackToPlayerUpgrade from "upgrades/definitions/bots/TeleportBotBackToPlayerUpgrade";
-import FruitPickupPointsMultiplierUpgrade from "upgrades/definitions/items/FruitPickupPointsMultiplierUpgrade";
-import FruitSpawnRateUpgrade from "upgrades/definitions/items/FruitSpawnRateUpgrade";
-import BrainSpawnRateUpgrade from "upgrades/definitions/items/BrainSpawnRateUpgrade";
-import BrainTileDistanceUpgrade from "upgrades/definitions/items/BrainTileDistanceUpgrade";
-import BotRememberDeadEndsUpgrade from "upgrades/definitions/bots/BotRememberDeadEndsUpgrade";
-import MazeCompletionBonusUpgrade from "upgrades/definitions/maze/MazeCompletionBonusUpgrade";
-import BotMovementSpeedUpgrade from "upgrades/definitions/bots/BotMovementSpeedUpgrade";
-import PointsPerVisitUpgrade from "upgrades/definitions/maze/PointsPerVisitUpgrade";
-import PointsPerRevisitUpgrade from "upgrades/definitions/maze/PointsPerRevisitUpgrade";
-import MazeSizeUpgrade from "upgrades/definitions/maze/MazeSizeUpgrade";
-import BotSplitDirectionUpgrade from "upgrades/definitions/bots/BotSplitDirectionUpgrade";
-import BotSplitAutoMergeUpgrade from "upgrades/definitions/bots/BotSplitAutoMergeUpgrade";
-import DestructibleWallUpgrade from "upgrades/definitions/maze/DestructibleWallUpgrade";
-import MultiplierItemSpawnRateUpgrade from "upgrades/definitions/items/MultiplierItemSpawnRateUpgrade";
-import MultiplierItemStrengthUpgrade from "upgrades/definitions/items/MultiplierItemStrengthUpgrade";
-import MultiplierItemExtraBotUpgrade from "upgrades/definitions/items/MultiplierItemExtraBotUpgrade";
-import UnlimitedSplitsItemExtraBotUpgrade from "upgrades/definitions/items/UnlimitedSplitsItemExtraBotUpgrade";
-import BiomeUpgrade from "upgrades/definitions/maze/BiomeUpgrade";
+import { AvoidRevisitLastPositionUpgrade } from "upgrades/definitions/bots/AvoidRevisitLastPositionUpgrade";
+import { PrioritizeUnvisitedUpgrade } from "upgrades/definitions/bots/PrioritizeUnvisitedUpgrade";
+import { AutoExitMazeUpgrade } from "upgrades/definitions/bots/AutoExitMazeUpgrade";
+import { PlayerMoveIndependentlyUpgrade } from "upgrades/definitions/bots/PlayerMoveIndependentlyUpgrade";
+import { TeleportPlayerBacktoBotUpgrade } from "upgrades/definitions/bots/TeleportPlayerBacktoBotUpgrade";
+import { TeleportBotBackToPlayerUpgrade } from "upgrades/definitions/bots/TeleportBotBackToPlayerUpgrade";
+import { FruitPickupPointsMultiplierUpgrade } from "upgrades/definitions/items/FruitPickupPointsMultiplierUpgrade";
+import { FruitSpawnRateUpgrade } from "upgrades/definitions/items/FruitSpawnRateUpgrade";
+import { BrainSpawnRateUpgrade } from "upgrades/definitions/items/BrainSpawnRateUpgrade";
+import { BrainTileDistanceUpgrade } from "upgrades/definitions/items/BrainTileDistanceUpgrade";
+import { BotRememberDeadEndTilesUpgrade } from "upgrades/definitions/bots/BotRememberDeadEndTilesUpgrade";
+import { MazeCompletionBonusUpgrade } from "upgrades/definitions/maze/MazeCompletionBonusUpgrade";
+import { BotMovementSpeedUpgrade } from "upgrades/definitions/bots/BotMovementSpeedUpgrade";
+import { PointsPerVisitUpgrade } from "upgrades/definitions/maze/PointsPerVisitUpgrade";
+import { PointsPerRevisitUpgrade } from "upgrades/definitions/maze/PointsPerRevisitUpgrade";
+import { MazeSizeUpgrade } from "upgrades/definitions/maze/MazeSizeUpgrade";
+import { BotSplitDirectionUpgrade } from "upgrades/definitions/bots/BotSplitDirectionUpgrade";
+import { BotSplitAutoMergeUpgrade } from "upgrades/definitions/bots/BotSplitAutoMergeUpgrade";
+import { DestructibleWallUpgrade } from "upgrades/definitions/maze/DestructibleWallUpgrade";
+import { MultiplierItemSpawnRateUpgrade } from "upgrades/definitions/items/MultiplierItemSpawnRateUpgrade";
+import { MultiplierItemStrengthUpgrade } from "upgrades/definitions/items/MultiplierItemStrengthUpgrade";
+import { BiomeUpgrade } from "upgrades/definitions/maze/BiomeUpgrade";
 import Game from "managers/Game";
 import { UpgradeKey } from "constants/UpgradeConstants"
-import Serializable from "models/Serializable";
+import { Serializable } from "models/Serializable";
 import { IS_GLOBAL_UNLOCK_ENABLED } from "dev/devUtils";
 
 const UPGRADE_MAP_PROPERTY_KEY = 'upgradeMap';
 const SERIALIZABLE_PROPERTIES = [UPGRADE_MAP_PROPERTY_KEY];
 
-class UpgradeManager extends Serializable {
+export class UpgradeManager extends Serializable {
   private upgradeMap: Map<UpgradeKey, Upgrade>;
   private game: Game;
 
@@ -54,7 +52,7 @@ class UpgradeManager extends Serializable {
     this.createUpgrade(new BotMovementSpeedUpgrade(this.game, UpgradeKey.BOT_MOVEMENT_SPEED));
     this.createUpgrade(new BotSplitAutoMergeUpgrade(this.game, UpgradeKey.BOT_SPLIT_BOT_AUTO_MERGE));
     this.createUpgrade(new BotSplitDirectionUpgrade(this.game, UpgradeKey.BOT_SPLIT_DIRECTION));
-    this.createUpgrade(new BotRememberDeadEndsUpgrade(this.game, UpgradeKey.BOT_REMEMBER_DEADEND_TILES));
+    this.createUpgrade(new BotRememberDeadEndTilesUpgrade(this.game, UpgradeKey.BOT_REMEMBER_DEADEND_TILES));
     this.createUpgrade(new BrainTileDistanceUpgrade(this.game, UpgradeKey.BRAIN_TILE_DISTANCE));
     this.createUpgrade(new PlayerMoveIndependentlyUpgrade(this.game, UpgradeKey.PLAYER_MOVE_INDEPENDENTLY));
     this.createUpgrade(new PrioritizeUnvisitedUpgrade(this.game, UpgradeKey.PRIORITIZE_UNVISITED));
@@ -66,8 +64,6 @@ class UpgradeManager extends Serializable {
     this.createUpgrade(new BrainSpawnRateUpgrade(this.game, UpgradeKey.BRAIN_SPAWN));
     this.createUpgrade(new MultiplierItemSpawnRateUpgrade(this.game, UpgradeKey.MULTIPLIER_ITEM_SPAWN_RATE));
     this.createUpgrade(new MultiplierItemStrengthUpgrade(this.game, UpgradeKey.MULTIPLIER_ITEM_STRENGTH));
-    this.createUpgrade(new MultiplierItemExtraBotUpgrade(this.game, UpgradeKey.MULTIPLIER_ITEM_EXTRA_BOT));
-    this.createUpgrade(new UnlimitedSplitsItemExtraBotUpgrade(this.game, UpgradeKey.UNLIMITED_SPLIT_ITEM_EXTRA_BOT));
     // Features
     this.createUpgrade(new DestructibleWallUpgrade(this.game, UpgradeKey.DESTRUCTIBLE_WALLS));
     // Biomes

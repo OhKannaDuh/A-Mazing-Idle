@@ -1,13 +1,13 @@
 import Game from "managers/Game";
-import { MazeGridArray, Tile } from "managers/MazeManager";
+import { Tile } from "managers/MazeManager";
 import { generateTileKey, MazeDirectionIndex, MazeWallTypes } from "managers/MazeUtils";
 import { BacktrackerMaze } from "maze/BackTrackerMaze";
 import { Maze } from "models/Maze";
-import { CURRENT_MAZE_STATS, StatsKey, STATS_TO_UI_ID_MAP } from "models/Stats";
+import { StatsKey, STATS_TO_UI_ID_MAP } from "models/Stats";
 declare var $: any;
 
 
-class UserInterface {
+export class UserInterface {
   private game: Game;
   private disableUi: boolean;
   
@@ -38,7 +38,7 @@ class UserInterface {
   }
 
   public setPointsText(): void {
-    $("#points").text(`Points: ${UserInterface.getPrettyPrintNumberNoDecimals(this.game.points.points)}`);
+    $("#points").text(`Points: ${UserInterface.getPrettyPrintNumber(this.game.points.points)}`);
   }
   
   public printMazeV2(maze: Maze): void {     
@@ -103,7 +103,7 @@ class UserInterface {
       console.info("No UI component registerd to stats key: ", statsUiId);
       return;
     }
-    $(`#${statsUiId}`).text(' ' + UserInterface.getPrettyPrintNumberNoDecimals(statsValue));
+    $(`#${statsUiId}`).text(' ' + UserInterface.getPrettyPrintNumber(statsValue));
   }
 
   public updateAllStatsKey(): void {
@@ -112,10 +112,8 @@ class UserInterface {
     }
   }
 
-  public static getPrettyPrintNumberNoDecimals(num: number): string {
+  public static getPrettyPrintNumber(num: number, decimalLength: number = 0): string {
     if (!num) return '0';
-    return parseInt(num.toFixed(0)).toLocaleString();
+    return parseFloat(num.toFixed(decimalLength)).toLocaleString();
   }
 }
-
-export default UserInterface;

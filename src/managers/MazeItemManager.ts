@@ -11,13 +11,8 @@ import MazeItem from "items/MazeItem";
 import { Tile } from "managers/MazeManager";
 import { MazeCell } from "models/MazeCell";
 
-interface SliceRange {
-  start_percent: number;
-  end_percent: number;
-}
 
-
-class MazeItemManager {
+export class MazeItemManager {
   private game: Game;
 
   constructor(game: Game) {
@@ -31,7 +26,7 @@ class MazeItemManager {
   private getAllUnlockedMazeItemKeys(): MazeItemKey[] {
     const unlockedMazeItemKeys: MazeItemKey[] = [];
     for (let mazeItemKey in MazeItemKey) {
-      if (this.isMazeItemUnlocked) {
+      if (this.isMazeItemUnlocked(mazeItemKey as MazeItemKey)) {
         unlockedMazeItemKeys.push(mazeItemKey as MazeItemKey);
       }
     }
@@ -44,7 +39,7 @@ class MazeItemManager {
     } else if (mazeItemKey === MazeItemKey.BRAIN) {
       return BrainMazeItem.getItemSpawnProbability(this.game);
     } else if (mazeItemKey === MazeItemKey.MULTIPLIER) {
-      return MultiplierMazeItem.getItemSpawnProbability(this.game);
+      return 0;
     } else if (mazeItemKey === MazeItemKey.BLACK_HOLE) {
       return BlackHoleMazeItem.getItemSpawnProbability(this.game);
     } else if (mazeItemKey === MazeItemKey.UNLIMITED_SPLITS) {
@@ -124,7 +119,7 @@ class MazeItemManager {
     if (mazeCell) {
       const mazeItem = mazeCell.getMazeItem();
       mazeItem.triggerPickup(playerId);
-      this.applyItemToExtraBots(mazeItem, playerId);
+      this.applyItemToAllBots(mazeItem, playerId);
       mazeCell.deleteItem();
     }
   }
@@ -140,38 +135,13 @@ class MazeItemManager {
       }
     }
   }
-
-  public getItemUseExtraBotUpgradeCount(itemKey: MazeItemKey): number {
-    if (itemKey === MazeItemKey.UNLIMITED_SPLITS) {
-      return this.game.upgrades.getUpgradeLevel(UpgradeKey.UNLIMITED_SPLIT_ITEM_EXTRA_BOT);
-    } else if (itemKey === MazeItemKey.MULTIPLIER) {
-      return this.game.upgrades.getUpgradeLevel(UpgradeKey.MULTIPLIER_ITEM_EXTRA_BOT);
-    }
-    return 0;
-  }
   
-  public applyItemToExtraBots(mazeItem: MazeItem, playerId: number): void {
-    let extraBotCount = this.getItemUseExtraBotUpgradeCount(mazeItem.mazeItemKey);
-    if (extraBotCount === 0) {
-      return;
-    }
-
-    // Get list of player id's (excluding current player).
+  public applyItemToAllBots(mazeItem: MazeItem, playerId: number): void {
     const playerIdList = this.game.players.getPlayerIdList().filter(pid => pid !== playerId);
 
     // Apply item to as many bots as possible based on upgrade level.
     for (let extraBotPlayerId of playerIdList) {
-      const extraBotPlayer = this.game.players.getPlayer(extraBotPlayerId);
-      //TODO: check if item is applied already!?!?!
-      if (extraBotPlayer) {
-        mazeItem.triggerPickup(extraBotPlayerId);
-        extraBotCount--;
-      }
-      if (extraBotCount === 0) {
-        return;
-      }
+      mazeItem.triggerPickup(extraBotPlayerId);
     }
   }
 }
-
-export default MazeItemManager;

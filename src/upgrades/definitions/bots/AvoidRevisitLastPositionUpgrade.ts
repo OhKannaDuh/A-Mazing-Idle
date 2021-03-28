@@ -5,7 +5,7 @@ import { AVOID_REVISIT_LAST_POSITION_UPGRADE_COST, UpgradeKey } from "constants/
 const BUTTON_UI_ID = 'buyBotAvoidRevisitLastPosition';
 const TOOLTIP_TEXT = 'Bots will avoid revisiting the position that they were just at.';
 
-class AvoidRevisitLastPositionUpgrade extends Upgrade {
+export class AvoidRevisitLastPositionUpgrade extends Upgrade {
   
   constructor(game: Game, upgradeKey: UpgradeKey, upgradeLevel: number = 0) {
     super(game, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel, true);
@@ -20,4 +20,3 @@ class AvoidRevisitLastPositionUpgrade extends Upgrade {
   }
 }
 
-export default AvoidRevisitLastPositionUpgrade;

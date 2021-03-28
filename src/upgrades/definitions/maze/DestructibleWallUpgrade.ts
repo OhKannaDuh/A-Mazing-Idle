@@ -5,7 +5,7 @@ import { UpgradeKey } from "constants/UpgradeConstants";
 const BUTTON_UI_ID = 'noop';
 const TOOLTIP_TEXT = '';
 
-class DestructibleWallUpgrade extends Upgrade {
+export class DestructibleWallUpgrade extends Upgrade {
   
   constructor(game: Game, upgradeKey: UpgradeKey, upgradeLevel: number = 0) {
     super(game, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel);
@@ -18,5 +18,3 @@ class DestructibleWallUpgrade extends Upgrade {
     return 0;
   }
 }
-
-export default DestructibleWallUpgrade;

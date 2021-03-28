@@ -1,3 +1,4 @@
+import { PowerUpKey } from "constants/PowerUpConstants";
 import Game from "managers/Game";
 import { Tile } from "managers/MazeManager";
 
@@ -11,12 +12,11 @@ class Player {
   public moveCount: number;
   public isPrimaryBot: boolean;
   public smartPathingTileDistanceRemaining: number;
-  public isMultiplierItemActive: boolean;
   public isUnlimitedSplitItemActive: boolean;
   public ghostItemTileDistanceRemaining: number;
 
   constructor(game: Game, id: number, currTile = null, prevTile = null, isManuallyControlled = false, 
-      isPrimaryBot = false, moveCount = 0, smartPathingTileDistanceRemaining = 0, isMultiplierItemActive = false,
+      isPrimaryBot = false, moveCount = 0, smartPathingTileDistanceRemaining = 0,
       isUnlimitedSplitItemActive = false, ghostItemTileDistanceRemaining = 0) {
     this.game = game;
     this.isManuallyControlled = isManuallyControlled;
@@ -26,7 +26,6 @@ class Player {
     this.moveCount = moveCount;
     this.isPrimaryBot = isPrimaryBot;
     this.smartPathingTileDistanceRemaining = smartPathingTileDistanceRemaining;
-    this.isMultiplierItemActive = isMultiplierItemActive;
     this.isUnlimitedSplitItemActive = isUnlimitedSplitItemActive;
     this.ghostItemTileDistanceRemaining = ghostItemTileDistanceRemaining;
   }
@@ -39,8 +38,8 @@ class Player {
     this.smartPathingTileDistanceRemaining = Math.max(0, this.smartPathingTileDistanceRemaining - distance);
   }
 
-  hasMultiplierItemActive(): boolean {
-    return this.isMultiplierItemActive;
+  isMultiplierPowerUpActive(): boolean {
+    return this.game.powerUps.isPowerUpActive(PowerUpKey.POINTS_MULTIPLIER);
   }
 
   hasUnlimitedSplitItemActive(): boolean {

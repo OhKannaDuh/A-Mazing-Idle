@@ -41,7 +41,7 @@ export interface TileVector {
   y: number;
 }
 
-class MazeManager {
+export class MazeManager {
   public game: Game;
   public isDevMode;
   public maze: Maze;
@@ -172,8 +172,8 @@ class MazeManager {
           this.game.stats.addStatsToKey(1, StatsKey.TOTAL_NUMBER_OF_BOT_MERGES);
 
           // Pass along any bot passives.
-          if (mergedPlayer.hasMultiplierItemActive()) {
-            player.isMultiplierItemActive = true;
+          if (mergedPlayer.isMultiplierPowerUpActive()) {
+            //TODO: powerups have no way of transitioning.
           }
           if (mergedPlayer.hasSmartPathingRemaining()) {
             player.smartPathingTileDistanceRemaining += mergedPlayer.smartPathingTileDistanceRemaining;
@@ -381,5 +381,3 @@ class MazeManager {
     return nonDeadEndTiles;
   }
 }
-
-export default MazeManager;

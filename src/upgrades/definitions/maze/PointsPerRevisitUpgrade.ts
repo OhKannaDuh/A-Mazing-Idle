@@ -6,7 +6,7 @@ const BUTTON_UI_ID = 'buyPointsPerRevisit';
 const TOOLTIP_TEXT = 'Get more points when you revisit a tile!';
 
 
-class PointsPerRevisitUpgrade extends Upgrade {
+export class PointsPerRevisitUpgrade extends Upgrade {
   
   constructor(game: Game, upgradeKey: UpgradeKey, upgradeLevel: number = 0) {
     super(game, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel);
@@ -20,5 +20,3 @@ class PointsPerRevisitUpgrade extends Upgrade {
     return POINTS_PER_REVISIT_UPGRADE_BASE_COST * Math.pow(POINTS_PER_REVISIT_UPGRADE_BASE_COST_MULTIPLIER, this.upgradeLevel);
   }
 }
-
-export default PointsPerRevisitUpgrade;

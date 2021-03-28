@@ -15,19 +15,36 @@
       }
 
       #maze {
-          border-collapse: collapse;
-          border: 0px;
+        border-collapse: collapse;
+        border: 0px;
       }
 
       #maze td {
-          width: 20px;
-          height: 20px;
+        width: 20px;
+        height: 20px;
       }
 
       #upgradeTab {
         padding: 5px;
         flex: 0 0 500px;
         border: 2px solid black;
+      }
+
+      #powerUpButtonRow > button {
+        margin-left: 10px;
+        width: 150px;
+      }
+
+      #powerUpButtonRow {
+        display: flex;
+      }
+
+      #powerUpRoot {
+        padding: 5px;
+        margin-top: 30px;
+        width: 500px;
+        border: 2px solid black;
+        flex:auto;
       }
 
       #statsTab {
@@ -37,7 +54,6 @@
       }
 
       #tabsRoot {
-        margin-top: 30px;
         display: flex;
       }
     </style>
@@ -48,6 +64,14 @@
         <table id="maze">
           <tbody></tbody>
         </table>
+        <div id='powerUpRoot'>
+          <h3>Power Ups!</h3>
+          <div id='powerUpButtonRow'>
+            <button id='speedUpPowerUpButton'></button>
+            <button id='pointsMultiplierPowerUpButton'></button>
+          </div>
+        </div>
+        
         <div id='tabsRoot'>
           <div id='upgradeTab'>
             <h3>Points!</h3>
@@ -69,8 +93,6 @@
             <button id='buyBrainTileDistanceUpgrade'>Brain Auto Pathing Distance:</button>
             <button id='buyMultiplierItemSpawnRateUpgrade'>Multiplier Item Spawn Rate:</button>
             <button id='buyMultiplierItemStrengthUpgrade'>Multiplier Item Strength:</button>
-            <button id='buyMultiplierItemExtraBotUpgrade'>Multiplier Item Extra Bot:</button>
-            <button id='buyUnlimitedSplitItemExtraBotUpgrade'>Unlimited Split Item Extra Bot:</button>
 
             <h3>Bot Upgrades!</h3>
             <button id='buyBotMoveFaster'>Move Faster:</button>

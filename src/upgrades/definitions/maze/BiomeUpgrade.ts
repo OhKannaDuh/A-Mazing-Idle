@@ -6,7 +6,7 @@ import { BIOME_UPGRADE_COST } from "constants/BiomeConstants";
 const BUTTON_UI_ID = 'buyBiomeUpgrade';
 const TOOLTIP_TEXT = 'This will bring you to a brand new biome with more difficult mazes, but with new items and much higher point rewards!';
 
-class BiomeUpgrade extends Upgrade {
+export class BiomeUpgrade extends Upgrade {
   
   constructor(game: Game, upgradeKey: UpgradeKey, upgradeLevel: number = 0) {
     super(game, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel);
@@ -28,5 +28,3 @@ class BiomeUpgrade extends Upgrade {
     return this.game.biomes.getMaxBiomeLevel() === this.upgradeLevel;
   }
 }
-
-export default BiomeUpgrade;

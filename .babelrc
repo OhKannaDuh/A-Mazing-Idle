@@ -11,7 +11,8 @@
 				"managers": "./src/managers",
 				"models": "./src/models",
         "maze": "./src/maze",
-        "mazeGrid": "./src/mazeGrid"
+        "mazeGrid": "./src/mazeGrid",
+        "powerUps": "./src/powerUps"
       }
     }]
   ]

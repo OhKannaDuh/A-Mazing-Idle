@@ -1,6 +1,6 @@
 import { IS_FREE_MODE_ENABLED } from 'dev/devUtils';
 import Game from 'managers/Game';
-import UserInterface from 'managers/UserInterface';
+import { UserInterface } from 'managers/UserInterface';
 import { UpgradeKey } from 'constants/UpgradeConstants';
 declare var $: any;
 
@@ -81,7 +81,7 @@ class Upgrade {
   }
 
   public prettyPrint(val): string {
-    return UserInterface.getPrettyPrintNumberNoDecimals(val);
+    return UserInterface.getPrettyPrintNumber(val);
   }
 
   public getPrettyPrintCost(): string {

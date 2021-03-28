@@ -21,7 +21,8 @@
       "managers/*": ["managers/*"],
       "models/*": ["models/*"],
       "maze/*": ["maze/*"],
-      "mazeGrid/*": ["mazeGrid/*"]
+      "mazeGrid/*": ["mazeGrid/*"],
+      "powerUps/*": ["powerUps/*"]
     }
   },
   "files": [

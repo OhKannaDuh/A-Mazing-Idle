@@ -1,11 +1,11 @@
 import Game from "managers/Game";
-import Serializable from "models/Serializable";
+import { Serializable } from "models/Serializable";
 import { CURRENT_MAZE_STATS, StatsKey } from "models/Stats";
 
 const DEFAULT_STAT_VALUE = 0;
 const SERIALIZABLE_PROPERTIES: string[] = ['statsMap'];
 
-class StatsManager extends Serializable {
+export class StatsManager extends Serializable {
   public statsMap: Map<StatsKey, number>;
   private game: Game;
 
@@ -56,5 +56,3 @@ class StatsManager extends Serializable {
     }
   }
 }
-
-export default StatsManager;

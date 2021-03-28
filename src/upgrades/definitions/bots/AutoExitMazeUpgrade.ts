@@ -5,7 +5,7 @@ import { AUTO_EXIT_MAZE_UPGRADE_BASE_COST, AUTO_EXIT_MAZE_UPGRADE_BASE_COST_MULT
 const BUTTON_UI_ID = 'buyBotAutoExitMaze';
 const TOOLTIP_TEXT = 'When a bot is within X non-walled tiles of the maze exit, it will automatically navigate to the exit.';
 
-class AutoExitMazeUpgrade extends Upgrade {
+export class AutoExitMazeUpgrade extends Upgrade {
   
   constructor(game: Game, upgradeKey: UpgradeKey, upgradeLevel: number = 0) {
     super(game, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel);
@@ -19,5 +19,3 @@ class AutoExitMazeUpgrade extends Upgrade {
     return AUTO_EXIT_MAZE_UPGRADE_BASE_COST * Math.pow(AUTO_EXIT_MAZE_UPGRADE_BASE_COST_MULTIPLIER, this.upgradeLevel);
   }
 }
-
-export default AutoExitMazeUpgrade;

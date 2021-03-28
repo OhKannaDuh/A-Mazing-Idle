@@ -3,6 +3,7 @@ import Game from "managers/Game";
 import { DEFAULT_PLAYER_ID } from "managers/MazeManager";
 import { UpgradeKey } from "constants/UpgradeConstants";
 import { DIRECTION_UP, DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT } from "managers/MazeUtils";
+import { PowerUpKey } from "constants/PowerUpConstants";
 declare var $: any;
 
 $(document).ready(() => {
@@ -45,12 +46,15 @@ $(document).ready(() => {
       }
       event.preventDefault();
     }
-    // Q = Teleport Bot to Player
-    else if (event.keyCode === 81) {
-      if (game.upgrades.isUpgraded(UpgradeKey.TELEPORT_BOT_BACK_TO_PLAYER)) {
-        game.maze.teleportBotBackToPlayer();
-        event.preventDefault();
-      }
+    // 1 = Speed Up Powerup
+    else if (event.keyCode === 49) {
+      game.powerUps.activatePowerUp(PowerUpKey.SPEED_UP);
+      event.preventDefault();
+    }
+    // 2 = Point multiplier Powerup
+    else if (event.keyCode === 50) {
+      game.powerUps.activatePowerUp(PowerUpKey.POINTS_MULTIPLIER);
+      event.preventDefault();
     }
   });
 });

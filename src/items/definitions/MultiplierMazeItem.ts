@@ -17,7 +17,7 @@ class MultiplierMazeItem extends MazeItem {
     super.triggerPickup(playerId);
 
     if (!this.game.players.playerMap.has(playerId)) return;
-    this.game.players.getPlayer(playerId).isMultiplierItemActive = true;
+    // this.game.players.getPlayer(playerId).isMultiplierPowerUpActive = true;
   }
 
   public static getMazeItemMultiplierStrength(game: Game) {

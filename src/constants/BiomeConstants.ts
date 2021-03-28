@@ -143,10 +143,6 @@ export const BIOME_UPGRADE_UNLOCKS: Map<UpgradeKey, BiomeKey> = new Map([
   [UpgradeKey.MULTIPLIER_ITEM_SPAWN_RATE, BiomeKey.BIOME_3],
   [UpgradeKey.MULTIPLIER_ITEM_STRENGTH, BiomeKey.BIOME_3],
   
-  // Biome 4
-  [UpgradeKey.MULTIPLIER_ITEM_EXTRA_BOT, BiomeKey.BIOME_4],
-  [UpgradeKey.UNLIMITED_SPLIT_ITEM_EXTRA_BOT, BiomeKey.BIOME_4],
-  
   // Biome X
   [UpgradeKey.DESTRUCTIBLE_WALLS, BiomeKey.BIOME_8],
   [UpgradeKey.BRAIN_TILE_DISTANCE, BiomeKey.BIOME_6],

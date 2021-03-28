@@ -5,7 +5,7 @@ import { MAZE_SIZE_UPGRADE_BASE_COST, MAZE_SIZE_UPGRADE_BASE_COST_MULTIPLIER, Up
 const BUTTON_UI_ID = 'buyMazeSize';
 const TOOLTIP_TEXT = 'Maze is increased in size by 1 for both x/y dimension!';
 
-class MazeSizeUpgrade extends Upgrade {
+export class MazeSizeUpgrade extends Upgrade {
   
   constructor(game: Game, upgradeKey: UpgradeKey, upgradeLevel: number = 0) {
     super(game, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel);
@@ -19,5 +19,3 @@ class MazeSizeUpgrade extends Upgrade {
     return MAZE_SIZE_UPGRADE_BASE_COST * Math.pow(MAZE_SIZE_UPGRADE_BASE_COST_MULTIPLIER, this.upgradeLevel);
   }
 }
-
-export default MazeSizeUpgrade;

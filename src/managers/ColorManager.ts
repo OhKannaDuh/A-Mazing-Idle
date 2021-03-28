@@ -3,7 +3,7 @@ import Game from "managers/Game";
 import BiomeColorPalette from "models/BiomeColorPalette";
 
 
-class ColorManager {
+export class ColorManager {
   private game: Game;
 
   constructor(game: Game) {
@@ -52,5 +52,3 @@ class ColorManager {
   }
 
 }
-
-export default ColorManager;

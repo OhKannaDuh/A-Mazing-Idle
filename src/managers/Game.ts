@@ -1,16 +1,17 @@
 import { printMazeCompleteData } from "dev/devUtils";
-import MazeManager from "managers/MazeManager";
-import Points from "managers/PointsManager";
-import RNGBotManager from "managers/RNGBotManager";
-import UserInterface from "managers/UserInterface";
-import UpgradeManager from "managers/UpgradeManager";
-import Serializable from "models/Serializable";
-import SaveManager from "managers/SaveManager";
-import PlayerManager from "managers/PlayerManager";
-import MazeItemManager from "managers/MazeItemManager";
-import StatsManager from "managers/StatsManager";
-import BiomeManager from "managers/BiomeManager";
-import ColorManager from "managers/ColorManager";
+import { MazeManager } from "managers/MazeManager";
+import { Points } from "managers/PointsManager";
+import { RNGBotManager } from "managers/RNGBotManager";
+import { UserInterface } from "managers/UserInterface";
+import { UpgradeManager } from "managers/UpgradeManager";
+import { Serializable } from "models/Serializable";
+import { SaveManager } from "managers/SaveManager";
+import { PlayerManager } from "managers/PlayerManager";
+import { MazeItemManager } from "managers/MazeItemManager";
+import { StatsManager } from "managers/StatsManager";
+import { BiomeManager } from "managers/BiomeManager";
+import { ColorManager } from "managers/ColorManager";
+import { PowerUpManager } from "managers/PowerUpManager";
 import { StatsKey } from "models/Stats";
 
 
@@ -28,6 +29,7 @@ class Game extends Serializable {
   public stats: StatsManager;
   public biomes: BiomeManager;
   public colors: ColorManager;
+  public powerUps: PowerUpManager;
 
   private isDevMode: boolean;
   private isDisableUi: boolean;
@@ -47,6 +49,7 @@ class Game extends Serializable {
     this.items = new MazeItemManager(this);
     this.stats = new StatsManager(this);
     this.colors = new ColorManager(this);
+    this.powerUps = new PowerUpManager(this);
     
     this.upgrades.initUpgrades();
     this.upgrades.updateAllUpgradeUi();
@@ -75,6 +78,7 @@ class Game extends Serializable {
   startGame() {
     this.ui.updateAllStatsKey();
     this.upgrades.updateAllUpgradeUi();
+    this.powerUps.updateAllPowerUpsUi();
     this.players.resetAllPlayers();
     this.ui.deleteMaze();
     this.maze.newMaze();

@@ -3,7 +3,7 @@ import { MazeItemKey } from "constants/ItemConstants";
 import { UpgradeKey } from "constants/UpgradeConstants";
 import Game from "managers/Game";
 
-class BiomeManager {
+export class BiomeManager {
   private game: Game;
 
   constructor(game: Game) {
@@ -55,5 +55,3 @@ class BiomeManager {
     return currentBiomeKey >= biomeKey;
   }
 }
-
-export default BiomeManager;

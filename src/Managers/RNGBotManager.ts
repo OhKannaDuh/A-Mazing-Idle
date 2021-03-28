@@ -1,3 +1,4 @@
+import { PowerUpKey } from "constants/PowerUpConstants";
 import { UpgradeKey } from "constants/UpgradeConstants";
 import Game from "managers/Game";
 import { TileVector } from "managers/MazeManager";
@@ -12,7 +13,7 @@ const AUTO_RE_ENABLE_RNG_BOT_TIMER = 3000;
 const DEV_MODE_MOVEMENT_SPEED = 1;
 
 
-class RNGBotManager {
+export class RNGBotManager {
   public game: Game;
   public isDevMode: boolean;
   public rngBotGlobalInterval: any;
@@ -27,6 +28,7 @@ class RNGBotManager {
 
   enableGlobalRngBot() {
     let upgradeSpeed = this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_MOVEMENT_SPEED);
+    let isSpeedPowerUpActive = this.game.powerUps.isPowerUpActive(PowerUpKey.SPEED_UP);
     
     clearInterval(this.rngBotGlobalInterval);
     
@@ -38,7 +40,8 @@ class RNGBotManager {
         this.moveRandomly(playerId);
       });
       // Reset the interval with the new time interval
-      if (upgradeSpeed !== this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_MOVEMENT_SPEED)) {
+      if (upgradeSpeed !== this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_MOVEMENT_SPEED)
+          || isSpeedPowerUpActive !== this.game.powerUps.isPowerUpActive(PowerUpKey.SPEED_UP)) {
         this.disableGlobalRngBot();
         this.enableGlobalRngBot();
       }
@@ -47,7 +50,8 @@ class RNGBotManager {
 
   getBotMoveInterval(isDevMode = false) {
     if (isDevMode) return DEV_MODE_MOVEMENT_SPEED;
-    return BASE_MOVEMENT_SPEED * (Math.pow(BASE_MOVEMENT_REDUCTION, this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_MOVEMENT_SPEED)));
+    const speedPowerUpMultiplier: number = this.game.powerUps.isPowerUpActive(PowerUpKey.SPEED_UP) ? .5 : 1;
+    return BASE_MOVEMENT_SPEED * speedPowerUpMultiplier * (Math.pow(BASE_MOVEMENT_REDUCTION, this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_MOVEMENT_SPEED)));
   }
 
   disableGlobalRngBot() {
@@ -174,5 +178,3 @@ class RNGBotManager {
     return _.sampleSize(arr, pickX);
   }
 }
-
-export default RNGBotManager;
