@@ -1,3 +1,4 @@
+import Game from "managers/Game";
 import { getCellNeighborDirectionIndex, getCellNeighborTileVector, getInverseTileVector, getMazeDirectionIndexFromTileVector, getRandomInteger, MazeDirectionIndex, MazeGridType, MazeWallTypes } from "managers/MazeUtils";
 import { Maze } from "models/Maze";
 import { MazeCell } from "models/MazeCell";
@@ -13,8 +14,8 @@ export class PrimsMaze extends Maze {
   private startingX: number;
   private startingY: number;
 
-  constructor(mazeSizeX: number, mazeGridType: MazeGridType) {
-    super(mazeSizeX, mazeGridType);
+  constructor(game: Game, mazeSizeX: number, mazeGridType: MazeGridType) {
+    super(game, mazeSizeX, mazeGridType);
     this.visitedCellSet = new Set<string>();
     this.nextToVisitSet = new Set<string>();
     

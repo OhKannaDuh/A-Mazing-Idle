@@ -6,12 +6,14 @@ import { PlusSignMazeGrid } from "mazeGrid/PlusSignMazeGrid";
 import { RectangleMazeGrid } from "mazeGrid/RectangleMazeGrid";
 import { DiamondMazeGrid } from "mazeGrid/DiamondMazeGrid";
 import { SquareMazeGrid } from "mazeGrid/SquareMazeGrid";
+import Game from "managers/Game";
 
 export class Maze {
   public grid: MazeGrid;
+  protected game: Game;
 
-  constructor(mazeSizeX: number, mazeGridType: MazeGridType) {
-    // TODO: inject type of grid here
+  constructor(game: Game, mazeSizeX: number, mazeGridType: MazeGridType) {
+    this.game = game;
     this.generateGrid(mazeSizeX, mazeGridType);
   }
 
@@ -22,13 +24,13 @@ export class Maze {
   
   public generateGrid(mazeSizeX: number, mazeGridType: MazeGridType): void {
     if (mazeGridType === MazeGridType.SQUARE) {
-      this.grid = new SquareMazeGrid(mazeSizeX);
+      this.grid = new SquareMazeGrid(this.game, mazeSizeX);
     } else if (mazeGridType === MazeGridType.PLUS_SIGN) {
-      this.grid = new PlusSignMazeGrid(mazeSizeX);
+      this.grid = new PlusSignMazeGrid(this.game, mazeSizeX);
     } else if (mazeGridType === MazeGridType.RECTANGLE) {
-      this.grid = new RectangleMazeGrid(mazeSizeX);
+      this.grid = new RectangleMazeGrid(this.game, mazeSizeX);
     } else if (mazeGridType === MazeGridType.DIAMOND) {
-      this.grid = new DiamondMazeGrid(mazeSizeX);
+      this.grid = new DiamondMazeGrid(this.game, mazeSizeX);
     } else {
       throw `You didn't make this yet! ${mazeGridType}`;
     }
@@ -43,7 +45,10 @@ export class Maze {
   }
 
   public getCellWallType(tile: Tile, wallDirectionIndex: MazeDirectionIndex): MazeWallTypes {
-    return this.grid.getCell(tile, true).walls[wallDirectionIndex];
+    const cell = this.grid.getCell(tile, true);
+    return cell 
+      ? cell.walls[wallDirectionIndex]
+      : null;
   }
 
   public getNeighbors(cell: MazeCell): MazeCell[] {

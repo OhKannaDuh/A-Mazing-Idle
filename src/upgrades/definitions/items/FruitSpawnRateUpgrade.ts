@@ -1,6 +1,8 @@
 import Game from "managers/Game";
 import Upgrade from "upgrades/Upgrade";
 import { FRUIT_SPAWN_UPGRADE_BASE_COST, FRUIT_SPAWN_UPGRADE_BASE_COST_MULTIPLIER, UpgradeKey } from "constants/UpgradeConstants";
+import FruitMazeItem from "items/definitions/FruitMazeItem";
+import { UserInterface } from "managers/UserInterface";
 
 const BUTTON_UI_ID = 'buyFruitSpawnRateUpgrade';
 const TOOLTIP_TEXT = 'Fruits spawn more frequently.';
@@ -12,7 +14,8 @@ export class FruitSpawnRateUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    this.setUiText(`Fruit Spawn Rate (${this.upgradeLevel}): ${this.getPrettyPrintCost()} pts`);
+    const spawnProbability = UserInterface.getPrettyPrintNumber(FruitMazeItem.getItemSpawnProbability(this.game) * 100, 2);
+    this.setUiText(`Fruit Spawn Rate (${spawnProbability}%): ${this.getPrettyPrintCost()} pts`);
   }
 
   getCost(): number {

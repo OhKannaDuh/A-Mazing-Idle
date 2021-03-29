@@ -1,3 +1,4 @@
+import Game from "managers/Game";
 import { DIRECTION_RIGHT, getMazeDirectionIndexFromTileVector, getNewTilePositionByVector, GridLocation, MazeGridType, MazeWallTypes } from "managers/MazeUtils";
 import { MazeCell } from "models/MazeCell";
 import { MazeGrid } from "models/MazeGrid";
@@ -5,10 +6,10 @@ import { MazeGrid } from "models/MazeGrid";
 
 
 export class PlusSignMazeGrid extends MazeGrid {
-  constructor(mazeSizeX: number) {
+  constructor(game: Game, mazeSizeX: number) {
     const bufferX = Math.ceil(mazeSizeX / 3);
     const bufferY = Math.ceil(mazeSizeX / 3);
-    super(mazeSizeX + bufferX, mazeSizeX + bufferY, MazeGridType.PLUS_SIGN);
+    super(game, mazeSizeX + bufferX, mazeSizeX + bufferY, MazeGridType.PLUS_SIGN);
   }
 
   public generateMazeGrid(): void {

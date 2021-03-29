@@ -1,21 +1,18 @@
 Bug fixes:
---> (*) Player splits spill over between mazes
---> Auto-merge doesn't detect bots that pass over each other
---> If you can't leave a tile that has destructible wall on it, you're trapped (just kill the wall!)
+--> Ghosts do not have a color
 --> Destructible walls move the maze a pixel or two
 
 Features:
---> (*) Icon for exit
 --> (*) Offline play
---> (*) Display upgrade stat instead of level
 --> (*) Debounce speed of manual movement
+--> (*) Splitting from manual movement
 --> Allow option for splits on visited tiles
 --> Points for clearing destructible walls
 --> "Luck" upgrade
 --> Finish line (auto-complete maze)
 --> Bots move between tiles instead of teleport
 
-Stats Tracker (Current)
+Stats Tracker:
 --> Tripometer for stats
 --> Total time played
 --> Current maze stats
@@ -25,7 +22,6 @@ Refactor:
 --> Linter!
 --> (*) Fruit costs should be mapped to fruit type.
 --> (*) Biome mapping/unlock/handling
---> (?) RNG bots should have independent movement speed
 
 Regions/Biomes:
 (?)
@@ -33,6 +29,4 @@ Regions/Biomes:
 --> Maze start/end variations
 
 Power Ups: 
---> Handle merges.
---> Handle dynamic update?
---> Figure out how to handle split/merges.
+(?)

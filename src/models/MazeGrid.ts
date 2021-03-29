@@ -1,3 +1,4 @@
+import Game from "managers/Game";
 import { Array2D, Tile, TileVector } from "managers/MazeManager";
 import { 
   getExitDirectionByGridLocation, 
@@ -18,6 +19,7 @@ import { MazeCell } from "models/MazeCell";
 export type MazeGridArray = Array2D<MazeCell>;
 
 export class MazeGrid {
+  protected game: Game;
   public grid: MazeGridArray;
   public sizeX: number;
   public sizeY: number;
@@ -30,7 +32,8 @@ export class MazeGrid {
   public externalExitTile: Tile;
   public exitDirectionVector: TileVector;
   
-  constructor(sizeX: number, sizeY: number, mazeGridType: MazeGridType) {
+  constructor(game: Game, sizeX: number, sizeY: number, mazeGridType: MazeGridType) {
+    this.game = game;
     this.sizeX = sizeX;
     this.sizeY = sizeY;
     this.mazeGridType = mazeGridType;
@@ -70,16 +73,6 @@ export class MazeGrid {
     
     this.getCell(this.internalExitTile).setWallTypeAtIndex(getMazeDirectionIndexFromTileVector(this.exitDirectionVector), MazeWallTypes.NO_WALL);
   }
-  
-  // protected setStartAndEndTile(): void {
-  //   this.internalStartTile = { x: 0, y: 0 };
-
-  //   this.internalExitTile = { x: this.sizeX - 1, y: this.sizeY - 1 };
-    
-  //   this.exitDirectionVector = DIRECTION_RIGHT;
-  //   this.externalExitTile = getNewTilePositionByVector(this.internalExitTile, this.exitDirectionVector);
-  //   this.getCell(this.internalExitTile).setWallTypeAtIndex(getMazeDirectionIndexFromTileVector(DIRECTION_RIGHT), MazeWallTypes.NO_WALL);
-  // }
 
   public resetVisitedTiles(): void {
     for (let y = 0; y < this.sizeY; y++) {

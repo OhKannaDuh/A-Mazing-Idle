@@ -18,13 +18,13 @@ class FruitMazeItem extends MazeItem {
   public triggerPickup(playerId: number): void {
     super.triggerPickup(playerId);
 
-    const points = this.getFruitPickupPointsAmount();
+    const points = FruitMazeItem.getFruitPickupPointsAmount(this.game);
     this.game.points.addPoints(points, playerId, [StatsKey.TOTAL_POINTS_EARNED_FROM_FRUITS]);
   }
   
-  private getFruitPickupPointsAmount(): number {
-    const upgradeLevel = this.game.upgrades.getUpgradeLevel(UpgradeKey.FRUIT_PICKUP_POINTS);
-    const baseAmount = this.game.biomes.getBaseFruitItemPickupValue();
+  public static getFruitPickupPointsAmount(game: Game): number {
+    const upgradeLevel = game.upgrades.getUpgradeLevel(UpgradeKey.FRUIT_PICKUP_POINTS);
+    const baseAmount = game.biomes.getBaseFruitItemPickupValue();
     return baseAmount * Math.pow(FRUIT_PICKUP_POINTS_BASE_AMOUNT_MULTIPLIER, upgradeLevel);
   }
   

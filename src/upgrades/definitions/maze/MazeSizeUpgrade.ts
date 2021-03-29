@@ -12,7 +12,8 @@ export class MazeSizeUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    this.setUiText(`Maze Size (${this.upgradeLevel}): ${this.getPrettyPrintCost()} pts`);
+    const mazeSize = this.game.maze.getNextMazeSize();
+    this.setUiText(`Maze Size (${mazeSize}x${mazeSize} tiles): ${this.getPrettyPrintCost()} pts`);
   }
 
   getCost(): number {

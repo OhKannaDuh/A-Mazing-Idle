@@ -140,8 +140,6 @@ export const BIOME_UPGRADE_UNLOCKS: Map<UpgradeKey, BiomeKey> = new Map([
   
   // Biome 3
   [UpgradeKey.BOT_REMEMBER_DEADEND_TILES, BiomeKey.BIOME_3],
-  [UpgradeKey.MULTIPLIER_ITEM_SPAWN_RATE, BiomeKey.BIOME_3],
-  [UpgradeKey.MULTIPLIER_ITEM_STRENGTH, BiomeKey.BIOME_3],
   
   // Biome X
   [UpgradeKey.DESTRUCTIBLE_WALLS, BiomeKey.BIOME_8],

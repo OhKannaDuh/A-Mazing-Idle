@@ -1,10 +1,11 @@
+import Game from "managers/Game";
 import { GridLocation, MazeGridType } from "managers/MazeUtils";
 import { MazeGrid } from "models/MazeGrid";
 
 
 export class SquareMazeGrid extends MazeGrid {
-  constructor(mazeSizeX: number) {
-    super(mazeSizeX, mazeSizeX, MazeGridType.RECTANGLE);
+  constructor(game: Game, mazeSizeX: number) {
+    super(game, mazeSizeX, mazeSizeX, MazeGridType.RECTANGLE);
   }
 
   protected getValidStartLocations(): GridLocation[] {

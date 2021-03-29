@@ -1,10 +1,11 @@
 import Game from "managers/Game";
 import { Tile } from "managers/MazeManager";
 import { generateTileKey, MazeDirectionIndex, MazeWallTypes } from "managers/MazeUtils";
-import { BacktrackerMaze } from "maze/BackTrackerMaze";
 import { Maze } from "models/Maze";
 import { StatsKey, STATS_TO_UI_ID_MAP } from "models/Stats";
 declare var $: any;
+
+const FINISH_LINE_ICON = "img/finishLine.png";
 
 
 export class UserInterface {
@@ -41,11 +42,12 @@ export class UserInterface {
     $("#points").text(`Points: ${UserInterface.getPrettyPrintNumber(this.game.points.points)}`);
   }
   
-  public printMazeV2(maze: Maze): void {     
-    for (let y = 0; y < maze.grid.sizeY; y++) {
+  public printMazeV2(maze: Maze): void {
+    // Extends one before/beyond grid to handle an exit cell.
+    for (let y = -1; y < maze.grid.sizeY+1; y++) {
       $("#maze > tbody").append("<tr>");
 
-      for (let x = 0; x < maze.grid.sizeX; x++) {
+      for (let x = -1; x < maze.grid.sizeX+1; x++) {
         let tileKey = generateTileKey(x, y);
         // Place cell element
         $("#maze > tbody").append(`<td id="${tileKey}">&nbsp;</td>`);
@@ -59,6 +61,8 @@ export class UserInterface {
       
       $("#maze > tbody").append("</tr>");
     }
+    
+    this.setFinishLineIcon(maze.grid.externalExitTile);
   }
   
   public setTileCssV2(maze: Maze, tile: Tile): void {
@@ -75,7 +79,7 @@ export class UserInterface {
       return `2px solid ${borderColor}`;
     } else if (val === MazeWallTypes.DESTRUCTIBLE_WALL) {
       return `2px dotted ${borderColor}`;
-    } else if (val === MazeWallTypes.OUT_OF_BOUNDS_WALL) {
+    } else if (val === MazeWallTypes.OUT_OF_BOUNDS_WALL || val == null) {
       return;
     } else {
       //TODO: make this occupy space still
@@ -115,5 +119,13 @@ export class UserInterface {
   public static getPrettyPrintNumber(num: number, decimalLength: number = 0): string {
     if (!num) return '0';
     return parseFloat(num.toFixed(decimalLength)).toLocaleString();
+  }
+
+  public setFinishLineIcon(tile: Tile): void {
+    const tileKey = generateTileKey(tile.x, tile.y);
+    $(`#${tileKey}`).css("background-image", `url("${FINISH_LINE_ICON}")`);
+    $(`#${tileKey}`).css("background-repeat", `no-repeat`);
+    $(`#${tileKey}`).css("background-position", `center`);
+    $(`#${tileKey}`).css("background-size", '20px');
   }
 }

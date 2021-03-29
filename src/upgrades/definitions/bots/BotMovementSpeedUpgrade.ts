@@ -1,6 +1,7 @@
 import Game from "managers/Game";
 import Upgrade from "upgrades/Upgrade";
 import { BOT_MOVEMENT_UPGRADE_BASE_COST, BOT_MOVEMENT_UPGRADE_BASE_COST_MUTLIPLIER, UpgradeKey } from "constants/UpgradeConstants";
+import { UserInterface } from "managers/UserInterface";
 
 const BUTTON_UI_ID = 'buyBotMoveFaster';
 const TOOLTIP_TEXT = 'Bots will avoid revisiting the position that they were just at.';
@@ -12,7 +13,8 @@ export class BotMovementSpeedUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    this.setUiText(`Bot Movement Speed (${this.upgradeLevel}): ${this.getPrettyPrintCost()} pts`);
+    const interval = UserInterface.getPrettyPrintNumber(this.game.rngBot.getBotMoveInterval());
+    this.setUiText(`Bot Movement Speed (${interval} ms): ${this.getPrettyPrintCost()} pts`);
   }
 
   getCost(): number {

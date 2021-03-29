@@ -1,3 +1,4 @@
+import Game from "managers/Game";
 import { DIRECTION_RIGHT, getMazeDirectionIndexFromTileVector, getNewTilePositionByVector, GridLocation, MazeGridType, MazeWallTypes } from "managers/MazeUtils";
 import { MazeGrid } from "models/MazeGrid";
 
@@ -33,9 +34,9 @@ const isOdd = (num: number): boolean => {
 
 export class DiamondMazeGrid extends MazeGrid {
 
-  constructor(mazeSizeX: number) {
+  constructor(game: Game, mazeSizeX: number) {
     const diamondOddLength = getDiamondOddLength(mazeSizeX);
-    super(diamondOddLength, diamondOddLength, MazeGridType.DIAMOND);
+    super(game, diamondOddLength, diamondOddLength, MazeGridType.DIAMOND);
   }
 
   public generateMazeGrid() {

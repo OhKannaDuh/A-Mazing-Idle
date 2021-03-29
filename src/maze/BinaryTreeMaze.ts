@@ -1,3 +1,4 @@
+import Game from "managers/Game";
 import { TileVector } from "managers/MazeManager";
 import { DIRECTION_LEFT, DIRECTION_UP, getInverseTileVector, getNewTilePositionByVector, getRandomInteger, MazeGridType } from "managers/MazeUtils";
 import { Maze } from "models/Maze";
@@ -6,11 +7,11 @@ const VALID_DIR_ARR = [DIRECTION_LEFT, DIRECTION_UP];
 
 export class BinaryTreeMaze extends Maze {
   
-  constructor(mazeSizeX: number, mazeGridType: MazeGridType) {
+  constructor(game: Game, mazeSizeX: number, mazeGridType: MazeGridType) {
     if (mazeGridType === MazeGridType.PLUS_SIGN) {
       throw 'Invalid grid type PLUS_SIGN for binary tree maze.'
     }
-    super(mazeSizeX, mazeGridType);
+    super(game, mazeSizeX, mazeGridType);
     this.generateMaze();
   }
 

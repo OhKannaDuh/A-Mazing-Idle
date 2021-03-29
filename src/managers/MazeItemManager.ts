@@ -119,7 +119,8 @@ export class MazeItemManager {
     if (mazeCell) {
       const mazeItem = mazeCell.getMazeItem();
       mazeItem.triggerPickup(playerId);
-      this.applyItemToAllBots(mazeItem, playerId);
+      //TODO: decide if we want this.
+      // this.applyItemToAllBots(mazeItem, playerId);
       mazeCell.deleteItem();
     }
   }
@@ -136,7 +137,7 @@ export class MazeItemManager {
     }
   }
   
-  public applyItemToAllBots(mazeItem: MazeItem, playerId: number): void {
+  private applyItemToAllBots(mazeItem: MazeItem, playerId: number): void {
     const playerIdList = this.game.players.getPlayerIdList().filter(pid => pid !== playerId);
 
     // Apply item to as many bots as possible based on upgrade level.

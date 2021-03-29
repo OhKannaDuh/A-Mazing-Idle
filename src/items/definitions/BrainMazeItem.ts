@@ -17,12 +17,12 @@ class BrainMazeItem extends MazeItem {
     super.triggerPickup(playerId);
 
     if (!this.game.players.playerMap.has(playerId)) return;
-    const tileDistance = this.getBrainTileDistanceAmount();
+    const tileDistance = BrainMazeItem.getBrainTileDistanceAmount(this.game);
     this.game.players.getPlayer(playerId).smartPathingTileDistanceRemaining += tileDistance;
   }
   
-  private getBrainTileDistanceAmount(): number {
-    const upgradeLevel = this.game.upgrades.getUpgradeLevel(UpgradeKey.BRAIN_TILE_DISTANCE);
+  public static getBrainTileDistanceAmount(game: Game): number {
+    const upgradeLevel = game.upgrades.getUpgradeLevel(UpgradeKey.BRAIN_TILE_DISTANCE);
     return BRAIN_STARTING_TILE_DISTANCE + (upgradeLevel * BRAIN_TILE_DISTANCE_UPGRADE_INCREASE_AMOUNT);
   }
 

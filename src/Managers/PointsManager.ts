@@ -56,7 +56,7 @@ export class Points extends Serializable {
       : BASE_POINT_MULTPLIER;
   }
 
-  private getPointsPerVisit(isVisitedAlready) {
+  public getPointsPerVisit(isVisitedAlready: boolean = false): number {
     const upgradeLevel = this.game.upgrades.getUpgradeLevel(UpgradeKey.POINTS_PER_VISIT);
     const basePointsAmount = this.game.biomes.getBasePointsPerVisitValue();
     let pointsPerTile = Math.round(100 * basePointsAmount * Math.pow(POINTS_PER_VISIT_BASE_AMOUNT_MULTIPLIER, upgradeLevel)) / 100;
@@ -86,8 +86,9 @@ export class Points extends Serializable {
   }
 
   //TODO: move these as static functions in the upgrade class.
-  private getMazeCompletionBonus() {
-    const tileCount = this.game.maze.getGrid().getTileCount();
+  public getMazeCompletionBonus() {
+    const grid = this.game.maze.getGrid();
+    const tileCount = grid ? grid.getTileCount() : 0;
     const upgradeLevel = this.game.upgrades.getUpgradeLevel(UpgradeKey.MAZE_COMPLETION_BONUS);
     return tileCount * (1 + MAZE_COMPLETION_BONUS_BASE_MULTIPLIER * upgradeLevel);
   }

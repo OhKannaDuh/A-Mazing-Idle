@@ -12,7 +12,7 @@ export class BotSplitDirectionUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    this.setUiText(`Bot Split Direction (${this.upgradeLevel}): ${this.getPrettyPrintCost()} pts`);
+    this.setUiText(`Bot Split Direction (${this.upgradeLevel} splits): ${this.getPrettyPrintCost()} pts`);
   }
 
   getCost(): number {
