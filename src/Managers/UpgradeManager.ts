@@ -78,22 +78,29 @@ export class UpgradeManager extends Serializable {
     }
   }
 
-  private createUpgrade(upgrade: Upgrade) {
+  private createUpgrade(upgrade: Upgrade): void {
     this.upgradeMap.set(upgrade.upgradeKey, upgrade);
   }
 
-  public getUpgrade(upgradeKey: UpgradeKey) {
-    if (!this.upgradeMap.has(upgradeKey)) {
-      console.error(`Unexpected upgrade key found: ${upgradeKey}`);
+  public getUpgrade(upgradeKey: UpgradeKey): Upgrade {
+    if (!this.hasUpgrade(upgradeKey)) {
+      console.error(`Unexpected upgrade key requested: ${upgradeKey}`);
+      return null;
     }
     return this.upgradeMap.get(upgradeKey);
   }
 
-  public getUpgradeLevel(upgradeKey: UpgradeKey) {
+  private hasUpgrade(upgradeKey: UpgradeKey): boolean {
+    return this.upgradeMap.has(upgradeKey);
+  }
+
+  public getUpgradeLevel(upgradeKey: UpgradeKey): number {
+    if (!this.hasUpgrade(upgradeKey)) return 0;
     return this.getUpgrade(upgradeKey).upgradeLevel;
   }
 
-  public isUpgraded(upgradeKey: UpgradeKey) {
+  public isUpgraded(upgradeKey: UpgradeKey): boolean {
+    if (!this.hasUpgrade(upgradeKey)) return false;
     return this.getUpgrade(upgradeKey).getIsUpgraded();
   }
 
@@ -114,7 +121,11 @@ export class UpgradeManager extends Serializable {
     // Upgrade map will restore the upgrade level of each key
     if (property === UPGRADE_MAP_PROPERTY_KEY) {
       for (let upgradeKey in value) {
-        this.upgradeMap.get(upgradeKey as UpgradeKey).upgradeLevel = parseInt(value[upgradeKey]);
+        if (this.upgradeMap.has(upgradeKey as UpgradeKey)) {
+          this.upgradeMap.get(upgradeKey as UpgradeKey).upgradeLevel = parseInt(value[upgradeKey]);
+        } else {
+          console.error("Failed to deserialize upgrade key: ", upgradeKey);
+        }
       }
     } else {
       return super.deserializeProperty(property, value);
@@ -123,6 +134,7 @@ export class UpgradeManager extends Serializable {
 
   public isUnlocked(upgradeKey: UpgradeKey): boolean {
     if (IS_GLOBAL_UNLOCK_ENABLED) return true;
+    if (!this.hasUpgrade(upgradeKey)) return false;
     return this.upgradeMap.get(upgradeKey).isUnlocked();
   }
 }

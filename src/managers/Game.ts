@@ -11,11 +11,12 @@ import { MazeItemManager } from "managers/MazeItemManager";
 import { StatsManager } from "managers/StatsManager";
 import { BiomeManager } from "managers/BiomeManager";
 import { ColorManager } from "managers/ColorManager";
+import { OfflineManager } from "managers/OfflineManager";
 import { PowerUpManager } from "managers/PowerUpManager";
 import { StatsKey } from "models/Stats";
 
 
-const SERIALIZABLE_PROPERTIES: string[] = ['points', 'upgrades', 'stats'];
+const SERIALIZABLE_PROPERTIES: string[] = ['points', 'upgrades', 'stats', 'offline'];
 
 class Game extends Serializable {
   public maze: MazeManager;
@@ -30,6 +31,7 @@ class Game extends Serializable {
   public biomes: BiomeManager;
   public colors: ColorManager;
   public powerUps: PowerUpManager;
+  public offline: OfflineManager;
 
   private isDevMode: boolean;
   private isDisableUi: boolean;
@@ -50,6 +52,7 @@ class Game extends Serializable {
     this.stats = new StatsManager(this);
     this.colors = new ColorManager(this);
     this.powerUps = new PowerUpManager(this);
+    this.offline = new OfflineManager(this);
     
     this.upgrades.initUpgrades();
     this.upgrades.updateAllUpgradeUi();
@@ -82,7 +85,6 @@ class Game extends Serializable {
     this.players.resetAllPlayers();
     this.ui.deleteMaze();
     this.maze.newMaze();
-    //TODO: re-run maze option, reset visited
     
     this.ui.printMazeV2(this.maze.maze);
     

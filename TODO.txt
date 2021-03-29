@@ -1,6 +1,7 @@
 Bug fixes:
 --> Ghosts do not have a color
 --> Destructible walls move the maze a pixel or two
+--> (-) Remove headings when all upgrades done.
 
 Features:
 --> (*) Offline play
@@ -22,6 +23,7 @@ Refactor:
 --> Linter!
 --> (*) Fruit costs should be mapped to fruit type.
 --> (*) Biome mapping/unlock/handling
+--> (-) Serializable class should be part of base class of managers
 
 Regions/Biomes:
 (?)

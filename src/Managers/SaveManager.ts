@@ -33,6 +33,7 @@ export class SaveManager {
     let gameObj = this.getSaveJsonFromLocalStorage();
     if (!gameObj) return;
     this.importSaveJsonObject(gameObj);
+    this.game.offline.processOfflinePoints();
   }
   
   createSaveJsonObject = (): object => {

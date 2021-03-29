@@ -1,0 +1,47 @@
+#body {
+  background-color: white;
+  color: black;
+}
+
+#maze {
+  border-collapse: collapse;
+  border: 0px;
+}
+
+#maze td {
+  width: 20px;
+  height: 20px;
+}
+
+#upgradeTab {
+  padding: 5px;
+  flex: 0 0 500px;
+  border: 2px solid black;
+}
+
+#powerUpButtonRow > button {
+  margin-left: 10px;
+  width: 150px;
+}
+
+#powerUpButtonRow {
+  display: flex;
+}
+
+#powerUpRoot {
+  padding: 5px;
+  margin-top: 30px;
+  width: 500px;
+  border: 2px solid black;
+  flex:auto;
+}
+
+#statsTab {
+  padding: 5px;
+  flex: 1;
+  border: 2px solid black;
+}
+
+#tabsRoot {
+  display: flex;
+}

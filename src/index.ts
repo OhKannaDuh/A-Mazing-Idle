@@ -18,7 +18,8 @@ $(document).ready(() => {
   if (IS_DEV_MODE_ENABLED && !DEV_MODE_AUTOSTART) return;
   
   const game: Game = new Game();
-  game.save.loadGameSaveFromLocalStorage(); 
+  game.save.loadGameSaveFromLocalStorage();
+  
   game.startGame();
   game.save.startSaveTimer();
 

@@ -128,4 +128,11 @@ export class UserInterface {
     $(`#${tileKey}`).css("background-position", `center`);
     $(`#${tileKey}`).css("background-size", '20px');
   }
+
+  public showOfflineModal(): void {
+    $(`#offlineModal`).css("display", "block");
+    $(`#offlineModalCloseBtn`).click(() => {
+      $(`#offlineModal`).css("display", "none");
+    });
+  }
 }

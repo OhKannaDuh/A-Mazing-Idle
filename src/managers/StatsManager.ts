@@ -3,7 +3,7 @@ import { Serializable } from "models/Serializable";
 import { CURRENT_MAZE_STATS, StatsKey } from "models/Stats";
 
 const DEFAULT_STAT_VALUE = 0;
-const SERIALIZABLE_PROPERTIES: string[] = ['statsMap'];
+const SERIALIZABLE_PROPERTIES: string[] = ['statsMap', 'saveTimeStamp'];
 
 export class StatsManager extends Serializable {
   public statsMap: Map<StatsKey, number>;

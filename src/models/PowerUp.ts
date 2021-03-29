@@ -137,8 +137,6 @@ export class PowerUp {
         this.cooldownDurationCounterMs += UI_UPDATE_INTERVAL;
       } else if (this._isPowerUpActive) {
         this.activateDurationCounterMs += UI_UPDATE_INTERVAL;
-      } else {
-        console.log("NOTHING ACTIVE --> UI UPDATE");
       }
       this.updateUi();
     }, UI_UPDATE_INTERVAL);
