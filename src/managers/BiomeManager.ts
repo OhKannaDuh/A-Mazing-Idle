@@ -2,9 +2,11 @@ import {
   BiomeKey, 
   BIOME_ITEM_UNLOCKS, 
   BIOME_UPGRADE_UNLOCKS, 
-  getPointsPerVisitBaseAmount 
+  getPointsPerVisitBaseAmount, 
+  POWER_UP_UNLOCKS
 } from "constants/BiomeConstants";
 import { MazeItemKey } from "constants/ItemConstants";
+import { PowerUpKey } from "constants/PowerUpConstants";
 import { UpgradeKey } from "constants/UpgradeConstants";
 import Game from "managers/Game";
 
@@ -46,5 +48,10 @@ export class BiomeManager {
   public isBiomeKeyUnlocked(biomeKey: BiomeKey) {
     const currentBiomeKey = this.getCurrentBiomeKey();
     return currentBiomeKey >= biomeKey;
+  }
+
+  public isPowerUpUnlocked(powerUpKey: PowerUpKey) {
+    const requiredBiomeKey = POWER_UP_UNLOCKS.get(powerUpKey);
+    return this.isBiomeKeyUnlocked(requiredBiomeKey);
   }
 }

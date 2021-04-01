@@ -1,39 +1,17 @@
 import BiomeColorPalette from "models/BiomeColorPalette";
-import { BIOME_0_COLOR_PALETTE, BIOME_1_COLOR_PALETTE } from "constants/ColorConstants";
-import { 
-  APPLE_IMAGE_URL, 
-  BANANA_IMAGE_URL, 
-  CHERRY_IMAGE_URL, 
-  FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_0, 
-  FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_1, 
-  FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_2, 
-  FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_3, 
-  FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_4, 
-  GRAPES_IMAGE_URL, 
-  MazeItemKey, 
-  ORANGE_IMAGE_URL,
-  FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_5,
-  FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_6,
-  FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_7,
-  FRUIT_PICKUP_POINTS_BASE_AMOUNT_BIOME_8
-} from "constants/ItemConstants";
+import { BIOME_0_COLOR_PALETTE } from "constants/ColorConstants";
+import { MazeItemKey } from "constants/ItemConstants";
 import {
   BIOME_0_UPGRADE_COST,
   BIOME_1_UPGRADE_COST,
   BIOME_2_UPGRADE_COST,
   BIOME_3_UPGRADE_COST,
   BIOME_4_UPGRADE_COST,
-  POINTS_PER_VISIT_BASE_AMOUNT_BIOME_0, 
-  POINTS_PER_VISIT_BASE_AMOUNT_BIOME_1, 
-  POINTS_PER_VISIT_BASE_AMOUNT_BIOME_2, 
-  POINTS_PER_VISIT_BASE_AMOUNT_BIOME_3, 
-  POINTS_PER_VISIT_BASE_AMOUNT_BIOME_4,
-  UpgradeKey,
   BIOME_5_UPGRADE_COST,
   BIOME_6_UPGRADE_COST,
-  POINTS_PER_VISIT_BASE_AMOUNT_BIOME_5,
-  POINTS_PER_VISIT_BASE_AMOUNT_BIOME_6,
-  POINTS_PER_VISIT_BASE_AMOUNT_BIOME_7,
+  BIOME_7_UPGRADE_COST,
+  BIOME_8_UPGRADE_COST,
+  UpgradeKey,
   BIOME_UPGRADE_BASE_COST,
   BIOME_UPGRADE_SCALING_START_LEVEL,
   BIOME_UPGRADE_BASE_MULTPLIER
@@ -48,6 +26,7 @@ import {
 } from "constants/FruitConstants";
 import { MazeAlgorithmType, MazeGridType } from "managers/MazeUtils";
 import { Maze } from "models/Maze";
+import { PowerUpKey } from "./PowerUpConstants";
 
 export type BiomeKey = number;
 
@@ -79,6 +58,8 @@ const BIOME_UPGRADE_COST: Map<BiomeKey, number> = new Map([
   [4, BIOME_4_UPGRADE_COST],
   [5, BIOME_5_UPGRADE_COST],
   [6, BIOME_6_UPGRADE_COST],
+  [7, BIOME_7_UPGRADE_COST],
+  [8, BIOME_8_UPGRADE_COST],
 ]);
 
 export const getBiomeUpgradeCost = (biomeKey: BiomeKey): number => {
@@ -96,13 +77,18 @@ export const getBiomeColorPalette = (biomeKey: BiomeKey): BiomeColorPalette => {
   return BIOME_0_COLOR_PALETTE;
 };
 
+export const POWER_UP_UNLOCKS: Map<PowerUpKey, BiomeKey> = new Map([
+  [PowerUpKey.SPEED_UP, 7],
+  [PowerUpKey.POINTS_MULTIPLIER, 10],
+]);
+
 export const BIOME_ITEM_UNLOCKS: Map<MazeItemKey, BiomeKey> = new Map([
   [MazeItemKey.FRUIT, 1],
   [MazeItemKey.MULTIPLIER, 2],
-  [MazeItemKey.BRAIN, 6],
-  [MazeItemKey.UNLIMITED_SPLITS, 8],
-  [MazeItemKey.BLACK_HOLE, 8],
-  [MazeItemKey.GHOST, 8],
+  [MazeItemKey.BRAIN, 7],
+  [MazeItemKey.UNLIMITED_SPLITS, 12],
+  [MazeItemKey.BLACK_HOLE, 14],
+  [MazeItemKey.GHOST, 16],
 ]);
 
 export const BIOME_UPGRADE_UNLOCKS: Map<UpgradeKey, BiomeKey> = new Map([
@@ -121,11 +107,11 @@ export const BIOME_UPGRADE_UNLOCKS: Map<UpgradeKey, BiomeKey> = new Map([
   [UpgradeKey.FRUIT_SPAWN, 5],
   [UpgradeKey.BOT_SPLIT_DIRECTION, 6],
   [UpgradeKey.AUTO_EXIT_MAZE, 7],
-  
   [UpgradeKey.BOT_REMEMBER_DEADEND_TILES, 8],
+  [UpgradeKey.POINTS_PER_REVISIT, 9],
   [UpgradeKey.BRAIN_TILE_DISTANCE, 10],
   [UpgradeKey.BRAIN_SPAWN, 10],
-  [UpgradeKey.POINTS_PER_REVISIT, 7],
+  
   [UpgradeKey.BOT_SPLIT_BOT_AUTO_MERGE, 7],
   [UpgradeKey.DESTRUCTIBLE_WALLS, 15],
 ]);

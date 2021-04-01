@@ -19,8 +19,7 @@ export class PowerUpManager {
   }
 
   public isPowerUpUnlocked(powerUpKey: PowerUpKey) {
-    return true;
-    // return this.game.biomes.isPowerUpUnlocked(mazeItemKey);
+    return this.game.biomes.isPowerUpUnlocked(powerUpKey);
   }
 
   private getAllUnlockedPowerUpKeys(): PowerUpKey[] {
@@ -61,6 +60,7 @@ export class PowerUpManager {
   }
 
   public activatePowerUp(powerUpKey: PowerUpKey): void {
+    if (!this.isPowerUpUnlocked(powerUpKey)) return;
     this.getPowerUp(powerUpKey).activatePowerUpTimer();
   }
   
