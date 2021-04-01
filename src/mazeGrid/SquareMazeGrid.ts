@@ -10,9 +10,9 @@ export class SquareMazeGrid extends MazeGrid {
 
   protected getValidStartLocations(): GridLocation[] {
     return [
+      GridLocation.TOP_LEFT,
       GridLocation.BOTTOM_LEFT,
       GridLocation.BOTTOM_RIGHT,
-      GridLocation.TOP_LEFT,
       GridLocation.TOP_RIGHT
     ];
   }
@@ -24,5 +24,12 @@ export class SquareMazeGrid extends MazeGrid {
       GridLocation.TOP_LEFT,
       GridLocation.TOP_RIGHT
     ];
+  }
+
+  protected getDefaultStartingLocation(): GridLocation {
+    return GridLocation.TOP_LEFT;
+  }
+  protected getDefaultExitLocation(): GridLocation {
+    return GridLocation.BOTTOM_RIGHT;
   }
 }

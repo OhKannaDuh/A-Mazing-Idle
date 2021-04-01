@@ -30,8 +30,9 @@ class Upgrade {
       console.error('Cannot afford to buy.');
       return;
     }
-    this.game.points.spendPoints(this.getCost());
+    const cost = this.getCost();
     this.upgradeLevel++;
+    this.game.points.spendPoints(cost);
     this.updateUiProperties();
     this.updateUiDisabled();
     this.updateVisibility();

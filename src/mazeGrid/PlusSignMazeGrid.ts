@@ -75,4 +75,12 @@ export class PlusSignMazeGrid extends MazeGrid {
       GridLocation.MIDDLE_LEFT
     ];
   }
+  
+  protected getDefaultStartingLocation(): GridLocation {
+    return GridLocation.MIDDLE_LEFT;
+  }
+
+  protected getDefaultExitLocation(): GridLocation {
+    return GridLocation.MIDDLE_RIGHT;
+  }
 }

@@ -1,17 +1,21 @@
 import Game from "managers/Game";
 import { TileVector } from "managers/MazeManager";
-import { DIRECTION_LEFT, DIRECTION_UP, getInverseTileVector, getNewTilePositionByVector, getRandomInteger, MazeGridType } from "managers/MazeUtils";
+import {getInverseTileVector, getNewTilePositionByVector, getRandomInteger, MazeAlgorithmType, MazeGridType } from "managers/MazeUtils";
 import { Maze } from "models/Maze";
 
+//TODO: why can i not import the regular one.
+const DIRECTION_UP: TileVector = {x: 0, y: -1};
+const DIRECTION_LEFT: TileVector = {x: -1, y: 0};
 const VALID_DIR_ARR = [DIRECTION_LEFT, DIRECTION_UP];
 
 export class BinaryTreeMaze extends Maze {
   
   constructor(game: Game, mazeSizeX: number, mazeGridType: MazeGridType) {
-    if (mazeGridType === MazeGridType.PLUS_SIGN) {
-      throw 'Invalid grid type PLUS_SIGN for binary tree maze.'
+    if (mazeGridType === MazeGridType.PLUS_SIGN || mazeGridType === MazeGridType.DIAMOND) {
+      console.error(`Invalid grid type ${mazeGridType} for binary tree maze.`);
+      mazeGridType = MazeGridType.SQUARE;
     }
-    super(game, mazeSizeX, mazeGridType);
+    super(game, mazeSizeX, mazeGridType, MazeAlgorithmType.BINARY_TREE);
     this.generateMaze();
   }
 
@@ -49,7 +53,6 @@ export class BinaryTreeMaze extends Maze {
     // Biased LEFT and UP. Defend against edge case movements.
 
     const validDirs = [];
-
     for (let dir of VALID_DIR_ARR) {
       let testTile = getNewTilePositionByVector(dir, { x: x, y: y})
       if (this.grid.isValidTile(testTile)) {

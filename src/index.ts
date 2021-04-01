@@ -11,6 +11,7 @@ const DOWN_KEY = 40;
 const LEFT_KEY = 37;
 const RIGHT_KEY = 39;
 const E_KEY = 69;
+const Q_KEY = 81;
 const ONE_KEY = 49;
 const TWO_KEY = 50;
 
@@ -50,6 +51,13 @@ $(document).ready(() => {
     else if (event.keyCode === E_KEY) {
       if (game.upgrades.isUpgraded(UpgradeKey.TELEPORT_PLAYER_BACK_TO_BOT)) {
         game.maze.teleportPlayerBackToBot();
+      }
+      event.preventDefault();
+    }
+    // Q = Teleport Player to Bot
+    else if (event.keyCode === Q_KEY) {
+      if (game.upgrades.isUpgraded(UpgradeKey.TELEPORT_PLAYER_BACK_TO_BOT)) {
+        game.maze.teleportBotBackToPlayer();
       }
       event.preventDefault();
     }

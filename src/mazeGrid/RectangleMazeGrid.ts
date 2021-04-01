@@ -31,4 +31,12 @@ export class RectangleMazeGrid extends MazeGrid {
       GridLocation.TOP_RIGHT
     ];
   }
+  
+  protected getDefaultStartingLocation(): GridLocation {
+    return GridLocation.TOP_LEFT;
+  }
+
+  protected getDefaultExitLocation(): GridLocation {
+    return GridLocation.BOTTOM_RIGHT;
+  }
 }

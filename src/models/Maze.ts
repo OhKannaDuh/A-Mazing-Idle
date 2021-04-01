@@ -1,5 +1,13 @@
 import { Tile, TileVector } from "managers/MazeManager";
-import { DIRECTIONS_ARR, getMazeDirectionIndexFromTileVector, getTileFromTileKey, MazeDirectionIndex, MazeGridType, MazeWallTypes } from "managers/MazeUtils";
+import { 
+  DIRECTIONS_ARR, 
+  getMazeDirectionIndexFromTileVector, 
+  getTileFromTileKey, 
+  MazeAlgorithmType, 
+  MazeDirectionIndex, 
+  MazeGridType, 
+  MazeWallTypes 
+} from "managers/MazeUtils";
 import { MazeCell } from "models/MazeCell";
 import { MazeGrid } from "models/MazeGrid";
 import { PlusSignMazeGrid } from "mazeGrid/PlusSignMazeGrid";
@@ -11,9 +19,11 @@ import Game from "managers/Game";
 export class Maze {
   public grid: MazeGrid;
   protected game: Game;
+  public mazeAlgorithmType: MazeAlgorithmType;
 
-  constructor(game: Game, mazeSizeX: number, mazeGridType: MazeGridType) {
+  constructor(game: Game, mazeSizeX: number, mazeGridType: MazeGridType, mazeAlgorithmType: MazeAlgorithmType) {
     this.game = game;
+    this.mazeAlgorithmType = mazeAlgorithmType;
     this.generateGrid(mazeSizeX, mazeGridType);
   }
 

@@ -18,13 +18,13 @@ import { MazeSizeUpgrade } from "upgrades/definitions/maze/MazeSizeUpgrade";
 import { BotSplitDirectionUpgrade } from "upgrades/definitions/bots/BotSplitDirectionUpgrade";
 import { BotSplitAutoMergeUpgrade } from "upgrades/definitions/bots/BotSplitAutoMergeUpgrade";
 import { DestructibleWallUpgrade } from "upgrades/definitions/maze/DestructibleWallUpgrade";
+import { BotAutoMoveUpgrade } from "upgrades/definitions/bots/BotAutoMoveUpgrade";
 import { MultiplierItemSpawnRateUpgrade } from "upgrades/definitions/items/MultiplierItemSpawnRateUpgrade";
 import { MultiplierItemStrengthUpgrade } from "upgrades/definitions/items/MultiplierItemStrengthUpgrade";
 import { BiomeUpgrade } from "upgrades/definitions/maze/BiomeUpgrade";
 import Game from "managers/Game";
 import { UpgradeKey } from "constants/UpgradeConstants"
 import { Serializable } from "models/Serializable";
-import { IS_GLOBAL_UNLOCK_ENABLED } from "dev/devUtils";
 
 const UPGRADE_MAP_PROPERTY_KEY = 'upgradeMap';
 const SERIALIZABLE_PROPERTIES = [UPGRADE_MAP_PROPERTY_KEY];
@@ -47,6 +47,7 @@ export class UpgradeManager extends Serializable {
     this.createUpgrade(new MazeSizeUpgrade(this.game, UpgradeKey.MAZE_SIZE_UPGRADE));
     this.createUpgrade(new PointsPerRevisitUpgrade(this.game, UpgradeKey.POINTS_PER_REVISIT));
     // Bot
+    this.createUpgrade(new BotAutoMoveUpgrade(this.game, UpgradeKey.AUTO_MOVE));
     this.createUpgrade(new AutoExitMazeUpgrade(this.game, UpgradeKey.AUTO_EXIT_MAZE));
     this.createUpgrade(new AvoidRevisitLastPositionUpgrade(this.game, UpgradeKey.AVOID_REVISIT_LAST_POSITION));
     this.createUpgrade(new BotMovementSpeedUpgrade(this.game, UpgradeKey.BOT_MOVEMENT_SPEED));
@@ -133,7 +134,6 @@ export class UpgradeManager extends Serializable {
   }
 
   public isUnlocked(upgradeKey: UpgradeKey): boolean {
-    if (IS_GLOBAL_UNLOCK_ENABLED) return true;
     if (!this.hasUpgrade(upgradeKey)) return false;
     return this.upgradeMap.get(upgradeKey).isUnlocked();
   }

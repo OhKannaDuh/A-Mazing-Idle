@@ -1,7 +1,7 @@
 import Game from "managers/Game";
 import Upgrade from "upgrades/Upgrade";
 import { UpgradeKey } from "constants/UpgradeConstants";
-import { BIOME_UPGRADE_COST } from "constants/BiomeConstants";
+import { getBiomeUpgradeCost } from "constants/BiomeConstants";
 
 const BUTTON_UI_ID = 'buyBiomeUpgrade';
 const TOOLTIP_TEXT = 'This will bring you to a brand new biome with more difficult mazes, but with new items and much higher point rewards!';
@@ -18,13 +18,6 @@ export class BiomeUpgrade extends Upgrade {
 
   public getCost(): number {
     const nextBiomeKey = this.game.biomes.getCurrentBiomeKey();
-    if (!BIOME_UPGRADE_COST.has(nextBiomeKey)) {
-      return 0;
-    }
-    return BIOME_UPGRADE_COST.get(nextBiomeKey);
-  }
-
-  public isMaxUpgradeLevel(): boolean {
-    return this.game.biomes.getMaxBiomeLevel() === this.upgradeLevel;
+    return getBiomeUpgradeCost(nextBiomeKey);
   }
 }

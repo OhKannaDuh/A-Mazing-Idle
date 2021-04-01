@@ -1,11 +1,22 @@
+import { BiomeKey, getMazeAlgorithmTypeByBiome, getMazeGridByBiome } from "constants/BiomeConstants";
 import Game from "managers/Game";
 import { Array2D, MazeGridArray, Tile, TileVector } from "managers/MazeManager";
+import { BacktrackerMaze } from "maze/BackTrackerMaze";
+import { BinaryTreeMaze } from "maze/BinaryTreeMaze";
+import { PrimsMaze } from "maze/PrimsMaze";
 import { Maze } from "models/Maze";
 import { MazeCell } from "models/MazeCell";
 import { MazeGrid } from "models/MazeGrid";
 
 
 export const DEFAULT_TILE_WIDTH_CSS = '20px';
+
+
+export enum MazeAlgorithmType {
+   BACK_TRACKER = "BACK_TRACKER",
+   BINARY_TREE = "BINARY_TREE",
+   PRIMS = "PRIMS"
+}
 
 export enum MazeGridType {
   SQUARE = "SQUARE",
@@ -38,6 +49,22 @@ export const STARTING_POSITION = {x: 0, y: 0};
 
 export const DEFAULT_MAZE_SIZE = 4;
 
+
+export const generateMazeGridAndAlgorithm = (game: Game, mazeSize: number): Maze => {
+  const biomeKey: BiomeKey = game.biomes.getCurrentBiomeKey();
+  const mazeGridType: MazeGridType = getMazeGridByBiome(biomeKey);
+  const mazeAlgorithmType: MazeAlgorithmType = getMazeAlgorithmTypeByBiome(biomeKey);
+  
+  if (mazeAlgorithmType === MazeAlgorithmType.PRIMS) {
+    return new PrimsMaze(game, mazeSize, mazeGridType);
+  } else if (mazeAlgorithmType === MazeAlgorithmType.BACK_TRACKER) {
+    return new BacktrackerMaze(game, mazeSize, mazeGridType);
+  } else if (mazeAlgorithmType === MazeAlgorithmType.BINARY_TREE) {
+    return new BinaryTreeMaze(game, mazeSize, mazeGridType);
+  } else {
+    throw `Invalid maze algorithm type: ${mazeAlgorithmType}`;
+  }
+}
 
 export const getTileVectorFromMazeDirectionIndex = (mazeDirIndex: MazeDirectionIndex): TileVector => {
   if (mazeDirIndex === MazeDirectionIndex.UP) {

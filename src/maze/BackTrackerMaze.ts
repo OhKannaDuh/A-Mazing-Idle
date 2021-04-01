@@ -1,5 +1,5 @@
 import Game from "managers/Game";
-import { MazeDirectionIndex, MazeGridType, MazeWallTypes } from "managers/MazeUtils";
+import { MazeAlgorithmType, MazeDirectionIndex, MazeGridType, MazeWallTypes } from "managers/MazeUtils";
 import { Maze } from "models/Maze";
 import { MazeCell } from "models/MazeCell";
 
@@ -11,7 +11,7 @@ export class BacktrackerMaze extends Maze {
   public isDone: boolean;
 
   constructor(game: Game, mazeSizeX: number, mazeGridType: MazeGridType) {
-    super(game, mazeSizeX, mazeGridType);
+    super(game, mazeSizeX, mazeGridType, MazeAlgorithmType.BACK_TRACKER);
     this.current = null;
     this.stack = [];
     this.isDone = false;

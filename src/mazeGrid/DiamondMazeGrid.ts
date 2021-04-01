@@ -95,4 +95,12 @@ export class DiamondMazeGrid extends MazeGrid {
       GridLocation.BOTTOM_MIDDLE
     ];
   }
+
+  protected getDefaultStartingLocation(): GridLocation {
+    return GridLocation.MIDDLE_LEFT;
+  }
+
+  protected getDefaultExitLocation(): GridLocation {
+    return GridLocation.MIDDLE_RIGHT;
+  }
 }

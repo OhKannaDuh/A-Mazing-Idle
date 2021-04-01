@@ -1,5 +1,5 @@
 import Game from "managers/Game";
-import { getCellNeighborDirectionIndex, getCellNeighborTileVector, getInverseTileVector, getMazeDirectionIndexFromTileVector, getRandomInteger, MazeDirectionIndex, MazeGridType, MazeWallTypes } from "managers/MazeUtils";
+import { getCellNeighborDirectionIndex, getCellNeighborTileVector, getInverseTileVector, getMazeDirectionIndexFromTileVector, getRandomInteger, MazeAlgorithmType, MazeDirectionIndex, MazeGridType, MazeWallTypes } from "managers/MazeUtils";
 import { Maze } from "models/Maze";
 import { MazeCell } from "models/MazeCell";
 import queue from "priorityjs";
@@ -15,7 +15,7 @@ export class PrimsMaze extends Maze {
   private startingY: number;
 
   constructor(game: Game, mazeSizeX: number, mazeGridType: MazeGridType) {
-    super(game, mazeSizeX, mazeGridType);
+    super(game, mazeSizeX, mazeGridType, MazeAlgorithmType.PRIMS);
     this.visitedCellSet = new Set<string>();
     this.nextToVisitSet = new Set<string>();
     

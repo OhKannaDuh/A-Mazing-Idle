@@ -13,7 +13,8 @@ import {
   isTileEqual, 
   MazeDirectionIndex, 
   MazeGridType, 
-  MazeWallTypes 
+  MazeWallTypes,
+  generateMazeGridAndAlgorithm
 } from "managers/MazeUtils";
 import { UpgradeKey } from "constants/UpgradeConstants";
 import { StatsKey } from "models/Stats";
@@ -70,8 +71,9 @@ export class MazeManager {
     const mazeSize = this.getNextMazeSize();
     //TODO: vary based on time zone
     // this.maze = new BacktrackerMaze(this.game, mazeSize, MazeGridType.RECTANGLE);
-    this.maze = new PrimsMaze(this.game, mazeSize, MazeGridType.RECTANGLE);
+    // this.maze = new PrimsMaze(this.game, mazeSize, MazeGridType.RECTANGLE);
     // this.maze = new BinaryTreeMaze(this.game, mazeSize, MazeGridType.PLUS_SIGN);
+    this.maze = generateMazeGridAndAlgorithm(this.game, mazeSize);
     this.smartPathMaze = generateMazeSmartPathingArr(this.game, this.maze);
     this.deadEndTileMap = new Map();
     this.game.items.generateMazeItems();

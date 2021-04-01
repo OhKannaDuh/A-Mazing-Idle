@@ -1,4 +1,4 @@
-import { BIOME_COLOR_PALETTE_MAP } from "constants/BiomeConstants";
+import { getBiomeColorPalette } from "constants/BiomeConstants";
 import Game from "managers/Game";
 import BiomeColorPalette from "models/BiomeColorPalette";
 
@@ -12,7 +12,7 @@ export class ColorManager {
 
   public getBiomeColorPalette(): BiomeColorPalette {
     const currentBiome = this.game.biomes.getCurrentBiomeKey();
-    return BIOME_COLOR_PALETTE_MAP.get(currentBiome);
+    return getBiomeColorPalette(currentBiome);
   }
 
   public getPlayerColor(): string {

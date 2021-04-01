@@ -1,4 +1,9 @@
-import { BIOME_BASE_POINTS_PER_VISIT_VALUE, BIOME_IMAGE_URL_MAP, BIOME_BASE_FRUIT_ITEM_PICKUP_VALUE, BiomeKey, BIOME_ITEM_UNLOCKS, BIOME_UPGRADE_UNLOCKS } from "constants/BiomeConstants";
+import { 
+  BiomeKey, 
+  BIOME_ITEM_UNLOCKS, 
+  BIOME_UPGRADE_UNLOCKS, 
+  getPointsPerVisitBaseAmount 
+} from "constants/BiomeConstants";
 import { MazeItemKey } from "constants/ItemConstants";
 import { UpgradeKey } from "constants/UpgradeConstants";
 import Game from "managers/Game";
@@ -11,15 +16,7 @@ export class BiomeManager {
   }
 
   public getBasePointsPerVisitValue(): number {
-    return BIOME_BASE_POINTS_PER_VISIT_VALUE.get(this.getCurrentBiomeKey());
-  }
-
-  public getFruitItemImageUrl(): string {
-    return BIOME_IMAGE_URL_MAP.get(this.getCurrentBiomeKey())
-  }
-
-  public getBaseFruitItemPickupValue(): number {
-    return BIOME_BASE_FRUIT_ITEM_PICKUP_VALUE.get(this.getCurrentBiomeKey());
+    return getPointsPerVisitBaseAmount(this.getCurrentBiomeKey());
   }
 
   public getCurrentBiomeKey(): BiomeKey {
@@ -30,10 +27,6 @@ export class BiomeManager {
   public getNextBiomeKey(): BiomeKey {
     const nextBiomeLevel = this.game.upgrades.getUpgradeLevel(UpgradeKey.BIOME) + 1;
     return nextBiomeLevel as BiomeKey;
-  }
-
-  public getMaxBiomeLevel(): number {
-    return Object.keys(BiomeKey).length;
   }
 
   public isMazeItemUnlocked(itemKey: MazeItemKey): boolean {

@@ -25,7 +25,7 @@ export class MazeGrid {
   public sizeY: number;
   private tileCount: number;
   public mazeGridType: MazeGridType;
-  private isRandomStartLocation: boolean = true;
+  private isRandomStartLocation: boolean = false;
 
   public internalStartTile: Tile;
   public internalExitTile: Tile;
@@ -150,7 +150,7 @@ export class MazeGrid {
     if (this.isRandomStartLocation) {
       return validStartLocations[getRandomInteger(0, validStartLocations.length - 1)];
     }
-    return validStartLocations[0];
+    return this.getDefaultStartingLocation();
   }
 
   private chooseMazeEndGridLocation(startingLocation: GridLocation): GridLocation {
@@ -161,14 +161,22 @@ export class MazeGrid {
     if (this.isRandomStartLocation) {
       return validEndLocations[getRandomInteger(0, validEndLocations.length - 1)];
     }
-    return validEndLocations[0];
+    return this.getDefaultExitLocation();
   }
   
   protected getValidStartLocations(): GridLocation[] {
-    throw `No starting locations defined for grid type: ${this.mazeGridType}.`;
+    throw `No start location defined for grid type: ${this.mazeGridType}.`;
   }
 
   protected getValidExitLocations(): GridLocation[] {
-    throw `No ending locations defined for grid type: ${this.mazeGridType}`;
+    throw `No exit location defined for grid type: ${this.mazeGridType}`;
+  }
+
+  protected getDefaultStartingLocation(): GridLocation {
+    throw `No default starat location defined for grid type: ${this.mazeGridType}`;
+  }
+
+  protected getDefaultExitLocation(): GridLocation {
+    throw `No default exit location defined for grid type: ${this.mazeGridType}`;
   }
 }

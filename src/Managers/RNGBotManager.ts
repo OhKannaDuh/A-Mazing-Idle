@@ -33,6 +33,8 @@ export class RNGBotManager {
     clearInterval(this.rngBotGlobalInterval);
     
     this.rngBotGlobalInterval = setInterval(() => {
+      if (!this.game.upgrades.isUpgraded(UpgradeKey.AUTO_MOVE)) return;
+      
       // Move each player.
       this.game.players.getPlayerIdList().forEach((playerId: number) => {
         const player = this.game.players.getPlayer(playerId);
