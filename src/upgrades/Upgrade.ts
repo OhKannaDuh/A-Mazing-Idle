@@ -48,7 +48,7 @@ class Upgrade {
   
   public setUiText(text: string): void {
     $(`#${this.uiId}`).attr('title', this.tooptipText);
-    $(`#${this.uiId}`).text(text);
+    $(`#${this.uiId}`).html(`<div class='button_label'>${text}</div>`);
   }
 
   public updateVisibility(): void {
