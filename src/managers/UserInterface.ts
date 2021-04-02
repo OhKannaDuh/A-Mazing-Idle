@@ -135,4 +135,8 @@ export class UserInterface {
       $(`#offlineModal`).css("display", "none");
     });
   }
+
+  public static setIdVisible(uid: string, setVisible: boolean = true): void {
+    $(`#${uid}`).css("display", setVisible ? "block" : "none");
+  }
 }

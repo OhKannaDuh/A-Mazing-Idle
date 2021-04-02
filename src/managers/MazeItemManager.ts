@@ -1,11 +1,9 @@
 import { MazeItemKey } from "constants/ItemConstants";
-import { UpgradeKey } from "constants/UpgradeConstants";
 import Game from "managers/Game";
 import UnlimitedSplitsItem from "items/definitions/UnlimitedSplitsItem";
 import BlackHoleMazeItem from "items/definitions/BlackHoleMazeItem";
 import BrainMazeItem from "items/definitions/BrainMazeItem";
 import FruitMazeItem from "items/definitions/FruitMazeItem";
-import MultiplierMazeItem from "items/definitions/MultiplierMazeItem";
 import GhostMazeItem from "items/definitions/GhostMazeItem";
 import MazeItem from "items/MazeItem";
 import { Tile } from "managers/MazeManager";
@@ -72,8 +70,6 @@ export class MazeItemManager {
       mazeItem = new FruitMazeItem(this.game, tile, mazeItemKey);
     } else if (mazeItemKey === MazeItemKey.BRAIN) {
       mazeItem = new BrainMazeItem(this.game, tile, mazeItemKey);
-    } else if (mazeItemKey === MazeItemKey.MULTIPLIER) {
-      mazeItem = new MultiplierMazeItem(this.game, tile, mazeItemKey);
     } else if (mazeItemKey === MazeItemKey.BLACK_HOLE) {
       mazeItem = new BlackHoleMazeItem(this.game, tile, mazeItemKey);
     } else if (mazeItemKey === MazeItemKey.UNLIMITED_SPLITS) {

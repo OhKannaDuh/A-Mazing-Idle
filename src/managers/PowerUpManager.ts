@@ -1,8 +1,5 @@
-
 import { PowerUpKey } from "constants/PowerUpConstants";
-import { UpgradeKey } from "constants/UpgradeConstants";
 import Game from "managers/Game";
-import Player from "models/Player";
 import { PowerUp } from "models/PowerUp";
 import { PointsMultiplierPowerUp } from "powerUps/PointsMultiplierPowerUp"
 import { SpeedUpPowerUp } from "powerUps/SpeedUpPowerUp";
@@ -53,6 +50,24 @@ export class PowerUpManager {
       console.error('Failed to create maze item of type.  No valid type: ' + powerUpKey);
       return;
     }
+  }
+
+  public getPowerUpActivateDuration(powerUpKey: PowerUpKey): number {
+    if (powerUpKey === PowerUpKey.POINTS_MULTIPLIER) {
+      return PointsMultiplierPowerUp.getActivateDuration(this.game);
+    } else if (powerUpKey === PowerUpKey.SPEED_UP) {
+      return SpeedUpPowerUp.getActivateDuration(this.game);
+    }
+    console.error('Invalid power up key for activate duration.')
+  }
+  
+  public getPowerUpCooldownDuration(powerUpKey: PowerUpKey): number {
+    if (powerUpKey === PowerUpKey.POINTS_MULTIPLIER) {
+      return PointsMultiplierPowerUp.getCooldownTimerDuration();
+    } else if (powerUpKey === PowerUpKey.SPEED_UP) {
+      return SpeedUpPowerUp.getCooldownTimerDuration(this.game);
+    }
+    console.error('Invalid power up key for cooldown duration.')
   }
   
   public getPowerUp(powerUpKey: PowerUpKey): PowerUp {

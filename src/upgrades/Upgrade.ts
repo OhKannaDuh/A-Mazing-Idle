@@ -1,7 +1,7 @@
 import { IS_FREE_MODE_ENABLED } from 'dev/devUtils';
 import Game from 'managers/Game';
 import { UserInterface } from 'managers/UserInterface';
-import { UpgradeKey } from 'constants/UpgradeConstants';
+import { UpgradeKey, UpgradeType } from 'constants/UpgradeConstants';
 declare var $: any;
 
 
@@ -12,10 +12,12 @@ class Upgrade {
   public tooptipText: string;
   public upgradeLevel: number;
   public isSinglePurchase: boolean = false;
+  public upgradeType: UpgradeType;
 
-  public constructor(game: Game, uiId: string, tooltipText = '', upgradeKey: UpgradeKey, 
+  public constructor(game: Game, upgradeType: UpgradeType, uiId: string, tooltipText = '', upgradeKey: UpgradeKey, 
       upgradeCount: number = 0, isSinglePurchase: boolean = false) {
     this.game = game;
+    this.upgradeType = upgradeType;
     this.upgradeKey = upgradeKey;
     this.uiId = uiId;
     this.tooptipText = tooltipText;

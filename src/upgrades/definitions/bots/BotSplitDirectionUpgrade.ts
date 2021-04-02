@@ -1,6 +1,6 @@
 import Game from "managers/Game";
 import Upgrade from "upgrades/Upgrade";
-import { SPLIT_DIRECTION_UPGRADE_BASE_COST, SPLIT_DIRECTION_UPGRADE_BASE_MULTIPLIER, UpgradeKey } from "constants/UpgradeConstants";
+import { SPLIT_DIRECTION_UPGRADE_BASE_COST, SPLIT_DIRECTION_UPGRADE_BASE_MULTIPLIER, UpgradeKey, UpgradeType } from "constants/UpgradeConstants";
 
 const BUTTON_UI_ID = 'buyBotSplitDirections';
 const TOOLTIP_TEXT = 'Bots will split into two different bots when different pathways are available to it up to X total times.';
@@ -8,7 +8,7 @@ const TOOLTIP_TEXT = 'Bots will split into two different bots when different pat
 export class BotSplitDirectionUpgrade extends Upgrade {
   
   constructor(game: Game, upgradeKey: UpgradeKey, upgradeLevel: number = 0) {
-    super(game, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel);
+    super(game, UpgradeType.BOT, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel);
   }
   
   updateUiProperties(): void {

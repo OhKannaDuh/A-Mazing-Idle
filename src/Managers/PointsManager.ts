@@ -1,9 +1,10 @@
 import { UpgradeKey, POINTS_PER_VISIT_BASE_AMOUNT_MULTIPLIER, TILE_REVISIT_BASE_MULTIPLIER, TILE_REVISIT_BASE_MULTIPLIER_INCREASE_PERCENT, MAZE_COMPLETION_BONUS_BASE_MULTIPLIER } from "constants/UpgradeConstants";
 import Game from "managers/Game";
-import MultiplierMazeItem from "items/definitions/MultiplierMazeItem";
 import { Serializable } from "models/Serializable";
 import { StatsKey } from "models/Stats";
 import { PointsHistoryTracker } from "models/PointsHistoryTracker";
+import { PowerUpKey } from "constants/PowerUpConstants";
+import { PointsMultiplierStrengthUpgrade } from "upgrades/definitions/powerUps/PointsMultiplierStrengthUpgrade";
 
 const SERIALIZABLE_PROPERTIES: string[] = ['points'];
 
@@ -23,15 +24,12 @@ export class Points extends Serializable {
     this.pointsHistoryTracker = new PointsHistoryTracker(this.game, StatsKey.AVERAGE_POINTS_EARNED_PER_SECOND);
   }
   
-  public addPoints(baseValue: number, playerId: number = null, statsKeyList: StatsKey[] = null): void {
-    const multiplier = this.getPointMultplier(playerId);
-    const pointsEarned = baseValue * multiplier;
-    
+  public addPoints(pointsEarned: number, playerId: number = null, statsKeyList: StatsKey[] = null): void {
     this.points += pointsEarned;
     
     this.game.stats.addStatsToKeyList(pointsEarned, statsKeyList);
     this.game.stats.addStatsToKey(pointsEarned, StatsKey.TOTAL_POINTS_EARNED);
-    this.game.stats.addStatsToKey((pointsEarned - baseValue), StatsKey.TOTAL_POINTS_EARNED_FROM_MULTIPLIER_ITEM);
+    this.game.stats.addStatsToKey((pointsEarned - pointsEarned), StatsKey.TOTAL_POINTS_EARNED_FROM_MULTIPLIER_ITEM);
     this.game.points.pointsHistoryTracker.addNumber(pointsEarned);
     this.game.upgrades.updateAllUpgradeUi();
     
@@ -45,13 +43,10 @@ export class Points extends Serializable {
     this.game.upgrades.updateAllUpgradeUi();
   }
 
-  private getPointMultplier(playerId: number) {
-    if (!this.game.players.playerExists(playerId)) {
-      return BASE_POINT_MULTPLIER;
-    }
-    const pointMultplier = MultiplierMazeItem.getMazeItemMultiplierStrength(this.game);
+  private getPointMultplier() {
+    const pointMultplier = PointsMultiplierStrengthUpgrade.getPointsMultiplierStrength(this.game);
     
-    return this.game.players.getPlayer(playerId).isMultiplierPowerUpActive()
+    return this.game.powerUps.isPowerUpActive(PowerUpKey.POINTS_MULTIPLIER)
       ? pointMultplier
       : BASE_POINT_MULTPLIER;
   }
@@ -63,7 +58,7 @@ export class Points extends Serializable {
     if (isVisitedAlready) {
       pointsPerTile *= this.getPointsPerRevisitMultiplier();
     }
-    return pointsPerTile;
+    return pointsPerTile * this.getPointMultplier();
   }
 
   private getPointsPerRevisitMultiplier() {

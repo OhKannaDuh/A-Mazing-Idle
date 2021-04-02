@@ -1,12 +1,14 @@
 import Game from "managers/Game";
 import { PowerUpKey, POWER_UP_TO_UI_KEY_MAP } from "constants/PowerUpConstants";
 import { UserInterface } from "managers/UserInterface";
+import { StatsKey } from "./Stats";
 
 const UI_UPDATE_INTERVAL = 100;
 
 export class PowerUp {
   protected game: Game;
   private powerUpKey: PowerUpKey;
+  private activateStatsKey: StatsKey;
   private _isPowerUpActive: boolean;
   private _isPowerUpOnCoolDown: boolean;
   private activateTimer: any; 
@@ -15,19 +17,20 @@ export class PowerUp {
   private cooldownDurationCounterMs: number;
   private uiUpdateTimer: any;
 
-  constructor(game: Game, powerUpKey: PowerUpKey) {
+  constructor(game: Game, powerUpKey: PowerUpKey, activateStatsKey: StatsKey) {
     this.game = game;
     this.powerUpKey = powerUpKey;
+    this.activateStatsKey = activateStatsKey;
     this.resetAllTimers();
     this.initClick();
   }
 
-  protected getCooldownTimerDuration(): number {
-    throw `No duration set for powerup ${this.powerUpKey}`;
+  public static getCooldownTimerDuration(game: Game): number {
+    throw `No duration set for powerup.`;
   }
 
-  protected getActivateDuration(): number {
-    throw `No duration set for powerup ${this.powerUpKey}`;
+  public static getActivateDuration(game: Game): number {
+    throw `No duration set for powerup.`;
   }
   
   protected getUiStringName(): string {
@@ -62,11 +65,11 @@ export class PowerUp {
   }
 
   private getCooldownTimeLeft(): number {
-    return this.getCooldownTimerDuration() - this.cooldownDurationCounterMs;
+    return this.game.powerUps.getPowerUpCooldownDuration(this.powerUpKey) - this.cooldownDurationCounterMs;
   }
   
   private getActivateTimeLeft(): number {
-    return this.getActivateDuration() - this.activateDurationCounterMs;
+    return this.game.powerUps.getPowerUpActivateDuration(this.powerUpKey) - this.activateDurationCounterMs;
   }
 
   private resetAllTimers(updateUiAfter: boolean = false): void {
@@ -108,7 +111,7 @@ export class PowerUp {
     this.activateTimer = setTimeout(() => {
       this._isPowerUpActive = false;
       this.activateCooldownTimer();
-    }, this.getActivateDuration());
+    }, this.game.powerUps.getPowerUpActivateDuration(this.powerUpKey));
   }
 
   private activateCooldownTimer(): void {
@@ -123,13 +126,14 @@ export class PowerUp {
       this._isPowerUpOnCoolDown = false;
       this.resetAllTimers();
       this.updateUi();
-    }, this.getCooldownTimerDuration());
+    }, this.game.powerUps.getPowerUpCooldownDuration(this.powerUpKey));
   }
 
   private activateUiTimer(): void {
     if (this.uiUpdateTimer) {
       return;
     }
+    this.game.stats.addStatsToKey(1, this.activateStatsKey);
     this.updateUi();
 
     this.uiUpdateTimer = setInterval(() => {
