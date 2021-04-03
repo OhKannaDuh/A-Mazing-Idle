@@ -1,11 +1,11 @@
-import { IS_FREE_MODE_ENABLED } from 'dev/devUtils';
+import { DEBUG_ALL_BUTTONS_VISIBLE, IS_FREE_MODE_ENABLED } from 'dev/devUtils';
 import Game from 'managers/Game';
 import { UserInterface } from 'managers/UserInterface';
 import { UpgradeKey, UpgradeType } from 'constants/UpgradeConstants';
 declare var $: any;
 
 const TOOLTIP_UI_ID_SUFFIX = "Tooltip";
-const TOOLTIP_UI_SPAN_CLASS_NAME = "tooltip";
+const BUTTON_TEXT_UI_ID_SUFFIX = "Text";
 
 class Upgrade {
   public game: Game;
@@ -15,6 +15,7 @@ class Upgrade {
   public upgradeLevel: number;
   public isSinglePurchase: boolean = false;
   public upgradeType: UpgradeType;
+  private currentUiTextDeduper: string;
 
   public constructor(game: Game, upgradeType: UpgradeType, uiId: string, tooltipText = '', upgradeKey: UpgradeKey, 
       upgradeCount: number = 0, isSinglePurchase: boolean = false) {
@@ -25,8 +26,10 @@ class Upgrade {
     this.tooltipText = tooltipText;
     this.upgradeLevel = upgradeCount;
     this.isSinglePurchase = isSinglePurchase;
+    this.currentUiTextDeduper = null;
     
     this.initClickEvent();
+    this.initUiButton();
   }
 
   public buyUpgrade = () => {
@@ -51,12 +54,23 @@ class Upgrade {
   }
   
   public setUiText(text: string): void {
+    // De-dupe UI text updates
+    if (text === this.currentUiTextDeduper) return;
+    this.currentUiTextDeduper = text;
+    $(`#${this.uiId + BUTTON_TEXT_UI_ID_SUFFIX}`).text(text);
+  }
+
+  private initUiButton(): void {
     // Inject a button text + the span to be used as a tooltip
-    $(`#${this.uiId}`).html(`<div class='button_label'>${text}</div><span id='${this.uiId + TOOLTIP_UI_ID_SUFFIX}' class='tooltip'>${this.tooltipText}</span>`);
+    const buttonTextId = this.uiId + BUTTON_TEXT_UI_ID_SUFFIX;
+    const tooltipId = this.uiId + TOOLTIP_UI_ID_SUFFIX;
+    const tooltipHtml = `<span id='${tooltipId}' class='tooltip'>${this.tooltipText}</span>`;
+    const textHtml = `<div id='${buttonTextId}' class='button_label'></div>`;
+    $(`#${this.uiId}`).html(`${textHtml}${tooltipHtml}`);
   }
 
   public updateVisibility(): void {
-    UserInterface.setIdVisible(this.uiId, this.isUnlocked() && !this.isMaxUpgradeLevel());
+    UserInterface.setIdVisible(this.uiId, this.isUnlocked() && !this.isMaxUpgradeLevel() || DEBUG_ALL_BUTTONS_VISIBLE);
   }
 
   public updateUiDisabled(): void {

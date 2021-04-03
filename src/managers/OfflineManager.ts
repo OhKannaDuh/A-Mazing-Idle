@@ -1,7 +1,7 @@
 import { Serializable } from "models/Serializable";
 import { StatsKey } from "models/Stats";
 import Game from "./Game";
-import { UserInterface } from "./UserInterface";
+import { ModalType, UserInterface } from "./UserInterface";
 
 const SERIALIZABLE_PROPERTIES: string[] = ['saveTimeStamp', 'offlinePointsPerSecond'];
 const MAX_OFFLINE_TIME_IN_MS: number = (3 * 60 * 60 * 1000);
@@ -21,7 +21,7 @@ export class OfflineManager extends Serializable {
     const offlinePointsEarned = this.calculateOfflinePoints();
     this.game.points.addPoints(offlinePointsEarned);
     if (this.shouldShowOfflineModal()) {
-      this.game.ui.showOfflineModal();
+      this.game.ui.showModalByType(ModalType.OFFLINE_SCORE_MODAL);
     }
   }
 

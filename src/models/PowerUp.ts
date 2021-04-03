@@ -2,6 +2,7 @@ import Game from "managers/Game";
 import { PowerUpKey, POWER_UP_TO_UI_KEY_MAP } from "constants/PowerUpConstants";
 import { UserInterface } from "managers/UserInterface";
 import { StatsKey } from "./Stats";
+import { DEBUG_ALL_BUTTONS_VISIBLE } from "dev/devUtils";
 
 const UI_UPDATE_INTERVAL = 100;
 
@@ -39,7 +40,6 @@ export class PowerUp {
 
   public isPowerUpActiveOnPlayerId(playerId: number): boolean {
     return this.isPowerUpActive();
-    // return this.activePlayerIdSet.has(playerId);
   }
 
   public getUiStatusString(): string {
@@ -57,7 +57,7 @@ export class PowerUp {
   }
 
   private getUiHtml(): string {
-    return `<div class="text">${this.getUiStringName()}<br>${this.getUiStatusString()}</div>`;
+    return `<div class="button_label text">${this.getUiStringName()}<br>${this.getUiStatusString()}</div>`;
   }
 
   private formatDisplayString(duration: number): string {
@@ -151,7 +151,7 @@ export class PowerUp {
   }
 
   private isButtonVisible(): boolean {
-    return this.game.powerUps.isPowerUpUnlocked(this.powerUpKey);
+    return this.game.powerUps.isPowerUpUnlocked(this.powerUpKey) || DEBUG_ALL_BUTTONS_VISIBLE;
   }
 
   private getUiElement(): any {
@@ -163,7 +163,6 @@ export class PowerUp {
   }
 
   public updateUi(): void {
-    // this.getUiElement().text(this.getUiStatusString());
     this.getUiElement().html(this.getUiHtml());
     this.getUiElement().prop('disabled', this.isButtonDisabled());
     this.getUiElement().css('display', this.isButtonVisible() ? 'block' : 'none')

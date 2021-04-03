@@ -56,7 +56,6 @@ class Game extends Serializable {
     
     this.upgrades.initUpgrades();
     this.upgrades.updateAllUpgradeUi();
-    this.ui.setDebugPanelVisible(this.isDevMode);
     this.ui.init();
     this.stats.initStatsMap();
   }

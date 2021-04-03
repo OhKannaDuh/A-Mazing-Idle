@@ -58,7 +58,7 @@ export class PowerUpManager {
     } else if (powerUpKey === PowerUpKey.SPEED_UP) {
       return SpeedUpPowerUp.getActivateDuration(this.game);
     }
-    console.error('Invalid power up key for activate duration.')
+    console.error('Invalid power up key for activate duration.');
   }
   
   public getPowerUpCooldownDuration(powerUpKey: PowerUpKey): number {
@@ -67,7 +67,7 @@ export class PowerUpManager {
     } else if (powerUpKey === PowerUpKey.SPEED_UP) {
       return SpeedUpPowerUp.getCooldownTimerDuration(this.game);
     }
-    console.error('Invalid power up key for cooldown duration.')
+    console.error('Invalid power up key for cooldown duration.');
   }
   
   public getPowerUp(powerUpKey: PowerUpKey): PowerUp {

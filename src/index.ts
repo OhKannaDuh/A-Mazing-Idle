@@ -14,6 +14,7 @@ const E_KEY = 69;
 const Q_KEY = 81;
 const ONE_KEY = 49;
 const TWO_KEY = 50;
+const ESCAPE_KEY = 27;
 
 $(document).ready(() => {
   if (IS_DEV_MODE_ENABLED && !DEV_MODE_AUTOSTART) return;
@@ -70,6 +71,9 @@ $(document).ready(() => {
     else if (event.keyCode === TWO_KEY) {
       game.powerUps.activatePowerUp(PowerUpKey.POINTS_MULTIPLIER);
       event.preventDefault();
+    }
+    else if (event.keyCode === ESCAPE_KEY) {
+      game.ui.closeAllModals();
     }
   });
 });

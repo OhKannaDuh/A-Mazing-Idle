@@ -19,6 +19,6 @@ export class PointsMultiplierPowerUp extends PowerUp {
   }
 
   protected getUiStringName(): string {
-    return 'Points Multiplier';
+    return 'Points Multiplier (2)';
   }
 }

@@ -10,6 +10,13 @@ import { StatsKey, STATS_TO_UI_ID_MAP } from "models/Stats";
 declare var $: any;
 
 const FINISH_LINE_ICON = "img/finishLine.png";
+const MAZE_BORDER_WIDTH = "4px";
+
+export enum ModalType {
+  STATS_MODAL = "STATS_MODAL",
+  SETTINGS_MODAL = "SETTINGS_MODAL",
+  OFFLINE_SCORE_MODAL = "OFFLINE_SCORE_MODAL",
+}
 
 export class UserInterface {
   private game: Game;
@@ -35,17 +42,12 @@ export class UserInterface {
     $(`#deleteSaveGame`).click(() => this.game.save.clearLocalStorage());
     $(`#newGame`).click(() => this.game.hardResetGame());
     $(`#clearAllStats`).click(() => this.game.stats.initStatsMap());
-    $(`#stats`).click(() => this.showStatsModal());
-  }
-
-  public setDebugPanelVisible(isVisible): void {
-    $("#debug").css("display", isVisible ? "block" : "none");
+    $(`#statsButton`).click((e) => this.showModalByType(ModalType.STATS_MODAL, true, e));
+    $(`#settingsButton`).click((e) => this.showModalByType(ModalType.SETTINGS_MODAL, true, e));
   }
 
   public setPointsText(): void {
-    $("#points").text(
-      `Points: ${UserInterface.getPrettyPrintNumber(this.game.points.points)}`
-    );
+    $("#points").text(`Points: ${UserInterface.getPrettyPrintNumber(this.game.points.points)}`);
   }
 
   public printMazeV2(maze: Maze): void {
@@ -64,7 +66,6 @@ export class UserInterface {
         // Draw item if present
         this.game.items.drawItem({ x: x, y: y });
       }
-
       $("#maze > tbody").append("</tr>");
     }
 
@@ -72,38 +73,23 @@ export class UserInterface {
   }
 
   public setTileCssV2(maze: Maze, tile: Tile): void {
-    let cssSelector = generateTileKey(tile.x, tile.y);
-    $(`#${cssSelector}`).css(
-      "border-top",
-      this.getMazeBorderCss(maze.getCellWallType(tile, MazeDirectionIndex.UP))
-    );
-    $(`#${cssSelector}`).css(
-      "border-right",
-      this.getMazeBorderCss(
-        maze.getCellWallType(tile, MazeDirectionIndex.RIGHT)
-      )
-    );
-    $(`#${cssSelector}`).css(
-      "border-bottom",
-      this.getMazeBorderCss(maze.getCellWallType(tile, MazeDirectionIndex.DOWN))
-    );
-    $(`#${cssSelector}`).css(
-      "border-left",
-      this.getMazeBorderCss(maze.getCellWallType(tile, MazeDirectionIndex.LEFT))
-    );
+    const cssSelector = generateTileKey(tile.x, tile.y);
+    $(`#${cssSelector}`).css("border-top", this.getMazeBorderCss(maze.getCellWallType(tile, MazeDirectionIndex.UP)));
+    $(`#${cssSelector}`).css("border-right", this.getMazeBorderCss(maze.getCellWallType(tile, MazeDirectionIndex.RIGHT)));
+    $(`#${cssSelector}`).css("border-bottom", this.getMazeBorderCss(maze.getCellWallType(tile, MazeDirectionIndex.DOWN)));
+    $(`#${cssSelector}`).css("border-left", this.getMazeBorderCss(maze.getCellWallType(tile, MazeDirectionIndex.LEFT)));
   }
 
   private getMazeBorderCss(val: MazeWallTypes): string {
     const borderColor = this.game.colors.getMazeWallColor();
     if (val === MazeWallTypes.WALL) {
-      return `4px solid ${borderColor}`;
+      return `${MAZE_BORDER_WIDTH} solid ${borderColor}`;
     } else if (val === MazeWallTypes.DESTRUCTIBLE_WALL) {
-      return `4px dotted ${borderColor}`;
+      return `${MAZE_BORDER_WIDTH} dotted ${borderColor}`;
     } else if (val === MazeWallTypes.OUT_OF_BOUNDS_WALL || val == null) {
-      return;
+      return ``;
     } else {
-      //TODO: make this occupy space still
-      return "hidden";
+      return `${MAZE_BORDER_WIDTH} solid transparent`;
     }
   }
 
@@ -137,10 +123,7 @@ export class UserInterface {
     }
   }
 
-  public static getPrettyPrintNumber(
-    num: number,
-    decimalLength: number = 0
-  ): string {
+  public static getPrettyPrintNumber(num: number, decimalLength: number = 0): string {
     if (!num) return "0";
     return parseFloat(num.toFixed(decimalLength)).toLocaleString();
   }
@@ -152,27 +135,47 @@ export class UserInterface {
     $(`#${tileKey}`).css("background-position", `center`);
     $(`#${tileKey}`).css("background-size", "20px");
     $(`#${tileKey}`).css("background-color", "white");
-    $(`#${tileKey}`).css(
-      "border-bottom",
-      `3px solid ${this.game.colors.getMazeWallColor()}`
-    );
-  }
-
-  public showOfflineModal(): void {
-    $(`#offlineModal`).css("display", "block");
-    $(`#offlineModalCloseBtn`).click(() => {
-      $(`#offlineModal`).css("display", "none");
-    });
+    $(`#${tileKey}`).css("border-bottom", `3px solid ${this.game.colors.getMazeWallColor()}`);
   }
 
   public static setIdVisible(uid: string, setVisible: boolean = true): void {
     $(`#${uid}`).css("display", setVisible ? "block" : "none");
   }
 
-  public showStatsModal(): void {
-    $(`#statsModal`).css("display", "block");
-    $(`#statsModalCloseBtn`).click(() => {
-      $(`#statsModal`).css("display", "none");
+  public showModalByType(modalType: ModalType, setVisible: boolean = true, clickEvent: any = null): void {
+    if (clickEvent) clickEvent.stopPropagation();
+    
+    if (modalType === ModalType.SETTINGS_MODAL) {
+      this.showModalVisibleById("settingsModal", setVisible);
+    } else if (modalType === ModalType.OFFLINE_SCORE_MODAL) {
+      this.showModalVisibleById("offlineModal", setVisible);
+    } else if (modalType === ModalType.STATS_MODAL) {
+      this.showModalVisibleById("statsModal", setVisible);
+    }
+  }
+
+  private showModalVisibleById(modalId: string, setVisible: boolean = true): void {
+    UserInterface.setIdVisible(modalId, setVisible);
+
+    if (!setVisible) return;
+
+    console.log('global click bound');
+    // Close dialog when clicked away from
+    $(document).click((e) => {
+      if ($(e.target).closest(`#${modalId}`).length === 0) {
+        UserInterface.setIdVisible(modalId, false);
+        $(document).unbind("click");
+      }
     });
+  }
+
+  private globalModalClickEvent(): void {
+   
+  }
+
+  public closeAllModals(): void {
+    for (const modalType in ModalType) {
+      this.showModalByType(modalType as ModalType, false);
+    }
   }
 }

@@ -8,7 +8,7 @@ export enum MazeItemKey {
   GHOST = "GHOST"
 }
 
-export const BANANA_IMAGE_URL = 'img/banana.png'
+export const BANANA_IMAGE_URL = 'img/banana2.png'
 export const APPLE_IMAGE_URL = 'img/apple.png'
 export const ORANGE_IMAGE_URL = 'img/orange.png'
 export const GRAPES_IMAGE_URL = 'img/grapes.png'

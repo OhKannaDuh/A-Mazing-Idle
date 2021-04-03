@@ -19,6 +19,6 @@ export class SpeedUpPowerUp extends PowerUp {
   }
 
   protected getUiStringName(): string {
-    return 'Speed Up Powerup';
+    return 'Speed Up (1)';
   }
 }

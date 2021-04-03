@@ -28,6 +28,7 @@ import Game from "managers/Game";
 import { UpgradeKey, UpgradeType, UPGRADE_TYPE_TO_UI_KEY_MAP } from "constants/UpgradeConstants"
 import { Serializable } from "models/Serializable";
 import { UserInterface } from "managers/UserInterface";
+import { DEBUG_ALL_BUTTONS_VISIBLE } from "dev/devUtils";
 
 const UPGRADE_MAP_PROPERTY_KEY = 'upgradeMap';
 const SERIALIZABLE_PROPERTIES = [UPGRADE_MAP_PROPERTY_KEY];
@@ -160,7 +161,7 @@ export class UpgradeManager extends Serializable {
       const isUpgradeAvailable = this.isUpgradeAvailableForUpgradeType(upgradeType as UpgradeType);
       const uiKey = UPGRADE_TYPE_TO_UI_KEY_MAP.get(upgradeType as UpgradeType);
       if (uiKey) {
-        UserInterface.setIdVisible(uiKey, isUpgradeAvailable);
+        UserInterface.setIdVisible(uiKey, isUpgradeAvailable || DEBUG_ALL_BUTTONS_VISIBLE);
       }
     }
   }

@@ -3,6 +3,10 @@ Bug fixes:
 --> Destructible walls move the maze a pixel or two
 --> (-) Remove headings when all upgrades done.
 
+UI Fixes:
+--> Layout for upgrade buttons
+--> General settings + settings manager?
+
 Features:
 --> (*) Debounce speed of manual movement
 --> (*) Splitting from manual movement
