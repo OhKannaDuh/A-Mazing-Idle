@@ -5,6 +5,7 @@ import { UserInterface } from "./UserInterface";
 
 const SERIALIZABLE_PROPERTIES: string[] = ['saveTimeStamp', 'offlinePointsPerSecond'];
 const MAX_OFFLINE_TIME_IN_MS: number = (3 * 60 * 60 * 1000);
+const MIN_TIME_FOR_BANNER_MS: number = (30000);
 
 export class OfflineManager extends Serializable {
   private game: Game;
@@ -19,7 +20,14 @@ export class OfflineManager extends Serializable {
   public processOfflinePoints(): void {
     const offlinePointsEarned = this.calculateOfflinePoints();
     this.game.points.addPoints(offlinePointsEarned);
-    this.game.ui.showOfflineModal();
+    if (this.shouldShowOfflineModal()) {
+      this.game.ui.showOfflineModal();
+    }
+  }
+
+  private shouldShowOfflineModal() {
+    const offlineTimeDiffInMs = this.getUTCTimeStampInMs() - this.saveTimeStamp;
+    return offlineTimeDiffInMs > MIN_TIME_FOR_BANNER_MS;
   }
 
   private calculateOfflinePoints(): number {

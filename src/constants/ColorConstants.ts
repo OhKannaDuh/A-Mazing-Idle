@@ -2,13 +2,13 @@ import BiomeColorPalette from "models/BiomeColorPalette";
 
 
 export const DEFAULT_PLAYER_COLOR = '#1EC438';
-export const DEFAULT_RNG_BOT_COLOR = 'black';
+export const DEFAULT_RNG_BOT_COLOR = '#0f7ebc';
 export const DEFAULT_EMPTY_COLOR = 'white';
 export const DEFAULT_DEAD_END_COLOR = '#F13241';
 export const DEFAULT_MULTIPLIER_ITEM_PLAYER_COLOR = '#E3E95C';
 export const DEFAULT_SMART_PATHING_PLAYER_COLOR = '#DBAED8';
-export const DEFAULT_VISITED_TILE_COLOR = '#7CFCFF';
-export const DEFAULT_MAZE_WALL_COLOR = 'white';
+export const DEFAULT_VISITED_TILE_COLOR = '#021aee';
+export const DEFAULT_MAZE_WALL_COLOR = '#438f19';
 export const DEFAULT_UNLIMITED_SPLIT_BOT_PLAYER_COLOR = '#3E9BC7'
 
 

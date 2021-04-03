@@ -4,12 +4,14 @@ import { UserInterface } from 'managers/UserInterface';
 import { UpgradeKey, UpgradeType } from 'constants/UpgradeConstants';
 declare var $: any;
 
+const TOOLTIP_UI_ID_SUFFIX = "Tooltip";
+const TOOLTIP_UI_SPAN_CLASS_NAME = "tooltip";
 
 class Upgrade {
   public game: Game;
   public upgradeKey: UpgradeKey;
   public uiId: string;
-  public tooptipText: string;
+  public tooltipText: string;
   public upgradeLevel: number;
   public isSinglePurchase: boolean = false;
   public upgradeType: UpgradeType;
@@ -20,7 +22,7 @@ class Upgrade {
     this.upgradeType = upgradeType;
     this.upgradeKey = upgradeKey;
     this.uiId = uiId;
-    this.tooptipText = tooltipText;
+    this.tooltipText = tooltipText;
     this.upgradeLevel = upgradeCount;
     this.isSinglePurchase = isSinglePurchase;
     
@@ -49,12 +51,12 @@ class Upgrade {
   }
   
   public setUiText(text: string): void {
-    $(`#${this.uiId}`).attr('title', this.tooptipText);
-    $(`#${this.uiId}`).html(`<div class='button_label'>${text}</div>`);
+    // Inject a button text + the span to be used as a tooltip
+    $(`#${this.uiId}`).html(`<div class='button_label'>${text}</div><span id='${this.uiId + TOOLTIP_UI_ID_SUFFIX}' class='tooltip'>${this.tooltipText}</span>`);
   }
 
   public updateVisibility(): void {
-    $(`#${this.uiId}`).css('display',  (this.isUnlocked() && !this.isMaxUpgradeLevel()) ? 'block' : 'none');
+    UserInterface.setIdVisible(this.uiId, this.isUnlocked() && !this.isMaxUpgradeLevel());
   }
 
   public updateUiDisabled(): void {

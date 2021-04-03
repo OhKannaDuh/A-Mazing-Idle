@@ -4,7 +4,6 @@ Bug fixes:
 --> (-) Remove headings when all upgrades done.
 
 Features:
---> Upgrade sections hide when no upgrades left
 --> (*) Debounce speed of manual movement
 --> (*) Splitting from manual movement
 --> Allow option for splits on visited tiles

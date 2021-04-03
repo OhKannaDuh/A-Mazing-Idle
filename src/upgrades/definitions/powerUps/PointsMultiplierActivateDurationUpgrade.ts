@@ -14,7 +14,7 @@ export class PointsMultiplierActivateDurationUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    this.setUiText(`Points Multiplier Activate Duration (${PointsMultiplierPowerUp.getActivateDuration(this.game)/1000}): ${this.getPrettyPrintCost()} pts`);
+    this.setUiText(`Points Multiplier Activate Duration (${PointsMultiplierPowerUp.getActivateDuration(this.game)/1000}s): ${this.getPrettyPrintCost()} pts`);
   }
 
   getCost(): number {

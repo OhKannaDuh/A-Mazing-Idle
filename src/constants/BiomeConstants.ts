@@ -72,25 +72,28 @@ export const BIOME_UPGRADE_UNLOCKS: Map<UpgradeKey, BiomeKey> = new Map([
   [UpgradeKey.BIOME, 0],
   [UpgradeKey.AUTO_MOVE, 1],
   [UpgradeKey.POINTS_PER_VISIT, 1],
-  [UpgradeKey.BOT_MOVEMENT_SPEED, 1],
+  [UpgradeKey.BOT_MOVEMENT_SPEED, 1],   //TODO: set pre-req's for this
   [UpgradeKey.AVOID_REVISIT_LAST_POSITION, 2],
   [UpgradeKey.PRIORITIZE_UNVISITED, 2],
   [UpgradeKey.MAZE_SIZE_UPGRADE, 2],
   [UpgradeKey.MAZE_COMPLETION_BONUS, 3],
+  [UpgradeKey.AUTO_EXIT_MAZE, 4],
   [UpgradeKey.PLAYER_MOVE_INDEPENDENTLY, 4],
-  [UpgradeKey.FRUIT_PICKUP_POINTS, 4],
-  [UpgradeKey.TELEPORT_BOT_BACK_TO_PLAYER, 5],
-  [UpgradeKey.TELEPORT_PLAYER_BACK_TO_BOT, 5],
   [UpgradeKey.FRUIT_SPAWN, 5],
+  [UpgradeKey.TELEPORT_BOT_BACK_TO_PLAYER, 5],  //TODO: set pre-req's for this
+  [UpgradeKey.TELEPORT_PLAYER_BACK_TO_BOT, 5],  //TODO: set pre-req's for this
+  [UpgradeKey.FRUIT_PICKUP_POINTS, 6],
   [UpgradeKey.BOT_SPLIT_DIRECTION, 6],
   [UpgradeKey.BOT_REMEMBER_DEADEND_TILES, 7],
-  [UpgradeKey.AUTO_EXIT_MAZE, 8],
+  [UpgradeKey.BRAIN_SPAWN, 7],
+  [UpgradeKey.SPEED_UP_ACTIVATE_DURATION, 8],
   [UpgradeKey.POINTS_PER_REVISIT, 9],
   [UpgradeKey.SPEED_UP_ACTIVATE_DURATION, 9],
   [UpgradeKey.BRAIN_TILE_DISTANCE, 10],
-  [UpgradeKey.BRAIN_SPAWN, 10],
-  
   [UpgradeKey.BOT_SPLIT_BOT_AUTO_MERGE, 10],
+  [UpgradeKey.SPEED_UP_MULTIPLIER_STRENGTH, 11],
+  [UpgradeKey.MULTIPLIER_POWER_UP_ACTIVATE_DURATION, 11],
+  [UpgradeKey.MULTIPLIER_POWER_UP_STRENGTH, 12],
   [UpgradeKey.DESTRUCTIBLE_WALLS, 15],
 ]);
 

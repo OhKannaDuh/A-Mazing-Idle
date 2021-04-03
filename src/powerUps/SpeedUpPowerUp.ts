@@ -1,4 +1,4 @@
-import { PowerUpKey } from "constants/PowerUpConstants";
+import { PowerUpKey, SPEED_UP_POWER_UP_BASE_COOLDOWN } from "constants/PowerUpConstants";
 import Game from "managers/Game";
 import { PowerUp } from "models/PowerUp";
 import { StatsKey } from "models/Stats";
@@ -11,7 +11,7 @@ export class SpeedUpPowerUp extends PowerUp {
   }
 
   public static getCooldownTimerDuration(game: Game): number {
-    return 10000;
+    return SPEED_UP_POWER_UP_BASE_COOLDOWN;
   }
 
   public static getActivateDuration(game: Game): number {

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anton">
     <link rel="stylesheet" href="css/ui.css"></link>
     <link rel="stylesheet" href="css/modal.css"></link>
+    <link rel="stylesheet" href="css/tooltip.css"></link>
   </head>
   <body id='body'>
     <div id='root'>
@@ -35,36 +36,35 @@
           <div id='points'>Points:</div>
 
           <h3>Biome Upgrade!</h3>
-          <button id='buyBiomeUpgrade'>Increase Maze Size:</button>
+          <button id='buyBiomeUpgrade'><span id='buyBiomeUpgradeTooltip' class='tooltip'>lalalalalala</span></button>
       
           <h3 id='mazeUpgradeHeader'>Maze Upgrades!</h3>
-          <button id='buyMazeSize'>Increase Maze Size:</button>
-          <button id='buyPointsPerVisit'>Points Per Visit:</button>
-          <button id='buyPointsPerRevisit'>Points Per Tile Re-Visit:</button>
-          <button id='buyMazeCompletionBonusUpgrade'>Maze Completion Bonus:</button>
+          <button id='buyMazeSize'><span id='buyMazeSizeTooltip' class='tooltip'></span></button>
+          <button id='buyPointsPerVisit'><span id='buyPointsPerVisitTooltip' class='tooltip'></span></button>
+          <button id='buyPointsPerRevisit'><span id='buyPointsPerRevisitTooltip' class='tooltip'></span></button>
+          <button id='buyMazeCompletionBonusUpgrade'><span id='buyMazeCompletionBonusUpgradeTooltip' class='tooltip'></span></button>
           
           <h3 id='itemUpgradeHeader'>Item Upgrades!</h3>
-          <button id='buyFruitSpawnRateUpgrade'>Fruit Spawn Rate:</button>
-          <button id='buyFruitPickupPointsUpgrade'>Fruit Pickup Points:</button>
-          <button id='buyBrainSpawnRateUpgrade'>Brain Spawn Rate:</button>
-          <button id='buyBrainTileDistanceUpgrade'>Brain Auto Pathing Distance:</button>
+          <button id='buyFruitSpawnRateUpgrade'><span id='buyFruitSpawnRateUpgradeTooltip' class='tooltip'></span></button>
+          <button id='buyFruitPickupPointsUpgrade'><span id='buyFruitPickupPointsUpgradeTooltip' class='tooltip'></span></button>
+          <button id='buyBrainSpawnRateUpgrade'><span id='buyBrainSpawnRateUpgrade' class='tooltip'></span></button>
+          <button id='buyBrainTileDistanceUpgrade'><span id='buyBrainTileDistanceUpgradeTooltip' class='tooltip'></span></button>
 
           <h3 id='botUpgradeHeader'>Bot Upgrades!</h3>
-          <button id='butBotAutoMove'>Bot Auto Move:</button>
-          <button id='buyBotMoveFaster'>Move Faster:</button>
-          <button id='buyBotAvoidRevisitLastPosition'>Avoid Revisit Last Position:</button>
-          <button id='buyBotPrioritizeUnvisited'>Prioritize Unvisited:</button>
-          <button id='buyBotAutoExitMaze'>Auto-Exit Maze:</button>
-          <button id='buyBotRememberDeadEnds'>Remember Dead Ends (1 Tiles):</button>
-          <button id='buyBotSplitDirections'>Bot split directions:</button>
-          <button id='buySplitBotAutoMerge'>Bot Split Bot Auto Merge:</button>
+          <button id='butBotAutoMove'><span id='butBotAutoMoveTooltip' class='tooltip'></span></button>
+          <button id='buyBotMoveFaster'><span id='buyBotMoveFasterTooltip' class='tooltip'></span></button>
+          <button id='buyBotAvoidRevisitLastPosition'><span id='buyBotAvoidRevisitLastPositionTooltip' class='tooltip'></span></button>
+          <button id='buyBotPrioritizeUnvisited'><span id='buyBotPrioritizeUnvisitedTooltip' class='tooltip'></span></button>
+          <button id='buyBotAutoExitMaze'><span id='buyBotAutoExitMazeTooltip' class='tooltip'></span></button>
+          <button id='buyBotRememberDeadEnds'><span id='buyBotRememberDeadEndsTooltip' class='tooltip'></span></button>
+          <button id='buyBotSplitDirections'><span id='buyBotSplitDirectionsTooltip' class='tooltip'></span></button>
+          <button id='buySplitBotAutoMerge'><span id='buySplitBotAutoMergeTooltip' class='tooltip'></span></button>
 
-          <h3 id='powerUpsUpgradeHeader'>Power Up Upgrades!</h3>
-          <button id='buyPowerUpSpeedUpActivateDuration'>Speed Up Activate Duration:</button>
-          <button id='buySpeedUpMultiplierStrengthUpgrade'>Speed Up Multiplier Strength:</button>
-          <button id='buyMultiplierPowerUpActivateDurationUpgrade'>Multiplier Power Up Activate Duration:</button>
-          <button id='buyMultiplierPowerUpStrengthUpgrade'>Multiplier Power Up Strength:</button>
-          
+          <h3 id='powerUpUpgradeHeader'>Power Up Upgrades!</h3>
+          <button id='buyPowerUpSpeedUpActivateDuration'><span id='buyPowerUpSpeedUpActivateDurationTooltip' class='tooltip'></span></button>
+          <button id='buySpeedUpMultiplierStrengthUpgrade'><span id='buySpeedUpMultiplierStrengthUpgradeTooltip' class='tooltip'></span></button>
+          <button id='buyMultiplierPowerUpActivateDurationUpgrade'><span id='buyMultiplierPowerUpActivateDurationUpgradeTooltip' class='tooltip'></span></button>
+          <button id='buyMultiplierPowerUpStrengthUpgrade'><span id='buyMultiplierPowerUpStrengthUpgradeTooltip' class='tooltip'></span></button>
 
           <h3 id='movementUpgradeHeader'>Manual Movement!</h3>
           <button id='buyPlayerMoveIndependently'>Allow Player to Move Independently:</button>

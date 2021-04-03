@@ -148,7 +148,7 @@ export class UpgradeManager extends Serializable {
   private isUpgradeAvailableForUpgradeType(upgradeType: UpgradeType): boolean {
     for (const upgradeKey in UpgradeKey) {
       const upgrade = this.getUpgrade(upgradeKey as UpgradeKey);
-      if (upgrade && upgrade.upgradeType === upgradeType && !upgrade.isMaxUpgradeLevel()) {
+      if (upgrade && upgrade.upgradeType === upgradeType && !upgrade.isMaxUpgradeLevel() && upgrade.isUnlocked()) {
         return true;
       }
     }

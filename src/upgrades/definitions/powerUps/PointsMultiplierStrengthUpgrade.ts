@@ -13,7 +13,7 @@ export class PointsMultiplierStrengthUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    this.setUiText(`Points Multiplier Strength (${PointsMultiplierStrengthUpgrade.getPointsMultiplierStrength(this.game)}): ${this.getPrettyPrintCost()} pts`);
+    this.setUiText(`Points Multiplier Strength (${PointsMultiplierStrengthUpgrade.getPointsMultiplierStrength(this.game)}x): ${this.getPrettyPrintCost()} pts`);
   }
 
   getCost(): number {

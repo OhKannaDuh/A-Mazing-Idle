@@ -76,9 +76,9 @@ export class UserInterface {
   private getMazeBorderCss(val: MazeWallTypes): string {
     const borderColor = this.game.colors.getMazeWallColor();
     if (val === MazeWallTypes.WALL) {
-      return `2px solid ${borderColor}`;
+      return `3px solid ${borderColor}`;
     } else if (val === MazeWallTypes.DESTRUCTIBLE_WALL) {
-      return `2px dotted ${borderColor}`;
+      return `3px dotted ${borderColor}`;
     } else if (val === MazeWallTypes.OUT_OF_BOUNDS_WALL || val == null) {
       return;
     } else {

@@ -1,0 +1,18 @@
+
+.tooltip {
+  visibility: hidden;
+  width: 300px;
+  background-color: black;
+  color: #fff;
+  border-radius: 6px;
+  padding: 8px;
+  text-align: left;
+
+  position: absolute;
+  left: 10px;
+  margin-top: 22px;
+}
+
+button:hover .tooltip {
+  visibility: visible;
+}
