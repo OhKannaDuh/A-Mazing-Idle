@@ -1,6 +1,6 @@
 import Game from "managers/Game";
 import Upgrade from "upgrades/Upgrade";
-import { BOT_MOVEMENT_UPGRADE_BASE_COST, BOT_MOVEMENT_UPGRADE_BASE_COST_MUTLIPLIER, UpgradeKey } from "constants/UpgradeConstants";
+import { BOT_MOVEMENT_UPGRADE_BASE_COST, BOT_MOVEMENT_UPGRADE_BASE_COST_MUTLIPLIER, UpgradeKey, UpgradeType } from "constants/UpgradeConstants";
 import { UserInterface } from "managers/UserInterface";
 
 const BUTTON_UI_ID = 'buyBotMoveFaster';
@@ -9,7 +9,7 @@ const TOOLTIP_TEXT = 'Bots will avoid revisiting the position that they were jus
 export class BotMovementSpeedUpgrade extends Upgrade {
   
   constructor(game: Game, upgradeKey: UpgradeKey, upgradeLevel: number = 0) {
-    super(game, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel);
+    super(game, UpgradeType.BOT, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel);
   }
   
   updateUiProperties(): void {

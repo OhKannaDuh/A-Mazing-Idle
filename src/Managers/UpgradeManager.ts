@@ -19,12 +19,15 @@ import { BotSplitDirectionUpgrade } from "upgrades/definitions/bots/BotSplitDire
 import { BotSplitAutoMergeUpgrade } from "upgrades/definitions/bots/BotSplitAutoMergeUpgrade";
 import { DestructibleWallUpgrade } from "upgrades/definitions/maze/DestructibleWallUpgrade";
 import { BotAutoMoveUpgrade } from "upgrades/definitions/bots/BotAutoMoveUpgrade";
-import { MultiplierItemSpawnRateUpgrade } from "upgrades/definitions/items/MultiplierItemSpawnRateUpgrade";
-import { MultiplierItemStrengthUpgrade } from "upgrades/definitions/items/MultiplierItemStrengthUpgrade";
+import { PointsMultiplierActivateDurationUpgrade } from "upgrades/definitions/powerUps/PointsMultiplierActivateDurationUpgrade";
+import { PointsMultiplierStrengthUpgrade } from "upgrades/definitions/powerUps/PointsMultiplierStrengthUpgrade";
+import { SpeedUpMultiplierStrengthUpgrade } from "upgrades/definitions/powerUps/SpeedUpMultiplierStrengthUpgrade";
+import { SpeedUpActivateDurationUpgrade } from "upgrades/definitions/powerUps/SpeedUpActivateDurationUpgrade";
 import { BiomeUpgrade } from "upgrades/definitions/maze/BiomeUpgrade";
 import Game from "managers/Game";
-import { UpgradeKey } from "constants/UpgradeConstants"
+import { UpgradeKey, UpgradeType, UPGRADE_TYPE_TO_UI_KEY_MAP } from "constants/UpgradeConstants"
 import { Serializable } from "models/Serializable";
+import { UserInterface } from "managers/UserInterface";
 
 const UPGRADE_MAP_PROPERTY_KEY = 'upgradeMap';
 const SERIALIZABLE_PROPERTIES = [UPGRADE_MAP_PROPERTY_KEY];
@@ -63,8 +66,11 @@ export class UpgradeManager extends Serializable {
     this.createUpgrade(new FruitPickupPointsMultiplierUpgrade(this.game, UpgradeKey.FRUIT_PICKUP_POINTS));
     this.createUpgrade(new FruitSpawnRateUpgrade(this.game, UpgradeKey.FRUIT_SPAWN));
     this.createUpgrade(new BrainSpawnRateUpgrade(this.game, UpgradeKey.BRAIN_SPAWN));
-    // this.createUpgrade(new MultiplierItemSpawnRateUpgrade(this.game, UpgradeKey.MULTIPLIER_ITEM_SPAWN_RATE));
-    // this.createUpgrade(new MultiplierItemStrengthUpgrade(this.game, UpgradeKey.MULTIPLIER_ITEM_STRENGTH));
+    // Power Up
+    this.createUpgrade(new SpeedUpActivateDurationUpgrade(this.game, UpgradeKey.SPEED_UP_ACTIVATE_DURATION));
+    this.createUpgrade(new SpeedUpMultiplierStrengthUpgrade(this.game, UpgradeKey.SPEED_UP_MULTIPLIER_STRENGTH));
+    this.createUpgrade(new PointsMultiplierActivateDurationUpgrade(this.game, UpgradeKey.MULTIPLIER_POWER_UP_ACTIVATE_DURATION));
+    this.createUpgrade(new PointsMultiplierStrengthUpgrade(this.game, UpgradeKey.MULTIPLIER_POWER_UP_STRENGTH));
     // Features
     this.createUpgrade(new DestructibleWallUpgrade(this.game, UpgradeKey.DESTRUCTIBLE_WALLS));
     // Biomes
@@ -77,6 +83,7 @@ export class UpgradeManager extends Serializable {
       upgrade.updateUiDisabled();
       upgrade.updateVisibility();
     }
+    this.updateUpgradeSectionVisibility();
   }
 
   private createUpgrade(upgrade: Upgrade): void {
@@ -121,7 +128,7 @@ export class UpgradeManager extends Serializable {
   public deserializeProperty(property: string, value: any): void {
     // Upgrade map will restore the upgrade level of each key
     if (property === UPGRADE_MAP_PROPERTY_KEY) {
-      for (let upgradeKey in value) {
+      for (const upgradeKey in value) {
         if (this.upgradeMap.has(upgradeKey as UpgradeKey)) {
           this.upgradeMap.get(upgradeKey as UpgradeKey).upgradeLevel = parseInt(value[upgradeKey]);
         } else {
@@ -136,6 +143,26 @@ export class UpgradeManager extends Serializable {
   public isUnlocked(upgradeKey: UpgradeKey): boolean {
     if (!this.hasUpgrade(upgradeKey)) return false;
     return this.upgradeMap.get(upgradeKey).isUnlocked();
+  }
+
+  private isUpgradeAvailableForUpgradeType(upgradeType: UpgradeType): boolean {
+    for (const upgradeKey in UpgradeKey) {
+      const upgrade = this.getUpgrade(upgradeKey as UpgradeKey);
+      if (upgrade && upgrade.upgradeType === upgradeType && !upgrade.isMaxUpgradeLevel()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public updateUpgradeSectionVisibility(): void {
+    for (const upgradeType in UpgradeType) {
+      const isUpgradeAvailable = this.isUpgradeAvailableForUpgradeType(upgradeType as UpgradeType);
+      const uiKey = UPGRADE_TYPE_TO_UI_KEY_MAP.get(upgradeType as UpgradeType);
+      if (uiKey) {
+        UserInterface.setIdVisible(uiKey, isUpgradeAvailable);
+      }
+    }
   }
 }
 
