@@ -10,13 +10,30 @@
     <script src="public/bundle.js"></script>
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anton">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Russo+One">
     <link rel="stylesheet" href="css/ui.css"></link>
     <link rel="stylesheet" href="css/modal.css"></link>
     <link rel="stylesheet" href="css/tooltip.css"></link>
   </head>
   <body id='body'>
     <div id='root'>
+      <div class="nav">
+        <div class="nav-left">
+          <button id='newGame'>
+            <div class="button_label">New Game</div>
+          </button>
+          <button id='manualSaveGame'>
+            <div class="button_label">Save Game</div>
+          </button>
+        </div>
+        <div id='points'>Points:</div>
+        <div>Average Points/s: <span id='averagePointsEarnedPerSecond'></span></div>
+        <div class="nav-right">
+          <button id='stats'>
+            <div class="button_label">Stats</div>
+          </button>
+        </div>
+      </div>
       <div id='noop'></div>
       <table id="maze">
         <tbody></tbody>
@@ -101,46 +118,85 @@
           <div>Brains: <span id='statsTotalBrainItemsPickedUp'></span></div>
           <div>Black Holes: <span id='statsTotalBlackHoleItemsPickedUp'></span></div>
         </div>
-      </div>
 
-      <!-- SAVING -->
-      <h3>Saving</h3>
-      <button id='newGame'><div class="button_label">New Game</div></button>
-      <button id='manualSaveGame'><div class="button_label">Manual Save Game</div></button>
-      <button id='deleteSaveGame'><div class="button_label">DELETE Save Game</div></button>
-      <button id='clearAllStats'><div class="button_label">CLEAR All Stats</div></button>
-      
-      <br />
-      
-      <div id="offlineModal" class="modal">
-        <!-- Modal content -->
-        <div class="modal-content">
-          <span id="offlineModalCloseBtn" class="offlineModalCloseBtn">&times;</span>
-          <h2>Welcome Back to A-Mazing-Idle!</h2>
-          <p>You were offline for: <span id='offlineModalDuration'></span> seconds</p>
-          <p>Offline earning time: <span id='offlineModalMaxOfflineTime'></span> seconds</p>
-          <br>
-          <p>Offline points rate: <span id='offlineModalPointsPerSecond'></span> pts/second</p>
-          <b><p>Total Points Earned: <span id='offlineModalPointsEarned'></span> pts</p></b>
-        </div>
-      </div>
+    <!-- SAVING -->
+    <h3>Saving</h3>
+    <button id='deleteSaveGame'>
+      <div class="button_label">DELETE Save Game</div>
+    </button>
+    <button id='clearAllStats'>
+      <div class="button_label">CLEAR All Stats</div>
+    </button>
 
+    <br />
 
-      <!-- DEBUG -->
-      <div id='debug'>
+    <!-- The Modal -->
+    <div id="statsModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span id="statsModalCloseBtn" class="statsModalCloseBtn">&times;</span>
+        <h3>Stats!</h3>
+        <div>Average Points/s: <span id='averagePointsEarnedPerSecond'></span></div>
+        <h4>Points earned</h4>
+        <div>Total: <span id='statsTotalPointsEarned'></span></div>
+        <div>Total Spent: <span id='statsTotalPointsSpent'></span></div>
         <br />
-        <span>PrioritizeUnvisited:<input id='debugInputPrioritizeUnvisited' value='true' /></span><br />
-        <span>Avoid Revisit:<input id='debugAvoidRevisit' value='false' /></span><br />
-        <span>Auto Exit:<input id='debugAutoExit' value='false' /></span><br />
-        <span>Maze Upgrade Size (+4):<input id='debugMazeUpgradeCount' value='0' /></span><br />
-        <span>Iterations:<input id='debugMaxIterations' value='10' /></span>
-        <button id='debugRunButton'>Run Debug!</button>
-    
-        <div id="debugResult"></div>
-        <table id="debugTable">
-          <tbody></tbody>
-        </table>
+        <div>Visited Tiles: <span id='statsTotalPointsEarnedFromVisitedTiles'></span></div>
+        <div>Revisited Tiles: <span id='statsTotalPointsEarnedFromRevisitedTiles'></span></div>
+        <div>Maze Completions: <span id='statsTotalPointsEarnedFromMazeCompletions'></span></div>
+        <div>Fruit Item Pickups: <span id='statsTotalPointsEarnedFromFruits'></span></div>
+        <div>Multplier Item Pts: <span id='statsTotalPointsEarnedFromMultiplierItem'></span></div>
+
+        <h4>Maze Stats</h4>
+        <div>Total Unique Tiles Visited: <span id='statsTotalTilesVisited'></span></div>
+        <div>Total Tiles Revisited: <span id='statsTotalTilesRevisited'></span></div>
+        <div>Total Mazes Completed: <span id='statsTotalMazesCompleted'></span></div>
+
+        <h4>Bot Stats</h4>
+        <div>Total Bot Splits: <span id='statsTotalNumberOfBotSplits'></span></div>
+        <div>Total Bot Merges: <span id='statsTotalNumberOfBotMerges'></span></div>
+        <div>Total Dead Ends Marked: <span id='statsTotalDeadEndsMarked'></span></div>
+
+        <h4>Item Pickup Stats</h4>
+        <div>Fruits: <span id='statsTotalFruitItemsPickedUp'></span></div>
+        <div>Brains: <span id='statsTotalBrainItemsPickedUp'></span></div>
+        <div>Black Holes: <span id='statsTotalBlackHoleItemsPickedUp'></span></div>
+      </div>
+
+    </div>
+
+    <div id="offlineModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span id="offlineModalCloseBtn" class="offlineModalCloseBtn">&times;</span>
+        <h2>Welcome Back to A-Mazing-Idle!</h2>
+        <p>You were offline for: <span id='offlineModalDuration'></span> seconds</p>
+        <p>Offline earning time: <span id='offlineModalMaxOfflineTime'></span> seconds</p>
+        <br>
+        <p>Offline points rate: <span id='offlineModalPointsPerSecond'></span> pts/second</p>
+        <b>
+          <p>Total Points Earned: <span id='offlineModalPointsEarned'></span> pts</p>
+        </b>
       </div>
     </div>
-  </body>
+
+
+    <!-- DEBUG -->
+    <div id='debug'>
+      <br />
+      <span>PrioritizeUnvisited:<input id='debugInputPrioritizeUnvisited' value='true' /></span><br />
+      <span>Avoid Revisit:<input id='debugAvoidRevisit' value='false' /></span><br />
+      <span>Auto Exit:<input id='debugAutoExit' value='false' /></span><br />
+      <span>Maze Upgrade Size (+4):<input id='debugMazeUpgradeCount' value='0' /></span><br />
+      <span>Iterations:<input id='debugMaxIterations' value='10' /></span>
+      <button id='debugRunButton'>Run Debug!</button>
+
+      <div id="debugResult"></div>
+      <table id="debugTable">
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</body>
+
 </html>

@@ -35,3 +35,17 @@
   text-decoration: none;
   cursor: pointer;
 }
+
+.statsModalCloseBtn {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.statsModalCloseBtn:hover,
+.statsModalCloseBtn:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}

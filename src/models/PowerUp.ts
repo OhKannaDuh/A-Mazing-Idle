@@ -57,7 +57,7 @@ export class PowerUp {
   }
 
   private getUiHtml(): string {
-    return `<div>${this.getUiStringName()}<br>${this.getUiStatusString()}</div>`;
+    return `<div class="text">${this.getUiStringName()}<br>${this.getUiStatusString()}</div>`;
   }
 
   private formatDisplayString(duration: number): string {
