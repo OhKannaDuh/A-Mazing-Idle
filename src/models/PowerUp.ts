@@ -61,7 +61,7 @@ export class PowerUp {
   }
 
   private formatDisplayString(duration: number): string {
-    return UserInterface.getPrettyPrintNumber(duration/1000, 1);
+    return UserInterface.getDecimalPrettyPrintNumber(duration/1000, 1);
   }
 
   private getCooldownTimeLeft(): number {

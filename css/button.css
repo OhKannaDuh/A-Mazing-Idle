@@ -8,7 +8,8 @@ button {
   justify-content: center;
   align-items: center;
   position: relative;
-  width: fit-content;
+  /* width: fit-content; */
+  width: 450px;
   height: 40px;
   margin: 5px;
   border: 5px solid rgba(255, 255, 255, 1);

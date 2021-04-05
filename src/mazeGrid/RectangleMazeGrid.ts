@@ -10,9 +10,8 @@ export class RectangleMazeGrid extends MazeGrid {
     const shortSide = Math.ceil(mazeSizeX / LENGTH_TO_WIDTH_RATIO);
     const longSide = Math.floor(Math.pow(mazeSizeX, 2) / shortSide);
     
-    super(game, longSide, shortSide, MazeGridType.RECTANGLE);
+    super(game, shortSide, longSide, MazeGridType.RECTANGLE);
   }
-
   
   protected getValidStartLocations(): GridLocation[] {
     return [

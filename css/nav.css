@@ -1,0 +1,48 @@
+/* TOP NAV BAR */
+.nav {
+  position: fixed;
+  background: #181818;
+  width: 100%;
+  top: 0px;
+  height: 50px;
+  border-bottom: 5px solid var(--base-color);
+  padding-bottom: 4px;
+  padding-top: 2px;
+  display: flex;
+  align-items: center;
+  font-family: var(--button-label-font-family);
+  font-size: 1.5rem;
+  z-index: 1;
+}
+
+.nav-left {
+  position: absolute;
+  left: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.nav-right {
+  position: absolute;
+  right: 10px;
+  display: flex;
+  align-items: center;
+}
+
+#points {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.nav-left button {
+  width: 350px;
+  margin-left: 10px;
+}
+
+.nav-right button {
+  width: 150px;
+}
+
+#buyBiomeUpgrade {
+  width: var(--button-width);
+}

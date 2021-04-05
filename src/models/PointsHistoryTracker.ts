@@ -15,12 +15,17 @@ export class PointsHistoryTracker {
   private statsKey: StatsKey;
 
   constructor(game: Game, statsKey: StatsKey) {
-    this.slidingWindow = new Array(SLIDING_WINDOW_LENGTH).fill(0);
     this.game = game;
     this.statsKey = statsKey;
+    this.resetHistory();
+  }
+  
+  public resetHistory(): void {
+    this.slidingWindow = new Array(SLIDING_WINDOW_LENGTH).fill(0);
     this.currentTotal = 0;
     this.currentDataPoints = 0;
     this.currIndex = 0;
+    clearInterval(this.timer);
   }
 
   private startTimer() {

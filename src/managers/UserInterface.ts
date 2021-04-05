@@ -8,6 +8,7 @@ import {
 import { Maze } from "models/Maze";
 import { StatsKey, STATS_TO_UI_ID_MAP } from "models/Stats";
 declare var $: any;
+declare var numberformat: any;
 
 const FINISH_LINE_ICON = "img/finishLine.png";
 const MAZE_BORDER_WIDTH = "4px";
@@ -123,8 +124,12 @@ export class UserInterface {
     }
   }
 
-  public static getPrettyPrintNumber(num: number, decimalLength: number = 0): string {
+  public static getPrettyPrintNumber(num: number): string {
     if (!num) return "0";
+    return numberformat.formatShort(num);
+  }
+
+  public static getDecimalPrettyPrintNumber(num: number, decimalLength: number = 0): string {
     return parseFloat(num.toFixed(decimalLength)).toLocaleString();
   }
 
@@ -143,6 +148,7 @@ export class UserInterface {
   }
 
   public showModalByType(modalType: ModalType, setVisible: boolean = true, clickEvent: any = null): void {
+    // Prevent clicks from propagating to the global modal closing click event
     if (clickEvent) clickEvent.stopPropagation();
     
     if (modalType === ModalType.SETTINGS_MODAL) {
@@ -156,10 +162,8 @@ export class UserInterface {
 
   private showModalVisibleById(modalId: string, setVisible: boolean = true): void {
     UserInterface.setIdVisible(modalId, setVisible);
-
     if (!setVisible) return;
 
-    console.log('global click bound');
     // Close dialog when clicked away from
     $(document).click((e) => {
       if ($(e.target).closest(`#${modalId}`).length === 0) {
@@ -167,10 +171,6 @@ export class UserInterface {
         $(document).unbind("click");
       }
     });
-  }
-
-  private globalModalClickEvent(): void {
-   
   }
 
   public closeAllModals(): void {

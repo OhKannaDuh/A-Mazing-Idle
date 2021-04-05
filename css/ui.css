@@ -1,41 +1,58 @@
 :root {
   --base-color: rgba(255, 255, 255, 1);
   --hover-color: #4bacb8;
-  --body-font-family: "PT Sans";
+  --body-font-family: "Russo One";
   --button-label-font-family: "Russo One";
+  --upgrade-button-width: 400px;
+  --upgrade-row-width: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+h2 {
+  text-align: center;
+}
+
+#root {
+  margin-top: 80px;
+  display: flex;
 }
 
 #body {
   background-color: #181818;
-  color: #ffffff;
+  color: white;
   font-family: var(--body-font-family);
 }
 
-.nav {
-  height: 50px;
-  border-bottom: 5px solid var(--base-color);
-  padding-bottom: 4px;
-  padding-top: 2px;
-  display: flex;
-  align-items: center;
-  font-family: var(--button-label-font-family);
-  font-size: 1.5rem;
+
+/* CONTENT SPLITS */
+#leftSplit {
+  flex-direction: column;
+  width: fit-content;
 }
 
-.nav-left {
-  position: absolute;
-  left: 10px;
-  display: flex;
-  align-items: center;
+#middleSplit {
+  width: var(--upgrade-row-width);
+  flex-direction: column;
 }
 
-.nav-right {
-  position: absolute;
-  right: 10px;
-  display: flex;
-  align-items: center;
+#middleSplit h2 {
+  width: var(--upgrade-button-width);
+  text-align: center;
 }
 
+#rightSplit {
+  width: var(--upgrade-row-width);
+  flex-direction: column;
+}
+
+#rightSplit h2 {
+  width: var(--button-width);
+  text-align: center;
+}
+
+
+/* MAZE */
 #maze {
   border-collapse: collapse;
   border: 0px;
@@ -46,46 +63,19 @@
   height: 20px;
 }
 
-#upgradeTab {
-  padding: 5px;
-  flex: 0 0 500px;
-  border: 2px solid black;
-}
 
+/* POWER UPS */
 #powerUpButtonRow > button {
   margin-left: 10px;
-  width: 200px;
+  width: 250px;
 }
 
 #powerUpButtonRow {
   display: flex;
+  justify-content: center;
 }
 
 #powerUpRoot {
   padding: 5px;
-  margin-top: 30px;
-  width: 500px;
-  border: 2px solid black;
   flex: auto;
-}
-
-#tabsRoot {
-  display: flex;
-}
-
-#points {
-  margin: 0px 10px;
-}
-
-.statsContent {
-  display: flex;
-}
-
-#statsModal h1 {
-  text-align: center;
-}
-
-.statsContent > div {
-  display: block;
-  flex-grow: 1;
 }

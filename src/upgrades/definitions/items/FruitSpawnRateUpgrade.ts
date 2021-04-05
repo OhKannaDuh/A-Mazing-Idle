@@ -14,7 +14,7 @@ export class FruitSpawnRateUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    const spawnProbability = UserInterface.getPrettyPrintNumber(FruitMazeItem.getItemSpawnProbability(this.game) * 100, 2);
+    const spawnProbability = UserInterface.getDecimalPrettyPrintNumber(FruitMazeItem.getItemSpawnProbability(this.game) * 100, 2);
     this.setUiText(`Fruit Spawn Rate (${spawnProbability}%): ${this.getPrettyPrintCost()} pts`);
   }
 

@@ -13,7 +13,7 @@ export class PointsPerVisitUpgrade extends Upgrade {
   }
   
   updateUiProperties(): void {
-    const pointsPerVisit = UserInterface.getPrettyPrintNumber(this.game.points.getPointsPerVisit(), 2);
+    const pointsPerVisit = UserInterface.getDecimalPrettyPrintNumber(this.game.points.getPointsPerVisit(), 2);
     this.setUiText(`Points Per Visit (${pointsPerVisit} pts): ${this.getPrettyPrintCost()} pts`);
   }
 

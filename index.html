@@ -5,8 +5,11 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
     <title>A Mazing Idle!</title>
+    <!-- NumberFormatting: https://github.com/erosson/swarm-numberformat -->
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js'></script>
+    <script src="https://cdn.rawgit.com/erosson/swarm-numberformat/v0.4.0/dist/swarm-numberformat.js"></script>
+    <script src="https://cdn.rawgit.com/MikeMcl/decimal.js/v7.0.1/decimal.js"></script>
     <script src='public/bundle.js'></script>
     
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Inconsolata'>
@@ -15,80 +18,86 @@
     <link rel='stylesheet' href='css/modal.css'></link>
     <link rel='stylesheet' href='css/tooltip.css'></link>
     <link rel='stylesheet' href='css/button.css'></link>
+    <link rel='stylesheet' href='css/nav.css'></link>
   </head>
   <body id='body'>
     <!-- DUMMY ID -->
     <div id='noop'></div>
 
-    <div id='root'>
-      <!-- HEADER BAR -->
-      <div class='nav'>
-        <div class='nav-left'>
-          <div id='points'>Points:</div>
-          <div>(<span id='averagePointsEarnedPerSecond'></span>&nbsppts/s )</div>
-          <button id='buyBiomeUpgrade'><span id='buyBiomeUpgradeTooltip' class='tooltip'></span></button>
-        </div>
-        <div class='nav-right'>
-          <button id='statsButton'>
-            <div class='button_label'>Stats</div>
-          </button>
-          <button id='settingsButton'>
-            <div class='button_label'>Settings</div>
-          </button>
-        </div>
-      </div>
-
-      <!-- MAZE -->
-      <div id='powerUpRoot'>
-        <h2>Power Ups!</h2>
-        <div id='powerUpButtonRow'>
-          <button class='powerupButton' id='speedUpPowerUpButton'></button>
-          <button class='powerupButton' id='pointsMultiplierPowerUpButton'></button>
-        </div>
-      </div>
-      <table id='maze'>
-        <tbody></tbody>
-      </table>
-      
+    <!-- HEADER NAV BAR -->
+    <div class='nav'>
+      <div class='nav-left'>
+        <button id='buyBiomeUpgrade'><span id='buyBiomeUpgradeTooltip' class='tooltip'></span></button>
+        <div id='points'>Points:</div>
+        <div>(<span id='averagePointsEarnedPerSecond'></span>&nbsppts/s )</div>
         
-      <div id='tabsRoot'>
-        <!-- UPGRADES TAB -->
-        <div id='upgradeTab'>
-          <h2 id='mazeUpgradeHeader'>Maze Upgrades!</h2>
-          <button id='buyMazeSize'><span id='buyMazeSizeTooltip' class='tooltip'></span></button>
-          <button id='buyPointsPerVisit'><span id='buyPointsPerVisitTooltip' class='tooltip'></span></button>
-          <button id='buyPointsPerRevisit'><span id='buyPointsPerRevisitTooltip' class='tooltip'></span></button>
-          <button id='buyMazeCompletionBonusUpgrade'><span id='buyMazeCompletionBonusUpgradeTooltip' class='tooltip'></span></button>
-          
-          <h3 id='itemUpgradeHeader'>Item Upgrades!</h3>
-          <button id='buyFruitSpawnRateUpgrade'><span id='buyFruitSpawnRateUpgradeTooltip' class='tooltip'></span></button>
-          <button id='buyFruitPickupPointsUpgrade'><span id='buyFruitPickupPointsUpgradeTooltip' class='tooltip'></span></button>
-          <button id='buyBrainSpawnRateUpgrade'><span id='buyBrainSpawnRateUpgrade' class='tooltip'></span></button>
-          <button id='buyBrainTileDistanceUpgrade'><span id='buyBrainTileDistanceUpgradeTooltip' class='tooltip'></span></button>
-
-          <h3 id='botUpgradeHeader'>Bot Upgrades!</h3>
-          <button id='butBotAutoMove'><span id='butBotAutoMoveTooltip' class='tooltip'></span></button>
-          <button id='buyBotMoveFaster'><span id='buyBotMoveFasterTooltip' class='tooltip'></span></button>
-          <button id='buyBotAvoidRevisitLastPosition'><span id='buyBotAvoidRevisitLastPositionTooltip' class='tooltip'></span></button>
-          <button id='buyBotPrioritizeUnvisited'><span id='buyBotPrioritizeUnvisitedTooltip' class='tooltip'></span></button>
-          <button id='buyBotAutoExitMaze'><span id='buyBotAutoExitMazeTooltip' class='tooltip'></span></button>
-          <button id='buyBotRememberDeadEnds'><span id='buyBotRememberDeadEndsTooltip' class='tooltip'></span></button>
-          <button id='buyBotSplitDirections'><span id='buyBotSplitDirectionsTooltip' class='tooltip'></span></button>
-          <button id='buySplitBotAutoMerge'><span id='buySplitBotAutoMergeTooltip' class='tooltip'></span></button>
-
-          <h3 id='powerUpUpgradeHeader'>Power Up Upgrades!</h3>
-          <button id='buyPowerUpSpeedUpActivateDuration'><span id='buyPowerUpSpeedUpActivateDurationTooltip' class='tooltip'></span></button>
-          <button id='buySpeedUpMultiplierStrengthUpgrade'><span id='buySpeedUpMultiplierStrengthUpgradeTooltip' class='tooltip'></span></button>
-          <button id='buyMultiplierPowerUpActivateDurationUpgrade'><span id='buyMultiplierPowerUpActivateDurationUpgradeTooltip' class='tooltip'></span></button>
-          <button id='buyMultiplierPowerUpStrengthUpgrade'><span id='buyMultiplierPowerUpStrengthUpgradeTooltip' class='tooltip'></span></button>
-
-          <h3 id='movementUpgradeHeader'>Manual Movement!</h3>
-          <button id='buyPlayerMoveIndependently'>Allow Player to Move Independently:</button>
-          <button id='buyPlayerTeleportToBot'>Player teleport to bot:</button>
-          <button id='buyBotTeleportToPlayer'>Bot teleport to player:</button>
-        </div>
       </div>
+      <div class='nav-right'>
+        
+        <button id='statsButton'>
+          <div class='button_label'>Stats</div>
+        </button>
+        <button id='settingsButton'>
+          <div class='button_label'>Settings</div>
+        </button>
+      </div>
+    </div>
 
+    <div id='root'>
+      <!-- LEFT COLUMN -->
+      <div id='leftSplit'>
+        <!-- POWER UPS -->
+        <div id='powerUpRoot'>
+          <!-- <h2>Power Ups!</h2> -->
+          <div id='powerUpButtonRow'>
+            <button class='powerupButton' id='speedUpPowerUpButton'></button>
+            <button class='powerupButton' id='pointsMultiplierPowerUpButton'></button>
+          </div>
+        </div>
+        <!-- MAZE -->
+        <table id='maze'>
+          <tbody></tbody>
+        </table>
+        
+      </div>
+      <!-- MIDDLE COLUMN -->
+      <div id='middleSplit'>
+        <h2 id='mazeUpgradeHeader'>Maze Upgrades!</h2>
+        <button id='buyMazeSize'><span id='buyMazeSizeTooltip' class='tooltip'></span></button>
+        <button id='buyPointsPerVisit'><span id='buyPointsPerVisitTooltip' class='tooltip'></span></button>
+        <button id='buyPointsPerRevisit'><span id='buyPointsPerRevisitTooltip' class='tooltip'></span></button>
+        <button id='buyMazeCompletionBonusUpgrade'><span id='buyMazeCompletionBonusUpgradeTooltip' class='tooltip'></span></button>
+        
+        <h2 id='botUpgradeHeader'>Bot Upgrades!</h2>
+        <button id='butBotAutoMove'><span id='butBotAutoMoveTooltip' class='tooltip'></span></button>
+        <button id='buyBotMoveFaster'><span id='buyBotMoveFasterTooltip' class='tooltip'></span></button>
+        <button id='buyBotAvoidRevisitLastPosition'><span id='buyBotAvoidRevisitLastPositionTooltip' class='tooltip'></span></button>
+        <button id='buyBotPrioritizeUnvisited'><span id='buyBotPrioritizeUnvisitedTooltip' class='tooltip'></span></button>
+        <button id='buyBotAutoExitMaze'><span id='buyBotAutoExitMazeTooltip' class='tooltip'></span></button>
+        <button id='buyBotRememberDeadEnds'><span id='buyBotRememberDeadEndsTooltip' class='tooltip'></span></button>
+        <button id='buyBotSplitDirections'><span id='buyBotSplitDirectionsTooltip' class='tooltip'></span></button>
+        <button id='buySplitBotAutoMerge'><span id='buySplitBotAutoMergeTooltip' class='tooltip'></span></button>
+      </div>
+      <!-- RIGHT COLUMN -->
+      <div id='rightSplit'>
+        <!-- UPGRADES TAB -->
+        <h2 id='itemUpgradeHeader'>Item Upgrades!</h2>
+        <button id='buyFruitSpawnRateUpgrade'><span id='buyFruitSpawnRateUpgradeTooltip' class='tooltip'></span></button>
+        <button id='buyFruitPickupPointsUpgrade'><span id='buyFruitPickupPointsUpgradeTooltip' class='tooltip'></span></button>
+        <button id='buyBrainSpawnRateUpgrade'><span id='buyBrainSpawnRateUpgrade' class='tooltip'></span></button>
+        <button id='buyBrainTileDistanceUpgrade'><span id='buyBrainTileDistanceUpgradeTooltip' class='tooltip'></span></button>
+
+        <h2 id='powerUpUpgradeHeader'>Power Up Upgrades!</h2>
+        <button id='buyPowerUpSpeedUpActivateDuration'><span id='buyPowerUpSpeedUpActivateDurationTooltip' class='tooltip'></span></button>
+        <button id='buySpeedUpMultiplierStrengthUpgrade'><span id='buySpeedUpMultiplierStrengthUpgradeTooltip' class='tooltip'></span></button>
+        <button id='buyMultiplierPowerUpActivateDurationUpgrade'><span id='buyMultiplierPowerUpActivateDurationUpgradeTooltip' class='tooltip'></span></button>
+        <button id='buyMultiplierPowerUpStrengthUpgrade'><span id='buyMultiplierPowerUpStrengthUpgradeTooltip' class='tooltip'></span></button>
+
+        <h2 id='movementUpgradeHeader'>Manual Movement!</h2>
+        <button id='buyPlayerMoveIndependently'>Allow Player to Move Independently:</button>
+        <button id='buyPlayerTeleportToBot'>Player teleport to bot:</button>
+        <button id='buyBotTeleportToPlayer'>Bot teleport to player:</button>
+      </div>
       <!-- SAVING -->
       <div id='settingsModal' class='modal'>
         <div class='modal-content'>
@@ -131,8 +140,6 @@
               <div>Total Mazes Completed: <span id='statsTotalMazesCompleted'></span></div>
             </div>
             <div>
-              
-
               <h2>Bot Stats</h2>
               <div>Total Bot Splits: <span id='statsTotalNumberOfBotSplits'></span></div>
               <div>Total Bot Merges: <span id='statsTotalNumberOfBotMerges'></span></div>

@@ -23,6 +23,11 @@ export class Points extends Serializable {
     this.points = 0.0;
     this.pointsHistoryTracker = new PointsHistoryTracker(this.game, StatsKey.AVERAGE_POINTS_EARNED_PER_SECOND);
   }
+
+  public resetPoints(): void {
+    this.points = 0.0;
+    this.pointsHistoryTracker.resetHistory();
+  }
   
   public addPoints(pointsEarned: number, playerId: number = null, statsKeyList: StatsKey[] = null): void {
     this.points += pointsEarned;
