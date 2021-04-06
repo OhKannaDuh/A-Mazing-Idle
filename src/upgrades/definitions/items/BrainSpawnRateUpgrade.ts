@@ -1,6 +1,6 @@
 import Game from "managers/Game";
 import Upgrade from "upgrades/Upgrade";
-import { BRAIN_TILE_DISTANCE_UPGRADE_BASE_COST, BRAIN_TILE_DISTANCE_UPGRADE_BASE_COST_MULTIPLIER, UpgradeKey, UpgradeType } from "constants/UpgradeConstants";
+import { BRAIN_SPAWN_RATE_UPGRADE_BASE_COST, BRAIN_SPAWN_RATE_UPGRADE_BASE_COST_MULTIPLIER, UpgradeKey, UpgradeType } from "constants/UpgradeConstants";
 import BrainMazeItem from "items/definitions/BrainMazeItem";
 import { UserInterface } from "managers/UserInterface";
 
@@ -19,6 +19,6 @@ export class BrainSpawnRateUpgrade extends Upgrade {
   }
 
   getCost(): number {
-    return BRAIN_TILE_DISTANCE_UPGRADE_BASE_COST * Math.pow(BRAIN_TILE_DISTANCE_UPGRADE_BASE_COST_MULTIPLIER, this.upgradeLevel);
+    return BRAIN_SPAWN_RATE_UPGRADE_BASE_COST * Math.pow(BRAIN_SPAWN_RATE_UPGRADE_BASE_COST_MULTIPLIER, this.upgradeLevel);
   }
 }

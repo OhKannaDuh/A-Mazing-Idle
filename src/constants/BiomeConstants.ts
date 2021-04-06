@@ -72,16 +72,16 @@ export const BIOME_UPGRADE_UNLOCKS: Map<UpgradeKey, BiomeKey> = new Map([
   [UpgradeKey.BIOME, 0],
   [UpgradeKey.AUTO_MOVE, 1],
   [UpgradeKey.POINTS_PER_VISIT, 1],
-  [UpgradeKey.BOT_MOVEMENT_SPEED, 1],   //TODO: set pre-req's for this
-  [UpgradeKey.AVOID_REVISIT_LAST_POSITION, 2],
+  [UpgradeKey.BOT_MOVEMENT_SPEED, 1],
   [UpgradeKey.PRIORITIZE_UNVISITED, 2],
   [UpgradeKey.MAZE_SIZE_UPGRADE, 2],
+  [UpgradeKey.AVOID_REVISIT_LAST_POSITION, 3],
   [UpgradeKey.MAZE_COMPLETION_BONUS, 3],
   [UpgradeKey.AUTO_EXIT_MAZE, 4],
   [UpgradeKey.PLAYER_MOVE_INDEPENDENTLY, 4],
   [UpgradeKey.FRUIT_SPAWN, 5],
-  [UpgradeKey.TELEPORT_BOT_BACK_TO_PLAYER, 5],  //TODO: set pre-req's for this
-  [UpgradeKey.TELEPORT_PLAYER_BACK_TO_BOT, 5],  //TODO: set pre-req's for this
+  [UpgradeKey.TELEPORT_BOT_BACK_TO_PLAYER, 5],
+  [UpgradeKey.TELEPORT_PLAYER_BACK_TO_BOT, 5],
   [UpgradeKey.FRUIT_PICKUP_POINTS, 6],
   [UpgradeKey.BOT_SPLIT_DIRECTION, 6],
   [UpgradeKey.BOT_REMEMBER_DEADEND_TILES, 7],
@@ -100,25 +100,25 @@ export const BIOME_UPGRADE_UNLOCKS: Map<UpgradeKey, BiomeKey> = new Map([
 export const getMazeGridByBiome = (biomeKey: BiomeKey): MazeGridType => {
   if (biomeKey >= 0 && biomeKey < 8) {
     return MazeGridType.SQUARE;
-  } else if (biomeKey >= 8 && biomeKey < 15) {
+  } else if (biomeKey >= 8 && biomeKey < 12) {
     return MazeGridType.RECTANGLE;
-  } else if (biomeKey >= 15 && biomeKey < 20) {
+  } else if (biomeKey >= 12 && biomeKey < 16) {
     return MazeGridType.PLUS_SIGN;
-  } else if (biomeKey >= 20 && biomeKey < 25) {
+  } else if (biomeKey >= 16 && biomeKey < 20) {
     return MazeGridType.DIAMOND;
   } else {
-    return getMazeGridByBiome(biomeKey % 25);
+    return getMazeGridByBiome(biomeKey % 20);
   }
 };
 
 export const getMazeAlgorithmTypeByBiome = (biomeKey: BiomeKey): MazeAlgorithmType => {
   if (biomeKey >= 0 && biomeKey < 5) {
     return MazeAlgorithmType.BACK_TRACKER;
-  } else if (biomeKey >= 5 && biomeKey < 10) {
+  } else if (biomeKey >= 5 && biomeKey < 8) {
     return MazeAlgorithmType.BINARY_TREE;
-  } else if (biomeKey >= 10 && biomeKey < 15) {
+  } else if (biomeKey >= 8 && biomeKey < 12) {
     return MazeAlgorithmType.PRIMS;
   } else {
-    return getMazeAlgorithmTypeByBiome(biomeKey % 15)
+    return getMazeAlgorithmTypeByBiome(biomeKey % 12);
   }
 };

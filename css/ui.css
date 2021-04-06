@@ -29,25 +29,28 @@ h2 {
 #leftSplit {
   flex-direction: column;
   width: fit-content;
-}
-
-#middleSplit {
-  width: var(--upgrade-row-width);
-  flex-direction: column;
-}
-
-#middleSplit h2 {
-  width: var(--upgrade-button-width);
-  text-align: center;
+  padding-right: 40px;
 }
 
 #rightSplit {
   width: var(--upgrade-row-width);
-  flex-direction: column;
 }
 
-#rightSplit h2 {
-  width: var(--button-width);
+#leftUpgrades {
+  width: var(--upgrade-row-width);
+}
+
+#rightUpgrades {
+  width: var(--upgrade-row-width);
+}
+
+#leftUpgrade h2 {
+  width: var(--upgrade-button-width);
+  text-align: center;
+}
+
+#rightUpgrade h2 {
+  width: var(--upgrade-button-width);
   text-align: center;
 }
 

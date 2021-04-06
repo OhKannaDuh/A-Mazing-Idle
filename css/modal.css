@@ -31,14 +31,33 @@
   vertical-align: middle;
 }
 
-/***************/
 /* STATS MODAL */
-/***************/
 .statsContent > div {
   border: white 5px solid;
   padding: 10px;
 }
+.statsContent h2 {
+  text-align: left;
+}
 
+/* SETTINGS MODAL */
 #settingsModal {
   text-align: center;
+}
+
+/* SAVE TOAST MODAL */
+#saveToastModal {
+  background-color: #3D3D3D;
+  
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  width: 125px;
+  height: 45px;
+  text-align: center;
+  display: none;
+}
+
+#saveToastModal > div {
+  margin-top: 10px
 }

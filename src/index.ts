@@ -10,6 +10,12 @@ const UP_KEY = 38;
 const DOWN_KEY = 40;
 const LEFT_KEY = 37;
 const RIGHT_KEY = 39;
+
+const W_KEY = 87;
+const S_KEY = 83
+const A_KEY = 65;
+const D_KEY = 68;
+
 const E_KEY = 69;
 const Q_KEY = 81;
 const ONE_KEY = 49;
@@ -29,22 +35,22 @@ $(document).ready(() => {
   //TODO: this should be in UI
   $(document).keydown(function(event) {
     // Up
-    if (event.keyCode === UP_KEY) {
+    if (event.keyCode === UP_KEY || event.keyCode === W_KEY) {
       game.players.movePlayer(DEFAULT_PLAYER_ID, DIRECTION_UP, true);
       event.preventDefault();
     }
     // Down
-    else if (event.keyCode === DOWN_KEY) {
+    else if (event.keyCode === DOWN_KEY || event.keyCode === S_KEY) {
       game.players.movePlayer(DEFAULT_PLAYER_ID, DIRECTION_DOWN, true);
       event.preventDefault();
     }
     // Left
-    else if (event.keyCode === LEFT_KEY) {
+    else if (event.keyCode === LEFT_KEY || event.keyCode === A_KEY) {
       game.players.movePlayer(DEFAULT_PLAYER_ID, DIRECTION_LEFT, true);
       event.preventDefault();
     }
     // Right
-    else if (event.keyCode === RIGHT_KEY) {
+    else if (event.keyCode === RIGHT_KEY || event.keyCode === D_KEY) {
       game.players.movePlayer(DEFAULT_PLAYER_ID, DIRECTION_RIGHT, true);
       event.preventDefault();
     }

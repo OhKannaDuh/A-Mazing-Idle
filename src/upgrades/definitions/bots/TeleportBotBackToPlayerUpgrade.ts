@@ -11,11 +11,15 @@ export class TeleportBotBackToPlayerUpgrade extends Upgrade {
     super(game, UpgradeType.MOVEMENT, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel, true);
   }
   
-  updateUiProperties(): void {
+  public updateUiProperties(): void {
     this.setUiText(`Teleport Bot Back to Player: ${this.getPrettyPrintCost()} pts`);
   }
 
-  getCost(): number {
+  public getCost(): number {
     return TELEPORT_BOT_BACK_TO_PLAYER_UPGRADE_COST;
+  }
+
+  public getPreReqUpgradeKeys(): UpgradeKey[] {
+    return [UpgradeKey.PLAYER_MOVE_INDEPENDENTLY];
   }
 }

@@ -96,7 +96,7 @@ class Upgrade {
   }
 
   public isUnlocked(): boolean {
-    return this.game.biomes.isUpgradeUnlocked(this.upgradeKey);
+    return this.game.biomes.isUpgradeUnlocked(this.upgradeKey) && this.isAllPrerequisiteUpgradesComplete();
   }
 
   public prettyPrint(val): string {
@@ -109,6 +109,15 @@ class Upgrade {
 
   public isMaxUpgradeLevel(): boolean {
     return this.isSinglePurchase && this.upgradeLevel >= 1;
+  }
+
+  public isAllPrerequisiteUpgradesComplete(): boolean {
+    const prereqUpgradeKeys = this.getPreReqUpgradeKeys();
+    return prereqUpgradeKeys.every(key => this.game.upgrades.isUpgraded(key));
+  }
+
+  public getPreReqUpgradeKeys(): UpgradeKey[] {
+    return [];
   }
 }
 

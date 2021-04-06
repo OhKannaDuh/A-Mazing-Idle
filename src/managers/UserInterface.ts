@@ -178,4 +178,12 @@ export class UserInterface {
       this.showModalByType(modalType as ModalType, false);
     }
   }
+
+  public showSaveModalForDuration(visibilityDuration: number): void {
+    UserInterface.setIdVisible('saveToastModal', true);
+    
+    setTimeout(() => {
+      UserInterface.setIdVisible('saveToastModal', false);
+    }, visibilityDuration)
+  }
 }

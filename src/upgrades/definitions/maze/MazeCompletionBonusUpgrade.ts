@@ -4,7 +4,7 @@ import { MAZE_COMPLETION_BONUS_UPGRADE_BASE_COST, MAZE_COMPLETION_BONUS_UPGRADE_
 import { UserInterface } from "managers/UserInterface";
 
 const BUTTON_UI_ID = 'buyMazeCompletionBonusUpgrade';
-const TOOLTIP_TEXT = 'Each maze completion is worth more points!';
+const TOOLTIP_TEXT = 'Each maze completion is worth more points! Larger mazes are worth more points.';
 
 export class MazeCompletionBonusUpgrade extends Upgrade {
   

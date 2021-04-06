@@ -101,7 +101,7 @@ export class PowerUp {
   }
   
   public activatePowerUpTimer(): void {
-    if (this.activateTimer) {
+    if (this.activateTimer || this.cooldownTimer) {
       return;
     }
     this.resetAllTimers();

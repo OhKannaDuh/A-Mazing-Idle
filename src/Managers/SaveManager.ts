@@ -1,7 +1,8 @@
 import Game from "managers/Game";
 
-const SAVE_GAME_INTERVAL = 10000;
+const SAVE_GAME_INTERVAL = 20000;
 const SAVE_GAME_LOCAL_STORE_KEY = 'a-mazing-idle';
+const SAVE_TOAST_VISIBILITY_DURATION = 3000;
 
 export class SaveManager {
   private game: Game;
@@ -25,6 +26,7 @@ export class SaveManager {
   }
 
   saveGameToLocalStorage() {
+    this.game.ui.showSaveModalForDuration(SAVE_TOAST_VISIBILITY_DURATION);
     let saveJson = this.createSaveJsonObject();
     this.persistSaveToLocalStorage(saveJson);
   }

@@ -10,6 +10,7 @@ UI Fixes:
 Features:
 --> (*) Debounce speed of manual movement
 --> (*) Splitting from manual movement
+--> Avoid revisit after deadend split
 --> Allow option for splits on visited tiles
 --> Points for clearing destructible walls
 --> "Luck" upgrade

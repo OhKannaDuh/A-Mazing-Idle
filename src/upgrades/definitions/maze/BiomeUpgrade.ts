@@ -4,7 +4,7 @@ import { UpgradeKey, UpgradeType } from "constants/UpgradeConstants";
 import { getBiomeUpgradeCost } from "constants/BiomeConstants";
 
 const BUTTON_UI_ID = 'buyBiomeUpgrade';
-const TOOLTIP_TEXT = 'This will bring you to a brand new biome with more difficult mazes, but with new items and much higher point rewards!';
+const TOOLTIP_TEXT = 'This will bring you to a new biome with more difficult mazes, but with better items and increased point rewards!';
 
 export class BiomeUpgrade extends Upgrade {
   

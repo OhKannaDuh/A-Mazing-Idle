@@ -12,12 +12,16 @@ export class BotMovementSpeedUpgrade extends Upgrade {
     super(game, UpgradeType.BOT, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel);
   }
   
-  updateUiProperties(): void {
+  public updateUiProperties(): void {
     const interval = UserInterface.getPrettyPrintNumber(this.game.rngBot.getBotMoveInterval());
     this.setUiText(`Bot Movement Speed (${interval} ms): ${this.getPrettyPrintCost()} pts`);
   }
 
-  getCost(): number {
+  public getCost(): number {
     return BOT_MOVEMENT_UPGRADE_BASE_COST * Math.pow(BOT_MOVEMENT_UPGRADE_BASE_COST_MUTLIPLIER, this.upgradeLevel);
+  }
+
+  public getPreReqUpgradeKeys(): UpgradeKey[] {
+    return [UpgradeKey.AUTO_MOVE];
   }
 }
