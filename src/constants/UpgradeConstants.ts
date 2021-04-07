@@ -117,13 +117,13 @@ export const BIOME_UPGRADE_COST_ARR = [
   1000,
   2000,
   4000,
-  10000,
+  8000,
   15000,
   25000,
   40000,
-  60000,
-  100000,
-  160000
+  70000,
+  120000,
+  240000
 ]
 
 export const BIOME_UPGRADE_BASE_MULTPLIER = 1.5;

@@ -4,10 +4,10 @@
   "description": "A Mazing Idle - Incremental Game",
   "main": "index.js",
   "scripts": {
-    "build-cli": "browserify -p tsify -t [ babelify --extensions .ts ] src/index.ts > public/bundle.js",
-    "build-script": "node ./build.js > public/bundle.js",
+    "build-cli": "browserify -p tsify -t [ babelify --extensions .ts ] src/index.ts > public/bundle-0.1.0.js",
+    "build-script": "node ./build.js > public/bundle-0.1.0.js",
     "build": "npm run build-script",
-    "gogogo": "watchify ./build.js -o public/bundle.js"
+    "gogogo": "watchify ./build.js -o public/bundle-0.1.0.js"
   },
   "repository": {
     "type": "git",

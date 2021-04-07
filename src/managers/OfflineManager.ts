@@ -4,7 +4,7 @@ import Game from "./Game";
 import { ModalType, UserInterface } from "./UserInterface";
 
 const SERIALIZABLE_PROPERTIES: string[] = ['saveTimeStamp', 'offlinePointsPerSecond'];
-const MAX_OFFLINE_TIME_IN_MS: number = (3 * 60 * 60 * 1000);
+const MAX_OFFLINE_TIME_IN_MS: number = (60 * 60 * 1000);
 const MIN_TIME_FOR_BANNER_MS: number = (30000);
 
 export class OfflineManager extends Serializable {
