@@ -1,6 +1,6 @@
 import { UpgradeKey } from "constants/UpgradeConstants";
 import Game from "managers/Game";
-import { Tile } from "managers/MazeManager";
+import { Tile, TileVector } from "managers/MazeManager";
 import { isTileEqual } from "managers/MazeUtils";
 import Player from "models/Player";
 
@@ -13,16 +13,16 @@ export class PlayerManager {
     this.playerMap = new Map<number, Player>();
   }
 
-  public resetAllPlayers() {
+  public resetAllPlayers(): void {
     this.playerMap.clear();
   }
 
-  public createDefaultPlayer() {
+  public createDefaultPlayer(): void {
     this.createNewPlayerObj(this.game.maze.getGrid().internalStartTile);
   }
 
-  public createNewPlayerObj(startTile, isPrimaryBot = false) {
-    const newPlayer: Player = new Player(this.game, this.getNewPlayerId(), startTile, startTile, false, isPrimaryBot);
+  public createNewPlayerObj(startTile: Tile): Player {
+    const newPlayer: Player = new Player(this.game, this.getNewPlayerId(), startTile, startTile, false);
     this.playerMap.set(newPlayer.id, newPlayer);
     this.game.maze.updatePlayerTile(newPlayer.id, startTile)
     return newPlayer;
@@ -37,6 +37,13 @@ export class PlayerManager {
     return null;
   }
 
+  public getPlayerOrDefaultBotId(): number {
+    const manualPlayer = this.getManuallyControlledPlayer();
+    return manualPlayer
+      ? manualPlayer.id
+      : this.getFirstAutoBotId();
+  }
+
   public getIsPlayerManuallyControlling(): boolean {
     return this.getManuallyControlledPlayer() == null ? false : true;
   }
@@ -46,23 +53,33 @@ export class PlayerManager {
     return this.playerMap.size - (isExcludeManualControl && this.getIsPlayerManuallyControlling() ? 1 : 0)    ;
   }
 
-  private isPrimaryBotPresent(): boolean {
-    return this.getPrimaryBot() == null ? false : true;
+  private isAutoBotPresent(): boolean {
+    // Check if any non-manual controlled 
+    return this.getFirstAutoBot() != null;
   }
 
-  public getPrimaryBot(): Player {
+  public getFirstAutoBot(): Player {
+    // Find first bot that is not manually controlled
     for (let [id, player] of this.playerMap) {
-      if (player.isPrimaryBot) {
+      if (!player.isManuallyControlled) {
         return player;
       }
     }
     return null;
   }
+
+  public getFirstAutoBotId(): number {
+    const bot = this.getFirstAutoBot();
+    return bot ? bot.id : null;
+  }
   
-  public movePlayer(playerId, dirVector, isManual=false): void {
+  public movePlayer(playerId: number, dirVector: TileVector, isManual: boolean = false): void {
     const player = this.getPlayer(playerId);
     
-    if (player == null) return;
+    if (player == null) {
+      console.log('tried moving null player');
+      return;
+    }
     if (!this.game.maze.canMove(player.currTile, dirVector, false, false, player.hasGhostItemActive())) {
       // If player can't move, ensure no destructible tiles are holding them
       this.game.maze.clearDestructibleTilesFromTile(player.currTile);
@@ -78,8 +95,8 @@ export class PlayerManager {
     if (isManual) {
       // Spawn new bot unless it exists already.
       if (this.game.upgrades.isUpgraded(UpgradeKey.PLAYER_MOVE_INDEPENDENTLY)) {
-        if (!this.isPrimaryBotPresent()) {
-          this.createNewPlayerObj(this.getCurrTile(playerId), true);
+        if (!this.isAutoBotPresent()) {
+          this.createNewPlayerObj(this.getCurrTile(playerId));
         }
         // If independence upgraded, don't re-enable the timer to have a bot take over.
         this.game.rngBot.disableReEnableBotMovementTimer();
@@ -121,26 +138,7 @@ export class PlayerManager {
     const player = this.getPlayer(playerId);
     const currTile = player.currTile;
     this.playerMap.delete(playerId);
-
-    // There must always be a primary bot.  Re-assign at random if primary bot deleted.
-    if (player.isPrimaryBot) {
-      this.assignPrimaryBotToPlayer();
-    }
     this.game.maze.setTileBackgroundColor(currTile, true);
-  }
-
-  // Try to assign a new primary bot based on ID.  Else, pick first bot.
-  private assignPrimaryBotToPlayer(playerId: number = null): void {
-    for (let [id, player] of this.playerMap) {
-      if (playerId == null && !player.isManuallyControlled) {
-        player.isPrimaryBot = true;
-        return;
-      }
-      if (player.id === playerId) {
-        player.isPrimaryBot = true;
-        return;
-      }
-    }
   }
 
   public getPlayer(playerId): Player {
@@ -159,6 +157,8 @@ export class PlayerManager {
           return this.game.colors.getMultiplierItemPlayerColor();
         } else if (player.hasUnlimitedSplitItemActive()) {
           return this.game.colors.getUnlimitedSplitPlayerColor();
+        } else if (player.hasGhostItemActive()) {
+          return this.game.colors.getGhostItemPlayerColor();
         } else {
           return this.game.colors.getBotColor();
         }

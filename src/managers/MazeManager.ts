@@ -106,9 +106,6 @@ export class MazeManager {
       `<div style="background-color:${tileColor}; border-radius: ${border_radius_value};-moz-border-radius: ${border_radius_value}; width: 100%; height: 100%; z-index: -1"></div>`
     );
     $(`#${new_tile_key}`).css("background-color", this.game.colors.getVisitedTileColor());
-    // $(`#${new_tile_key}`).css("-moz-border-radius", isPlayer ? "90%" : "0%");
-    // $(`#${new_tile_key}`).css('border-radius', isPlayer ? '90%' : '0%');
-    // $(`#${new_tile_key}`).css("z-index", -1);
   }
 
   public spawnSplitBot(
@@ -175,12 +172,8 @@ export class MazeManager {
     // Pick up items if any are on the tile
     this.game.items.pickupItem(newTile, playerId);
 
-    if (
-      this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_SPLIT_BOT_AUTO_MERGE)
-    ) {
-      const playerIdsAtTileArr = this.game.players.getPlayerIdsAtTile(
-        player.currTile
-      );
+    if (this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_SPLIT_BOT_AUTO_MERGE)) {
+      const playerIdsAtTileArr = this.game.players.getPlayerIdsAtTile(player.currTile);
       playerIdsAtTileArr.forEach((killPlayerId) => {
         const mergedPlayer = this.game.players.getPlayer(killPlayerId);
 
@@ -192,12 +185,9 @@ export class MazeManager {
             //TODO: powerups have no way of transitioning.
           }
           if (mergedPlayer.hasSmartPathingRemaining()) {
-            player.smartPathingTileDistanceRemaining +=
-              mergedPlayer.smartPathingTileDistanceRemaining;
+            player.smartPathingTileDistanceRemaining += mergedPlayer.smartPathingTileDistanceRemaining;
           }
-          if (mergedPlayer.isPrimaryBot) {
-            player.isPrimaryBot = true;
-          }
+
           this.game.players.deletePlayer(killPlayerId);
         }
       });
@@ -205,52 +195,24 @@ export class MazeManager {
   }
 
   public clearDestructibleTilesFromTile(tile: Tile) {
-    this.clearDestructibleTileByVector(
-      tile,
-      DIRECTION_UP,
-      MazeDirectionIndex.UP
-    );
-    this.clearDestructibleTileByVector(
-      tile,
-      DIRECTION_DOWN,
-      MazeDirectionIndex.DOWN
-    );
-    this.clearDestructibleTileByVector(
-      tile,
-      DIRECTION_LEFT,
-      MazeDirectionIndex.LEFT
-    );
-    this.clearDestructibleTileByVector(
-      tile,
-      DIRECTION_RIGHT,
-      MazeDirectionIndex.RIGHT
-    );
+    this.clearDestructibleTileByVector(tile, DIRECTION_UP, MazeDirectionIndex.UP);
+    this.clearDestructibleTileByVector(tile, DIRECTION_DOWN, MazeDirectionIndex.DOWN);
+    this.clearDestructibleTileByVector(tile, DIRECTION_LEFT, MazeDirectionIndex.LEFT);
+    this.clearDestructibleTileByVector(tile, DIRECTION_RIGHT, MazeDirectionIndex.RIGHT);
   }
 
-  public clearDestructibleTileByVector(
-    tile: Tile,
-    direction: TileVector,
-    mazeDirectionIndex: MazeDirectionIndex
-  ): void {
+  public clearDestructibleTileByVector(tile: Tile, direction: TileVector, mazeDirectionIndex: MazeDirectionIndex): void {
     const neighborTile = getNewTilePositionByVector(tile, direction);
     if (!this.maze.grid.isValidTile(neighborTile)) return;
 
     // Neighbor has inverse direction
     const neighborDirectionIndex = getInverseDirectionIndex(mazeDirectionIndex);
 
-    if (
-      this.getGrid().getCellWallType(tile, mazeDirectionIndex) ===
-        MazeWallTypes.DESTRUCTIBLE_WALL &&
-      this.getGrid().getCellWallType(tile, neighborDirectionIndex) ===
-        MazeWallTypes.DESTRUCTIBLE_WALL
-    ) {
-      this.maze
-        .getCell(tile)
-        .setWallTypeAtIndex(mazeDirectionIndex, MazeWallTypes.NO_WALL);
-      this.maze
-        .getCell(neighborTile)
-        .setWallTypeAtIndex(neighborDirectionIndex, MazeWallTypes.NO_WALL);
-
+    if (this.getGrid().getCellWallType(tile, mazeDirectionIndex) === MazeWallTypes.DESTRUCTIBLE_WALL &&
+        this.getGrid().getCellWallType(neighborTile, neighborDirectionIndex) === MazeWallTypes.DESTRUCTIBLE_WALL) {
+      this.maze.getCell(tile).setWallTypeAtIndex(mazeDirectionIndex, MazeWallTypes.NO_WALL);
+      this.maze.getCell(neighborTile).setWallTypeAtIndex(neighborDirectionIndex, MazeWallTypes.NO_WALL);
+        
       // Update the UI with the new tile border css.
       this.game.ui.setTileCssV2(this.maze, tile);
       this.game.ui.setTileCssV2(this.maze, neighborTile);
@@ -283,10 +245,7 @@ export class MazeManager {
       tileVal = this.getGrid().getCellWallType(tile, MazeDirectionIndex.RIGHT);
     }
 
-    return (
-      tileVal === MazeWallTypes.NO_WALL ||
-      (isIgnoreDestructibleWalls && tileVal === MazeWallTypes.DESTRUCTIBLE_WALL)
-    );
+    return (tileVal === MazeWallTypes.NO_WALL || (isIgnoreDestructibleWalls && tileVal === MazeWallTypes.DESTRUCTIBLE_WALL));
   }
 
   public getPossibleSplitBotCount(validDirs) {
@@ -311,7 +270,7 @@ export class MazeManager {
 
   public teleportPlayerBackToBot(): void {
     const manualPlayer = this.game.players.getManuallyControlledPlayer();
-    const primaryBot = this.game.players.getPrimaryBot();
+    const primaryBot = this.game.players.getFirstAutoBot();
     if (!manualPlayer || !primaryBot) return;
 
     // Move player and delete the bot.
@@ -321,7 +280,7 @@ export class MazeManager {
 
   public teleportBotBackToPlayer(): void {
     const manualPlayer = this.game.players.getManuallyControlledPlayer();
-    const primaryBot = this.game.players.getPrimaryBot();
+    const primaryBot = this.game.players.getFirstAutoBot();
     if (!manualPlayer || !primaryBot) return;
 
     // Move player and delete the bot.
@@ -337,11 +296,7 @@ export class MazeManager {
     );
   }
 
-  public getValidDirectionsByTile(
-    tile,
-    isIgnoreWalls = false,
-    isIncludeDestructible = false
-  ) {
+  public getValidDirectionsByTile(tile: Tile, isIgnoreWalls: boolean = false, isIncludeDestructible: boolean = false) {
     const validDirsArr = DIRECTIONS_ARR.filter((dir) =>
       this.canMove(tile, dir, false, isIncludeDestructible, isIgnoreWalls)
     );

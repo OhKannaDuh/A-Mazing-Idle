@@ -48,18 +48,18 @@ export class SaveManager {
     return gameJson;
   }
   
-  importSaveJsonObject = (jsonObj: any): void => {
+  private importSaveJsonObject = (jsonObj: any): void => {
     for (let gameProp in jsonObj) {
       this.game[gameProp].deserialize(jsonObj[gameProp]);
     }
   }
 
-  persistSaveToLocalStorage(jsonObj) {
+  private persistSaveToLocalStorage(jsonObj): void {
     let jsonString = JSON.stringify(jsonObj);
     localStorage.setItem(SAVE_GAME_LOCAL_STORE_KEY, jsonString);
   }
 
-  getSaveJsonFromLocalStorage() {
+  private getSaveJsonFromLocalStorage(): any {
     let json = localStorage.getItem(SAVE_GAME_LOCAL_STORE_KEY);
     if (json === null || json === "") {
       return null;
@@ -67,12 +67,27 @@ export class SaveManager {
     try {
       return JSON.parse(json);
     } catch (e) {
-      console.error('Failed to parse local game save.  Error: ' + e.message + '.  \n\nLocal Save Json: json');
+      console.error(`Failed to parse local game save.  Error: ${e.message}.  \n\nLocal Save Json: ${json}`);
       return null;
     }
   }
 
-  clearLocalStorage() {
+  public clearLocalStorage(): void {
     localStorage.clear();
+  }
+
+  public copySaveToClipboard(): void {
+    const saveJson = this.getSaveJsonFromLocalStorage();
+    if (!saveJson) return;
+
+    const el = document.createElement('textarea');
+    el.value = JSON.stringify(saveJson);
+    el.setAttribute('readonly', '');
+    el.style.position = 'absolute';
+    el.style.left = '-9999px';
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
   }
 }

@@ -36,10 +36,8 @@ class FruitMazeItem extends MazeItem {
   public static getFruitPickupPointsAmount(game: Game): number {
     const upgradeLevelMultiplier = game.upgrades.getUpgradeLevel(UpgradeKey.FRUIT_PICKUP_POINTS);
     const fruitTier = FruitMazeItem.getCurrentFruitType(game).fruitTier;
-    // const baseAmount = this.getCurrentFruitType(game).basePoints;
-    // return baseAmount * Math.pow(FRUIT_PICKUP_POINTS_BASE_AMOUNT_MULTIPLIER, upgradeLevel);
     const pointsPerVisit = game.points.getPointsPerVisit();
-    return (5*upgradeLevelMultiplier + fruitTier * 10 + 10) * pointsPerVisit;
+    return (4.5*upgradeLevelMultiplier + fruitTier * 5 + 10) * pointsPerVisit;
   }
   
   public static getItemSpawnProbability(game: Game): number {

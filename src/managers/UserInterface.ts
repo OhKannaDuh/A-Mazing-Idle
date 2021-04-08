@@ -17,6 +17,7 @@ export enum ModalType {
   STATS_MODAL = "STATS_MODAL",
   SETTINGS_MODAL = "SETTINGS_MODAL",
   OFFLINE_SCORE_MODAL = "OFFLINE_SCORE_MODAL",
+  HELP_MODAL = "HELP_MODAL",
 }
 
 export class UserInterface {
@@ -44,7 +45,12 @@ export class UserInterface {
     $(`#newGame`).click(() => this.game.hardResetGame());
     $(`#clearAllStats`).click(() => this.game.stats.initStatsMap());
     $(`#statsButton`).click((e) => this.showModalByType(ModalType.STATS_MODAL, true, e));
+    $(`#helpButton`).click((e) => {
+      this.showModalVisibleById(ModalType.SETTINGS_MODAL, false);
+      this.showModalByType(ModalType.HELP_MODAL, true, e);
+    });
     $(`#settingsButton`).click((e) => this.showModalByType(ModalType.SETTINGS_MODAL, true, e));
+    $(`#copySaveJson`).click(() => this.game.save.copySaveToClipboard());
   }
 
   public setPointsText(): void {
@@ -86,7 +92,7 @@ export class UserInterface {
     if (val === MazeWallTypes.WALL) {
       return `${MAZE_BORDER_WIDTH} solid ${borderColor}`;
     } else if (val === MazeWallTypes.DESTRUCTIBLE_WALL) {
-      return `${MAZE_BORDER_WIDTH} dotted ${borderColor}`;
+      return `2px dotted ${borderColor}`;
     } else if (val === MazeWallTypes.OUT_OF_BOUNDS_WALL || val == null) {
       return ``;
     } else {
@@ -157,7 +163,10 @@ export class UserInterface {
       this.showModalVisibleById("offlineModal", setVisible);
     } else if (modalType === ModalType.STATS_MODAL) {
       this.showModalVisibleById("statsModal", setVisible);
+    } else if (modalType === ModalType.HELP_MODAL) {
+      this.showModalVisibleById("helpModal", setVisible);
     }
+    console.error(`Invalid modal to show: ${modalType}`);
   }
 
   private showModalVisibleById(modalId: string, setVisible: boolean = true): void {

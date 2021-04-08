@@ -47,6 +47,10 @@ export class ColorManager {
     return this.getBiomeColorPalette().unlimitedSplitBotPlayerColor;
   }
 
+  public getGhostItemPlayerColor(): string {
+    return this.getBiomeColorPalette().ghostItemPlayerColor;
+  }
+
   public getSmartPathingPlayerColor(): string {
     return this.getBiomeColorPalette().smartPathingPlayerColor;
   }

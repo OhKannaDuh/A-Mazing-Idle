@@ -42,6 +42,12 @@ export class MazeGrid {
     this.setStartAndEndTile();
   }
 
+  // private createMazeGrid(): void {
+  //   this.generateMazeGrid();
+  //   // Must be generated after full maze generation (and dead cell marking)
+  //   this.generateDestructibleWalls();
+  // }
+
   public generateMazeGrid() {
     // Default fill the whole grid with regular cells
     this.grid = [];
@@ -51,6 +57,14 @@ export class MazeGrid {
         this.grid[y][x] = new MazeCell(x, y);
         this.tileCount++;
       }
+    }
+  }
+
+  public generateDestructibleWalls() {
+    const cellList = this.getAllCells();
+    for (const cell of cellList) {
+      if (cell.isCellDead()) return;
+
     }
   }
 
@@ -103,7 +117,6 @@ export class MazeGrid {
     
   public isVisited(tile: Tile): boolean {
     // Exit tile is not visited.
-    //TODO: evaluate if we can handle this better.
     if (isTileEqual(tile, this.externalExitTile)) return false;
     const cell = this.getCell(tile);
     if (cell) {

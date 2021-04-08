@@ -33,7 +33,6 @@
         
       </div>
       <div class='nav-right'>
-        
         <button id='statsButton'>
           <div class='button_label'>Stats</div>
         </button>
@@ -101,10 +100,13 @@
         </div>
       </div>
 
-      <!-- SAVING -->
+      <!-- SETTINGS MODAL -->
       <div id='settingsModal' class='modal'>
         <div class='modal-content'>
           <h3>Saving</h3>
+          <button id='helpButton'>
+            <div class='button_label'>HELP!</div>
+          </button>
           <button id='newGame'>
             <div class='button_label'>New Game</div>
           </button>
@@ -116,6 +118,9 @@
           </button>
           <button id='clearAllStats'>
             <div class='button_label'>CLEAR All Stats</div>
+          </button>
+          <button id='copySaveJson'>
+            <div class='button_label'>COPY Save Json</div>
           </button>
         </div>
       </div>
@@ -158,8 +163,8 @@
       </div>
     </div>
 
+    <!-- OFFLINE POINTS MODAL -->
     <div id='offlineModal' class='modal'>
-      <!-- Modal content -->
       <div class='modal-content'>
         <h2>Welcome Back to A-Mazing-Idle!</h2>
         <p>You were offline for: <span id='offlineModalDuration'></span> seconds</p>
@@ -167,6 +172,25 @@
         <br>
         <p>Offline points rate: <span id='offlineModalPointsPerSecond'></span> pts/second</p>
         <b><p>Total Points Earned: <span id='offlineModalPointsEarned'></span> pts</p></b>
+      </div>
+    </div>
+    
+    <!-- HELP MODAL -->
+    <div id='helpModal' class='modal'>
+      <div class='modal-content'>
+        <h2>Welcome to A Mazing Idle!</h2>
+        <p>The objective of this game is to earn more points by completing mazes, picking up fruits, and unlocking new biomes! 
+          <br><br>
+          Unlocking new biomes is how you progress through the game to unlock more upgrades, fancier mazes, and higher point rewards. 
+          This should generally be your priority, but you do you.
+          <br><br>
+          Bots will be unlocked after the first biome, but is very dumb to start. 
+          Unlocking and purchasing more bot upgrades will speed up your bots and increase their intelligence and allow them to solve mazes faster!  
+          <br><br>
+          Items will spawn periodically throughout the mazes and give you points early on! Later on, not all items may be friendly...
+          <br><br>
+          Powerups will be unlocked as you progress through biomes. Powersup are manually activated (to start) and will help you earn points faster!
+        </p>
       </div>
     </div>
 

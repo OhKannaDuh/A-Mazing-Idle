@@ -31,27 +31,30 @@ $(document).ready(() => {
   game.startGame();
   game.save.startSaveTimer();
 
-  
   //TODO: this should be in UI
   $(document).keydown(function(event) {
     // Up
     if (event.keyCode === UP_KEY || event.keyCode === W_KEY) {
-      game.players.movePlayer(DEFAULT_PLAYER_ID, DIRECTION_UP, true);
+      const currPlayerId = game.players.getPlayerOrDefaultBotId();
+      game.players.movePlayer(currPlayerId, DIRECTION_UP, true);
       event.preventDefault();
     }
     // Down
     else if (event.keyCode === DOWN_KEY || event.keyCode === S_KEY) {
-      game.players.movePlayer(DEFAULT_PLAYER_ID, DIRECTION_DOWN, true);
+      const currPlayerId = game.players.getPlayerOrDefaultBotId();
+      game.players.movePlayer(currPlayerId, DIRECTION_DOWN, true);
       event.preventDefault();
     }
     // Left
     else if (event.keyCode === LEFT_KEY || event.keyCode === A_KEY) {
-      game.players.movePlayer(DEFAULT_PLAYER_ID, DIRECTION_LEFT, true);
+      const currPlayerId = game.players.getPlayerOrDefaultBotId();
+      game.players.movePlayer(currPlayerId, DIRECTION_LEFT, true);
       event.preventDefault();
     }
     // Right
     else if (event.keyCode === RIGHT_KEY || event.keyCode === D_KEY) {
-      game.players.movePlayer(DEFAULT_PLAYER_ID, DIRECTION_RIGHT, true);
+      const currPlayerId = game.players.getPlayerOrDefaultBotId();
+      game.players.movePlayer(currPlayerId, DIRECTION_RIGHT, true);
       event.preventDefault();
     }
     // E = Teleport Bot to Player

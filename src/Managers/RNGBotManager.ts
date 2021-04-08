@@ -87,10 +87,13 @@ export class RNGBotManager {
     this.rngBotGlobalInterval = null;
   }
 
-  moveRandomly(playerId) {
+  private moveRandomly(playerId) {
     if (!this.game.players.playerExists(playerId)) return;
     const dirArr = this.chooseRandomDirectionsArr(playerId);
     if (!dirArr || dirArr.length === 0) {
+      // If player can't move, ensure no destructible tiles are holding them
+      const player = this.game.players.getPlayer(playerId);
+      if (player != null) this.game.maze.clearDestructibleTilesFromTile(player.currTile);
       return;
     }
     

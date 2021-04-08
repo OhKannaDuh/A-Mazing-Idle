@@ -93,7 +93,7 @@ var getBiomeColorPalette = exports.getBiomeColorPalette = function getBiomeColor
     return _ColorConstants.BIOME_0_COLOR_PALETTE;
 };
 var POWER_UP_UNLOCKS = exports.POWER_UP_UNLOCKS = new Map([[_PowerUpConstants.PowerUpKey.SPEED_UP, 7], [_PowerUpConstants.PowerUpKey.POINTS_MULTIPLIER, 10]]);
-var BIOME_ITEM_UNLOCKS = exports.BIOME_ITEM_UNLOCKS = new Map([[_ItemConstants.MazeItemKey.FRUIT, 1], [_ItemConstants.MazeItemKey.MULTIPLIER, 2], [_ItemConstants.MazeItemKey.BRAIN, 7], [_ItemConstants.MazeItemKey.UNLIMITED_SPLITS, 12], [_ItemConstants.MazeItemKey.BLACK_HOLE, 14], [_ItemConstants.MazeItemKey.GHOST, 16]]);
+var BIOME_ITEM_UNLOCKS = exports.BIOME_ITEM_UNLOCKS = new Map([[_ItemConstants.MazeItemKey.FRUIT, 1], [_ItemConstants.MazeItemKey.MULTIPLIER, 2], [_ItemConstants.MazeItemKey.BRAIN, 7], [_ItemConstants.MazeItemKey.BLACK_HOLE, 12], [_ItemConstants.MazeItemKey.UNLIMITED_SPLITS, 14], [_ItemConstants.MazeItemKey.GHOST, 16]]);
 var BIOME_UPGRADE_UNLOCKS = exports.BIOME_UPGRADE_UNLOCKS = new Map([[_UpgradeConstants.UpgradeKey.BIOME, 0], [_UpgradeConstants.UpgradeKey.AUTO_MOVE, 1], [_UpgradeConstants.UpgradeKey.POINTS_PER_VISIT, 1], [_UpgradeConstants.UpgradeKey.BOT_MOVEMENT_SPEED, 1], [_UpgradeConstants.UpgradeKey.PRIORITIZE_UNVISITED, 2], [_UpgradeConstants.UpgradeKey.MAZE_SIZE_UPGRADE, 2], [_UpgradeConstants.UpgradeKey.AVOID_REVISIT_LAST_POSITION, 3], [_UpgradeConstants.UpgradeKey.MAZE_COMPLETION_BONUS, 3], [_UpgradeConstants.UpgradeKey.AUTO_EXIT_MAZE, 4], [_UpgradeConstants.UpgradeKey.PLAYER_MOVE_INDEPENDENTLY, 4], [_UpgradeConstants.UpgradeKey.FRUIT_SPAWN, 5], [_UpgradeConstants.UpgradeKey.TELEPORT_BOT_BACK_TO_PLAYER, 5], [_UpgradeConstants.UpgradeKey.TELEPORT_PLAYER_BACK_TO_BOT, 5], [_UpgradeConstants.UpgradeKey.FRUIT_PICKUP_POINTS, 6], [_UpgradeConstants.UpgradeKey.BOT_SPLIT_DIRECTION, 6], [_UpgradeConstants.UpgradeKey.BOT_REMEMBER_DEADEND_TILES, 7], [_UpgradeConstants.UpgradeKey.BRAIN_SPAWN, 7], [_UpgradeConstants.UpgradeKey.SPEED_UP_ACTIVATE_DURATION, 8], [_UpgradeConstants.UpgradeKey.POINTS_PER_REVISIT, 9], [_UpgradeConstants.UpgradeKey.SPEED_UP_ACTIVATE_DURATION, 9], [_UpgradeConstants.UpgradeKey.BRAIN_TILE_DISTANCE, 10], [_UpgradeConstants.UpgradeKey.BOT_SPLIT_BOT_AUTO_MERGE, 10], [_UpgradeConstants.UpgradeKey.SPEED_UP_MULTIPLIER_STRENGTH, 11], [_UpgradeConstants.UpgradeKey.MULTIPLIER_POWER_UP_ACTIVATE_DURATION, 11], [_UpgradeConstants.UpgradeKey.MULTIPLIER_POWER_UP_STRENGTH, 12], [_UpgradeConstants.UpgradeKey.DESTRUCTIBLE_WALLS, 15]]);
 var getMazeGridByBiome = exports.getMazeGridByBiome = function getMazeGridByBiome(biomeKey) {
     if (biomeKey >= 0 && biomeKey < 8) {
@@ -143,7 +143,8 @@ var DEFAULT_COLORS = exports.DEFAULT_COLORS = {
     DEAD_END_COLOR: '#F13241',
     SMART_PATHING_PLAYER_COLOR: '#DBAED8',
     MULTIPLIER_ITEM_PLAYER_COLOR: '#E3E95C',
-    UNLIMITED_SPLIT_BOT_PLAYER_COLOR: '#3E9BC7'
+    UNLIMITED_SPLIT_BOT_PLAYER_COLOR: '#3E9BC7',
+    GHOST_ITEM_PLAYER_COLOR: 'white'
 };
 var BIOME_0_COLORS = exports.BIOME_0_COLORS = {
     PLAYER_COLOR: '#ffde7d',
@@ -154,7 +155,8 @@ var BIOME_0_COLORS = exports.BIOME_0_COLORS = {
     DEAD_END_COLOR: '#fc5185',
     SMART_PATHING_PLAYER_COLOR: '#DBAED8',
     MULTIPLIER_ITEM_PLAYER_COLOR: '#E3E95C',
-    UNLIMITED_SPLIT_BOT_PLAYER_COLOR: '#3E9BC7'
+    UNLIMITED_SPLIT_BOT_PLAYER_COLOR: '#3E9BC7',
+    GHOST_ITEM_PLAYER_COLOR: 'white'
 };
 var BIOME_1_COLORS = exports.BIOME_1_COLORS = {
     PLAYER_COLOR: '#00b8a9',
@@ -165,7 +167,8 @@ var BIOME_1_COLORS = exports.BIOME_1_COLORS = {
     DEAD_END_COLOR: '#fc5185',
     SMART_PATHING_PLAYER_COLOR: '#DBAED8',
     MULTIPLIER_ITEM_PLAYER_COLOR: '#E3E95C',
-    UNLIMITED_SPLIT_BOT_PLAYER_COLOR: '#3E9BC7'
+    UNLIMITED_SPLIT_BOT_PLAYER_COLOR: '#3E9BC7',
+    GHOST_ITEM_PLAYER_COLOR: 'white'
 };
 var BIOME_0_COLOR_PALETTE = exports.BIOME_0_COLOR_PALETTE = new _BiomeColorPalette2.default(BIOME_0_COLORS.PLAYER_COLOR, BIOME_0_COLORS.RNG_BOT_COLOR, BIOME_0_COLORS.EMPTY_COLOR, BIOME_0_COLORS.VISITED_TILE_COLOR, BIOME_0_COLORS.MAZE_WALL_COLOR, BIOME_0_COLORS.DEAD_END_COLOR, BIOME_0_COLORS.SMART_PATHING_PLAYER_COLOR, BIOME_0_COLORS.MULTIPLIER_ITEM_PLAYER_COLOR, BIOME_0_COLORS.UNLIMITED_SPLIT_BOT_PLAYER_COLOR);
 var BIOME_1_COLOR_PALETTE = exports.BIOME_1_COLOR_PALETTE = new _BiomeColorPalette2.default(DEFAULT_COLORS.PLAYER_COLOR, DEFAULT_COLORS.RNG_BOT_COLOR, DEFAULT_COLORS.EMPTY_COLOR, DEFAULT_COLORS.VISITED_TILE_COLOR, DEFAULT_COLORS.MAZE_WALL_COLOR, DEFAULT_COLORS.DEAD_END_COLOR, DEFAULT_COLORS.SMART_PATHING_PLAYER_COLOR, DEFAULT_COLORS.MULTIPLIER_ITEM_PLAYER_COLOR, DEFAULT_COLORS.UNLIMITED_SPLIT_BOT_PLAYER_COLOR);
@@ -228,6 +231,7 @@ var BRAIN_SPAWN_BASE_PROBABILITY = exports.BRAIN_SPAWN_BASE_PROBABILITY = 0.001;
 var BRAIN_SPAWN_UPGRADE_FLAT_INCREASE_PROBABILITY = exports.BRAIN_SPAWN_UPGRADE_FLAT_INCREASE_PROBABILITY = 0.0005;
 var BRAIN_STARTING_TILE_DISTANCE = exports.BRAIN_STARTING_TILE_DISTANCE = 20;
 var BLACK_HOLE_ITEM_SPAWN_BASE_PROBABILITY = exports.BLACK_HOLE_ITEM_SPAWN_BASE_PROBABILITY = 0.002;
+var BLACK_HOLE_ITEM_SPAWN_BASE_INCREASE_AMOUNT_PER_BIOME = exports.BLACK_HOLE_ITEM_SPAWN_BASE_INCREASE_AMOUNT_PER_BIOME = 0.001;
 var UNLIMITED_SPLITS_PROBABILITY = exports.UNLIMITED_SPLITS_PROBABILITY = 0.0015;
 var GHOST_ITEM_SPAWN_PROBABILITY = exports.GHOST_ITEM_SPAWN_PROBABILITY = 0.0015;
 var GHOST_ITEM_STARTING_TILE_DISTANCE = exports.GHOST_ITEM_STARTING_TILE_DISTANCE = 20;
@@ -321,7 +325,7 @@ var BOT_MOVEMENT_UPGRADE_BASE_COST_MUTLIPLIER = exports.BOT_MOVEMENT_UPGRADE_BAS
 var BOT_REMEMBER_DEADEND_TILES_UPGRADE_BASE_COST = exports.BOT_REMEMBER_DEADEND_TILES_UPGRADE_BASE_COST = 1000;
 var BOT_REMEMBER_DEADEND_TILES_UPGRADE_BASE_COST_MULTIPLIER = exports.BOT_REMEMBER_DEADEND_TILES_UPGRADE_BASE_COST_MULTIPLIER = 3;
 // Maze
-var MAZE_COMPLETION_BONUS_BASE_MULTIPLIER = exports.MAZE_COMPLETION_BONUS_BASE_MULTIPLIER = 0.4;
+var MAZE_COMPLETION_BONUS_BASE_MULTIPLIER = exports.MAZE_COMPLETION_BONUS_BASE_MULTIPLIER = 0.75;
 var MAZE_COMPLETION_BONUS_UPGRADE_SIZE_MULTIPLIER = exports.MAZE_COMPLETION_BONUS_UPGRADE_SIZE_MULTIPLIER = 1.1;
 var MAZE_COMPLETION_BONUS_UPGRADE_BASE_COST = exports.MAZE_COMPLETION_BONUS_UPGRADE_BASE_COST = 100;
 var MAZE_COMPLETION_BONUS_UPGRADE_BASE_COST_MULTIPLIER = exports.MAZE_COMPLETION_BONUS_UPGRADE_BASE_COST_MULTIPLIER = 1.2;
@@ -331,14 +335,16 @@ var POINTS_PER_VISIT_UPGRADE_BASE_COST = exports.POINTS_PER_VISIT_UPGRADE_BASE_C
 var POINTS_PER_VISIT_UPGRADE_BASE_COST_MULTIPLIER = exports.POINTS_PER_VISIT_UPGRADE_BASE_COST_MULTIPLIER = 1.3;
 var POINTS_PER_VISIT_BASE_AMOUNT_MULTIPLIER = exports.POINTS_PER_VISIT_BASE_AMOUNT_MULTIPLIER = 1.05;
 var POINTS_PER_REVISIT_UPGRADE_BASE_COST = exports.POINTS_PER_REVISIT_UPGRADE_BASE_COST = 1000;
-var POINTS_PER_REVISIT_UPGRADE_BASE_COST_MULTIPLIER = exports.POINTS_PER_REVISIT_UPGRADE_BASE_COST_MULTIPLIER = 1.12;
+var POINTS_PER_REVISIT_UPGRADE_BASE_COST_MULTIPLIER = exports.POINTS_PER_REVISIT_UPGRADE_BASE_COST_MULTIPLIER = 1.14;
 var TILE_REVISIT_BASE_MULTIPLIER = exports.TILE_REVISIT_BASE_MULTIPLIER = 0;
-var TILE_REVISIT_BASE_MULTIPLIER_INCREASE_PERCENT = exports.TILE_REVISIT_BASE_MULTIPLIER_INCREASE_PERCENT = 0.01;
+var TILE_REVISIT_BASE_MULTIPLIER_INCREASE_PERCENT = exports.TILE_REVISIT_BASE_MULTIPLIER_INCREASE_PERCENT = 0.0075;
+var DESTRUCTIBLE_WALL_BASE_SPAWN_RATE = exports.DESTRUCTIBLE_WALL_BASE_SPAWN_RATE = 0.001;
+var DESTRUCTIBLE_WALL_BASE_SPAWN_RATE_INCREASE_PER_BIOME = exports.DESTRUCTIBLE_WALL_BASE_SPAWN_RATE_INCREASE_PER_BIOME = 0.001;
 // Items
 var FRUIT_SPAWN_UPGRADE_BASE_COST = exports.FRUIT_SPAWN_UPGRADE_BASE_COST = 100;
-var FRUIT_SPAWN_UPGRADE_BASE_COST_MULTIPLIER = exports.FRUIT_SPAWN_UPGRADE_BASE_COST_MULTIPLIER = 1.3;
+var FRUIT_SPAWN_UPGRADE_BASE_COST_MULTIPLIER = exports.FRUIT_SPAWN_UPGRADE_BASE_COST_MULTIPLIER = 1.35;
 var FRUIT_PICKUP_POINTS_UPGRADE_BASE_COST = exports.FRUIT_PICKUP_POINTS_UPGRADE_BASE_COST = 100;
-var FRUIT_PICKUP_POINTS_UPGRADE_BASE_COST_MULTIPLIER = exports.FRUIT_PICKUP_POINTS_UPGRADE_BASE_COST_MULTIPLIER = 1.3;
+var FRUIT_PICKUP_POINTS_UPGRADE_BASE_COST_MULTIPLIER = exports.FRUIT_PICKUP_POINTS_UPGRADE_BASE_COST_MULTIPLIER = 1.35;
 var BRAIN_SPAWN_RATE_UPGRADE_BASE_COST = exports.BRAIN_SPAWN_RATE_UPGRADE_BASE_COST = 100;
 var BRAIN_SPAWN_RATE_UPGRADE_BASE_COST_MULTIPLIER = exports.BRAIN_SPAWN_RATE_UPGRADE_BASE_COST_MULTIPLIER = 2;
 var BRAIN_TILE_DISTANCE_UPGRADE_BASE_COST = exports.BRAIN_TILE_DISTANCE_UPGRADE_BASE_COST = 10000;
@@ -458,8 +464,6 @@ var _Game = require("./managers/Game");
 
 var _Game2 = _interopRequireDefault(_Game);
 
-var _MazeManager = require("./managers/MazeManager");
-
 var _UpgradeConstants = require("./constants/UpgradeConstants");
 
 var _MazeUtils = require("./managers/MazeUtils");
@@ -491,22 +495,26 @@ $(document).ready(function () {
     $(document).keydown(function (event) {
         // Up
         if (event.keyCode === UP_KEY || event.keyCode === W_KEY) {
-            game.players.movePlayer(_MazeManager.DEFAULT_PLAYER_ID, _MazeUtils.DIRECTION_UP, true);
+            var currPlayerId = game.players.getPlayerOrDefaultBotId();
+            game.players.movePlayer(currPlayerId, _MazeUtils.DIRECTION_UP, true);
             event.preventDefault();
         }
         // Down
         else if (event.keyCode === DOWN_KEY || event.keyCode === S_KEY) {
-                game.players.movePlayer(_MazeManager.DEFAULT_PLAYER_ID, _MazeUtils.DIRECTION_DOWN, true);
+                var _currPlayerId = game.players.getPlayerOrDefaultBotId();
+                game.players.movePlayer(_currPlayerId, _MazeUtils.DIRECTION_DOWN, true);
                 event.preventDefault();
             }
             // Left
             else if (event.keyCode === LEFT_KEY || event.keyCode === A_KEY) {
-                    game.players.movePlayer(_MazeManager.DEFAULT_PLAYER_ID, _MazeUtils.DIRECTION_LEFT, true);
+                    var _currPlayerId2 = game.players.getPlayerOrDefaultBotId();
+                    game.players.movePlayer(_currPlayerId2, _MazeUtils.DIRECTION_LEFT, true);
                     event.preventDefault();
                 }
                 // Right
                 else if (event.keyCode === RIGHT_KEY || event.keyCode === D_KEY) {
-                        game.players.movePlayer(_MazeManager.DEFAULT_PLAYER_ID, _MazeUtils.DIRECTION_RIGHT, true);
+                        var _currPlayerId3 = game.players.getPlayerOrDefaultBotId();
+                        game.players.movePlayer(_currPlayerId3, _MazeUtils.DIRECTION_RIGHT, true);
                         event.preventDefault();
                     }
                     // E = Teleport Bot to Player
@@ -538,7 +546,7 @@ $(document).ready(function () {
     });
 });
 
-},{"./constants/PowerUpConstants":6,"./constants/UpgradeConstants":7,"./dev/devUtils":8,"./managers/Game":18,"./managers/MazeManager":20,"./managers/MazeUtils":21}],10:[function(require,module,exports){
+},{"./constants/PowerUpConstants":6,"./constants/UpgradeConstants":7,"./dev/devUtils":8,"./managers/Game":18,"./managers/MazeUtils":21}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -650,7 +658,8 @@ var BlackHoleMazeItem = function (_MazeItem) {
     }], [{
         key: "getItemSpawnProbability",
         value: function getItemSpawnProbability(game) {
-            return _ItemConstants.BLACK_HOLE_ITEM_SPAWN_BASE_PROBABILITY;
+            var biomeDiff = game.biomes.getItemUnlockBiomeDiffCount(_ItemConstants.MazeItemKey.BLACK_HOLE);
+            return _ItemConstants.BLACK_HOLE_ITEM_SPAWN_BASE_PROBABILITY + biomeDiff * _ItemConstants.BLACK_HOLE_ITEM_SPAWN_BASE_INCREASE_AMOUNT_PER_BIOME;
         }
     }]);
 
@@ -788,10 +797,8 @@ var FruitMazeItem = function (_MazeItem) {
         value: function getFruitPickupPointsAmount(game) {
             var upgradeLevelMultiplier = game.upgrades.getUpgradeLevel(_UpgradeConstants.UpgradeKey.FRUIT_PICKUP_POINTS);
             var fruitTier = FruitMazeItem.getCurrentFruitType(game).fruitTier;
-            // const baseAmount = this.getCurrentFruitType(game).basePoints;
-            // return baseAmount * Math.pow(FRUIT_PICKUP_POINTS_BASE_AMOUNT_MULTIPLIER, upgradeLevel);
             var pointsPerVisit = game.points.getPointsPerVisit();
-            return (5 * upgradeLevelMultiplier + fruitTier * 10 + 10) * pointsPerVisit;
+            return (4.5 * upgradeLevelMultiplier + fruitTier * 5 + 10) * pointsPerVisit;
         }
     }, {
         key: "getItemSpawnProbability",
@@ -850,7 +857,7 @@ var GhostMazeItem = function (_MazeItem) {
             _get(GhostMazeItem.prototype.__proto__ || Object.getPrototypeOf(GhostMazeItem.prototype), "triggerPickup", this).call(this, playerId);
             var player = this.game.players.getPlayer(playerId);
             if (player) {
-                player.ghostItemTileDistanceRemaining = _ItemConstants.GHOST_ITEM_STARTING_TILE_DISTANCE;
+                player.ghostItemTileDistanceRemaining += _ItemConstants.GHOST_ITEM_STARTING_TILE_DISTANCE;
             }
         }
     }], [{
@@ -989,6 +996,23 @@ var BiomeManager = exports.BiomeManager = function () {
             var requiredBiomeKey = _BiomeConstants.POWER_UP_UNLOCKS.get(powerUpKey);
             return this.isBiomeKeyUnlocked(requiredBiomeKey);
         }
+    }, {
+        key: "getItemsUnlockBiomeKey",
+        value: function getItemsUnlockBiomeKey(itemKey) {
+            return _BiomeConstants.BIOME_ITEM_UNLOCKS.has(itemKey) ? _BiomeConstants.BIOME_ITEM_UNLOCKS.get(itemKey) : 0;
+        }
+        // Get the number of biomes that a particular item has been unlocked for.
+
+    }, {
+        key: "getItemUnlockBiomeDiffCount",
+        value: function getItemUnlockBiomeDiffCount(itemKey) {
+            return this.getCurrentBiomeKey() - this.getItemsUnlockBiomeKey(itemKey);
+        }
+    }, {
+        key: "getUpgradeUnlockBiomeDiffCount",
+        value: function getUpgradeUnlockBiomeDiffCount(upgradeKey) {
+            return this.getCurrentBiomeKey() - _BiomeConstants.BIOME_UPGRADE_UNLOCKS.get(upgradeKey);
+        }
     }]);
 
     return BiomeManager;
@@ -1060,6 +1084,11 @@ var ColorManager = exports.ColorManager = function () {
         key: "getUnlimitedSplitPlayerColor",
         value: function getUnlimitedSplitPlayerColor() {
             return this.getBiomeColorPalette().unlimitedSplitBotPlayerColor;
+        }
+    }, {
+        key: "getGhostItemPlayerColor",
+        value: function getGhostItemPlayerColor() {
+            return this.getBiomeColorPalette().ghostItemPlayerColor;
         }
     }, {
         key: "getSmartPathingPlayerColor",
@@ -1244,6 +1273,8 @@ var _GhostMazeItem = require("../items/definitions/GhostMazeItem");
 
 var _GhostMazeItem2 = _interopRequireDefault(_GhostMazeItem);
 
+var _DestructibleWallUpgrade = require("../upgrades/definitions/maze/DestructibleWallUpgrade");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1297,6 +1328,7 @@ var MazeItemManager = exports.MazeItemManager = function () {
             var randomNumber = Math.random();
             var totalProb = 0;
             var unlockedMazeItemKeys = this.getAllUnlockedMazeItemKeys();
+            // Spawn all items based on probability
             var _iteratorNormalCompletion = true;
             var _didIteratorError = false;
             var _iteratorError = undefined;
@@ -1325,6 +1357,7 @@ var MazeItemManager = exports.MazeItemManager = function () {
                 }
             }
 
+            _DestructibleWallUpgrade.DestructibleWallUpgrade.getDestructibleWallSpawnProbability(this.game);
             return null;
         }
     }, {
@@ -1456,7 +1489,7 @@ var MazeItemManager = exports.MazeItemManager = function () {
     return MazeItemManager;
 }();
 
-},{"../constants/ItemConstants":5,"../items/definitions/BlackHoleMazeItem":11,"../items/definitions/BrainMazeItem":12,"../items/definitions/FruitMazeItem":13,"../items/definitions/GhostMazeItem":14,"../items/definitions/UnlimitedSplitsItem":15}],20:[function(require,module,exports){
+},{"../constants/ItemConstants":5,"../items/definitions/BlackHoleMazeItem":11,"../items/definitions/BrainMazeItem":12,"../items/definitions/FruitMazeItem":13,"../items/definitions/GhostMazeItem":14,"../items/definitions/UnlimitedSplitsItem":15,"../upgrades/definitions/maze/DestructibleWallUpgrade":66}],20:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1540,9 +1573,6 @@ var MazeManager = exports.MazeManager = function () {
             var border_radius_value = isPlayer ? "90%" : "0%";
             $("#" + new_tile_key).html("<div style=\"background-color:" + tileColor + "; border-radius: " + border_radius_value + ";-moz-border-radius: " + border_radius_value + "; width: 100%; height: 100%; z-index: -1\"></div>");
             $("#" + new_tile_key).css("background-color", this.game.colors.getVisitedTileColor());
-            // $(`#${new_tile_key}`).css("-moz-border-radius", isPlayer ? "90%" : "0%");
-            // $(`#${new_tile_key}`).css('border-radius', isPlayer ? '90%' : '0%');
-            // $(`#${new_tile_key}`).css("z-index", -1);
         }
     }, {
         key: "spawnSplitBot",
@@ -1619,9 +1649,6 @@ var MazeManager = exports.MazeManager = function () {
                         if (mergedPlayer.hasSmartPathingRemaining()) {
                             player.smartPathingTileDistanceRemaining += mergedPlayer.smartPathingTileDistanceRemaining;
                         }
-                        if (mergedPlayer.isPrimaryBot) {
-                            player.isPrimaryBot = true;
-                        }
                         _this.game.players.deletePlayer(killPlayerId);
                     }
                 });
@@ -1642,7 +1669,7 @@ var MazeManager = exports.MazeManager = function () {
             if (!this.maze.grid.isValidTile(neighborTile)) return;
             // Neighbor has inverse direction
             var neighborDirectionIndex = (0, _MazeUtils.getInverseDirectionIndex)(mazeDirectionIndex);
-            if (this.getGrid().getCellWallType(tile, mazeDirectionIndex) === _MazeUtils.MazeWallTypes.DESTRUCTIBLE_WALL && this.getGrid().getCellWallType(tile, neighborDirectionIndex) === _MazeUtils.MazeWallTypes.DESTRUCTIBLE_WALL) {
+            if (this.getGrid().getCellWallType(tile, mazeDirectionIndex) === _MazeUtils.MazeWallTypes.DESTRUCTIBLE_WALL && this.getGrid().getCellWallType(neighborTile, neighborDirectionIndex) === _MazeUtils.MazeWallTypes.DESTRUCTIBLE_WALL) {
                 this.maze.getCell(tile).setWallTypeAtIndex(mazeDirectionIndex, _MazeUtils.MazeWallTypes.NO_WALL);
                 this.maze.getCell(neighborTile).setWallTypeAtIndex(neighborDirectionIndex, _MazeUtils.MazeWallTypes.NO_WALL);
                 // Update the UI with the new tile border css.
@@ -1692,7 +1719,7 @@ var MazeManager = exports.MazeManager = function () {
         key: "teleportPlayerBackToBot",
         value: function teleportPlayerBackToBot() {
             var manualPlayer = this.game.players.getManuallyControlledPlayer();
-            var primaryBot = this.game.players.getPrimaryBot();
+            var primaryBot = this.game.players.getFirstAutoBot();
             if (!manualPlayer || !primaryBot) return;
             // Move player and delete the bot.
             this.updatePlayerTile(manualPlayer.id, primaryBot.currTile);
@@ -1702,7 +1729,7 @@ var MazeManager = exports.MazeManager = function () {
         key: "teleportBotBackToPlayer",
         value: function teleportBotBackToPlayer() {
             var manualPlayer = this.game.players.getManuallyControlledPlayer();
-            var primaryBot = this.game.players.getPrimaryBot();
+            var primaryBot = this.game.players.getFirstAutoBot();
             if (!manualPlayer || !primaryBot) return;
             // Move player and delete the bot.
             this.updatePlayerTile(primaryBot.id, manualPlayer.currTile);
@@ -2241,9 +2268,7 @@ var PlayerManager = exports.PlayerManager = function () {
     }, {
         key: "createNewPlayerObj",
         value: function createNewPlayerObj(startTile) {
-            var isPrimaryBot = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-
-            var newPlayer = new _Player2.default(this.game, this.getNewPlayerId(), startTile, startTile, false, isPrimaryBot);
+            var newPlayer = new _Player2.default(this.game, this.getNewPlayerId(), startTile, startTile, false);
             this.playerMap.set(newPlayer.id, newPlayer);
             this.game.maze.updatePlayerTile(newPlayer.id, startTile);
             return newPlayer;
@@ -2283,6 +2308,12 @@ var PlayerManager = exports.PlayerManager = function () {
             return null;
         }
     }, {
+        key: "getPlayerOrDefaultBotId",
+        value: function getPlayerOrDefaultBotId() {
+            var manualPlayer = this.getManuallyControlledPlayer();
+            return manualPlayer ? manualPlayer.id : this.getFirstAutoBotId();
+        }
+    }, {
         key: "getIsPlayerManuallyControlling",
         value: function getIsPlayerManuallyControlling() {
             return this.getManuallyControlledPlayer() == null ? false : true;
@@ -2296,13 +2327,15 @@ var PlayerManager = exports.PlayerManager = function () {
             return this.playerMap.size - (isExcludeManualControl && this.getIsPlayerManuallyControlling() ? 1 : 0);
         }
     }, {
-        key: "isPrimaryBotPresent",
-        value: function isPrimaryBotPresent() {
-            return this.getPrimaryBot() == null ? false : true;
+        key: "isAutoBotPresent",
+        value: function isAutoBotPresent() {
+            // Check if any non-manual controlled 
+            return this.getFirstAutoBot() != null;
         }
     }, {
-        key: "getPrimaryBot",
-        value: function getPrimaryBot() {
+        key: "getFirstAutoBot",
+        value: function getFirstAutoBot() {
+            // Find first bot that is not manually controlled
             var _iteratorNormalCompletion2 = true;
             var _didIteratorError2 = false;
             var _iteratorError2 = undefined;
@@ -2313,7 +2346,7 @@ var PlayerManager = exports.PlayerManager = function () {
                         id = _step2$value[0],
                         player = _step2$value[1];
 
-                    if (player.isPrimaryBot) {
+                    if (!player.isManuallyControlled) {
                         return player;
                     }
                 }
@@ -2335,12 +2368,21 @@ var PlayerManager = exports.PlayerManager = function () {
             return null;
         }
     }, {
+        key: "getFirstAutoBotId",
+        value: function getFirstAutoBotId() {
+            var bot = this.getFirstAutoBot();
+            return bot ? bot.id : null;
+        }
+    }, {
         key: "movePlayer",
         value: function movePlayer(playerId, dirVector) {
             var isManual = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
             var player = this.getPlayer(playerId);
-            if (player == null) return;
+            if (player == null) {
+                console.log('tried moving null player');
+                return;
+            }
             if (!this.game.maze.canMove(player.currTile, dirVector, false, false, player.hasGhostItemActive())) {
                 // If player can't move, ensure no destructible tiles are holding them
                 this.game.maze.clearDestructibleTilesFromTile(player.currTile);
@@ -2354,8 +2396,8 @@ var PlayerManager = exports.PlayerManager = function () {
             if (isManual) {
                 // Spawn new bot unless it exists already.
                 if (this.game.upgrades.isUpgraded(_UpgradeConstants.UpgradeKey.PLAYER_MOVE_INDEPENDENTLY)) {
-                    if (!this.isPrimaryBotPresent()) {
-                        this.createNewPlayerObj(this.getCurrTile(playerId), true);
+                    if (!this.isAutoBotPresent()) {
+                        this.createNewPlayerObj(this.getCurrTile(playerId));
                     }
                     // If independence upgraded, don't re-enable the timer to have a bot take over.
                     this.game.rngBot.disableReEnableBotMovementTimer();
@@ -2424,35 +2466,39 @@ var PlayerManager = exports.PlayerManager = function () {
             var player = this.getPlayer(playerId);
             var currTile = player.currTile;
             this.playerMap.delete(playerId);
-            // There must always be a primary bot.  Re-assign at random if primary bot deleted.
-            if (player.isPrimaryBot) {
-                this.assignPrimaryBotToPlayer();
-            }
             this.game.maze.setTileBackgroundColor(currTile, true);
         }
-        // Try to assign a new primary bot based on ID.  Else, pick first bot.
-
     }, {
-        key: "assignPrimaryBotToPlayer",
-        value: function assignPrimaryBotToPlayer() {
-            var playerId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+        key: "getPlayer",
+        value: function getPlayer(playerId) {
+            if (!this.playerMap.has(playerId)) return null;
+            return this.playerMap.get(playerId);
+        }
+    }, {
+        key: "getPlayerColorAtTile",
+        value: function getPlayerColorAtTile(tile) {
             var _iteratorNormalCompletion4 = true;
             var _didIteratorError4 = false;
             var _iteratorError4 = undefined;
 
             try {
-                for (var _iterator4 = this.playerMap[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-                    var _step4$value = _slicedToArray(_step4.value, 2),
-                        id = _step4$value[0],
-                        player = _step4$value[1];
+                for (var _iterator4 = this.playerMap.values()[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                    var player = _step4.value;
 
-                    if (playerId == null && !player.isManuallyControlled) {
-                        player.isPrimaryBot = true;
-                        return;
-                    }
-                    if (player.id === playerId) {
-                        player.isPrimaryBot = true;
-                        return;
+                    if ((0, _MazeUtils.isTileEqual)(tile, player.currTile)) {
+                        if (player.isManuallyControlled) {
+                            return this.game.colors.getPlayerColor();
+                        } else if (player.hasSmartPathingRemaining()) {
+                            return this.game.colors.getSmartPathingPlayerColor();
+                        } else if (player.isMultiplierPowerUpActive()) {
+                            return this.game.colors.getMultiplierItemPlayerColor();
+                        } else if (player.hasUnlimitedSplitItemActive()) {
+                            return this.game.colors.getUnlimitedSplitPlayerColor();
+                        } else if (player.hasGhostItemActive()) {
+                            return this.game.colors.getGhostItemPlayerColor();
+                        } else {
+                            return this.game.colors.getBotColor();
+                        }
                     }
                 }
             } catch (err) {
@@ -2469,36 +2515,24 @@ var PlayerManager = exports.PlayerManager = function () {
                     }
                 }
             }
+
+            return null;
         }
     }, {
-        key: "getPlayer",
-        value: function getPlayer(playerId) {
-            if (!this.playerMap.has(playerId)) return null;
-            return this.playerMap.get(playerId);
-        }
-    }, {
-        key: "getPlayerColorAtTile",
-        value: function getPlayerColorAtTile(tile) {
+        key: "isOccupiedByPlayer",
+        value: function isOccupiedByPlayer(tile) {
             var _iteratorNormalCompletion5 = true;
             var _didIteratorError5 = false;
             var _iteratorError5 = undefined;
 
             try {
-                for (var _iterator5 = this.playerMap.values()[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-                    var player = _step5.value;
+                for (var _iterator5 = this.playerMap[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+                    var _step5$value = _slicedToArray(_step5.value, 2),
+                        id = _step5$value[0],
+                        player = _step5$value[1];
 
                     if ((0, _MazeUtils.isTileEqual)(tile, player.currTile)) {
-                        if (player.isManuallyControlled) {
-                            return this.game.colors.getPlayerColor();
-                        } else if (player.hasSmartPathingRemaining()) {
-                            return this.game.colors.getSmartPathingPlayerColor();
-                        } else if (player.isMultiplierPowerUpActive()) {
-                            return this.game.colors.getMultiplierItemPlayerColor();
-                        } else if (player.hasUnlimitedSplitItemActive()) {
-                            return this.game.colors.getUnlimitedSplitPlayerColor();
-                        } else {
-                            return this.game.colors.getBotColor();
-                        }
+                        return true;
                     }
                 }
             } catch (err) {
@@ -2512,40 +2546,6 @@ var PlayerManager = exports.PlayerManager = function () {
                 } finally {
                     if (_didIteratorError5) {
                         throw _iteratorError5;
-                    }
-                }
-            }
-
-            return null;
-        }
-    }, {
-        key: "isOccupiedByPlayer",
-        value: function isOccupiedByPlayer(tile) {
-            var _iteratorNormalCompletion6 = true;
-            var _didIteratorError6 = false;
-            var _iteratorError6 = undefined;
-
-            try {
-                for (var _iterator6 = this.playerMap[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-                    var _step6$value = _slicedToArray(_step6.value, 2),
-                        id = _step6$value[0],
-                        player = _step6$value[1];
-
-                    if ((0, _MazeUtils.isTileEqual)(tile, player.currTile)) {
-                        return true;
-                    }
-                }
-            } catch (err) {
-                _didIteratorError6 = true;
-                _iteratorError6 = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion6 && _iterator6.return) {
-                        _iterator6.return();
-                    }
-                } finally {
-                    if (_didIteratorError6) {
-                        throw _iteratorError6;
                     }
                 }
             }
@@ -2601,6 +2601,8 @@ var _PowerUpConstants = require("../constants/PowerUpConstants");
 
 var _PointsMultiplierStrengthUpgrade = require("../upgrades/definitions/powerUps/PointsMultiplierStrengthUpgrade");
 
+var _MazeCompletionBonusUpgrade = require("../upgrades/definitions/maze/MazeCompletionBonusUpgrade");
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -2642,7 +2644,6 @@ var Points = exports.Points = function (_Serializable) {
             this.points += pointsEarned;
             this.game.stats.addStatsToKeyList(pointsEarned, statsKeyList);
             this.game.stats.addStatsToKey(pointsEarned, _Stats.StatsKey.TOTAL_POINTS_EARNED);
-            this.game.stats.addStatsToKey(pointsEarned - pointsEarned, _Stats.StatsKey.TOTAL_POINTS_EARNED_FROM_MULTIPLIER_ITEM);
             this.game.points.pointsHistoryTracker.addNumber(pointsEarned);
             this.game.upgrades.updateAllUpgradeUi();
             this.game.ui.setPointsText();
@@ -2658,8 +2659,8 @@ var Points = exports.Points = function (_Serializable) {
     }, {
         key: "getPointMultplier",
         value: function getPointMultplier() {
-            var pointMultplier = _PointsMultiplierStrengthUpgrade.PointsMultiplierStrengthUpgrade.getPointsMultiplierStrength(this.game);
-            return this.game.powerUps.isPowerUpActive(_PowerUpConstants.PowerUpKey.POINTS_MULTIPLIER) ? pointMultplier : BASE_POINT_MULTPLIER;
+            var pointMultpliers = _PointsMultiplierStrengthUpgrade.PointsMultiplierStrengthUpgrade.getPointsMultiplierStrength(this.game);
+            return this.game.powerUps.isPowerUpActive(_PowerUpConstants.PowerUpKey.POINTS_MULTIPLIER) ? pointMultpliers : BASE_POINT_MULTPLIER;
         }
     }, {
         key: "getPointsPerVisit",
@@ -2668,11 +2669,11 @@ var Points = exports.Points = function (_Serializable) {
 
             var upgradeLevel = this.game.upgrades.getUpgradeLevel(_UpgradeConstants.UpgradeKey.POINTS_PER_VISIT);
             var basePointsAmount = this.game.biomes.getBasePointsPerVisitValue();
-            var pointsPerTile = Math.round(100 * basePointsAmount * Math.pow(_UpgradeConstants.POINTS_PER_VISIT_BASE_AMOUNT_MULTIPLIER, upgradeLevel)) / 100;
+            var pointsPerTile = basePointsAmount * Math.pow(_UpgradeConstants.POINTS_PER_VISIT_BASE_AMOUNT_MULTIPLIER, upgradeLevel);
             if (isVisitedAlready) {
                 pointsPerTile *= this.getPointsPerRevisitMultiplier();
             }
-            return pointsPerTile * this.getPointMultplier();
+            return pointsPerTile;
         }
     }, {
         key: "getPointsPerRevisitMultiplier",
@@ -2685,39 +2686,23 @@ var Points = exports.Points = function (_Serializable) {
         value: function addVisitPoints(isVisitedAlready, playerId) {
             var points = this.getPointsPerVisit(isVisitedAlready);
             if (points === 0) return;
+            var multipliedPoints = points * this.getPointMultplier();
+            this.game.stats.addStatsToKey(multipliedPoints - points, _Stats.StatsKey.TOTAL_POINTS_EARNED_FROM_MULTIPLIER_ITEM);
             var stats = isVisitedAlready ? [_Stats.StatsKey.TOTAL_POINTS_EARNED_FROM_REVISITED_TILES] : [_Stats.StatsKey.TOTAL_POINTS_EARNED_FROM_VISITED_TILES];
-            this.addPoints(points, playerId, stats);
+            this.addPoints(multipliedPoints, playerId, stats);
         }
     }, {
         key: "addMazeCompletionBonus",
         value: function addMazeCompletionBonus(playerId) {
-            var bonus = this.getMazeCompletionBonus();
+            var bonus = _MazeCompletionBonusUpgrade.MazeCompletionBonusUpgrade.getMazeCompletionBonus(this.game);
             this.addPoints(bonus, playerId, [_Stats.StatsKey.TOTAL_POINTS_EARNED_FROM_MAZE_COMPLETIONS]);
-        }
-        //TODO: move these as static functions in the upgrade class.
-
-    }, {
-        key: "getMazeCompletionBonus",
-        value: function getMazeCompletionBonus() {
-            var grid = this.game.maze.getGrid();
-            var tileCount = grid ? grid.getTileCount() : 0;
-            var upgradeLevel = this.game.upgrades.getUpgradeLevel(_UpgradeConstants.UpgradeKey.MAZE_COMPLETION_BONUS);
-            return tileCount * (1 + _UpgradeConstants.MAZE_COMPLETION_BONUS_BASE_MULTIPLIER * upgradeLevel);
-        }
-    }, {
-        key: "getDestructibleWallSpawnProbability",
-        value: function getDestructibleWallSpawnProbability() {
-            if (!this.game.biomes.isUpgradeUnlocked(_UpgradeConstants.UpgradeKey.DESTRUCTIBLE_WALLS)) {
-                return 0;
-            }
-            return 0.03;
         }
     }]);
 
     return Points;
 }(_Serializable2.Serializable);
 
-},{"../constants/PowerUpConstants":6,"../constants/UpgradeConstants":7,"../models/PointsHistoryTracker":43,"../models/Serializable":45,"../models/Stats":46,"../upgrades/definitions/powerUps/PointsMultiplierStrengthUpgrade":72}],25:[function(require,module,exports){
+},{"../constants/PowerUpConstants":6,"../constants/UpgradeConstants":7,"../models/PointsHistoryTracker":43,"../models/Serializable":45,"../models/Stats":46,"../upgrades/definitions/maze/MazeCompletionBonusUpgrade":67,"../upgrades/definitions/powerUps/PointsMultiplierStrengthUpgrade":72}],25:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2940,6 +2925,9 @@ var RNGBotManager = exports.RNGBotManager = function () {
             if (!this.game.players.playerExists(playerId)) return;
             var dirArr = this.chooseRandomDirectionsArr(playerId);
             if (!dirArr || dirArr.length === 0) {
+                // If player can't move, ensure no destructible tiles are holding them
+                var player = this.game.players.getPlayer(playerId);
+                if (player != null) this.game.maze.clearDestructibleTilesFromTile(player.currTile);
                 return;
             }
             if (dirArr.length === 1) {
@@ -3119,7 +3107,7 @@ var SaveManager = exports.SaveManager = function () {
             try {
                 return JSON.parse(json);
             } catch (e) {
-                console.error('Failed to parse local game save.  Error: ' + e.message + '.  \n\nLocal Save Json: json');
+                console.error('Failed to parse local game save.  Error: ' + e.message + '.  \n\nLocal Save Json: ' + json);
                 return null;
             }
         }
@@ -3127,6 +3115,21 @@ var SaveManager = exports.SaveManager = function () {
         key: 'clearLocalStorage',
         value: function clearLocalStorage() {
             localStorage.clear();
+        }
+    }, {
+        key: 'copySaveToClipboard',
+        value: function copySaveToClipboard() {
+            var saveJson = this.getSaveJsonFromLocalStorage();
+            if (!saveJson) return;
+            var el = document.createElement('textarea');
+            el.value = JSON.stringify(saveJson);
+            el.setAttribute('readonly', '');
+            el.style.position = 'absolute';
+            el.style.left = '-9999px';
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
         }
     }]);
 
@@ -3569,6 +3572,7 @@ var ModalType = exports.ModalType = undefined;
     ModalType["STATS_MODAL"] = "STATS_MODAL";
     ModalType["SETTINGS_MODAL"] = "SETTINGS_MODAL";
     ModalType["OFFLINE_SCORE_MODAL"] = "OFFLINE_SCORE_MODAL";
+    ModalType["HELP_MODAL"] = "HELP_MODAL";
 })(ModalType || (exports.ModalType = ModalType = {}));
 
 var UserInterface = exports.UserInterface = function () {
@@ -3613,8 +3617,15 @@ var UserInterface = exports.UserInterface = function () {
             $("#statsButton").click(function (e) {
                 return _this.showModalByType(ModalType.STATS_MODAL, true, e);
             });
+            $("#helpButton").click(function (e) {
+                _this.showModalVisibleById(ModalType.SETTINGS_MODAL, false);
+                _this.showModalByType(ModalType.HELP_MODAL, true, e);
+            });
             $("#settingsButton").click(function (e) {
                 return _this.showModalByType(ModalType.SETTINGS_MODAL, true, e);
+            });
+            $("#copySaveJson").click(function () {
+                return _this.game.save.copySaveToClipboard();
             });
         }
     }, {
@@ -3657,7 +3668,7 @@ var UserInterface = exports.UserInterface = function () {
             if (val === _MazeUtils.MazeWallTypes.WALL) {
                 return MAZE_BORDER_WIDTH + " solid " + borderColor;
             } else if (val === _MazeUtils.MazeWallTypes.DESTRUCTIBLE_WALL) {
-                return MAZE_BORDER_WIDTH + " dotted " + borderColor;
+                return "2px dotted " + borderColor;
             } else if (val === _MazeUtils.MazeWallTypes.OUT_OF_BOUNDS_WALL || val == null) {
                 return "";
             } else {
@@ -3739,7 +3750,10 @@ var UserInterface = exports.UserInterface = function () {
                 this.showModalVisibleById("offlineModal", setVisible);
             } else if (modalType === ModalType.STATS_MODAL) {
                 this.showModalVisibleById("statsModal", setVisible);
+            } else if (modalType === ModalType.HELP_MODAL) {
+                this.showModalVisibleById("helpModal", setVisible);
             }
+            console.error("Invalid modal to show: " + modalType);
         }
     }, {
         key: "showModalVisibleById",
@@ -3990,17 +4004,6 @@ var PlusSignMazeGrid = exports.PlusSignMazeGrid = function (_MazeGrid) {
                 }
             }
         }
-        // protected setStartAndEndTile(): void {
-        //   // Bottom of the left/right side of plus sign
-        //   const middleXOffset = this.getXRange() - 1;
-        //   const middleYOffset = this.getYRange() - 1;
-        //   this.internalStartTile = { x: 0, y: this.getXRange() + middleXOffset };
-        //   this.internalExitTile = { x: this.sizeX - 1, y: this.getYRange() + middleYOffset };
-        //   this.exitDirectionVector = DIRECTION_RIGHT;
-        //   this.externalExitTile = getNewTilePositionByVector(this.internalExitTile, this.exitDirectionVector);
-        //   this.getCell(this.internalExitTile).setWallTypeAtIndex(getMazeDirectionIndexFromTileVector(DIRECTION_RIGHT), MazeWallTypes.NO_WALL);
-        // }
-
     }, {
         key: "getValidStartLocations",
         value: function getValidStartLocations() {
@@ -4169,7 +4172,7 @@ var BacktrackerMaze = exports.BacktrackerMaze = function (_Maze) {
 
         var _this = _possibleConstructorReturn(this, (BacktrackerMaze.__proto__ || Object.getPrototypeOf(BacktrackerMaze)).call(this, game, mazeSizeX, mazeGridType, _MazeUtils.MazeAlgorithmType.BACK_TRACKER));
 
-        _this.current = null;
+        _this.currentTile = null;
         _this.stack = [];
         _this.isDone = false;
         _this.generateMaze();
@@ -4179,7 +4182,7 @@ var BacktrackerMaze = exports.BacktrackerMaze = function (_Maze) {
     _createClass(BacktrackerMaze, [{
         key: "generateMaze",
         value: function generateMaze() {
-            this.current = this.getCell(this.grid.internalStartTile);
+            this.currentTile = this.getCell(this.grid.internalStartTile);
             this.backtrackDFS();
             _get(BacktrackerMaze.prototype.__proto__ || Object.getPrototypeOf(BacktrackerMaze.prototype), "generateMaze", this).call(this);
         }
@@ -4187,9 +4190,9 @@ var BacktrackerMaze = exports.BacktrackerMaze = function (_Maze) {
         key: "backtrackDFS",
         value: function backtrackDFS() {
             while (!this.isDone) {
-                if (!this.current.isVisited) {
-                    this.current.setVisited();
-                    this.stack.push(this.current);
+                if (!this.currentTile.isVisited) {
+                    this.currentTile.setVisited();
+                    this.stack.push(this.currentTile);
                 }
                 // Add neighbors
                 var unvisitedNeighbor = [];
@@ -4198,7 +4201,7 @@ var BacktrackerMaze = exports.BacktrackerMaze = function (_Maze) {
                 var _iteratorError = undefined;
 
                 try {
-                    for (var _iterator = this.getNeighbors(this.current)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    for (var _iterator = this.getNeighbors(this.currentTile)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                         var neigh = _step.value;
 
                         if (!neigh.isVisited) {
@@ -4223,34 +4226,15 @@ var BacktrackerMaze = exports.BacktrackerMaze = function (_Maze) {
 
                 if (unvisitedNeighbor.length > 0) {
                     var randomIndex = Math.floor(Math.random() * unvisitedNeighbor.length);
-                    var next = unvisitedNeighbor[randomIndex];
-                    //Remove Walls
-                    //TODO: this should compare tile diff vectors with direction vectors
-                    // TOP
-                    if (this.current.y - next.y === 1) {
-                        this.removeWallByDirIndex(this.current, _MazeUtils.MazeDirectionIndex.UP);
-                        this.removeWallByDirIndex(next, _MazeUtils.MazeDirectionIndex.DOWN);
-                    }
-                    // RIGHT
-                    else if (this.current.x - next.x === -1) {
-                            this.removeWallByDirIndex(this.current, _MazeUtils.MazeDirectionIndex.RIGHT);
-                            this.removeWallByDirIndex(next, _MazeUtils.MazeDirectionIndex.LEFT);
-                        }
-                        // BOTTOM
-                        else if (this.current.y - next.y === -1) {
-                                this.removeWallByDirIndex(this.current, _MazeUtils.MazeDirectionIndex.DOWN);
-                                this.removeWallByDirIndex(next, _MazeUtils.MazeDirectionIndex.UP);
-                            }
-                            // LEFT
-                            else if (this.current.x - next.x === 1) {
-                                    this.removeWallByDirIndex(this.current, _MazeUtils.MazeDirectionIndex.LEFT);
-                                    this.removeWallByDirIndex(next, _MazeUtils.MazeDirectionIndex.RIGHT);
-                                }
-                    this.current = next;
+                    var nextTile = unvisitedNeighbor[randomIndex];
+                    // Remove Walls
+                    this.removeWallBetweenCells(this.currentTile, nextTile);
+                    // Assign new current tile
+                    this.currentTile = nextTile;
                 }
                 // If all neighbours visited, pick a random unvisited cell
                 else if (this.stack.length > 0) {
-                        this.current = this.stack.pop();
+                        this.currentTile = this.stack.pop();
                     } else {
                         this.isDone = true;
                     }
@@ -4326,8 +4310,9 @@ var BinaryTreeMaze = exports.BinaryTreeMaze = function (_Maze) {
                     var currentCell = this.getCell(currentTile);
                     var newCell = this.getCell(newTile);
                     // Remove wall connecting neighbors
-                    this.removeWallByTileVector(currentCell, randomTileVector);
-                    this.removeWallByTileVector(newCell, inverseTileVector);
+                    // this.removeWallByTileVector(currentCell, randomTileVector);
+                    // this.removeWallByTileVector(newCell, inverseTileVector);
+                    this.removeWallBetweenCells(currentCell, newCell);
                 }
             }
             _get(BinaryTreeMaze.prototype.__proto__ || Object.getPrototypeOf(BinaryTreeMaze.prototype), "generateMaze", this).call(this);
@@ -4471,12 +4456,10 @@ var PrimsMaze = exports.PrimsMaze = function (_Maze) {
                     console.error("Prim has failed me");
                     return;
                 }
-                // Pick one randomly
-                var connectToNeighbor = visitedNeighbors[(0, _MazeUtils.getRandomInteger)(0, visitedNeighbors.length - 1)];
-                // Remove wall between them
-                var tileVector = (0, _MazeUtils.getCellNeighborTileVector)(currentCell, connectToNeighbor);
-                this.removeWallByTileVector(currentCell, tileVector);
-                this.removeWallByTileVector(connectToNeighbor, (0, _MazeUtils.getInverseTileVector)(tileVector));
+                // Pick a random visited neighbor
+                var neighborCell = visitedNeighbors[(0, _MazeUtils.getRandomInteger)(0, visitedNeighbors.length - 1)];
+                // Remove wall between current and neighbor cell
+                this.removeWallBetweenCells(currentCell, neighborCell);
             }
         }
     }, {
@@ -4557,6 +4540,7 @@ var BiomeColorPalette = function BiomeColorPalette(playerColor, botColor, emptyC
     var smartPathingPlayerColor = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : _ColorConstants.DEFAULT_COLORS.SMART_PATHING_PLAYER_COLOR;
     var multiplierItemPlayerColor = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : _ColorConstants.DEFAULT_COLORS.MULTIPLIER_ITEM_PLAYER_COLOR;
     var unlimitedSplitBotPlayerColor = arguments.length > 8 && arguments[8] !== undefined ? arguments[8] : _ColorConstants.DEFAULT_COLORS.UNLIMITED_SPLIT_BOT_PLAYER_COLOR;
+    var ghostItemPlayerColor = arguments.length > 9 && arguments[9] !== undefined ? arguments[9] : _ColorConstants.DEFAULT_COLORS.GHOST_ITEM_PLAYER_COLOR;
 
     _classCallCheck(this, BiomeColorPalette);
 
@@ -4569,6 +4553,7 @@ var BiomeColorPalette = function BiomeColorPalette(playerColor, botColor, emptyC
     this.smartPathingPlayerColor = smartPathingPlayerColor;
     this.multiplierItemPlayerColor = multiplierItemPlayerColor;
     this.unlimitedSplitBotPlayerColor = unlimitedSplitBotPlayerColor;
+    this.ghostItemPlayerColor = ghostItemPlayerColor;
 };
 
 exports.default = BiomeColorPalette;
@@ -4592,6 +4577,8 @@ var _RectangleMazeGrid = require("../mazeGrid/RectangleMazeGrid");
 var _DiamondMazeGrid = require("../mazeGrid/DiamondMazeGrid");
 
 var _SquareMazeGrid = require("../mazeGrid/SquareMazeGrid");
+
+var _DestructibleWallUpgrade = require("../upgrades/definitions/maze/DestructibleWallUpgrade");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -4675,25 +4662,38 @@ var Maze = exports.Maze = function () {
 
             return neighborsArr;
         }
-        //TODO: util fxn maybe?
-
     }, {
         key: "removeWallByDirIndex",
         value: function removeWallByDirIndex(mazeCell, directionIndex) {
-            mazeCell.setWallTypeAtIndex(directionIndex, _MazeUtils.MazeWallTypes.NO_WALL);
+            var wallType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _MazeUtils.MazeWallTypes.NO_WALL;
+
+            mazeCell.setWallTypeAtIndex(directionIndex, wallType);
         }
     }, {
-        key: "removeWallByTileVector",
-        value: function removeWallByTileVector(mazeCell, tileVector) {
+        key: "removeWallBetweenCells",
+        value: function removeWallBetweenCells(mazeCell, neighborCell) {
+            // Calculate vector between tiles and convert it to a wall direction index
+            var tileVector = (0, _MazeUtils.getCellNeighborTileVector)(mazeCell, neighborCell);
             var directionIndex = (0, _MazeUtils.getMazeDirectionIndexFromTileVector)(tileVector);
-            this.removeWallByDirIndex(mazeCell, directionIndex);
+            var neighorDirectionIndex = (0, _MazeUtils.getInverseDirectionIndex)(directionIndex);
+            // Determine randomly if this wall is going to be destructible
+            var wallType = this.isDestructibleWall() ? _MazeUtils.MazeWallTypes.DESTRUCTIBLE_WALL : _MazeUtils.MazeWallTypes.NO_WALL;
+            this.removeWallByDirIndex(mazeCell, directionIndex, wallType);
+            this.removeWallByDirIndex(neighborCell, neighorDirectionIndex, wallType);
+        }
+    }, {
+        key: "isDestructibleWall",
+        value: function isDestructibleWall() {
+            var prob = _DestructibleWallUpgrade.DestructibleWallUpgrade.getDestructibleWallSpawnProbability(this.game);
+            var randomNumber = Math.random();
+            return prob > randomNumber;
         }
     }]);
 
     return Maze;
 }();
 
-},{"../managers/MazeUtils":21,"../mazeGrid/DiamondMazeGrid":31,"../mazeGrid/PlusSignMazeGrid":32,"../mazeGrid/RectangleMazeGrid":33,"../mazeGrid/SquareMazeGrid":34}],40:[function(require,module,exports){
+},{"../managers/MazeUtils":21,"../mazeGrid/DiamondMazeGrid":31,"../mazeGrid/PlusSignMazeGrid":32,"../mazeGrid/RectangleMazeGrid":33,"../mazeGrid/SquareMazeGrid":34,"../upgrades/definitions/maze/DestructibleWallUpgrade":66}],40:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4814,6 +4814,12 @@ var MazeGrid = exports.MazeGrid = function () {
         this.generateMazeGrid();
         this.setStartAndEndTile();
     }
+    // private createMazeGrid(): void {
+    //   this.generateMazeGrid();
+    //   // Must be generated after full maze generation (and dead cell marking)
+    //   this.generateDestructibleWalls();
+    // }
+
 
     _createClass(MazeGrid, [{
         key: "generateMazeGrid",
@@ -4825,6 +4831,35 @@ var MazeGrid = exports.MazeGrid = function () {
                 for (var x = 0; x < this.sizeX; x++) {
                     this.grid[y][x] = new _MazeCell.MazeCell(x, y);
                     this.tileCount++;
+                }
+            }
+        }
+    }, {
+        key: "generateDestructibleWalls",
+        value: function generateDestructibleWalls() {
+            var cellList = this.getAllCells();
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = cellList[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var cell = _step.value;
+
+                    if (cell.isCellDead()) return;
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
                 }
             }
         }
@@ -4884,7 +4919,6 @@ var MazeGrid = exports.MazeGrid = function () {
         key: "isVisited",
         value: function isVisited(tile) {
             // Exit tile is not visited.
-            //TODO: evaluate if we can handle this better.
             if ((0, _MazeUtils.isTileEqual)(tile, this.externalExitTile)) return false;
             var cell = this.getCell(tile);
             if (cell) {
@@ -4994,11 +5028,10 @@ var Player = function () {
         var currTile = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
         var prevTile = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
         var isManuallyControlled = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
-        var isPrimaryBot = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : false;
-        var moveCount = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 0;
-        var smartPathingTileDistanceRemaining = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : 0;
-        var isUnlimitedSplitItemActive = arguments.length > 8 && arguments[8] !== undefined ? arguments[8] : false;
-        var ghostItemTileDistanceRemaining = arguments.length > 9 && arguments[9] !== undefined ? arguments[9] : 0;
+        var moveCount = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 0;
+        var smartPathingTileDistanceRemaining = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 0;
+        var isUnlimitedSplitItemActive = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : false;
+        var ghostItemTileDistanceRemaining = arguments.length > 8 && arguments[8] !== undefined ? arguments[8] : 0;
 
         _classCallCheck(this, Player);
 
@@ -5008,7 +5041,6 @@ var Player = function () {
         this.currTile = currTile;
         this.prevTile = prevTile;
         this.moveCount = moveCount;
-        this.isPrimaryBot = isPrimaryBot;
         this.smartPathingTileDistanceRemaining = smartPathingTileDistanceRemaining;
         this.isUnlimitedSplitItemActive = isUnlimitedSplitItemActive;
         this.ghostItemTileDistanceRemaining = ghostItemTileDistanceRemaining;
@@ -6738,6 +6770,18 @@ var DestructibleWallUpgrade = exports.DestructibleWallUpgrade = function (_Upgra
         value: function getCost() {
             return 0;
         }
+        // NOTE: this probability is based on the number of connections -- NOT number of tiles
+
+    }], [{
+        key: "getDestructibleWallSpawnProbability",
+        value: function getDestructibleWallSpawnProbability(game) {
+            if (!game.biomes.isUpgradeUnlocked(_UpgradeConstants.UpgradeKey.DESTRUCTIBLE_WALLS)) {
+                return 0;
+            }
+            // How many biomes has this been unlocked -- increase by some amount each time.
+            var biomeDiff = game.biomes.getUpgradeUnlockBiomeDiffCount(_UpgradeConstants.UpgradeKey.DESTRUCTIBLE_WALLS);
+            return _UpgradeConstants.DESTRUCTIBLE_WALL_BASE_SPAWN_RATE + biomeDiff * _UpgradeConstants.DESTRUCTIBLE_WALL_BASE_SPAWN_RATE_INCREASE_PER_BIOME;
+        }
     }]);
 
     return DestructibleWallUpgrade;
@@ -6786,13 +6830,21 @@ var MazeCompletionBonusUpgrade = exports.MazeCompletionBonusUpgrade = function (
     _createClass(MazeCompletionBonusUpgrade, [{
         key: "updateUiProperties",
         value: function updateUiProperties() {
-            var str = _UserInterface.UserInterface.getPrettyPrintNumber(this.game.points.getMazeCompletionBonus());
+            var str = _UserInterface.UserInterface.getPrettyPrintNumber(MazeCompletionBonusUpgrade.getMazeCompletionBonus(this.game));
             this.setUiText("Maze Completion Bonus (" + str + " pts): " + this.getPrettyPrintCost() + " pts");
         }
     }, {
         key: "getCost",
         value: function getCost() {
             return _UpgradeConstants.MAZE_COMPLETION_BONUS_UPGRADE_BASE_COST * Math.pow(_UpgradeConstants.MAZE_COMPLETION_BONUS_UPGRADE_BASE_COST_MULTIPLIER, this.upgradeLevel);
+        }
+    }], [{
+        key: "getMazeCompletionBonus",
+        value: function getMazeCompletionBonus(game) {
+            var grid = game.maze.getGrid();
+            var tileCount = grid ? grid.getTileCount() : 0;
+            var upgradeLevel = game.upgrades.getUpgradeLevel(_UpgradeConstants.UpgradeKey.MAZE_COMPLETION_BONUS);
+            return tileCount * (1 + _UpgradeConstants.MAZE_COMPLETION_BONUS_BASE_MULTIPLIER * upgradeLevel);
         }
     }]);
 

@@ -2,7 +2,7 @@ import Game from "managers/Game";
 import { Tile } from "managers/MazeManager";
 import { getRandomMazeTile } from "managers/MazeUtils";
 import { StatsKey } from "models/Stats";
-import { BLACK_HOLE_ITEM_SPAWN_BASE_PROBABILITY, MazeItemKey } from "constants/ItemConstants";
+import { BLACK_HOLE_ITEM_SPAWN_BASE_INCREASE_AMOUNT_PER_BIOME, BLACK_HOLE_ITEM_SPAWN_BASE_PROBABILITY, MazeItemKey } from "constants/ItemConstants";
 import MazeItem from "items/MazeItem";
 
 const BACKGROUND_IMAGE_PATH: string = 'img/blackHole.png';
@@ -19,7 +19,8 @@ class BlackHoleMazeItem extends MazeItem {
   }
   
   public static getItemSpawnProbability(game: Game): number {
-    return BLACK_HOLE_ITEM_SPAWN_BASE_PROBABILITY;
+    const biomeDiff = game.biomes.getItemUnlockBiomeDiffCount(MazeItemKey.BLACK_HOLE);
+    return BLACK_HOLE_ITEM_SPAWN_BASE_PROBABILITY + (biomeDiff * BLACK_HOLE_ITEM_SPAWN_BASE_INCREASE_AMOUNT_PER_BIOME);
   }
 }
 

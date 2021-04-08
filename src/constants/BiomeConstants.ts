@@ -63,8 +63,8 @@ export const BIOME_ITEM_UNLOCKS: Map<MazeItemKey, BiomeKey> = new Map([
   [MazeItemKey.FRUIT, 1],
   [MazeItemKey.MULTIPLIER, 2],
   [MazeItemKey.BRAIN, 7],
-  [MazeItemKey.UNLIMITED_SPLITS, 12],
-  [MazeItemKey.BLACK_HOLE, 14],
+  [MazeItemKey.BLACK_HOLE, 12],
+  [MazeItemKey.UNLIMITED_SPLITS, 14],
   [MazeItemKey.GHOST, 16],
 ]);
 

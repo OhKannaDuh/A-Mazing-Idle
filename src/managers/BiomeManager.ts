@@ -54,4 +54,19 @@ export class BiomeManager {
     const requiredBiomeKey = POWER_UP_UNLOCKS.get(powerUpKey);
     return this.isBiomeKeyUnlocked(requiredBiomeKey);
   }
+
+  public getItemsUnlockBiomeKey(itemKey: MazeItemKey): BiomeKey {
+    return BIOME_ITEM_UNLOCKS.has(itemKey)
+      ? BIOME_ITEM_UNLOCKS.get(itemKey)
+      : 0;
+  }
+
+  // Get the number of biomes that a particular item has been unlocked for.
+  public getItemUnlockBiomeDiffCount(itemKey: MazeItemKey): number {
+    return this.getCurrentBiomeKey() - this.getItemsUnlockBiomeKey(itemKey);
+  }
+
+  public getUpgradeUnlockBiomeDiffCount(upgradeKey: UpgradeKey): number {
+    return this.getCurrentBiomeKey() - BIOME_UPGRADE_UNLOCKS.get(upgradeKey);
+  }
 }

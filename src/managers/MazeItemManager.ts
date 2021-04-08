@@ -8,6 +8,7 @@ import GhostMazeItem from "items/definitions/GhostMazeItem";
 import MazeItem from "items/MazeItem";
 import { Tile } from "managers/MazeManager";
 import { MazeCell } from "models/MazeCell";
+import { DestructibleWallUpgrade } from "upgrades/definitions/maze/DestructibleWallUpgrade";
 
 
 export class MazeItemManager {
@@ -54,13 +55,16 @@ export class MazeItemManager {
     const randomNumber = Math.random();
     let totalProb: number = 0;
     const unlockedMazeItemKeys = this.getAllUnlockedMazeItemKeys();
-
+    
+    // Spawn all items based on probability
     for (const mazeItemKey of unlockedMazeItemKeys) {
       totalProb += this.getMazeItemSpawnProbability(mazeItemKey as MazeItemKey);
       if (randomNumber < totalProb) {
         return mazeItemKey as MazeItemKey;
       }
     }
+    
+    DestructibleWallUpgrade.getDestructibleWallSpawnProbability(this.game);
     return null;
   }
 

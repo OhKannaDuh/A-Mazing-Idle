@@ -1,8 +1,6 @@
 import Game from "managers/Game";
-import { DIRECTION_RIGHT, getMazeDirectionIndexFromTileVector, getNewTilePositionByVector, GridLocation, MazeGridType, MazeWallTypes } from "managers/MazeUtils";
-import { MazeCell } from "models/MazeCell";
+import { GridLocation, MazeGridType } from "managers/MazeUtils";
 import { MazeGrid } from "models/MazeGrid";
-
 
 
 export class PlusSignMazeGrid extends MazeGrid {
@@ -45,19 +43,6 @@ export class PlusSignMazeGrid extends MazeGrid {
     }
   }
   
-  // protected setStartAndEndTile(): void {
-  //   // Bottom of the left/right side of plus sign
-  //   const middleXOffset = this.getXRange() - 1;
-  //   const middleYOffset = this.getYRange() - 1;
-  //   this.internalStartTile = { x: 0, y: this.getXRange() + middleXOffset };
-
-  //   this.internalExitTile = { x: this.sizeX - 1, y: this.getYRange() + middleYOffset };
-    
-  //   this.exitDirectionVector = DIRECTION_RIGHT;
-  //   this.externalExitTile = getNewTilePositionByVector(this.internalExitTile, this.exitDirectionVector);
-  //   this.getCell(this.internalExitTile).setWallTypeAtIndex(getMazeDirectionIndexFromTileVector(DIRECTION_RIGHT), MazeWallTypes.NO_WALL);
-  // }
-
   protected getValidStartLocations(): GridLocation[] {
     return [
       GridLocation.MIDDLE_LEFT,

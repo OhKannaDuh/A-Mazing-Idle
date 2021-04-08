@@ -1,11 +1,14 @@
 Bug fixes:
---> Ghosts do not have a color
---> Destructible walls move the maze a pixel or two
---> (-) Remove headings when all upgrades done.
+--> Brain bot cannot split
 
 UI Fixes:
+--> Basic help section
+--> Basic controls page
+--> Dark themed fruit icons
 --> Layout for upgrade buttons
---> General settings + settings manager?
+--> Indicator of new upgrades
+--> Import save
+--> Export save
 
 Features:
 --> (*) Debounce speed of manual movement

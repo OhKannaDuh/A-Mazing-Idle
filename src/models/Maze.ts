@@ -1,6 +1,8 @@
 import { Tile, TileVector } from "managers/MazeManager";
 import { 
   DIRECTIONS_ARR, 
+  getCellNeighborTileVector, 
+  getInverseDirectionIndex, 
   getMazeDirectionIndexFromTileVector, 
   getTileFromTileKey, 
   MazeAlgorithmType, 
@@ -15,6 +17,7 @@ import { RectangleMazeGrid } from "mazeGrid/RectangleMazeGrid";
 import { DiamondMazeGrid } from "mazeGrid/DiamondMazeGrid";
 import { SquareMazeGrid } from "mazeGrid/SquareMazeGrid";
 import Game from "managers/Game";
+import { DestructibleWallUpgrade } from "upgrades/definitions/maze/DestructibleWallUpgrade";
 
 export class Maze {
   public grid: MazeGrid;
@@ -73,14 +76,25 @@ export class Maze {
     return neighborsArr;
   }
 
-  //TODO: util fxn maybe?
-  public removeWallByDirIndex(mazeCell: MazeCell, directionIndex: MazeDirectionIndex): void {
-    mazeCell.setWallTypeAtIndex(directionIndex, MazeWallTypes.NO_WALL);
+  private removeWallByDirIndex(mazeCell: MazeCell, directionIndex: MazeDirectionIndex, wallType: MazeWallTypes = MazeWallTypes.NO_WALL): void {
+    mazeCell.setWallTypeAtIndex(directionIndex, wallType);
   }
 
-  public removeWallByTileVector(mazeCell: MazeCell, tileVector: TileVector): void {
+  public removeWallBetweenCells(mazeCell: MazeCell, neighborCell: MazeCell): void {
+    // Calculate vector between tiles and convert it to a wall direction index
+    const tileVector = getCellNeighborTileVector(mazeCell, neighborCell);
     const directionIndex = getMazeDirectionIndexFromTileVector(tileVector);
-    
-    this.removeWallByDirIndex(mazeCell, directionIndex);
+    const neighorDirectionIndex = getInverseDirectionIndex(directionIndex);
+
+    // Determine randomly if this wall is going to be destructible
+    const wallType = this.isDestructibleWall() ? MazeWallTypes.DESTRUCTIBLE_WALL : MazeWallTypes.NO_WALL;
+    this.removeWallByDirIndex(mazeCell, directionIndex, wallType);
+    this.removeWallByDirIndex(neighborCell, neighorDirectionIndex, wallType);
+  }
+
+  private isDestructibleWall(): boolean {
+    const prob = DestructibleWallUpgrade.getDestructibleWallSpawnProbability(this.game);
+    const randomNumber = Math.random();
+    return prob > randomNumber;
   }
 }

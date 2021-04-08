@@ -41,8 +41,9 @@ export class BinaryTreeMaze extends Maze {
         const newCell = this.getCell(newTile);
         
         // Remove wall connecting neighbors
-        this.removeWallByTileVector(currentCell, randomTileVector);
-        this.removeWallByTileVector(newCell, inverseTileVector);
+        // this.removeWallByTileVector(currentCell, randomTileVector);
+        // this.removeWallByTileVector(newCell, inverseTileVector);
+        this.removeWallBetweenCells(currentCell, newCell);
       }
     }
 

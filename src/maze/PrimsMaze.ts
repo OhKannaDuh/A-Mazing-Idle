@@ -1,5 +1,5 @@
 import Game from "managers/Game";
-import { getCellNeighborDirectionIndex, getCellNeighborTileVector, getInverseTileVector, getMazeDirectionIndexFromTileVector, getRandomInteger, MazeAlgorithmType, MazeDirectionIndex, MazeGridType, MazeWallTypes } from "managers/MazeUtils";
+import { getCellNeighborDirectionIndex, getRandomInteger, MazeAlgorithmType, MazeDirectionIndex, MazeGridType } from "managers/MazeUtils";
 import { Maze } from "models/Maze";
 import { MazeCell } from "models/MazeCell";
 import queue from "priorityjs";
@@ -79,13 +79,11 @@ export class PrimsMaze extends Maze {
         console.error("Prim has failed me");
         return;
       }
-      // Pick one randomly
-      const connectToNeighbor = visitedNeighbors[getRandomInteger(0, visitedNeighbors.length - 1)];
+      // Pick a random visited neighbor
+      const neighborCell = visitedNeighbors[getRandomInteger(0, visitedNeighbors.length - 1)];
       
-      // Remove wall between them
-      const tileVector = getCellNeighborTileVector(currentCell, connectToNeighbor);
-      this.removeWallByTileVector(currentCell, tileVector);
-      this.removeWallByTileVector(connectToNeighbor, getInverseTileVector(tileVector));
+      // Remove wall between current and neighbor cell
+      this.removeWallBetweenCells(currentCell, neighborCell);
     }
   }
 
