@@ -13,39 +13,53 @@ export class SaveManager {
     this.saveInterval = null;
   }
 
-  startSaveTimer(): void {
+  public enableSaveTimer(): void {
     this.disableSaveTimer();
     this.saveInterval = setInterval(() => {
       this.saveGameToLocalStorage(); 
     }, SAVE_GAME_INTERVAL);
   }
 
-  disableSaveTimer(): void {
+  public disableSaveTimer(): void {
     clearInterval(this.saveInterval);
     this.saveInterval = null;
   }
 
-  saveGameToLocalStorage() {
+  public saveGameToLocalStorage(): void {
     this.game.ui.showSaveModalForDuration(SAVE_TOAST_VISIBILITY_DURATION);
     let saveJson = this.createSaveJsonObject();
     this.persistSaveToLocalStorage(saveJson);
   }
 
-  loadGameSaveFromLocalStorage() {
+  public loadGameSaveFromLocalStorage(): void {
     let gameObj = this.getSaveJsonFromLocalStorage();
     if (!gameObj) return;
     this.importSaveJsonObject(gameObj);
     this.game.offline.processOfflinePoints();
   }
+
+  public importGameSaveFromString(saveJsonString: string): boolean {
+    // Disable save timer to prevent overrides
+    this.game.save.disableSaveTimer();
+    
+    // Attempt to parse and save new string
+    if (this.tryParseSaveJson(saveJsonString) == null) {
+      this.game.save.enableSaveTimer();
+      return false;
+    }
+    this.persistSaveToLocalStorage(saveJsonString);
+    this.game.reloadFromLocalStorage();
+    return true;
+  }
   
-  createSaveJsonObject = (): object => {
+  private createSaveJsonObject = (): string => {
     let gamePropList = this.game.getSerializablePropertyList();
   
     let gameJson = {};
     for (let gameProp of gamePropList) {
       gameJson[gameProp] = this.game[gameProp].serialize();
     }
-    return gameJson;
+    return JSON.stringify(gameJson);
   }
   
   private importSaveJsonObject = (jsonObj: any): void => {
@@ -54,8 +68,7 @@ export class SaveManager {
     }
   }
 
-  private persistSaveToLocalStorage(jsonObj): void {
-    let jsonString = JSON.stringify(jsonObj);
+  private persistSaveToLocalStorage(jsonString: string): void {
     localStorage.setItem(SAVE_GAME_LOCAL_STORE_KEY, jsonString);
   }
 
@@ -64,6 +77,10 @@ export class SaveManager {
     if (json === null || json === "") {
       return null;
     }
+    return this.tryParseSaveJson(json);
+  }
+
+  private tryParseSaveJson(json: string) {
     try {
       return JSON.parse(json);
     } catch (e) {

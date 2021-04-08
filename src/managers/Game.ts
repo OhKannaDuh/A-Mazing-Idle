@@ -60,7 +60,7 @@ class Game extends Serializable {
     this.stats.initStatsMap();
   }
 
-  hardResetGame() {
+  public hardResetGame(): void {
     this.save.clearLocalStorage();
     this.resetGame();
     this.maze = new MazeManager(this);
@@ -69,15 +69,18 @@ class Game extends Serializable {
     this.stats.initStatsMap();
     
     this.startGame();
-    this.save.startSaveTimer();
+    this.save.enableSaveTimer();
   }
 
-  setMaze() {
-    this.maze.newMaze();
-    this.players.resetAllPlayers();
+  public reloadFromLocalStorage(): void {
+    this.save.loadGameSaveFromLocalStorage();
+    this.resetGame();
+    
+    this.startGame();
+    this.save.enableSaveTimer();
   }
 
-  startGame() {
+  public startGame(): void {
     this.ui.updateAllStatsKey();
     this.upgrades.updateAllUpgradeUi();
     this.powerUps.updateAllPowerUpsUi();
@@ -91,7 +94,7 @@ class Game extends Serializable {
     this.rngBot.enableGlobalRngBot();
   }
   
-  completeMaze(playerId: number) {
+  public completeMaze(playerId: number): void {
     this.rngBot.disableGlobalMovement();
     this.players.resetAllPlayers();
     this.points.addMazeCompletionBonus(playerId);
@@ -106,7 +109,7 @@ class Game extends Serializable {
     this.startGame();
   }
   
-  resetGame() {
+  public resetGame(): void {
     this.rngBot.disableGlobalMovement();
     this.rngBot.disableReEnableBotMovementTimer();
     this.players.resetAllPlayers();

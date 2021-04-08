@@ -76,10 +76,7 @@ export class PlayerManager {
   public movePlayer(playerId: number, dirVector: TileVector, isManual: boolean = false): void {
     const player = this.getPlayer(playerId);
     
-    if (player == null) {
-      console.log('tried moving null player');
-      return;
-    }
+    if (player == null) return;
     if (!this.game.maze.canMove(player.currTile, dirVector, false, false, player.hasGhostItemActive())) {
       // If player can't move, ensure no destructible tiles are holding them
       this.game.maze.clearDestructibleTilesFromTile(player.currTile);

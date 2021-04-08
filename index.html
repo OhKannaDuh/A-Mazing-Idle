@@ -107,21 +107,26 @@
           <button id='helpButton'>
             <div class='button_label'>HELP!</div>
           </button>
-          <button id='newGame'>
-            <div class='button_label'>New Game</div>
-          </button>
           <button id='manualSaveGame'>
             <div class='button_label'>Save Game</div>
           </button>
-          <button id='deleteSaveGame'>
-            <div class='button_label'>DELETE Save Game</div>
+          <br><br>
+          <button id='copySaveJson'>
+            <div class='button_label'>Export Save JSON (Copy)</div>
+          </button>
+          <button id='importSaveOpenModalButton'>
+            <div class='button_label'>Import Save JSON</div>
+          </button>
+          <br><br>
+          <button id='newGame'>
+            <div class='button_label'>New Game</div>
           </button>
           <button id='clearAllStats'>
-            <div class='button_label'>CLEAR All Stats</div>
+            <div class='button_label'>Reset All Stats</div>
           </button>
-          <button id='copySaveJson'>
-            <div class='button_label'>COPY Save Json</div>
-          </button>
+          <!-- <button id='deleteSaveGame'>
+            <div class='button_label'>DELETE Save Game</div>
+          </button> -->
         </div>
       </div>
     </div>
@@ -196,6 +201,21 @@
 
     <div id='saveToastModal'>
       <div>Game Saved!</div>
+    </div>
+
+    
+    <div id='importSaveModal' class='modal'>
+      <div class='modal-content'>
+        <h2>Import Save JSON!</h2>
+        <p>WARNING: This is non-reversible and will delete your current save. Recommend you save again first!</p>
+        <textarea id='importSaveTextArea'></textarea>
+        <div id='importSaveButtonRowDiv'>
+          <button id='importSaveModalButton'>
+            <div class='button_label'>Import Save (No Going Back!)</div>
+          </button>
+          <p id='importSaveErrorLabel'></p>
+        </div>
+      </div>
     </div>
   </body>
 </html>

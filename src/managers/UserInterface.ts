@@ -18,6 +18,7 @@ export enum ModalType {
   SETTINGS_MODAL = "SETTINGS_MODAL",
   OFFLINE_SCORE_MODAL = "OFFLINE_SCORE_MODAL",
   HELP_MODAL = "HELP_MODAL",
+  IMPORT_SAVE_MODAL = "IMPORT_SAVE_MODAL",
 }
 
 export class UserInterface {
@@ -46,11 +47,25 @@ export class UserInterface {
     $(`#clearAllStats`).click(() => this.game.stats.initStatsMap());
     $(`#statsButton`).click((e) => this.showModalByType(ModalType.STATS_MODAL, true, e));
     $(`#helpButton`).click((e) => {
-      this.showModalVisibleById(ModalType.SETTINGS_MODAL, false);
+      this.showModalByType(ModalType.SETTINGS_MODAL, false);
       this.showModalByType(ModalType.HELP_MODAL, true, e);
     });
+    $(`#importSaveOpenModalButton`).click((e) => {
+      $(`#importSaveErrorLabel`).text("")
+      this.showModalByType(ModalType.SETTINGS_MODAL, false);
+      this.showModalByType(ModalType.IMPORT_SAVE_MODAL, true, e);
+    });
+    
     $(`#settingsButton`).click((e) => this.showModalByType(ModalType.SETTINGS_MODAL, true, e));
     $(`#copySaveJson`).click(() => this.game.save.copySaveToClipboard());
+    $(`#importSaveModalButton`).click(() => {
+      const saveJson = $(`#importSaveTextArea`).val();
+      const importSuccess = this.game.save.importGameSaveFromString(saveJson);
+      if (importSuccess) {
+        this.showModalByType(ModalType.IMPORT_SAVE_MODAL, false);
+      }
+      $(`#importSaveErrorLabel`).text(importSuccess ? "" : "Failed to import save json.")
+    });
   }
 
   public setPointsText(): void {
@@ -165,8 +180,11 @@ export class UserInterface {
       this.showModalVisibleById("statsModal", setVisible);
     } else if (modalType === ModalType.HELP_MODAL) {
       this.showModalVisibleById("helpModal", setVisible);
+    } else if (modalType === ModalType.IMPORT_SAVE_MODAL) {
+      this.showModalVisibleById("importSaveModal", setVisible);
+    } else {
+      console.error(`Invalid modal to show: ${modalType}`);
     }
-    console.error(`Invalid modal to show: ${modalType}`);
   }
 
   private showModalVisibleById(modalId: string, setVisible: boolean = true): void {

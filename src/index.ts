@@ -26,10 +26,7 @@ $(document).ready(() => {
   if (IS_DEV_MODE_ENABLED && !DEV_MODE_AUTOSTART) return;
   
   const game: Game = new Game();
-  game.save.loadGameSaveFromLocalStorage();
-  
-  game.startGame();
-  game.save.startSaveTimer();
+  game.reloadFromLocalStorage();
 
   //TODO: this should be in UI
   $(document).keydown(function(event) {

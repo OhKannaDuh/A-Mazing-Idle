@@ -391,7 +391,6 @@ var iterationCount = 0;
 var maxIterationCount = 100;
 var getMazeData = function getMazeData() {
     game1 = new _Game2.default(DEV_MODE_DISABLE_UI, true);
-    game1.setMaze();
     // game1.points.rngBotPrioritizeUnvisited = Boolean($(`#debugInputPrioritizeUnvisited`).val());
     // // game1.points.rngBotAvoidRevisitLastPosition = Boolean($(`#debugAvoidRevisit`).val());
     // game1.points.rngBotAutoExitMaze = Boolean($(`#debugAutoExit`).val());
@@ -488,9 +487,7 @@ var ESCAPE_KEY = 27;
 $(document).ready(function () {
     if (_devUtils.IS_DEV_MODE_ENABLED && !_devUtils.DEV_MODE_AUTOSTART) return;
     var game = new _Game2.default();
-    game.save.loadGameSaveFromLocalStorage();
-    game.startGame();
-    game.save.startSaveTimer();
+    game.reloadFromLocalStorage();
     //TODO: this should be in UI
     $(document).keydown(function (event) {
         // Up
@@ -1192,13 +1189,15 @@ var Game = function (_Serializable) {
             this.upgrades.initUpgrades();
             this.stats.initStatsMap();
             this.startGame();
-            this.save.startSaveTimer();
+            this.save.enableSaveTimer();
         }
     }, {
-        key: "setMaze",
-        value: function setMaze() {
-            this.maze.newMaze();
-            this.players.resetAllPlayers();
+        key: "reloadFromLocalStorage",
+        value: function reloadFromLocalStorage() {
+            this.save.loadGameSaveFromLocalStorage();
+            this.resetGame();
+            this.startGame();
+            this.save.enableSaveTimer();
         }
     }, {
         key: "startGame",
@@ -2379,10 +2378,7 @@ var PlayerManager = exports.PlayerManager = function () {
             var isManual = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
             var player = this.getPlayer(playerId);
-            if (player == null) {
-                console.log('tried moving null player');
-                return;
-            }
+            if (player == null) return;
             if (!this.game.maze.canMove(player.currTile, dirVector, false, false, player.hasGhostItemActive())) {
                 // If player can't move, ensure no destructible tiles are holding them
                 this.game.maze.clearDestructibleTilesFromTile(player.currTile);
@@ -3049,7 +3045,7 @@ var SaveManager = exports.SaveManager = function () {
                 }
             }
 
-            return gameJson;
+            return JSON.stringify(gameJson);
         };
         this.importSaveJsonObject = function (jsonObj) {
             for (var gameProp in jsonObj) {
@@ -3061,8 +3057,8 @@ var SaveManager = exports.SaveManager = function () {
     }
 
     _createClass(SaveManager, [{
-        key: 'startSaveTimer',
-        value: function startSaveTimer() {
+        key: 'enableSaveTimer',
+        value: function enableSaveTimer() {
             var _this2 = this;
 
             this.disableSaveTimer();
@@ -3092,9 +3088,22 @@ var SaveManager = exports.SaveManager = function () {
             this.game.offline.processOfflinePoints();
         }
     }, {
+        key: 'importGameSaveFromString',
+        value: function importGameSaveFromString(saveJsonString) {
+            // Disable save timer to prevent overrides
+            this.game.save.disableSaveTimer();
+            // Attempt to parse and save new string
+            if (this.tryParseSaveJson(saveJsonString) == null) {
+                this.game.save.enableSaveTimer();
+                return false;
+            }
+            this.persistSaveToLocalStorage(saveJsonString);
+            this.game.reloadFromLocalStorage();
+            return true;
+        }
+    }, {
         key: 'persistSaveToLocalStorage',
-        value: function persistSaveToLocalStorage(jsonObj) {
-            var jsonString = JSON.stringify(jsonObj);
+        value: function persistSaveToLocalStorage(jsonString) {
             localStorage.setItem(SAVE_GAME_LOCAL_STORE_KEY, jsonString);
         }
     }, {
@@ -3104,6 +3113,11 @@ var SaveManager = exports.SaveManager = function () {
             if (json === null || json === "") {
                 return null;
             }
+            return this.tryParseSaveJson(json);
+        }
+    }, {
+        key: 'tryParseSaveJson',
+        value: function tryParseSaveJson(json) {
             try {
                 return JSON.parse(json);
             } catch (e) {
@@ -3573,6 +3587,7 @@ var ModalType = exports.ModalType = undefined;
     ModalType["SETTINGS_MODAL"] = "SETTINGS_MODAL";
     ModalType["OFFLINE_SCORE_MODAL"] = "OFFLINE_SCORE_MODAL";
     ModalType["HELP_MODAL"] = "HELP_MODAL";
+    ModalType["IMPORT_SAVE_MODAL"] = "IMPORT_SAVE_MODAL";
 })(ModalType || (exports.ModalType = ModalType = {}));
 
 var UserInterface = exports.UserInterface = function () {
@@ -3618,14 +3633,27 @@ var UserInterface = exports.UserInterface = function () {
                 return _this.showModalByType(ModalType.STATS_MODAL, true, e);
             });
             $("#helpButton").click(function (e) {
-                _this.showModalVisibleById(ModalType.SETTINGS_MODAL, false);
+                _this.showModalByType(ModalType.SETTINGS_MODAL, false);
                 _this.showModalByType(ModalType.HELP_MODAL, true, e);
+            });
+            $("#importSaveOpenModalButton").click(function (e) {
+                $("#importSaveErrorLabel").text("");
+                _this.showModalByType(ModalType.SETTINGS_MODAL, false);
+                _this.showModalByType(ModalType.IMPORT_SAVE_MODAL, true, e);
             });
             $("#settingsButton").click(function (e) {
                 return _this.showModalByType(ModalType.SETTINGS_MODAL, true, e);
             });
             $("#copySaveJson").click(function () {
                 return _this.game.save.copySaveToClipboard();
+            });
+            $("#importSaveModalButton").click(function () {
+                var saveJson = $("#importSaveTextArea").val();
+                var importSuccess = _this.game.save.importGameSaveFromString(saveJson);
+                if (importSuccess) {
+                    _this.showModalByType(ModalType.IMPORT_SAVE_MODAL, false);
+                }
+                $("#importSaveErrorLabel").text(importSuccess ? "" : "Failed to import save json.");
             });
         }
     }, {
@@ -3752,8 +3780,11 @@ var UserInterface = exports.UserInterface = function () {
                 this.showModalVisibleById("statsModal", setVisible);
             } else if (modalType === ModalType.HELP_MODAL) {
                 this.showModalVisibleById("helpModal", setVisible);
+            } else if (modalType === ModalType.IMPORT_SAVE_MODAL) {
+                this.showModalVisibleById("importSaveModal", setVisible);
+            } else {
+                console.error("Invalid modal to show: " + modalType);
             }
-            console.error("Invalid modal to show: " + modalType);
         }
     }, {
         key: "showModalVisibleById",
