@@ -17,6 +17,7 @@ import { PointsPerRevisitUpgrade } from "upgrades/definitions/maze/PointsPerRevi
 import { MazeSizeUpgrade } from "upgrades/definitions/maze/MazeSizeUpgrade";
 import { BotSplitDirectionUpgrade } from "upgrades/definitions/bots/BotSplitDirectionUpgrade";
 import { BotSplitAutoMergeUpgrade } from "upgrades/definitions/bots/BotSplitAutoMergeUpgrade";
+import { BotLuckyGuessUpgrade } from "upgrades/definitions/bots/BotLuckUpgrade";
 import { DestructibleWallUpgrade } from "upgrades/definitions/maze/DestructibleWallUpgrade";
 import { BotAutoMoveUpgrade } from "upgrades/definitions/bots/BotAutoMoveUpgrade";
 import { PointsMultiplierActivateDurationUpgrade } from "upgrades/definitions/powerUps/PointsMultiplierActivateDurationUpgrade";
@@ -63,6 +64,7 @@ export class UpgradeManager extends Serializable {
     this.createUpgrade(new PrioritizeUnvisitedUpgrade(this.game, UpgradeKey.PRIORITIZE_UNVISITED));
     this.createUpgrade(new TeleportPlayerBacktoBotUpgrade(this.game, UpgradeKey.TELEPORT_PLAYER_BACK_TO_BOT));
     this.createUpgrade(new TeleportBotBackToPlayerUpgrade(this.game, UpgradeKey.TELEPORT_BOT_BACK_TO_PLAYER));
+    this.createUpgrade(new BotLuckyGuessUpgrade(this.game, UpgradeKey.BOT_LUCKY_GUESS));
     // Item
     this.createUpgrade(new FruitPickupPointsMultiplierUpgrade(this.game, UpgradeKey.FRUIT_PICKUP_POINTS));
     this.createUpgrade(new FruitSpawnRateUpgrade(this.game, UpgradeKey.FRUIT_SPAWN));

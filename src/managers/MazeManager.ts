@@ -12,21 +12,19 @@ import {
   getNewTilePositionByVector,
   isTileEqual,
   MazeDirectionIndex,
-  MazeGridType,
   MazeWallTypes,
   generateMazeGridAndAlgorithm,
 } from "managers/MazeUtils";
 import { UpgradeKey } from "constants/UpgradeConstants";
 import { StatsKey } from "models/Stats";
-import { BacktrackerMaze } from "maze/BackTrackerMaze";
-import { BinaryTreeMaze } from "maze/BinaryTreeMaze";
-import { PrimsMaze } from "maze/PrimsMaze";
 import { MazeCell } from "models/MazeCell";
 import { Maze } from "models/Maze";
 import { MazeGrid } from "models/MazeGrid";
+import Player from "models/Player";
 declare var $: any;
 
 export const DEFAULT_PLAYER_ID = 0;
+const MAX_SPLITS_POSSIBLE = 4;
 
 export type Array2D<T> = Array<Array<T>>;
 export type MazeGridArray = Array2D<MazeCell>;
@@ -108,11 +106,7 @@ export class MazeManager {
     $(`#${new_tile_key}`).css("background-color", this.game.colors.getVisitedTileColor());
   }
 
-  public spawnSplitBot(
-    playerId: number,
-    dirArr,
-    isUnlimitedSplit: boolean
-  ): void {
+  public spawnSplitBot(playerId: number, dirArr: TileVector[], isUnlimitedSplit: boolean): void {
     const currTile = this.game.players.getCurrTile(playerId);
     for (let i = 0; i < dirArr.length; i++) {
       if (i === 0) {
@@ -248,24 +242,22 @@ export class MazeManager {
     return (tileVal === MazeWallTypes.NO_WALL || (isIgnoreDestructibleWalls && tileVal === MazeWallTypes.DESTRUCTIBLE_WALL));
   }
 
-  public getPossibleSplitBotCount(validDirs) {
-    if (validDirs.length <= 1) {
+  public getPossibleSplitBotCount(validDirCount: number, player: Player): number {
+    if (validDirCount <= 1) {
       return 0;
+    }
+    if (player && player.isUnlimitedSplitItemActive) {
+      return Math.min(validDirCount, MAX_SPLITS_POSSIBLE);
     }
 
     // Total bots active
-    const shouldIgnoreManualPlayer = this.game.upgrades.isUpgraded(
-      UpgradeKey.PLAYER_MOVE_INDEPENDENTLY
-    );
-    const rngBotCount = this.game.players.getPlayerCount(
-      shouldIgnoreManualPlayer
-    );
-    const splitUpgradeCount = this.game.upgrades.getUpgradeLevel(
-      UpgradeKey.BOT_SPLIT_DIRECTION
-    );
+    const shouldIgnoreManualPlayer = this.game.upgrades.isUpgraded(UpgradeKey.PLAYER_MOVE_INDEPENDENTLY);
+    const rngBotCount = this.game.players.getPlayerCount(shouldIgnoreManualPlayer);
+    const splitUpgradeCount = this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_SPLIT_DIRECTION);
 
     // One bot auto-allowed, and +1 extra bot allowed per upgrade
-    return Math.max(0, splitUpgradeCount + 1 - rngBotCount);
+    const allowedSplits = Math.max(0, splitUpgradeCount + 1 - rngBotCount);
+    return Math.min(validDirCount, allowedSplits);
   }
 
   public teleportPlayerBackToBot(): void {
@@ -362,12 +354,8 @@ export class MazeManager {
     const currTile = this.game.players.getPlayer(playerId).currTile;
     const currDistance = this.getSmartPathingDistanceFromExit(currTile);
 
-    const autoExitMazeUpgradeLevel: number = this.game.upgrades.getUpgradeLevel(
-      UpgradeKey.AUTO_EXIT_MAZE
-    );
-    const playerHasSmartPathing: boolean = this.game.players.playerHasSmartPathing(
-      playerId
-    );
+    const autoExitMazeUpgradeLevel: number = this.game.upgrades.getUpgradeLevel(UpgradeKey.AUTO_EXIT_MAZE);
+    const playerHasSmartPathing: boolean = this.game.players.playerHasSmartPathing(playerId);
 
     // Check if within X tiles of exit (1 per upgrade) and player has no smart pathing
     if (currDistance > autoExitMazeUpgradeLevel && !playerHasSmartPathing) {
@@ -378,11 +366,10 @@ export class MazeManager {
     const exitMazeDir = validDirs.filter((dir) => {
       const newTile = getNewTilePositionByVector(currTile, dir);
       // Exit tile or one step closer to exit. If distance 1, MUST be exit tile.
-      return (
-        this.getGrid().isMazeExitTile(newTile) ||
-        (currDistance !== 1 &&
-          this.maze.grid.isValidTile(newTile) &&
-          this.getSmartPathingDistanceFromExit(newTile) === currDistance - 1)
+      return (this.getGrid().isMazeExitTile(newTile)
+          || (currDistance !== 1 &&
+              this.maze.grid.isValidTile(newTile) &&
+              this.getSmartPathingDistanceFromExit(newTile) === currDistance - 1)
       );
     });
     return exitMazeDir;

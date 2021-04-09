@@ -3,6 +3,7 @@ import { UpgradeKey } from "constants/UpgradeConstants";
 import Game from "managers/Game";
 import { TileVector } from "managers/MazeManager";
 import { StatsKey } from "models/Stats";
+import { BotLuckyGuessUpgrade } from "upgrades/definitions/bots/BotLuckUpgrade";
 
 declare var _: any;
 
@@ -15,9 +16,9 @@ const DEV_MODE_MOVEMENT_SPEED = 1;
 
 export class RNGBotManager {
   public game: Game;
-  public isDevMode: boolean;
-  public rngBotGlobalInterval: any;
-  public rngBotReEnableMovementTimer: any;
+  private isDevMode: boolean;
+  private rngBotGlobalInterval: any;
+  private rngBotReEnableMovementTimer: any;
   
   constructor(game, isDevMode) {
     this.game = game;
@@ -26,7 +27,7 @@ export class RNGBotManager {
     this.rngBotReEnableMovementTimer = null;
   }
 
-  enableGlobalRngBot() {
+  public enableGlobalRngBot(): void {
     let upgradeSpeed = this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_MOVEMENT_SPEED);
     let isSpeedPowerUpActive = this.game.powerUps.isPowerUpActive(PowerUpKey.SPEED_UP);
     
@@ -50,13 +51,13 @@ export class RNGBotManager {
     }, this.getBotMoveInterval(this.isDevMode));
   }
 
-  getBotMoveInterval(isDevMode = false) {
+  public getBotMoveInterval(isDevMode = false): number {
     if (isDevMode) return DEV_MODE_MOVEMENT_SPEED;
     const speedPowerUpMultiplier: number = this.game.powerUps.isPowerUpActive(PowerUpKey.SPEED_UP) ? .5 : 1;
     return BASE_MOVEMENT_SPEED * speedPowerUpMultiplier * (Math.pow(BASE_MOVEMENT_REDUCTION, this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_MOVEMENT_SPEED)));
   }
 
-  disableGlobalRngBot() {
+  public disableGlobalRngBot() {
     clearInterval(this.rngBotGlobalInterval);
     this.rngBotGlobalInterval = null;
     clearInterval(this.rngBotReEnableMovementTimer);
@@ -64,7 +65,7 @@ export class RNGBotManager {
   }
 
   // After a short delay, manually controlled bots will start moving again.
-  enableReEnableBotMovementTimer() {
+  public enableReEnableBotMovementTimer(): void {
     this.disableReEnableBotMovementTimer();
 
     //TODO: this might be better handled within the player class.
@@ -77,17 +78,17 @@ export class RNGBotManager {
     }, AUTO_RE_ENABLE_RNG_BOT_TIMER);
   }
 
-  disableReEnableBotMovementTimer() {
+  public disableReEnableBotMovementTimer(): void {
     clearTimeout(this.rngBotReEnableMovementTimer);
     this.rngBotReEnableMovementTimer = null;
   }
 
-  disableGlobalMovement() {
+  public disableGlobalMovement(): void {
     clearInterval(this.rngBotGlobalInterval);
     this.rngBotGlobalInterval = null;
   }
 
-  private moveRandomly(playerId) {
+  private moveRandomly(playerId: number): void {
     if (!this.game.players.playerExists(playerId)) return;
     const dirArr = this.chooseRandomDirectionsArr(playerId);
     if (!dirArr || dirArr.length === 0) {
@@ -95,6 +96,11 @@ export class RNGBotManager {
       const player = this.game.players.getPlayer(playerId);
       if (player != null) this.game.maze.clearDestructibleTilesFromTile(player.currTile);
       return;
+    }
+
+    // Check for lucky guesses
+    if (this.isMovementLucky(dirArr.length)) {
+      
     }
     
     if (dirArr.length === 1) {
@@ -104,16 +110,27 @@ export class RNGBotManager {
     }
   }
 
-  chooseRandomDirectionsArr(playerId): TileVector[] {
+  private chooseRandomDirectionsArr(playerId: number): TileVector[] {
+    // Filter all directions based on upgrades applied
     const validDirs = this.getPossibleDirectionsList(playerId);
+
+    
+    // Check for Auto-Exit and Smart pathing
+    if (this.game.upgrades.isUpgraded(UpgradeKey.AUTO_EXIT_MAZE) 
+        || this.game.players.playerHasSmartPathing(playerId)) {
+      const exitDirsArr = this.game.maze.filterPlayerExitMazeDirection(playerId, validDirs);
+      if (exitDirsArr.length > 0) {
+        return exitDirsArr;
+      }
+    }
+
     if (!validDirs) {
       return null;
     }
 
+    // Determine how many splits should be allowed
     const player = this.game.players.getPlayer(playerId);
-    const possibleNewSplits = player.isUnlimitedSplitItemActive 
-      ? validDirs.length
-      : this.game.maze.getPossibleSplitBotCount(validDirs);
+    const possibleNewSplits = this.game.maze.getPossibleSplitBotCount(validDirs.length, player);
 
     // Only split if both directions are unvisited.
     const unvisitedDirs = this.game.upgrades.isUpgraded(UpgradeKey.PRIORITIZE_UNVISITED)
@@ -132,20 +149,21 @@ export class RNGBotManager {
     return [validDirs[randDirIndex]];
   }
 
-  getPossibleDirectionsList(playerId) {
+  private getPossibleDirectionsList(playerId: number): TileVector[] {
     let validDirs = this.game.maze.getValidDirectionsByPlayerId(playerId);
     const player = this.game.players.getPlayer(playerId);
     if (validDirs.length === 0 || !player) {
-      return;
+      return null;
     }
     
-
-    if (this.game.upgrades.isUpgraded(UpgradeKey.AUTO_EXIT_MAZE) || this.game.players.playerHasSmartPathing(playerId)) {
-      const exitDirsArr = this.game.maze.filterPlayerExitMazeDirection(playerId, validDirs);
-      if (exitDirsArr.length > 0) {
-        return exitDirsArr;
-      }
-    }
+    // // Check for Auto-Exit and Smart pathing
+    // if (this.game.upgrades.isUpgraded(UpgradeKey.AUTO_EXIT_MAZE) 
+    //     || this.game.players.playerHasSmartPathing(playerId)) {
+    //   const exitDirsArr = this.game.maze.filterPlayerExitMazeDirection(playerId, validDirs);
+    //   if (exitDirsArr.length > 0) {
+    //     return exitDirsArr;
+    //   }
+    // }
     
     // Remove all dead end tiles from possible directions.
     if (this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_REMEMBER_DEADEND_TILES) >= 1) {
@@ -175,11 +193,23 @@ export class RNGBotManager {
     return validDirs;
   }
 
-  getRandomInt = (max) => {
+  private isMovementLucky(dirCount: number): boolean {
+    if (!this.game.upgrades.isUpgraded(UpgradeKey.BOT_LUCKY_GUESS)) {
+      return false;
+    }
+    
+    const luckOdds = BotLuckyGuessUpgrade.getLuckyGuessIncreasePercentage(this.game);
+    // Example (2 dir): 50% + 3% = 53% likely to guess correct
+    // Example (3 dir): 33% + 3% = 36% likely to guess correct
+    const correctChoiceOdds = (1.0 / dirCount) + luckOdds;
+    return correctChoiceOdds < Math.random();
+  }
+
+  private getRandomInt = (max) => {
     return Math.floor(Math.random() * Math.floor(max));
   }
 
-  getRandomXValues = (arr, pickX) => {
+  private getRandomXValues = (arr: any[], pickX: number): any[] => {
     return _.sampleSize(arr, pickX);
   }
 }

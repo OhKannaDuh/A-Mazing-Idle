@@ -94,7 +94,7 @@ var getBiomeColorPalette = exports.getBiomeColorPalette = function getBiomeColor
 };
 var POWER_UP_UNLOCKS = exports.POWER_UP_UNLOCKS = new Map([[_PowerUpConstants.PowerUpKey.SPEED_UP, 7], [_PowerUpConstants.PowerUpKey.POINTS_MULTIPLIER, 10]]);
 var BIOME_ITEM_UNLOCKS = exports.BIOME_ITEM_UNLOCKS = new Map([[_ItemConstants.MazeItemKey.FRUIT, 1], [_ItemConstants.MazeItemKey.MULTIPLIER, 2], [_ItemConstants.MazeItemKey.BRAIN, 7], [_ItemConstants.MazeItemKey.BLACK_HOLE, 12], [_ItemConstants.MazeItemKey.UNLIMITED_SPLITS, 14], [_ItemConstants.MazeItemKey.GHOST, 16]]);
-var BIOME_UPGRADE_UNLOCKS = exports.BIOME_UPGRADE_UNLOCKS = new Map([[_UpgradeConstants.UpgradeKey.BIOME, 0], [_UpgradeConstants.UpgradeKey.AUTO_MOVE, 1], [_UpgradeConstants.UpgradeKey.POINTS_PER_VISIT, 1], [_UpgradeConstants.UpgradeKey.BOT_MOVEMENT_SPEED, 1], [_UpgradeConstants.UpgradeKey.PRIORITIZE_UNVISITED, 2], [_UpgradeConstants.UpgradeKey.MAZE_SIZE_UPGRADE, 2], [_UpgradeConstants.UpgradeKey.AVOID_REVISIT_LAST_POSITION, 3], [_UpgradeConstants.UpgradeKey.MAZE_COMPLETION_BONUS, 3], [_UpgradeConstants.UpgradeKey.AUTO_EXIT_MAZE, 4], [_UpgradeConstants.UpgradeKey.PLAYER_MOVE_INDEPENDENTLY, 4], [_UpgradeConstants.UpgradeKey.FRUIT_SPAWN, 5], [_UpgradeConstants.UpgradeKey.TELEPORT_BOT_BACK_TO_PLAYER, 5], [_UpgradeConstants.UpgradeKey.TELEPORT_PLAYER_BACK_TO_BOT, 5], [_UpgradeConstants.UpgradeKey.FRUIT_PICKUP_POINTS, 6], [_UpgradeConstants.UpgradeKey.BOT_SPLIT_DIRECTION, 6], [_UpgradeConstants.UpgradeKey.BOT_REMEMBER_DEADEND_TILES, 7], [_UpgradeConstants.UpgradeKey.BRAIN_SPAWN, 7], [_UpgradeConstants.UpgradeKey.SPEED_UP_ACTIVATE_DURATION, 8], [_UpgradeConstants.UpgradeKey.POINTS_PER_REVISIT, 9], [_UpgradeConstants.UpgradeKey.SPEED_UP_ACTIVATE_DURATION, 9], [_UpgradeConstants.UpgradeKey.BRAIN_TILE_DISTANCE, 10], [_UpgradeConstants.UpgradeKey.BOT_SPLIT_BOT_AUTO_MERGE, 10], [_UpgradeConstants.UpgradeKey.SPEED_UP_MULTIPLIER_STRENGTH, 11], [_UpgradeConstants.UpgradeKey.MULTIPLIER_POWER_UP_ACTIVATE_DURATION, 11], [_UpgradeConstants.UpgradeKey.MULTIPLIER_POWER_UP_STRENGTH, 12], [_UpgradeConstants.UpgradeKey.DESTRUCTIBLE_WALLS, 15]]);
+var BIOME_UPGRADE_UNLOCKS = exports.BIOME_UPGRADE_UNLOCKS = new Map([[_UpgradeConstants.UpgradeKey.BIOME, 0], [_UpgradeConstants.UpgradeKey.AUTO_MOVE, 1], [_UpgradeConstants.UpgradeKey.POINTS_PER_VISIT, 1], [_UpgradeConstants.UpgradeKey.BOT_MOVEMENT_SPEED, 1], [_UpgradeConstants.UpgradeKey.PRIORITIZE_UNVISITED, 2], [_UpgradeConstants.UpgradeKey.MAZE_SIZE_UPGRADE, 2], [_UpgradeConstants.UpgradeKey.AVOID_REVISIT_LAST_POSITION, 3], [_UpgradeConstants.UpgradeKey.MAZE_COMPLETION_BONUS, 3], [_UpgradeConstants.UpgradeKey.AUTO_EXIT_MAZE, 4], [_UpgradeConstants.UpgradeKey.PLAYER_MOVE_INDEPENDENTLY, 4], [_UpgradeConstants.UpgradeKey.FRUIT_SPAWN, 5], [_UpgradeConstants.UpgradeKey.TELEPORT_BOT_BACK_TO_PLAYER, 5], [_UpgradeConstants.UpgradeKey.TELEPORT_PLAYER_BACK_TO_BOT, 5], [_UpgradeConstants.UpgradeKey.FRUIT_PICKUP_POINTS, 6], [_UpgradeConstants.UpgradeKey.BOT_SPLIT_DIRECTION, 6], [_UpgradeConstants.UpgradeKey.BOT_REMEMBER_DEADEND_TILES, 7], [_UpgradeConstants.UpgradeKey.BRAIN_SPAWN, 7], [_UpgradeConstants.UpgradeKey.SPEED_UP_ACTIVATE_DURATION, 8], [_UpgradeConstants.UpgradeKey.POINTS_PER_REVISIT, 9], [_UpgradeConstants.UpgradeKey.SPEED_UP_ACTIVATE_DURATION, 9], [_UpgradeConstants.UpgradeKey.BRAIN_TILE_DISTANCE, 10], [_UpgradeConstants.UpgradeKey.BOT_SPLIT_BOT_AUTO_MERGE, 10], [_UpgradeConstants.UpgradeKey.SPEED_UP_MULTIPLIER_STRENGTH, 11], [_UpgradeConstants.UpgradeKey.MULTIPLIER_POWER_UP_ACTIVATE_DURATION, 11], [_UpgradeConstants.UpgradeKey.MULTIPLIER_POWER_UP_STRENGTH, 12], [_UpgradeConstants.UpgradeKey.BOT_LUCKY_GUESS, 1], [_UpgradeConstants.UpgradeKey.DESTRUCTIBLE_WALLS, 15]]);
 var getMazeGridByBiome = exports.getMazeGridByBiome = function getMazeGridByBiome(biomeKey) {
     if (biomeKey >= 0 && biomeKey < 8) {
         return _MazeUtils.MazeGridType.SQUARE;
@@ -279,6 +279,7 @@ var UpgradeKey = exports.UpgradeKey = undefined;
     UpgradeKey["BOT_SPLIT_BOT_AUTO_MERGE"] = "BOT_SPLIT_BOT_AUTO_MERGE";
     UpgradeKey["BOT_MOVEMENT_SPEED"] = "BOT_MOVEMENT_SPEED";
     UpgradeKey["BOT_REMEMBER_DEADEND_TILES"] = "BOT_REMEMBER_DEADEND_TILES";
+    UpgradeKey["BOT_LUCKY_GUESS"] = "BOT_LUCK";
     // Maze
     UpgradeKey["MAZE_SIZE_UPGRADE"] = "MAZE_SIZE_UPGRADE";
     UpgradeKey["POINTS_PER_VISIT"] = "POINTS_PER_VISIT";
@@ -324,6 +325,9 @@ var BOT_MOVEMENT_UPGRADE_BASE_COST = exports.BOT_MOVEMENT_UPGRADE_BASE_COST = 10
 var BOT_MOVEMENT_UPGRADE_BASE_COST_MUTLIPLIER = exports.BOT_MOVEMENT_UPGRADE_BASE_COST_MUTLIPLIER = 1.1;
 var BOT_REMEMBER_DEADEND_TILES_UPGRADE_BASE_COST = exports.BOT_REMEMBER_DEADEND_TILES_UPGRADE_BASE_COST = 1000;
 var BOT_REMEMBER_DEADEND_TILES_UPGRADE_BASE_COST_MULTIPLIER = exports.BOT_REMEMBER_DEADEND_TILES_UPGRADE_BASE_COST_MULTIPLIER = 3;
+var BOT_LUCKY_GUESS_UPGRADE_BASE_COST = exports.BOT_LUCKY_GUESS_UPGRADE_BASE_COST = 5000;
+var BOT_LUCKY_GUESS_UPGRADE_BASE_COST_MULTIPLIER = exports.BOT_LUCKY_GUESS_UPGRADE_BASE_COST_MULTIPLIER = 2;
+var BOT_LUCKY_GUESS_UPGRADE_INCREASE_AMOUNT = exports.BOT_LUCKY_GUESS_UPGRADE_INCREASE_AMOUNT = 0.01;
 // Maze
 var MAZE_COMPLETION_BONUS_BASE_MULTIPLIER = exports.MAZE_COMPLETION_BONUS_BASE_MULTIPLIER = 0.75;
 var MAZE_COMPLETION_BONUS_UPGRADE_SIZE_MULTIPLIER = exports.MAZE_COMPLETION_BONUS_UPGRADE_SIZE_MULTIPLIER = 1.1;
@@ -1488,7 +1492,7 @@ var MazeItemManager = exports.MazeItemManager = function () {
     return MazeItemManager;
 }();
 
-},{"../constants/ItemConstants":5,"../items/definitions/BlackHoleMazeItem":11,"../items/definitions/BrainMazeItem":12,"../items/definitions/FruitMazeItem":13,"../items/definitions/GhostMazeItem":14,"../items/definitions/UnlimitedSplitsItem":15,"../upgrades/definitions/maze/DestructibleWallUpgrade":66}],20:[function(require,module,exports){
+},{"../constants/ItemConstants":5,"../items/definitions/BlackHoleMazeItem":11,"../items/definitions/BrainMazeItem":12,"../items/definitions/FruitMazeItem":13,"../items/definitions/GhostMazeItem":14,"../items/definitions/UnlimitedSplitsItem":15,"../upgrades/definitions/maze/DestructibleWallUpgrade":67}],20:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2698,7 +2702,7 @@ var Points = exports.Points = function (_Serializable) {
     return Points;
 }(_Serializable2.Serializable);
 
-},{"../constants/PowerUpConstants":6,"../constants/UpgradeConstants":7,"../models/PointsHistoryTracker":43,"../models/Serializable":45,"../models/Stats":46,"../upgrades/definitions/maze/MazeCompletionBonusUpgrade":67,"../upgrades/definitions/powerUps/PointsMultiplierStrengthUpgrade":72}],25:[function(require,module,exports){
+},{"../constants/PowerUpConstants":6,"../constants/UpgradeConstants":7,"../models/PointsHistoryTracker":43,"../models/Serializable":45,"../models/Stats":46,"../upgrades/definitions/maze/MazeCompletionBonusUpgrade":68,"../upgrades/definitions/powerUps/PointsMultiplierStrengthUpgrade":73}],25:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2824,6 +2828,8 @@ var _UpgradeConstants = require("../constants/UpgradeConstants");
 
 var _Stats = require("../models/Stats");
 
+var _BotLuckUpgrade = require("../upgrades/definitions/bots/BotLuckUpgrade");
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var BASE_MOVEMENT_SPEED = 1000;
@@ -2935,10 +2941,12 @@ var RNGBotManager = exports.RNGBotManager = function () {
     }, {
         key: "chooseRandomDirectionsArr",
         value: function chooseRandomDirectionsArr(playerId) {
+            // Filter all directions based on upgrades applied
             var validDirs = this.getPossibleDirectionsList(playerId);
             if (!validDirs) {
                 return null;
             }
+            // Determine if splitting should be allowed
             var player = this.game.players.getPlayer(playerId);
             var possibleNewSplits = player.isUnlimitedSplitItemActive ? validDirs.length : this.game.maze.getPossibleSplitBotCount(validDirs);
             // Only split if both directions are unvisited.
@@ -2959,9 +2967,10 @@ var RNGBotManager = exports.RNGBotManager = function () {
             var validDirs = this.game.maze.getValidDirectionsByPlayerId(playerId);
             var player = this.game.players.getPlayer(playerId);
             if (validDirs.length === 0 || !player) {
-                return;
+                return null;
             }
-            if (this.game.upgrades.isUpgraded(_UpgradeConstants.UpgradeKey.AUTO_EXIT_MAZE) || this.game.players.playerHasSmartPathing(playerId)) {
+            // Check for Luck, Auto-Exit, and Smart pathing
+            if (this.game.upgrades.isUpgraded(_UpgradeConstants.UpgradeKey.AUTO_EXIT_MAZE) || this.game.players.playerHasSmartPathing(playerId) || this.isMovementLucky(validDirs.length)) {
                 var exitDirsArr = this.game.maze.filterPlayerExitMazeDirection(playerId, validDirs);
                 if (exitDirsArr.length > 0) {
                     return exitDirsArr;
@@ -2991,12 +3000,24 @@ var RNGBotManager = exports.RNGBotManager = function () {
             // No fancy moves, just choose random ones.
             return validDirs;
         }
+    }, {
+        key: "isMovementLucky",
+        value: function isMovementLucky(dirCount) {
+            if (!this.game.upgrades.isUpgraded(_UpgradeConstants.UpgradeKey.BOT_LUCKY_GUESS)) {
+                return false;
+            }
+            var luckOdds = _BotLuckUpgrade.BotLuckyGuessUpgrade.getLuckyGuessIncreasePercentage(this.game);
+            // Example (2 dir): 50% + 3% = 53% likely to guess correct
+            // Example (3 dir): 33% + 3% = 36% likely to guess correct
+            var correctChoiceOdds = 1 / dirCount + luckOdds;
+            return correctChoiceOdds < Math.random();
+        }
     }]);
 
     return RNGBotManager;
 }();
 
-},{"../constants/PowerUpConstants":6,"../constants/UpgradeConstants":7,"../models/Stats":46}],27:[function(require,module,exports){
+},{"../constants/PowerUpConstants":6,"../constants/UpgradeConstants":7,"../models/Stats":46,"../upgrades/definitions/bots/BotLuckUpgrade":53}],27:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3330,6 +3351,8 @@ var _BotSplitDirectionUpgrade = require("../upgrades/definitions/bots/BotSplitDi
 
 var _BotSplitAutoMergeUpgrade = require("../upgrades/definitions/bots/BotSplitAutoMergeUpgrade");
 
+var _BotLuckUpgrade = require("../upgrades/definitions/bots/BotLuckUpgrade");
+
 var _DestructibleWallUpgrade = require("../upgrades/definitions/maze/DestructibleWallUpgrade");
 
 var _BotAutoMoveUpgrade = require("../upgrades/definitions/bots/BotAutoMoveUpgrade");
@@ -3395,6 +3418,7 @@ var UpgradeManager = exports.UpgradeManager = function (_Serializable) {
             this.createUpgrade(new _PrioritizeUnvisitedUpgrade.PrioritizeUnvisitedUpgrade(this.game, _UpgradeConstants.UpgradeKey.PRIORITIZE_UNVISITED));
             this.createUpgrade(new _TeleportPlayerBacktoBotUpgrade.TeleportPlayerBacktoBotUpgrade(this.game, _UpgradeConstants.UpgradeKey.TELEPORT_PLAYER_BACK_TO_BOT));
             this.createUpgrade(new _TeleportBotBackToPlayerUpgrade.TeleportBotBackToPlayerUpgrade(this.game, _UpgradeConstants.UpgradeKey.TELEPORT_BOT_BACK_TO_PLAYER));
+            this.createUpgrade(new _BotLuckUpgrade.BotLuckyGuessUpgrade(this.game, _UpgradeConstants.UpgradeKey.BOT_LUCKY_GUESS));
             // Item
             this.createUpgrade(new _FruitPickupPointsMultiplierUpgrade.FruitPickupPointsMultiplierUpgrade(this.game, _UpgradeConstants.UpgradeKey.FRUIT_PICKUP_POINTS));
             this.createUpgrade(new _FruitSpawnRateUpgrade.FruitSpawnRateUpgrade(this.game, _UpgradeConstants.UpgradeKey.FRUIT_SPAWN));
@@ -3563,7 +3587,7 @@ var UpgradeManager = exports.UpgradeManager = function (_Serializable) {
 
 exports.default = UpgradeManager;
 
-},{"../constants/UpgradeConstants":7,"../dev/devUtils":8,"../models/Serializable":45,"../upgrades/definitions/bots/AutoExitMazeUpgrade":50,"../upgrades/definitions/bots/AvoidRevisitLastPositionUpgrade":51,"../upgrades/definitions/bots/BotAutoMoveUpgrade":52,"../upgrades/definitions/bots/BotMovementSpeedUpgrade":53,"../upgrades/definitions/bots/BotRememberDeadEndTilesUpgrade":54,"../upgrades/definitions/bots/BotSplitAutoMergeUpgrade":55,"../upgrades/definitions/bots/BotSplitDirectionUpgrade":56,"../upgrades/definitions/bots/PlayerMoveIndependentlyUpgrade":57,"../upgrades/definitions/bots/PrioritizeUnvisitedUpgrade":58,"../upgrades/definitions/bots/TeleportBotBackToPlayerUpgrade":59,"../upgrades/definitions/bots/TeleportPlayerBacktoBotUpgrade":60,"../upgrades/definitions/items/BrainSpawnRateUpgrade":61,"../upgrades/definitions/items/BrainTileDistanceUpgrade":62,"../upgrades/definitions/items/FruitPickupPointsMultiplierUpgrade":63,"../upgrades/definitions/items/FruitSpawnRateUpgrade":64,"../upgrades/definitions/maze/BiomeUpgrade":65,"../upgrades/definitions/maze/DestructibleWallUpgrade":66,"../upgrades/definitions/maze/MazeCompletionBonusUpgrade":67,"../upgrades/definitions/maze/MazeSizeUpgrade":68,"../upgrades/definitions/maze/PointsPerRevisitUpgrade":69,"../upgrades/definitions/maze/PointsPerVisitUpgrade":70,"../upgrades/definitions/powerUps/PointsMultiplierActivateDurationUpgrade":71,"../upgrades/definitions/powerUps/PointsMultiplierStrengthUpgrade":72,"../upgrades/definitions/powerUps/SpeedUpActivateDurationUpgrade":73,"../upgrades/definitions/powerUps/SpeedUpMultiplierStrengthUpgrade":74,"./UserInterface":30}],30:[function(require,module,exports){
+},{"../constants/UpgradeConstants":7,"../dev/devUtils":8,"../models/Serializable":45,"../upgrades/definitions/bots/AutoExitMazeUpgrade":50,"../upgrades/definitions/bots/AvoidRevisitLastPositionUpgrade":51,"../upgrades/definitions/bots/BotAutoMoveUpgrade":52,"../upgrades/definitions/bots/BotLuckUpgrade":53,"../upgrades/definitions/bots/BotMovementSpeedUpgrade":54,"../upgrades/definitions/bots/BotRememberDeadEndTilesUpgrade":55,"../upgrades/definitions/bots/BotSplitAutoMergeUpgrade":56,"../upgrades/definitions/bots/BotSplitDirectionUpgrade":57,"../upgrades/definitions/bots/PlayerMoveIndependentlyUpgrade":58,"../upgrades/definitions/bots/PrioritizeUnvisitedUpgrade":59,"../upgrades/definitions/bots/TeleportBotBackToPlayerUpgrade":60,"../upgrades/definitions/bots/TeleportPlayerBacktoBotUpgrade":61,"../upgrades/definitions/items/BrainSpawnRateUpgrade":62,"../upgrades/definitions/items/BrainTileDistanceUpgrade":63,"../upgrades/definitions/items/FruitPickupPointsMultiplierUpgrade":64,"../upgrades/definitions/items/FruitSpawnRateUpgrade":65,"../upgrades/definitions/maze/BiomeUpgrade":66,"../upgrades/definitions/maze/DestructibleWallUpgrade":67,"../upgrades/definitions/maze/MazeCompletionBonusUpgrade":68,"../upgrades/definitions/maze/MazeSizeUpgrade":69,"../upgrades/definitions/maze/PointsPerRevisitUpgrade":70,"../upgrades/definitions/maze/PointsPerVisitUpgrade":71,"../upgrades/definitions/powerUps/PointsMultiplierActivateDurationUpgrade":72,"../upgrades/definitions/powerUps/PointsMultiplierStrengthUpgrade":73,"../upgrades/definitions/powerUps/SpeedUpActivateDurationUpgrade":74,"../upgrades/definitions/powerUps/SpeedUpMultiplierStrengthUpgrade":75,"./UserInterface":30}],30:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4724,7 +4748,7 @@ var Maze = exports.Maze = function () {
     return Maze;
 }();
 
-},{"../managers/MazeUtils":21,"../mazeGrid/DiamondMazeGrid":31,"../mazeGrid/PlusSignMazeGrid":32,"../mazeGrid/RectangleMazeGrid":33,"../mazeGrid/SquareMazeGrid":34,"../upgrades/definitions/maze/DestructibleWallUpgrade":66}],40:[function(require,module,exports){
+},{"../managers/MazeUtils":21,"../mazeGrid/DiamondMazeGrid":31,"../mazeGrid/PlusSignMazeGrid":32,"../mazeGrid/RectangleMazeGrid":33,"../mazeGrid/SquareMazeGrid":34,"../upgrades/definitions/maze/DestructibleWallUpgrade":67}],40:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5646,7 +5670,7 @@ var PointsMultiplierPowerUp = exports.PointsMultiplierPowerUp = function (_Power
     return PointsMultiplierPowerUp;
 }(_PowerUp2.PowerUp);
 
-},{"../constants/PowerUpConstants":6,"../models/PowerUp":44,"../models/Stats":46,"../upgrades/definitions/powerUps/PointsMultiplierActivateDurationUpgrade":71}],48:[function(require,module,exports){
+},{"../constants/PowerUpConstants":6,"../models/PowerUp":44,"../models/Stats":46,"../upgrades/definitions/powerUps/PointsMultiplierActivateDurationUpgrade":72}],48:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5699,7 +5723,7 @@ var SpeedUpPowerUp = exports.SpeedUpPowerUp = function (_PowerUp) {
     return SpeedUpPowerUp;
 }(_PowerUp2.PowerUp);
 
-},{"../constants/PowerUpConstants":6,"../models/PowerUp":44,"../models/Stats":46,"../upgrades/definitions/powerUps/SpeedUpActivateDurationUpgrade":73}],49:[function(require,module,exports){
+},{"../constants/PowerUpConstants":6,"../models/PowerUp":44,"../models/Stats":46,"../upgrades/definitions/powerUps/SpeedUpActivateDurationUpgrade":74}],49:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6025,6 +6049,64 @@ var BotAutoMoveUpgrade = exports.BotAutoMoveUpgrade = function (_Upgrade) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.BotLuckyGuessUpgrade = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Upgrade2 = require("../../Upgrade");
+
+var _Upgrade3 = _interopRequireDefault(_Upgrade2);
+
+var _UpgradeConstants = require("../../../constants/UpgradeConstants");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var BUTTON_UI_ID = 'buyBotLuckyGuess';
+var TOOLTIP_TEXT = "When bot is faced with a choice of direction, the bot will be lucky in guessing direction by an extra " + _UpgradeConstants.BOT_LUCKY_GUESS_UPGRADE_INCREASE_AMOUNT + "% (ie. 51%/49% of choosing correct direction at level 1).";
+
+var BotLuckyGuessUpgrade = exports.BotLuckyGuessUpgrade = function (_Upgrade) {
+    _inherits(BotLuckyGuessUpgrade, _Upgrade);
+
+    function BotLuckyGuessUpgrade(game, upgradeKey) {
+        var upgradeLevel = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+
+        _classCallCheck(this, BotLuckyGuessUpgrade);
+
+        return _possibleConstructorReturn(this, (BotLuckyGuessUpgrade.__proto__ || Object.getPrototypeOf(BotLuckyGuessUpgrade)).call(this, game, _UpgradeConstants.UpgradeType.BOT, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel));
+    }
+
+    _createClass(BotLuckyGuessUpgrade, [{
+        key: "updateUiProperties",
+        value: function updateUiProperties() {
+            this.setUiText("Bot Lucky Guess (" + this.upgradeLevel + "%): " + this.getPrettyPrintCost() + " pts");
+        }
+    }, {
+        key: "getCost",
+        value: function getCost() {
+            return _UpgradeConstants.BOT_LUCKY_GUESS_UPGRADE_BASE_COST * Math.pow(_UpgradeConstants.BOT_LUCKY_GUESS_UPGRADE_BASE_COST_MULTIPLIER, this.upgradeLevel);
+        }
+    }], [{
+        key: "getLuckyGuessIncreasePercentage",
+        value: function getLuckyGuessIncreasePercentage(game) {
+            return game.upgrades.getUpgradeLevel(_UpgradeConstants.UpgradeKey.BOT_LUCKY_GUESS) * _UpgradeConstants.BOT_LUCKY_GUESS_UPGRADE_INCREASE_AMOUNT;
+        }
+    }]);
+
+    return BotLuckyGuessUpgrade;
+}(_Upgrade3.default);
+
+},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],54:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 exports.BotMovementSpeedUpgrade = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -6080,7 +6162,7 @@ var BotMovementSpeedUpgrade = exports.BotMovementSpeedUpgrade = function (_Upgra
     return BotMovementSpeedUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../../managers/UserInterface":30,"../../Upgrade":49}],54:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../../managers/UserInterface":30,"../../Upgrade":49}],55:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6133,7 +6215,7 @@ var BotRememberDeadEndTilesUpgrade = exports.BotRememberDeadEndTilesUpgrade = fu
     return BotRememberDeadEndTilesUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],55:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],56:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6186,7 +6268,7 @@ var BotSplitAutoMergeUpgrade = exports.BotSplitAutoMergeUpgrade = function (_Upg
     return BotSplitAutoMergeUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],56:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],57:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6239,7 +6321,7 @@ var BotSplitDirectionUpgrade = exports.BotSplitDirectionUpgrade = function (_Upg
     return BotSplitDirectionUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],57:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],58:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6292,7 +6374,7 @@ var PlayerMoveIndependentlyUpgrade = exports.PlayerMoveIndependentlyUpgrade = fu
     return PlayerMoveIndependentlyUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],58:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],59:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6345,7 +6427,7 @@ var PrioritizeUnvisitedUpgrade = exports.PrioritizeUnvisitedUpgrade = function (
     return PrioritizeUnvisitedUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],59:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],60:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6403,7 +6485,7 @@ var TeleportBotBackToPlayerUpgrade = exports.TeleportBotBackToPlayerUpgrade = fu
     return TeleportBotBackToPlayerUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],60:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],61:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6461,7 +6543,7 @@ var TeleportPlayerBacktoBotUpgrade = exports.TeleportPlayerBacktoBotUpgrade = fu
     return TeleportPlayerBacktoBotUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],61:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],62:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6521,7 +6603,7 @@ var BrainSpawnRateUpgrade = exports.BrainSpawnRateUpgrade = function (_Upgrade) 
     return BrainSpawnRateUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../../items/definitions/BrainMazeItem":12,"../../../managers/UserInterface":30,"../../Upgrade":49}],62:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../../items/definitions/BrainMazeItem":12,"../../../managers/UserInterface":30,"../../Upgrade":49}],63:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6579,7 +6661,7 @@ var BrainTileDistanceUpgrade = exports.BrainTileDistanceUpgrade = function (_Upg
     return BrainTileDistanceUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../../items/definitions/BrainMazeItem":12,"../../Upgrade":49}],63:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../../items/definitions/BrainMazeItem":12,"../../Upgrade":49}],64:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6639,7 +6721,7 @@ var FruitPickupPointsMultiplierUpgrade = exports.FruitPickupPointsMultiplierUpgr
     return FruitPickupPointsMultiplierUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../../items/definitions/FruitMazeItem":13,"../../../managers/UserInterface":30,"../../Upgrade":49}],64:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../../items/definitions/FruitMazeItem":13,"../../../managers/UserInterface":30,"../../Upgrade":49}],65:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6699,7 +6781,7 @@ var FruitSpawnRateUpgrade = exports.FruitSpawnRateUpgrade = function (_Upgrade) 
     return FruitSpawnRateUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../../items/definitions/FruitMazeItem":13,"../../../managers/UserInterface":30,"../../Upgrade":49}],65:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../../items/definitions/FruitMazeItem":13,"../../../managers/UserInterface":30,"../../Upgrade":49}],66:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6755,7 +6837,7 @@ var BiomeUpgrade = exports.BiomeUpgrade = function (_Upgrade) {
     return BiomeUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/BiomeConstants":2,"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],66:[function(require,module,exports){
+},{"../../../constants/BiomeConstants":2,"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],67:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6818,7 +6900,7 @@ var DestructibleWallUpgrade = exports.DestructibleWallUpgrade = function (_Upgra
     return DestructibleWallUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],67:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],68:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6882,7 +6964,7 @@ var MazeCompletionBonusUpgrade = exports.MazeCompletionBonusUpgrade = function (
     return MazeCompletionBonusUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../../managers/UserInterface":30,"../../Upgrade":49}],68:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../../managers/UserInterface":30,"../../Upgrade":49}],69:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6936,7 +7018,7 @@ var MazeSizeUpgrade = exports.MazeSizeUpgrade = function (_Upgrade) {
     return MazeSizeUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],69:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],70:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6989,7 +7071,7 @@ var PointsPerRevisitUpgrade = exports.PointsPerRevisitUpgrade = function (_Upgra
     return PointsPerRevisitUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],70:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],71:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7045,7 +7127,7 @@ var PointsPerVisitUpgrade = exports.PointsPerVisitUpgrade = function (_Upgrade) 
     return PointsPerVisitUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../../managers/UserInterface":30,"../../Upgrade":49}],71:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../../managers/UserInterface":30,"../../Upgrade":49}],72:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7108,7 +7190,7 @@ var PointsMultiplierActivateDurationUpgrade = exports.PointsMultiplierActivateDu
     return PointsMultiplierActivateDurationUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/PowerUpConstants":6,"../../../constants/UpgradeConstants":7,"../../../powerUps/PointsMultiplierPowerUp":47,"../../Upgrade":49}],72:[function(require,module,exports){
+},{"../../../constants/PowerUpConstants":6,"../../../constants/UpgradeConstants":7,"../../../powerUps/PointsMultiplierPowerUp":47,"../../Upgrade":49}],73:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7169,7 +7251,7 @@ var PointsMultiplierStrengthUpgrade = exports.PointsMultiplierStrengthUpgrade = 
     return PointsMultiplierStrengthUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/PowerUpConstants":6,"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],73:[function(require,module,exports){
+},{"../../../constants/PowerUpConstants":6,"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],74:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7232,7 +7314,7 @@ var SpeedUpActivateDurationUpgrade = exports.SpeedUpActivateDurationUpgrade = fu
     return SpeedUpActivateDurationUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/PowerUpConstants":6,"../../../constants/UpgradeConstants":7,"../../../powerUps/SpeedUpPowerUp":48,"../../Upgrade":49}],74:[function(require,module,exports){
+},{"../../../constants/PowerUpConstants":6,"../../../constants/UpgradeConstants":7,"../../../powerUps/SpeedUpPowerUp":48,"../../Upgrade":49}],75:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

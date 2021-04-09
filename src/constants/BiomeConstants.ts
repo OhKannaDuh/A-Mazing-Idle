@@ -94,6 +94,7 @@ export const BIOME_UPGRADE_UNLOCKS: Map<UpgradeKey, BiomeKey> = new Map([
   [UpgradeKey.SPEED_UP_MULTIPLIER_STRENGTH, 11],
   [UpgradeKey.MULTIPLIER_POWER_UP_ACTIVATE_DURATION, 11],
   [UpgradeKey.MULTIPLIER_POWER_UP_STRENGTH, 12],
+  [UpgradeKey.BOT_LUCKY_GUESS, 1],
   [UpgradeKey.DESTRUCTIBLE_WALLS, 15],
 ]);
 
