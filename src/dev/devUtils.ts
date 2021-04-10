@@ -5,7 +5,7 @@ declare var $: any;
 
 export const IS_DEV_MODE_ENABLED = false;
 export const DEBUG_ALL_BUTTONS_VISIBLE = false;
-export const IS_FREE_MODE_ENABLED = false;
+export const IS_FREE_MODE_ENABLED = true;
 
 export const DEV_MODE_DISABLE_UI = false;
 export const DEV_MODE_AUTOSTART = false;

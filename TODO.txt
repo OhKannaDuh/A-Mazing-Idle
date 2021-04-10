@@ -1,14 +1,10 @@
 Bug fixes:
---> Brain bot cannot split
+(?)
 
 UI Fixes:
---> Basic help section
+--> "new" upgrade indicator
 --> Basic controls page
---> Dark themed fruit icons
 --> Layout for upgrade buttons
---> Indicator of new upgrades
---> Import save
---> Export save
 
 Features:
 --> (*) Debounce speed of manual movement
@@ -16,7 +12,6 @@ Features:
 --> Avoid revisit after deadend split
 --> Allow option for splits on visited tiles
 --> Points for clearing destructible walls
---> "Luck" upgrade
 --> Finish line (auto-complete maze)
 --> Bots move between tiles instead of teleport
 

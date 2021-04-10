@@ -13,12 +13,12 @@ export class BrainSpawnRateUpgrade extends Upgrade {
     super(game, UpgradeType.ITEM, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel);
   }
   
-  updateUiProperties(): void {
+  public updateUiProperties(): void {
     const spawnProbability = UserInterface.getDecimalPrettyPrintNumber(BrainMazeItem.getItemSpawnProbability(this.game) * 100, 2);
     this.setUiText(`Brain Item Spawn Rate (${spawnProbability}%): ${this.getPrettyPrintCost()} pts`);
   }
 
-  getCost(): number {
+  public getCost(): number {
     return BRAIN_SPAWN_RATE_UPGRADE_BASE_COST * Math.pow(BRAIN_SPAWN_RATE_UPGRADE_BASE_COST_MULTIPLIER, this.upgradeLevel);
   }
 }

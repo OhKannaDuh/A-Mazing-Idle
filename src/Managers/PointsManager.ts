@@ -46,7 +46,7 @@ export class Points extends Serializable {
   }
 
   public spendPoints(amount: number) {
-    this.points -= amount;
+    this.points = Math.max(0, this.points - amount);
     this.game.stats.addStatsToKey(amount, StatsKey.TOTAL_POINTS_SPENT);
     this.game.ui.setPointsText();
     this.game.upgrades.updateAllUpgradeUi();
@@ -69,12 +69,12 @@ export class Points extends Serializable {
     return pointsPerTile;
   }
 
-  private getPointsPerRevisitMultiplier() {
+  private getPointsPerRevisitMultiplier(): number {
     const upgradeLevel = this.game.upgrades.getUpgradeLevel(UpgradeKey.POINTS_PER_REVISIT);
     return TILE_REVISIT_BASE_MULTIPLIER + (upgradeLevel * TILE_REVISIT_BASE_MULTIPLIER_INCREASE_PERCENT);
   }
 
-  public addVisitPoints(isVisitedAlready: boolean, playerId: number) {
+  public addVisitPoints(isVisitedAlready: boolean, playerId: number): void {
     let points = this.getPointsPerVisit(isVisitedAlready);
     if (points === 0) return;
 
@@ -87,7 +87,7 @@ export class Points extends Serializable {
     this.addPoints(multipliedPoints, playerId, stats);
   }
 
-  public addMazeCompletionBonus(playerId: number) {
+  public addMazeCompletionBonus(playerId: number): void {
     const bonus = MazeCompletionBonusUpgrade.getMazeCompletionBonus(this.game);
     this.addPoints(bonus, playerId, [StatsKey.TOTAL_POINTS_EARNED_FROM_MAZE_COMPLETIONS]);
   }

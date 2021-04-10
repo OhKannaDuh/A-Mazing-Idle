@@ -16,6 +16,7 @@ h2 {
 #root {
   margin-top: 80px;
   display: flex;
+  margin-bottom: 110px;
 }
 
 #body {

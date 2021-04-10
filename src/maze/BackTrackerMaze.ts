@@ -30,31 +30,56 @@ export class BacktrackerMaze extends Maze {
         this.currentTile.setVisited();
         this.stack.push(this.currentTile);
       }
-    
+
       // Add neighbors
-      let unvisitedNeighbor = [];
-      for (let neigh of this.getNeighbors(this.currentTile)) {
+      let unvisitedNeighborList = [];
+      const neighbors = this.getNeighbors(this.currentTile);
+      for (let neigh of neighbors) {
         if (!neigh.isVisited) {
-          unvisitedNeighbor.push(neigh);
+          unvisitedNeighborList.push(neigh);
         }
       }
-    
+      
+      
       // Pick a random unvisited neighbour
-      if (unvisitedNeighbor.length > 0) {
-        let randomIndex = Math.floor(Math.random() * unvisitedNeighbor.length);
-        let nextTile: MazeCell = unvisitedNeighbor[randomIndex];
+      if (unvisitedNeighborList.length > 0) {
+        let randomIndex = Math.floor(Math.random() * unvisitedNeighborList.length);
+        let nextTile: MazeCell = unvisitedNeighborList[randomIndex];
+
+        // Remove Walls
+        this.removeWallBetweenCells(this.currentTile, nextTile);
+        
+        // Assign new current tile
+        this.currentTile = nextTile;
+      }
+      // Allow edge pieces with only single connections to connect with already-visited tiles
+      else if (neighbors.length === 1) {
+        let nextTile: MazeCell = neighbors[0];
         
         // Remove Walls
         this.removeWallBetweenCells(this.currentTile, nextTile);
         
         // Assign new current tile
         this.currentTile = nextTile;
-      } 
+      }
       // If all neighbours visited, pick a random unvisited cell
       else if (this.stack.length > 0) {
         this.currentTile = this.stack.pop();
       } else {
         this.isDone = true;
+      }
+    }
+
+    // Backtracker does not guarantee "odd" shaped grids (ie. diamond)
+    // will actually visit every single tile.  Clean up any unvisited cells after.
+    for (const cell of this.grid.getAllCells()) {
+      if (!cell.isVisited) {
+        const neighbors = this.getNeighbors(cell);
+        if (neighbors && neighbors.length > 0) {
+          this.removeWallBetweenCells(cell, neighbors[0]);
+        } else {
+          console.error("Impossible to reach cell for backtracker.  Unable to cleanup.");
+        }
       }
     }
   }

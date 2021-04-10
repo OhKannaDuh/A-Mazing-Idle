@@ -89,7 +89,7 @@ export const getMazeDirectionIndexFromTileVector = (tileVector: TileVector): Maz
   } if (isTileEqual(tileVector, DIRECTION_RIGHT)) {
     return MazeDirectionIndex.RIGHT;
   }
-  console.error("Invalid tile vector being converted to direction index.");
+  console.error(`Invalid tile vector being converted to direction index: ${tileVector.x},${tileVector.y}`);
   return null;
 }
 
@@ -183,7 +183,7 @@ export const generateMazeSmartPathingArr = (game: Game, maze: Maze): Array2D<num
       for (let dir of DIRECTIONS_ARR) {
         // Only test valid directions (ie. non-wall, etc.)
         //TODO: this needs to handle destructible walls
-        if (game.maze.canMove(tile, dir, true)) {
+        if (game.maze.canMove(tile, dir, true, true)) {
           const newTile = getNewTilePositionByVector(tile, dir);
           // Don't revisit tiles
           if (smartPathArr[newTile.y][newTile.x] === 0) {

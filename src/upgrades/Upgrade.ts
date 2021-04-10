@@ -46,7 +46,7 @@ class Upgrade {
   }
 
   public getIsUpgraded(): boolean {
-    return this.upgradeLevel >= 1;
+    return this.isUnlocked() && this.upgradeLevel >= 1;
   }
 
   public canAffordToBuyUpgrade(): boolean {

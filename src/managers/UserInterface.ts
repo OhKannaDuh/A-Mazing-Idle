@@ -14,6 +14,7 @@ const FINISH_LINE_ICON = "img/finishLine.png";
 const MAZE_BORDER_WIDTH = "4px";
 
 export enum ModalType {
+  CONTROLS_MODAL = "CONTROLS_MODAL",
   STATS_MODAL = "STATS_MODAL",
   SETTINGS_MODAL = "SETTINGS_MODAL",
   OFFLINE_SCORE_MODAL = "OFFLINE_SCORE_MODAL",
@@ -56,6 +57,11 @@ export class UserInterface {
       this.showModalByType(ModalType.IMPORT_SAVE_MODAL, true, e);
     });
     
+    
+    $(`#openControlsModalButton`).click((e) => {
+      this.showModalByType(ModalType.SETTINGS_MODAL, false);
+      this.showModalByType(ModalType.CONTROLS_MODAL, true, e)
+    });
     $(`#settingsButton`).click((e) => this.showModalByType(ModalType.SETTINGS_MODAL, true, e));
     $(`#copySaveJson`).click(() => this.game.save.copySaveToClipboard());
     $(`#importSaveModalButton`).click(() => {
@@ -175,13 +181,15 @@ export class UserInterface {
     if (modalType === ModalType.SETTINGS_MODAL) {
       this.showModalVisibleById("settingsModal", setVisible);
     } else if (modalType === ModalType.OFFLINE_SCORE_MODAL) {
-      this.showModalVisibleById("offlineModal", setVisible);
+      // this.showModalVisibleById("offlineModal", setVisible);
     } else if (modalType === ModalType.STATS_MODAL) {
       this.showModalVisibleById("statsModal", setVisible);
     } else if (modalType === ModalType.HELP_MODAL) {
       this.showModalVisibleById("helpModal", setVisible);
     } else if (modalType === ModalType.IMPORT_SAVE_MODAL) {
       this.showModalVisibleById("importSaveModal", setVisible);
+    } else if (modalType === ModalType.CONTROLS_MODAL) {
+      this.showModalVisibleById("controlsModal", setVisible);
     } else {
       console.error(`Invalid modal to show: ${modalType}`);
     }

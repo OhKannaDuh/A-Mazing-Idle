@@ -18,10 +18,14 @@ export class PlayerManager {
   }
 
   public createDefaultPlayer(): void {
-    this.createNewPlayerObj(this.game.maze.getGrid().internalStartTile);
+    this.createNewPlayerObj(this.game.maze.getGrid().internalStartTile, this.game.maze.getMazeId());
   }
 
-  public createNewPlayerObj(startTile: Tile): Player {
+  public createNewPlayerObj(startTile: Tile, expectedMazeId: number): Player {
+    // Ensure spawning is done on the expected maze id
+    if (expectedMazeId && expectedMazeId !== this.game.maze.getMazeId()) {
+      return;
+    }
     const newPlayer: Player = new Player(this.game, this.getNewPlayerId(), startTile, startTile, false);
     this.playerMap.set(newPlayer.id, newPlayer);
     this.game.maze.updatePlayerTile(newPlayer.id, startTile)
@@ -93,7 +97,7 @@ export class PlayerManager {
       // Spawn new bot unless it exists already.
       if (this.game.upgrades.isUpgraded(UpgradeKey.PLAYER_MOVE_INDEPENDENTLY)) {
         if (!this.isAutoBotPresent()) {
-          this.createNewPlayerObj(this.getCurrTile(playerId));
+          this.createNewPlayerObj(this.getCurrTile(playerId), this.game.maze.getMazeId());
         }
         // If independence upgraded, don't re-enable the timer to have a bot take over.
         this.game.rngBot.disableReEnableBotMovementTimer();
@@ -188,6 +192,22 @@ export class PlayerManager {
   }
 
   public playerHasSmartPathing(playerId: number): boolean {
-    return this.game.players.getPlayer(playerId).smartPathingTileDistanceRemaining > 0;
+    if (!this.playerMap.has(playerId)) return false;
+    return this.game.players.getPlayer(playerId).hasSmartPathingRemaining();
+  }
+
+  public shouldPlayerAutoPath(playerId) {
+    const currTile = this.getPlayer(playerId).currTile;
+    const currDistanceFromExit = this.game.maze.getSmartPathingDistanceFromExit(currTile);
+
+    // TODO: these should be separated from one another
+    const autoExitMazeUpgradeLevel: number = this.game.upgrades.getUpgradeLevel(UpgradeKey.AUTO_EXIT_MAZE);
+    const playerHasSmartPathing: boolean = this.playerHasSmartPathing(playerId);
+
+    // Check if within X tiles of exit (1 per upgrade) and player has no smart pathing
+    if (currDistanceFromExit > autoExitMazeUpgradeLevel && !playerHasSmartPathing) {
+      return false;
+    }
+    return true;
   }
 }

@@ -4,6 +4,7 @@ import Game from "managers/Game";
 import { TileVector } from "managers/MazeManager";
 import { StatsKey } from "models/Stats";
 import { BotLuckyGuessUpgrade } from "upgrades/definitions/bots/BotLuckUpgrade";
+import { isTileEqual } from "./MazeUtils";
 
 declare var _: any;
 
@@ -91,71 +92,85 @@ export class RNGBotManager {
   private moveRandomly(playerId: number): void {
     if (!this.game.players.playerExists(playerId)) return;
     const dirArr = this.chooseRandomDirectionsArr(playerId);
-    if (!dirArr || dirArr.length === 0) {
+    const player = this.game.players.getPlayer(playerId);
+    if (dirArr.length === 0) {
       // If player can't move, ensure no destructible tiles are holding them
-      const player = this.game.players.getPlayer(playerId);
       if (player != null) this.game.maze.clearDestructibleTilesFromTile(player.currTile);
       return;
-    }
-
-    // Check for lucky guesses
-    if (this.isMovementLucky(dirArr.length)) {
-      
     }
     
     if (dirArr.length === 1) {
       this.game.players.movePlayer(playerId, dirArr[0]);
     } else {
-      this.game.maze.spawnSplitBot(playerId, dirArr, this.game.players.getPlayer(playerId).isUnlimitedSplitItemActive);
+      this.game.maze.spawnSplitBot(player, dirArr);
     }
   }
 
   private chooseRandomDirectionsArr(playerId: number): TileVector[] {
-    // Filter all directions based on upgrades applied
-    const validDirs = this.getPossibleDirectionsList(playerId);
-
-    
-    // Check for Auto-Exit and Smart pathing
-    if (this.game.upgrades.isUpgraded(UpgradeKey.AUTO_EXIT_MAZE) 
-        || this.game.players.playerHasSmartPathing(playerId)) {
-      const exitDirsArr = this.game.maze.filterPlayerExitMazeDirection(playerId, validDirs);
-      if (exitDirsArr.length > 0) {
-        return exitDirsArr;
-      }
-    }
-
-    if (!validDirs) {
-      return null;
-    }
-
-    // Determine how many splits should be allowed
-    const player = this.game.players.getPlayer(playerId);
-    const possibleNewSplits = this.game.maze.getPossibleSplitBotCount(validDirs.length, player);
-
-    // Only split if both directions are unvisited.
-    const unvisitedDirs = this.game.upgrades.isUpgraded(UpgradeKey.PRIORITIZE_UNVISITED)
-      ? this.game.maze.prioritizeUnvisitedDirection(playerId, validDirs)
-      : validDirs;
-    
-    // Must have at least two possible directions and one split available.
-    if (possibleNewSplits >= 1 && unvisitedDirs.length >= 2) {
-      const numDirectionsToPick = Math.min(possibleNewSplits + 1, unvisitedDirs.length);
-      this.game.stats.addStatsToKey(numDirectionsToPick - 1, StatsKey.TOTAL_NUMBER_OF_BOT_SPLITS);
-      return this.getRandomXValues(validDirs, numDirectionsToPick);
-    }
-
-    // Randomly pick one.
-    const randDirIndex = this.getRandomInt(validDirs.length);
-    return [validDirs[randDirIndex]];
-  }
-
-  private getPossibleDirectionsList(playerId: number): TileVector[] {
+    // All possible directions
     let validDirs = this.game.maze.getValidDirectionsByPlayerId(playerId);
     const player = this.game.players.getPlayer(playerId);
     if (validDirs.length === 0 || !player) {
+      return [];
+    }
+
+    // Filter all directions based on upgrades applied (excluding luck)
+    let filteredValidDirs = this.getFilteredDirectionList(validDirs, playerId);
+    // Determine how many splits should be allowed
+    const possibleNewSplits = this.game.maze.getPossibleSplitBotCount(validDirs.length, player);
+
+    // Check for Auto-Exit, Smart pathing, and lucky guess
+    const enforcedDirection = this.getEnforcedDirection(validDirs, filteredValidDirs, playerId);
+    if (enforcedDirection) {
+      // Filter out enforced direction from "extra" directions
+      filteredValidDirs = filteredValidDirs.filter(dir => !isTileEqual(enforcedDirection, dir));
+
+      //(*) Enforced dirctions MUST BE first in the list. Current player takes first move.
+      // Add extra directions for splitting purposes -- allow splitting despite knowing correct direction
+      // Prioritize the enforced direction, but allow other unvisited (filtered) directions
+      return (possibleNewSplits > 0 && filteredValidDirs.length > 0)
+        ? [enforcedDirection].concat(this.getRandomXValues(filteredValidDirs, possibleNewSplits))
+        : [enforcedDirection];
+    }
+
+    // Determine if there is an unvisited tile -- only allow splitting if so.
+    const hasUnvisitedTile = this.game.maze.prioritizeUnvisitedDirection(playerId, filteredValidDirs).length > 0;
+    
+    if (filteredValidDirs.length === 0) {
+      return [];
+    }
+    // Must have at least two possible directions and one split available.
+    else if (hasUnvisitedTile && possibleNewSplits > 0 && filteredValidDirs.length >= 2) {
+      const numDirectionsToPick = Math.min(possibleNewSplits + 1, filteredValidDirs.length);
+      return this.getRandomXValues(filteredValidDirs, numDirectionsToPick);
+    }
+    // Randomly pick one.
+    else {
+      return [filteredValidDirs[this.getRandomInt(filteredValidDirs.length)]];
+    }
+  }
+
+  private getEnforcedDirection(validDirs: TileVector[], upgradeFilteredDirs: TileVector[], playerId: number): TileVector {
+    let enforcedDirection = null;
+    // Check for Auto-Exit and Smart pathing
+    if (this.game.players.shouldPlayerAutoPath(playerId)) {
+      enforcedDirection = this.game.maze.filterPlayerExitMazeDirection(playerId, validDirs);
+    }
+
+    // Check for lucky guess moves.  Skip if enforced direction already applied.
+    if (!enforcedDirection && this.isMovementLucky(validDirs.length)) {
+      // Use FILTERED set of directions such that you don't backtrack randomly based on "luck"
+      enforcedDirection = this.game.maze.filterPlayerExitMazeDirection(playerId, upgradeFilteredDirs);
+    }
+    return enforcedDirection;
+  }
+
+  // Filter out directions based on bot upgrades
+  private getFilteredDirectionList(validDirs: TileVector[], playerId: number): TileVector[] {
+    if (!validDirs) {
       return null;
     }
-    
+  
     // // Check for Auto-Exit and Smart pathing
     // if (this.game.upgrades.isUpgraded(UpgradeKey.AUTO_EXIT_MAZE) 
     //     || this.game.players.playerHasSmartPathing(playerId)) {
@@ -173,7 +188,7 @@ export class RNGBotManager {
       }
     }
     
-    // Prioritize any adjacent unvisited tiles if any.
+    // // Prioritize any adjacent unvisited tiles if any.
     if (this.game.upgrades.isUpgraded(UpgradeKey.PRIORITIZE_UNVISITED)) {
       const unvisitedDirsArr = this.game.maze.prioritizeUnvisitedDirection(playerId, validDirs);
       if (unvisitedDirsArr.length > 0) {
@@ -202,7 +217,7 @@ export class RNGBotManager {
     // Example (2 dir): 50% + 3% = 53% likely to guess correct
     // Example (3 dir): 33% + 3% = 36% likely to guess correct
     const correctChoiceOdds = (1.0 / dirCount) + luckOdds;
-    return correctChoiceOdds < Math.random();
+    return correctChoiceOdds > (1-Math.random());
   }
 
   private getRandomInt = (max) => {
