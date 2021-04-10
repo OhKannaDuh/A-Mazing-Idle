@@ -2,8 +2,6 @@ Bug fixes:
 (?)
 
 UI Fixes:
---> "new" upgrade indicator
---> Basic controls page
 --> Layout for upgrade buttons
 
 Features:

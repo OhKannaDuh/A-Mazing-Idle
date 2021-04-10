@@ -27,7 +27,7 @@
     <!-- HEADER NAV BAR -->
     <div class='nav'>
       <div class='nav-left'>
-        <button id='buyBiomeUpgrade'><span id='buyBiomeUpgradeTooltip' class='tooltip'></span></button>
+        <div class='upgradeRow' id='buyBiomeUpgrade'></div>
         <div id='points'>Points:</div>
         <div>(<span id='averagePointsEarnedPerSecond'></span>&nbsppts/s )</div>
         
@@ -62,79 +62,80 @@
       <div id='rightSplit'>
         <div id='leftUpgrades'>
           <h2 id='mazeUpgradeHeader'>Maze Upgrades!</h2>
-          <button id='buyMazeSize'><span id='buyMazeSizeTooltip' class='tooltip'></span></button>
-          <button id='buyPointsPerVisit'><span id='buyPointsPerVisitTooltip' class='tooltip'></span></button>
-          <button id='buyPointsPerRevisit'><span id='buyPointsPerRevisitTooltip' class='tooltip'></span></button>
-          <button id='buyMazeCompletionBonusUpgrade'><span id='buyMazeCompletionBonusUpgradeTooltip' class='tooltip'></span></button>
+          <div class='upgradeRow' id='buyMazeSize'></div>
+          <div class='upgradeRow' id='buyPointsPerVisit'></div>
+          <div class='upgradeRow' id='buyPointsPerRevisit'></div>
+          <div class='upgradeRow' id='buyMazeCompletionBonusUpgrade'></div>
           
           <h2 id='botUpgradeHeader'>Bot Upgrades!</h2>
-          <button id='butBotAutoMove'><span id='butBotAutoMoveTooltip' class='tooltip'></span></button>
-          <button id='buyBotMoveFaster'><span id='buyBotMoveFasterTooltip' class='tooltip'></span></button>
-          <button id='buyBotAvoidRevisitLastPosition'><span id='buyBotAvoidRevisitLastPositionTooltip' class='tooltip'></span></button>
-          <button id='buyBotPrioritizeUnvisited'><span id='buyBotPrioritizeUnvisitedTooltip' class='tooltip'></span></button>
-          <button id='buyBotAutoExitMaze'><span id='buyBotAutoExitMazeTooltip' class='tooltip'></span></button>
-          <button id='buyBotRememberDeadEnds'><span id='buyBotRememberDeadEndsTooltip' class='tooltip'></span></button>
-          <button id='buyBotSplitDirections'><span id='buyBotSplitDirectionsTooltip' class='tooltip'></span></button>
-          <button id='buySplitBotAutoMerge'><span id='buySplitBotAutoMergeTooltip' class='tooltip'></span></button>
-          <button id='buyBotLuckyGuess'><span id='buySplitBotAutoMergeTooltip' class='tooltip'></span></button>
+          <div class='upgradeRow' id='butBotAutoMove'></div>
+          <div class='upgradeRow' id='buyBotMoveFaster'></div>
+          <div class='upgradeRow' id='buyBotAvoidRevisitLastPosition'></div>
+          <div class='upgradeRow' id='buyBotPrioritizeUnvisited'></div>
+          <div class='upgradeRow' id='buyBotAutoExitMaze'></div>
+          <div class='upgradeRow' id='buyBotRememberDeadEnds'></div>
+          <div class='upgradeRow' id='buyBotSplitDirections'></div>
+          <div class='upgradeRow' id='buySplitBotAutoMerge'></div>
+          <div class='upgradeRow' id='buyBotLuckyGuess'></div>
         </div>
     
         <!-- RIGHT COLUMN -->
         <div id='rightUpgrades'>
           <!-- UPGRADES TAB -->
           <h2 id='itemUpgradeHeader'>Item Upgrades!</h2>
-          <button id='buyFruitSpawnRateUpgrade'><span id='buyFruitSpawnRateUpgradeTooltip' class='tooltip'></span></button>
-          <button id='buyFruitPickupPointsUpgrade'><span id='buyFruitPickupPointsUpgradeTooltip' class='tooltip'></span></button>
-          <button id='buyBrainSpawnRateUpgrade'><span id='buyBrainSpawnRateUpgrade' class='tooltip'></span></button>
-          <button id='buyBrainTileDistanceUpgrade'><span id='buyBrainTileDistanceUpgradeTooltip' class='tooltip'></span></button>
+          <div class='upgradeRow' id='buyFruitSpawnRateUpgrade'></div>
+          <div class='upgradeRow' id='buyFruitPickupPointsUpgrade'></div>
+          <div class='upgradeRow' id='buyBrainSpawnRateUpgrade'></div>
+          <div class='upgradeRow' id='buyBrainTileDistanceUpgrade'></div>
 
           <h2 id='powerUpUpgradeHeader'>Power Up Upgrades!</h2>
-          <button id='buyPowerUpSpeedUpActivateDuration'><span id='buyPowerUpSpeedUpActivateDurationTooltip' class='tooltip'></span></button>
-          <button id='buySpeedUpMultiplierStrengthUpgrade'><span id='buySpeedUpMultiplierStrengthUpgradeTooltip' class='tooltip'></span></button>
-          <button id='buyMultiplierPowerUpActivateDurationUpgrade'><span id='buyMultiplierPowerUpActivateDurationUpgradeTooltip' class='tooltip'></span></button>
-          <button id='buyMultiplierPowerUpStrengthUpgrade'><span id='buyMultiplierPowerUpStrengthUpgradeTooltip' class='tooltip'></span></button>
+          <div class='upgradeRow' id='buyPowerUpSpeedUpActivateDuration'></div>
+          <div class='upgradeRow' id='buySpeedUpMultiplierStrengthUpgrade'></div>
+          <div class='upgradeRow' id='buyMultiplierPowerUpActivateDurationUpgrade'></div>
+          <div class='upgradeRow' id='buyMultiplierPowerUpStrengthUpgrade'></div>
+          <div class='upgradeRow' id='buyMultiplierPowerUpStrengthUpgrade'></div>
 
           <h2 id='movementUpgradeHeader'>Manual Movement!</h2>
-          <button id='buyPlayerMoveIndependently'>Allow Player to Move Independently:</button>
-          <button id='buyPlayerTeleportToBot'>Player teleport to bot:</button>
-          <button id='buyBotTeleportToPlayer'>Bot teleport to player:</button>
-        </div>
-      </div>
-
-      <!-- SETTINGS MODAL -->
-      <div id='settingsModal' class='modal'>
-        <div class='modal-content'>
-          <h3>Saving</h3>
-          <button id='openControlsModalButton'>
-            <div class='button_label'>Controls</div>
-          </button>
-          <button id='helpButton'>
-            <div class='button_label'>HELP!</div>
-          </button>
-          <button id='manualSaveGame'>
-            <div class='button_label'>Save Game</div>
-          </button>
-          <br><br>
-          <button id='copySaveJson'>
-            <div class='button_label'>Export Save JSON (Copy)</div>
-          </button>
-          <button id='importSaveOpenModalButton'>
-            <div class='button_label'>Import Save JSON</div>
-          </button>
-          <br><br>
-          <button id='newGame'>
-            <div class='button_label'>New Game</div>
-          </button>
-          <button id='clearAllStats'>
-            <div class='button_label'>Reset All Stats</div>
-          </button>
-          <!-- <button id='deleteSaveGame'>
-            <div class='button_label'>DELETE Save Game</div>
-          </button> -->
+          <div class='upgradeRow' id='buyPlayerMoveIndependently'>Allow Player to Move Independently:</button>
+          <div class='upgradeRow' id='buyPlayerTeleportToBot'>Player teleport to bot:</button>
+          <div class='upgradeRow' id='buyBotTeleportToPlayer'>Bot teleport to player:</button>
         </div>
       </div>
     </div>
 
+    <!-- SETTINGS MODAL -->
+    <div id='settingsModal' class='modal'>
+      <div class='modal-content'>
+        <h3>Saving</h3>
+        <button id='openControlsModalButton'>
+          <div class='button_label'>Controls</div>
+        </button>
+        <button id='helpButton'>
+          <div class='button_label'>HELP!</div>
+        </button>
+        <button id='manualSaveGame'>
+          <div class='button_label'>Save Game</div>
+        </button>
+        <br><br>
+        <button id='copySaveJson'>
+          <div class='button_label'>Export Save JSON (Copy)</div>
+        </button>
+        <button id='importSaveOpenModalButton'>
+          <div class='button_label'>Import Save JSON</div>
+        </button>
+        <br><br>
+        <button id='newGame'>
+          <div class='button_label'>New Game</div>
+        </button>
+        <button id='clearAllStats'>
+          <div class='button_label'>Reset All Stats</div>
+        </button>
+        <!-- <button id='deleteSaveGame'>
+          <div class='button_label'>DELETE Save Game</div>
+        </button> -->
+      </div>
+    </div>
+    
     <!-- STATS MODAL -->
     <div id='statsModal' class='modal'>
       <!-- Modal content -->

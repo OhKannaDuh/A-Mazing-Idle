@@ -121,11 +121,14 @@ export class MazeManager {
         this.game.players.movePlayer(player.id, dirArr[i]);
         continue;
       }
-      this.game.stats.addStatsToKey(1, StatsKey.TOTAL_NUMBER_OF_BOT_SPLITS);
+      
       // Spawn new split bot in the new tile
       const newTile = getNewTilePositionByVector(currTile, dirArr[i]);
       const newPlayer = this.game.players.createNewPlayerObj(newTile, currMazeId);
-      newPlayer.isUnlimitedSplitItemActive = player.hasUnlimitedSplitItemActive();
+      if (newPlayer) {
+        this.game.stats.addStatsToKey(1, StatsKey.TOTAL_NUMBER_OF_BOT_SPLITS);
+        newPlayer.isUnlimitedSplitItemActive = player.hasUnlimitedSplitItemActive();
+      }
     }
   }
 

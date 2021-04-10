@@ -89,6 +89,14 @@ export class UpgradeManager extends Serializable {
     this.updateUpgradeSectionVisibility();
   }
 
+  public hideAllUpgradeNewTextForUnlockedUpgrades(): void {
+    for (let [upgradeKey, upgrade] of this.upgradeMap) {
+      if (upgrade.isUnlocked()) {
+        upgrade.setVisibilityOfNewText(false);
+      }
+    }
+  }
+
   private createUpgrade(upgrade: Upgrade): void {
     this.upgradeMap.set(upgrade.upgradeKey, upgrade);
   }

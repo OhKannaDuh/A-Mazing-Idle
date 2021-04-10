@@ -78,6 +78,7 @@ class Game extends Serializable {
     
     this.startGame();
     this.save.enableSaveTimer();
+    this.upgrades.hideAllUpgradeNewTextForUnlockedUpgrades();
   }
 
   public startGame(): void {

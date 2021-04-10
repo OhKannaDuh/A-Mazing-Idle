@@ -6,6 +6,8 @@ declare var $: any;
 
 const TOOLTIP_UI_ID_SUFFIX = "Tooltip";
 const BUTTON_TEXT_UI_ID_SUFFIX = "Text";
+const BUTTON_UI_ID_SUFFIX = "Button";
+const NEW_TEXT_SUFFIX = "NewText";
 
 class Upgrade {
   public game: Game;
@@ -57,20 +59,49 @@ class Upgrade {
     // De-dupe UI text updates
     if (text === this.currentUiTextDeduper) return;
     this.currentUiTextDeduper = text;
-    $(`#${this.uiId + BUTTON_TEXT_UI_ID_SUFFIX}`).text(text);
+    $(`#${this.getButtonTextUiId()}`).text(text);
+  }
+
+  private getButtonUiId(): string {
+    return `${this.uiId}${BUTTON_UI_ID_SUFFIX}`;
+  }
+  private getButtonTextUiId(): string {
+    return `${this.uiId}${BUTTON_TEXT_UI_ID_SUFFIX}`;
+  }
+  private getButtonTooltipUiId(): string {
+    return `${this.uiId}${TOOLTIP_UI_ID_SUFFIX}`;
+  }
+  private getNewTextUiId(): string {
+    return `${this.uiId}${NEW_TEXT_SUFFIX}`;
   }
 
   private initUiButton(): void {
     // Inject a button text + the span to be used as a tooltip
-    const buttonTextId = this.uiId + BUTTON_TEXT_UI_ID_SUFFIX;
-    const tooltipId = this.uiId + TOOLTIP_UI_ID_SUFFIX;
-    const tooltipHtml = `<span id='${tooltipId}' class='tooltip'>${this.tooltipText}</span>`;
-    const textHtml = `<div id='${buttonTextId}' class='button_label'></div>`;
-    $(`#${this.uiId}`).html(`${textHtml}${tooltipHtml}`);
+    // Wrapper div with: <new tag><button><button text><tooltip>
+    const newText = `<p id='${this.getNewTextUiId()}' class='upgradeNewText'>New!</p>`;
+    const buttonTextHtml = `<div id='${this.getButtonTextUiId()}' class='button_label'></div>`;
+    const tooltipHtml = `<span id='${this.getButtonTooltipUiId()}' class='tooltip'>${this.tooltipText}</span>`;
+    const button = `<button id='${this.getButtonUiId()}'>${buttonTextHtml}${tooltipHtml}</button>`;
+
+    $(`#${this.uiId}`).html(`${newText}${button}`);
+    $(`#${this.getButtonUiId()}`).hover(() => {
+      // Start hover
+      this.setVisibilityOfNewText(false);
+      UserInterface.setIdVisible(this.getButtonTooltipUiId(), true);
+    }, () => {
+      // End-hover
+      UserInterface.setIdVisible(this.getButtonTooltipUiId(), false);
+    });
+  }
+
+  public setVisibilityOfNewText(setVisible: boolean): void {
+    setVisible = setVisible && this.isUnlocked();
+    $(`#${this.getNewTextUiId()}`).css("visibility", setVisible ? "visible" : "hidden");
   }
 
   public updateVisibility(): void {
-    UserInterface.setIdVisible(this.uiId, this.isUnlocked() && !this.isMaxUpgradeLevel() || DEBUG_ALL_BUTTONS_VISIBLE);
+    const setVisible = this.isUnlocked() && !this.isMaxUpgradeLevel() || DEBUG_ALL_BUTTONS_VISIBLE;
+    $(`#${this.uiId}`).css("display", setVisible ? "flex" : "none");
   }
 
   public updateUiDisabled(): void {

@@ -12,7 +12,3 @@
   margin-top: 22px;
   z-index: 1;
 }
-
-button:hover .tooltip {
-  display: block;
-}

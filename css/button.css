@@ -4,11 +4,20 @@
   height: 60px;
 }
 
+.upgradeRow {
+  display: flex;
+  width: 500px;
+  height: 50px;
+}
+
+.upgradeNewText {
+  vertical-align: middle;
+}
+
 button {
   justify-content: center;
   align-items: center;
   position: relative;
-  /* width: fit-content; */
   width: 450px;
   height: 40px;
   margin: 5px;
