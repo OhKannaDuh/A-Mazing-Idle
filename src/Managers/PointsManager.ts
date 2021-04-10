@@ -34,12 +34,17 @@ export class Points extends Serializable {
     this.pointsHistoryTracker.resetHistory();
   }
   
-  public addPoints(pointsEarned: number, playerId: number = null, statsKeyList: StatsKey[] = null): void {
+  public addPoints(pointsEarned: number, playerId: number = null, statsKeyList: StatsKey[] = null, ignorePointsHistory: boolean = false): void {
     this.points += pointsEarned;
     
     this.game.stats.addStatsToKeyList(pointsEarned, statsKeyList);
     this.game.stats.addStatsToKey(pointsEarned, StatsKey.TOTAL_POINTS_EARNED);
-    this.game.points.pointsHistoryTracker.addNumber(pointsEarned);
+    
+    // These points do not apply to points history (average)
+    if (!ignorePointsHistory) {
+      this.game.points.pointsHistoryTracker.addNumber(pointsEarned);
+    }
+    
     this.game.upgrades.updateAllUpgradeUi();
     
     this.game.ui.setPointsText();

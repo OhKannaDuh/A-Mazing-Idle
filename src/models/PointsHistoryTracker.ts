@@ -55,9 +55,9 @@ export class PointsHistoryTracker {
   }
 
   private getNextIndex(): number {
-    return (this.currIndex + 1) === this.slidingWindow.length
+    return (++this.currIndex) === this.slidingWindow.length
       ? 0
-      : this.currIndex + 1;
+      : this.currIndex;
   }
 
   private updateStatsAverage(): void {

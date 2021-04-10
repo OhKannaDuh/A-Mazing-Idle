@@ -55,4 +55,10 @@ export class StatsManager extends Serializable {
       this.addStatsToKey(amount, statsKey as StatsKey);
     }
   }
+
+  public deserialize(jsonObj: object): void {
+    super.deserialize(jsonObj);
+    // Reset average points earned at each reload
+    this.statsMap.set(StatsKey.AVERAGE_POINTS_EARNED_PER_SECOND, 0);
+  }
 }

@@ -140,9 +140,7 @@ export class UserInterface {
       console.info("No UI component registerd to stats key: ", statsUiId);
       return;
     }
-    $(`#${statsUiId}`).text(
-      " " + UserInterface.getPrettyPrintNumber(statsValue)
-    );
+    $(`#${statsUiId}`).text(" " + UserInterface.getPrettyPrintNumber(statsValue));
   }
 
   public updateAllStatsKey(): void {

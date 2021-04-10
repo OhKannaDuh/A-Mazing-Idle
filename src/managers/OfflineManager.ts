@@ -19,7 +19,8 @@ export class OfflineManager extends Serializable {
 
   public processOfflinePoints(): void {
     const offlinePointsEarned = this.calculateOfflinePoints();
-    this.game.points.addPoints(offlinePointsEarned);
+    // Ignore points history
+    this.game.points.addPoints(offlinePointsEarned, null, null, true);
     if (this.shouldShowOfflineModal()) {
       this.game.ui.showModalByType(ModalType.OFFLINE_SCORE_MODAL);
     }
