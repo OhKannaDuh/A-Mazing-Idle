@@ -387,7 +387,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var IS_DEV_MODE_ENABLED = exports.IS_DEV_MODE_ENABLED = false;
 var DEBUG_ALL_BUTTONS_VISIBLE = exports.DEBUG_ALL_BUTTONS_VISIBLE = false;
-var IS_FREE_MODE_ENABLED = exports.IS_FREE_MODE_ENABLED = true;
+var IS_FREE_MODE_ENABLED = exports.IS_FREE_MODE_ENABLED = false;
 var DEV_MODE_DISABLE_UI = exports.DEV_MODE_DISABLE_UI = false;
 var DEV_MODE_AUTOSTART = exports.DEV_MODE_AUTOSTART = false;
 var game1;
