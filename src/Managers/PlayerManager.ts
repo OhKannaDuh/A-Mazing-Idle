@@ -26,7 +26,7 @@ export class PlayerManager {
     if (expectedMazeId && expectedMazeId !== this.game.maze.getMazeId()) {
       return;
     }
-    const newPlayer: Player = new Player(this.game, this.getNewPlayerId(), startTile, startTile, false);
+    const newPlayer: Player = new Player(this.game, this.getNewPlayerId(), startTile, startTile);
     this.playerMap.set(newPlayer.id, newPlayer);
     this.game.maze.updatePlayerTile(newPlayer.id, startTile)
     return newPlayer;
@@ -81,7 +81,7 @@ export class PlayerManager {
     const player = this.getPlayer(playerId);
     
     if (player == null) return;
-    if (!this.game.maze.canMove(player.currTile, dirVector, false, false, player.hasGhostItemActive())) {
+    if (!this.game.maze.canMove(player.currTile, dirVector, false, false, player.isGhostItemActive())) {
       // If player can't move, ensure no destructible tiles are holding them
       this.game.maze.clearDestructibleTilesFromTile(player.currTile);
       return;
@@ -117,6 +117,7 @@ export class PlayerManager {
     return playerIdArr;
   }
   
+  // Assumption: there should only be max 2 players on the same tile at a time.
   public getPlayerIdsAtTile(tile: Tile): number[] {
     const playerIdList = [];
     for (let [id, player] of this.playerMap) {
@@ -152,13 +153,13 @@ export class PlayerManager {
       if (isTileEqual(tile, player.currTile)) {
         if (player.isManuallyControlled) {
           return this.game.colors.getPlayerColor();
-        } else if (player.hasSmartPathingRemaining()) {
+        } else if (player.isSmartPathingActive()) {
           return this.game.colors.getSmartPathingPlayerColor();
         } else if (player.isMultiplierPowerUpActive()) {
           return this.game.colors.getMultiplierItemPlayerColor();
-        } else if (player.hasUnlimitedSplitItemActive()) {
+        } else if (player.isUnlimitedSplitItemActive()) {
           return this.game.colors.getUnlimitedSplitPlayerColor();
-        } else if (player.hasGhostItemActive()) {
+        } else if (player.isGhostItemActive()) {
           return this.game.colors.getGhostItemPlayerColor();
         } else {
           return this.game.colors.getBotColor();
@@ -193,7 +194,7 @@ export class PlayerManager {
 
   public playerHasSmartPathing(playerId: number): boolean {
     if (!this.playerMap.has(playerId)) return false;
-    return this.game.players.getPlayer(playerId).hasSmartPathingRemaining();
+    return this.game.players.getPlayer(playerId).isSmartPathingActive();
   }
 
   public shouldPlayerAutoPath(playerId) {

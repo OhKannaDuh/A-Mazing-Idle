@@ -119,8 +119,6 @@ export class MazeItemManager {
     if (mazeCell) {
       const mazeItem = mazeCell.getMazeItem();
       mazeItem.triggerPickup(playerId);
-      //TODO: decide if we want this.
-      // this.applyItemToAllBots(mazeItem, playerId);
       mazeCell.deleteItem();
     }
   }

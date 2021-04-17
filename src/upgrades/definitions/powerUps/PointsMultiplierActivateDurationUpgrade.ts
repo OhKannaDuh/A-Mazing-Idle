@@ -13,11 +13,11 @@ export class PointsMultiplierActivateDurationUpgrade extends Upgrade {
     super(game, UpgradeType.POWER_UP, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel);
   }
   
-  updateUiProperties(): void {
+  public updateUiProperties(): void {
     this.setUiText(`Points Multiplier Activate Duration (${PointsMultiplierPowerUp.getActivateDuration(this.game)/1000}s): ${this.getPrettyPrintCost()} pts`);
   }
 
-  getCost(): number {
+  public getCost(): number {
     return MULTIPLIER_POWER_UP_SPAWN_RATE_BASE_COST * Math.pow(MULTIPLIER_POWER_UP_SPAWN_RATE_COST_MULTIPLIER, this.upgradeLevel);
   }
 

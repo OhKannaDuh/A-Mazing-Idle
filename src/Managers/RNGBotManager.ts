@@ -69,7 +69,6 @@ export class RNGBotManager {
   public enableReEnableBotMovementTimer(): void {
     this.disableReEnableBotMovementTimer();
 
-    //TODO: this might be better handled within the player class.
     this.rngBotReEnableMovementTimer = setTimeout(() => {
       const player = this.game.players.getManuallyControlledPlayer();
       if (!player) return;
@@ -170,15 +169,6 @@ export class RNGBotManager {
     if (!validDirs) {
       return null;
     }
-  
-    // // Check for Auto-Exit and Smart pathing
-    // if (this.game.upgrades.isUpgraded(UpgradeKey.AUTO_EXIT_MAZE) 
-    //     || this.game.players.playerHasSmartPathing(playerId)) {
-    //   const exitDirsArr = this.game.maze.filterPlayerExitMazeDirection(playerId, validDirs);
-    //   if (exitDirsArr.length > 0) {
-    //     return exitDirsArr;
-    //   }
-    // }
     
     // Remove all dead end tiles from possible directions.
     if (this.game.upgrades.getUpgradeLevel(UpgradeKey.BOT_REMEMBER_DEADEND_TILES) >= 1) {
@@ -217,7 +207,7 @@ export class RNGBotManager {
     // Example (2 dir): 50% + 3% = 53% likely to guess correct
     // Example (3 dir): 33% + 3% = 36% likely to guess correct
     const correctChoiceOdds = (1.0 / dirCount) + luckOdds;
-    return correctChoiceOdds > (1-Math.random());
+    return correctChoiceOdds > (1 - Math.random());
   }
 
   private getRandomInt = (max) => {

@@ -127,7 +127,7 @@ class Upgrade {
   }
 
   public isUnlocked(): boolean {
-    return this.game.biomes.isUpgradeUnlocked(this.upgradeKey) && this.isAllPrerequisiteUpgradesComplete();
+    return this.game.biomes.isUpgradeUnlocked(this.upgradeKey) && this.isAllPrerequisiteUpgradesComplete() || DEBUG_ALL_BUTTONS_VISIBLE;
   }
 
   public prettyPrint(val): string {

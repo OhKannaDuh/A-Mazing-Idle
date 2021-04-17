@@ -8,8 +8,9 @@ export class MazeCell {
   //Top Right Bottom Left
   public walls: [MazeWallTypes, MazeWallTypes, MazeWallTypes, MazeWallTypes];
   public isVisited: boolean;
-	private isDeadCell: boolean;
+	private _isCellDead: boolean;
 	private mazeItem: MazeItem;
+	private deadEndCellValue: number;
 
 	constructor(x: number, y: number, isDeadCell: boolean = false) {
 		this.x = x;
@@ -21,6 +22,18 @@ export class MazeCell {
 
 	public setWallTypeAtIndex(wallDirectionIndex: MazeDirectionIndex, wallType: MazeWallTypes): void {
 		this.walls[wallDirectionIndex] = wallType;
+	}
+
+	public isMarkedAsDeadEnd(): boolean {
+		return !!this.deadEndCellValue;
+	}
+
+	public getDeadEndCelLValue(): number {
+		return this.deadEndCellValue;
+	}
+
+	public setDeadEndCellValue(deadEndCellValue): void {
+		this.deadEndCellValue = deadEndCellValue;
 	}
 
 	public getTile(): Tile {
@@ -36,12 +49,12 @@ export class MazeCell {
 	}
 
 	public isCellDead(): boolean {
-		return this.isDeadCell;
+		return this._isCellDead;
 	}
 
 	public setDeadCell(isDead: boolean = true): void {
-		this.isDeadCell = isDead;
-		if (this.isDeadCell) {
+		this._isCellDead = isDead;
+		if (this._isCellDead) {
 			this.walls = [MazeWallTypes.OUT_OF_BOUNDS_WALL, MazeWallTypes.OUT_OF_BOUNDS_WALL, MazeWallTypes.OUT_OF_BOUNDS_WALL, MazeWallTypes.OUT_OF_BOUNDS_WALL];
 		}
 	}

@@ -92,6 +92,7 @@ export const BIOME_UPGRADE_UNLOCKS: Map<UpgradeKey, BiomeKey> = new Map([
   [UpgradeKey.BRAIN_TILE_DISTANCE, 10],
   [UpgradeKey.BOT_SPLIT_BOT_AUTO_MERGE, 10],
   [UpgradeKey.SPEED_UP_MULTIPLIER_STRENGTH, 11],
+  [UpgradeKey.BOT_SMART_MERGE, 11],
   [UpgradeKey.MULTIPLIER_POWER_UP_ACTIVATE_DURATION, 11],
   [UpgradeKey.MULTIPLIER_POWER_UP_STRENGTH, 12],
   [UpgradeKey.BOT_LUCKY_GUESS, 13],

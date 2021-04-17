@@ -2,9 +2,9 @@ import Upgrade from "upgrades/Upgrade";
 import { AvoidRevisitLastPositionUpgrade } from "upgrades/definitions/bots/AvoidRevisitLastPositionUpgrade";
 import { PrioritizeUnvisitedUpgrade } from "upgrades/definitions/bots/PrioritizeUnvisitedUpgrade";
 import { AutoExitMazeUpgrade } from "upgrades/definitions/bots/AutoExitMazeUpgrade";
-import { PlayerMoveIndependentlyUpgrade } from "upgrades/definitions/bots/PlayerMoveIndependentlyUpgrade";
-import { TeleportPlayerBacktoBotUpgrade } from "upgrades/definitions/bots/TeleportPlayerBacktoBotUpgrade";
-import { TeleportBotBackToPlayerUpgrade } from "upgrades/definitions/bots/TeleportBotBackToPlayerUpgrade";
+import { PlayerMoveIndependentlyUpgrade } from "upgrades/definitions/movement/PlayerMoveIndependentlyUpgrade";
+import { TeleportPlayerBacktoBotUpgrade } from "upgrades/definitions/movement/TeleportPlayerBacktoBotUpgrade";
+import { TeleportBotBackToPlayerUpgrade } from "upgrades/definitions/movement/TeleportBotBackToPlayerUpgrade";
 import { FruitPickupPointsMultiplierUpgrade } from "upgrades/definitions/items/FruitPickupPointsMultiplierUpgrade";
 import { FruitSpawnRateUpgrade } from "upgrades/definitions/items/FruitSpawnRateUpgrade";
 import { BrainSpawnRateUpgrade } from "upgrades/definitions/items/BrainSpawnRateUpgrade";
@@ -17,6 +17,7 @@ import { PointsPerRevisitUpgrade } from "upgrades/definitions/maze/PointsPerRevi
 import { MazeSizeUpgrade } from "upgrades/definitions/maze/MazeSizeUpgrade";
 import { BotSplitDirectionUpgrade } from "upgrades/definitions/bots/BotSplitDirectionUpgrade";
 import { BotSplitAutoMergeUpgrade } from "upgrades/definitions/bots/BotSplitAutoMergeUpgrade";
+import { BotSmartMergeUpgrade } from "upgrades/definitions/bots/BotSmartMergeUpgrade";
 import { BotLuckyGuessUpgrade } from "upgrades/definitions/bots/BotLuckUpgrade";
 import { DestructibleWallUpgrade } from "upgrades/definitions/maze/DestructibleWallUpgrade";
 import { BotAutoMoveUpgrade } from "upgrades/definitions/bots/BotAutoMoveUpgrade";
@@ -57,6 +58,7 @@ export class UpgradeManager extends Serializable {
     this.createUpgrade(new AvoidRevisitLastPositionUpgrade(this.game, UpgradeKey.AVOID_REVISIT_LAST_POSITION));
     this.createUpgrade(new BotMovementSpeedUpgrade(this.game, UpgradeKey.BOT_MOVEMENT_SPEED));
     this.createUpgrade(new BotSplitAutoMergeUpgrade(this.game, UpgradeKey.BOT_SPLIT_BOT_AUTO_MERGE));
+    this.createUpgrade(new BotSmartMergeUpgrade(this.game, UpgradeKey.BOT_SMART_MERGE));
     this.createUpgrade(new BotSplitDirectionUpgrade(this.game, UpgradeKey.BOT_SPLIT_DIRECTION));
     this.createUpgrade(new BotRememberDeadEndTilesUpgrade(this.game, UpgradeKey.BOT_REMEMBER_DEADEND_TILES));
     this.createUpgrade(new BrainTileDistanceUpgrade(this.game, UpgradeKey.BRAIN_TILE_DISTANCE));

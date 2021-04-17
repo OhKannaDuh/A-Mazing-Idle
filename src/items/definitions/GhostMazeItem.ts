@@ -16,7 +16,7 @@ class GhostMazeItem extends MazeItem {
     super.triggerPickup(playerId);
     const player = this.game.players.getPlayer(playerId);
     if (player) {
-      player.ghostItemTileDistanceRemaining += GHOST_ITEM_STARTING_TILE_DISTANCE;
+      player.addGhostPathingDistance(GHOST_ITEM_STARTING_TILE_DISTANCE);
     }
   }
   

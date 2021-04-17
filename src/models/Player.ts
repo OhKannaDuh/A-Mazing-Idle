@@ -11,24 +11,24 @@ class Player {
   public isManuallyControlled: boolean;
   public moveCount: number;
   public smartPathingTileDistanceRemaining: number;
-  public isUnlimitedSplitItemActive: boolean;
-  public ghostItemTileDistanceRemaining: number;
+  private _isUnlimitedSplitItemActive: boolean;
+  private _ghostItemTileDistanceRemaining: number;
+  private _isPathingFromDeadEnd: boolean;
 
-  constructor(game: Game, id: number, currTile = null, prevTile = null, isManuallyControlled = false, 
-      moveCount = 0, smartPathingTileDistanceRemaining = 0,
-      isUnlimitedSplitItemActive = false, ghostItemTileDistanceRemaining = 0) {
+  constructor(game: Game, id: number, currTile = null, prevTile = null) {
     this.game = game;
-    this.isManuallyControlled = isManuallyControlled;
     this.id = id;
     this.currTile = currTile;
     this.prevTile = prevTile;
-    this.moveCount = moveCount;
-    this.smartPathingTileDistanceRemaining = smartPathingTileDistanceRemaining;
-    this.isUnlimitedSplitItemActive = isUnlimitedSplitItemActive;
-    this.ghostItemTileDistanceRemaining = ghostItemTileDistanceRemaining;
+    this.moveCount = 0;
+    this.smartPathingTileDistanceRemaining = 0;
+    this._ghostItemTileDistanceRemaining = 0;
+    this.isManuallyControlled = false;
+    this._isUnlimitedSplitItemActive = false;
+    this._isPathingFromDeadEnd = false;
   }
 
-  public hasSmartPathingRemaining(): boolean {
+  public isSmartPathingActive(): boolean {
     return this.smartPathingTileDistanceRemaining > 0;
   }
 
@@ -40,16 +40,40 @@ class Player {
     return this.game.powerUps.isPowerUpActive(PowerUpKey.POINTS_MULTIPLIER);
   }
 
-  public hasUnlimitedSplitItemActive(): boolean {
-    return this.isUnlimitedSplitItemActive;
+  public isUnlimitedSplitItemActive(): boolean {
+    return this._isUnlimitedSplitItemActive;
   }
 
-  public hasGhostItemActive(): boolean {
-    return this.ghostItemTileDistanceRemaining > 0;
+  public setIsUnlimitedSplitItemActive(setActive: boolean): void {
+    this._isUnlimitedSplitItemActive = setActive;
+  }
+
+  public isGhostItemActive(): boolean {
+    return this._ghostItemTileDistanceRemaining > 0;
   }
   
-  public reduceGhostPathingDistance(distance: number = 1): void {
-    this.ghostItemTileDistanceRemaining = Math.max(0, this.ghostItemTileDistanceRemaining - distance);
+  public addGhostPathingDistance(distance: number): void {
+    this._ghostItemTileDistanceRemaining = Math.max(0, this._ghostItemTileDistanceRemaining + distance);
+  }
+
+  public isPathingFromDeadEnd(): boolean {
+    return this._isPathingFromDeadEnd;
+  }
+
+  public setIsPathingFromDeadEnd(isPathingFromDeadEnd: boolean): void {
+    this._isPathingFromDeadEnd = isPathingFromDeadEnd;
+  }
+
+  public mergePlayerPassives(mergedPlayer: Player): void {
+    if (mergedPlayer.isSmartPathingActive()) {
+      this.smartPathingTileDistanceRemaining += mergedPlayer.smartPathingTileDistanceRemaining;
+    }
+    if (mergedPlayer.isGhostItemActive()) {
+      this._ghostItemTileDistanceRemaining += mergedPlayer._ghostItemTileDistanceRemaining;
+    }
+    if (mergedPlayer.isUnlimitedSplitItemActive()) {
+      this.setIsUnlimitedSplitItemActive(mergedPlayer.isUnlimitedSplitItemActive());
+    }
   }
 }
 

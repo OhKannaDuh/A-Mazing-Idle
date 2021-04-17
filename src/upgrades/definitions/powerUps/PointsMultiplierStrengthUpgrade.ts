@@ -12,11 +12,11 @@ export class PointsMultiplierStrengthUpgrade extends Upgrade {
     super(game, UpgradeType.POWER_UP, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel);
   }
   
-  updateUiProperties(): void {
+  public updateUiProperties(): void {
     this.setUiText(`Points Multiplier Strength (${PointsMultiplierStrengthUpgrade.getPointsMultiplierStrength(this.game)}x): ${this.getPrettyPrintCost()} pts`);
   }
 
-  getCost(): number {
+  public getCost(): number {
     return MULTIPLIER_POWER_UP_STRENGTH_BASE_COST * Math.pow(MULTIPLIER_POWER_UP_STRENGTH_BASE_COST_MULTIPLIER, this.upgradeLevel);
   }
 

@@ -11,11 +11,11 @@ export class PlayerMoveIndependentlyUpgrade extends Upgrade {
     super(game, UpgradeType.MOVEMENT, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel, true);
   }
   
-  updateUiProperties(): void {
+  public updateUiProperties(): void {
     this.setUiText(`Player Can Move Independently: ${this.getPrettyPrintCost()} pts`);
   }
 
-  getCost(): number {
+  public getCost(): number {
     return ALLOW_PLAYER_TO_MOVE_INDEPENDENTLY_UPGRADE_COST;
   }
 }

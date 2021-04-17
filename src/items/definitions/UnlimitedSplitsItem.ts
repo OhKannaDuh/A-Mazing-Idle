@@ -17,7 +17,7 @@ class UnlimitedSplitsItem extends MazeItem {
     super.triggerPickup(playerId);
     const player = this.game.players.getPlayer(playerId);
     if (player) {
-      player.isUnlimitedSplitItemActive = true;
+      player.setIsUnlimitedSplitItemActive(true);
     }
   }
   

@@ -42,12 +42,6 @@ export class MazeGrid {
     this.setStartAndEndTile();
   }
 
-  // private createMazeGrid(): void {
-  //   this.generateMazeGrid();
-  //   // Must be generated after full maze generation (and dead cell marking)
-  //   this.generateDestructibleWalls();
-  // }
-
   public generateMazeGrid() {
     // Default fill the whole grid with regular cells
     this.grid = [];
@@ -57,14 +51,6 @@ export class MazeGrid {
         this.grid[y][x] = new MazeCell(x, y);
         this.tileCount++;
       }
-    }
-  }
-
-  public generateDestructibleWalls() {
-    const cellList = this.getAllCells();
-    for (const cell of cellList) {
-      if (cell.isCellDead()) return;
-
     }
   }
 
@@ -91,7 +77,7 @@ export class MazeGrid {
   public resetVisitedTiles(): void {
     for (let y = 0; y < this.sizeY; y++) {
       for (let x = 0; x < this.sizeX; x++) {
-        this.getCell({ x: x, y: y}, true).setVisited(false);  
+        this.getCell({ x: x, y: y }, true).setVisited(false);  
       }
     }
   }
