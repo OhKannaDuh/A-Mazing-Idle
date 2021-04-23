@@ -3,6 +3,7 @@ Bug fixes:
 
 UI Fixes:
 --> Layout for upgrade buttons
+--> Lucky guess should show guess ratios
 
 Features:
 --> (*) Debounce speed of manual movement
