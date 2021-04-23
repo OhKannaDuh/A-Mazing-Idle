@@ -94,7 +94,7 @@ var getBiomeColorPalette = exports.getBiomeColorPalette = function getBiomeColor
 };
 var POWER_UP_UNLOCKS = exports.POWER_UP_UNLOCKS = new Map([[_PowerUpConstants.PowerUpKey.SPEED_UP, 7], [_PowerUpConstants.PowerUpKey.POINTS_MULTIPLIER, 10]]);
 var BIOME_ITEM_UNLOCKS = exports.BIOME_ITEM_UNLOCKS = new Map([[_ItemConstants.MazeItemKey.FRUIT, 1], [_ItemConstants.MazeItemKey.MULTIPLIER, 2], [_ItemConstants.MazeItemKey.BRAIN, 7], [_ItemConstants.MazeItemKey.BLACK_HOLE, 12], [_ItemConstants.MazeItemKey.UNLIMITED_SPLITS, 14], [_ItemConstants.MazeItemKey.GHOST, 16]]);
-var BIOME_UPGRADE_UNLOCKS = exports.BIOME_UPGRADE_UNLOCKS = new Map([[_UpgradeConstants.UpgradeKey.BIOME, 0], [_UpgradeConstants.UpgradeKey.AUTO_MOVE, 1], [_UpgradeConstants.UpgradeKey.POINTS_PER_VISIT, 1], [_UpgradeConstants.UpgradeKey.BOT_MOVEMENT_SPEED, 1], [_UpgradeConstants.UpgradeKey.PRIORITIZE_UNVISITED, 2], [_UpgradeConstants.UpgradeKey.MAZE_SIZE_UPGRADE, 2], [_UpgradeConstants.UpgradeKey.AVOID_REVISIT_LAST_POSITION, 3], [_UpgradeConstants.UpgradeKey.MAZE_COMPLETION_BONUS, 3], [_UpgradeConstants.UpgradeKey.AUTO_EXIT_MAZE, 4], [_UpgradeConstants.UpgradeKey.PLAYER_MOVE_INDEPENDENTLY, 4], [_UpgradeConstants.UpgradeKey.FRUIT_SPAWN, 5], [_UpgradeConstants.UpgradeKey.TELEPORT_BOT_BACK_TO_PLAYER, 5], [_UpgradeConstants.UpgradeKey.TELEPORT_PLAYER_BACK_TO_BOT, 5], [_UpgradeConstants.UpgradeKey.FRUIT_PICKUP_POINTS, 6], [_UpgradeConstants.UpgradeKey.BOT_SPLIT_DIRECTION, 6], [_UpgradeConstants.UpgradeKey.BOT_REMEMBER_DEADEND_TILES, 7], [_UpgradeConstants.UpgradeKey.BRAIN_SPAWN, 7], [_UpgradeConstants.UpgradeKey.SPEED_UP_ACTIVATE_DURATION, 8], [_UpgradeConstants.UpgradeKey.POINTS_PER_REVISIT, 9], [_UpgradeConstants.UpgradeKey.SPEED_UP_ACTIVATE_DURATION, 9], [_UpgradeConstants.UpgradeKey.BRAIN_TILE_DISTANCE, 10], [_UpgradeConstants.UpgradeKey.BOT_SPLIT_BOT_AUTO_MERGE, 10], [_UpgradeConstants.UpgradeKey.SPEED_UP_MULTIPLIER_STRENGTH, 11], [_UpgradeConstants.UpgradeKey.MULTIPLIER_POWER_UP_ACTIVATE_DURATION, 11], [_UpgradeConstants.UpgradeKey.MULTIPLIER_POWER_UP_STRENGTH, 12], [_UpgradeConstants.UpgradeKey.BOT_LUCKY_GUESS, 13], [_UpgradeConstants.UpgradeKey.DESTRUCTIBLE_WALLS, 14]]);
+var BIOME_UPGRADE_UNLOCKS = exports.BIOME_UPGRADE_UNLOCKS = new Map([[_UpgradeConstants.UpgradeKey.BIOME, 0], [_UpgradeConstants.UpgradeKey.AUTO_MOVE, 1], [_UpgradeConstants.UpgradeKey.POINTS_PER_VISIT, 1], [_UpgradeConstants.UpgradeKey.BOT_MOVEMENT_SPEED, 1], [_UpgradeConstants.UpgradeKey.PRIORITIZE_UNVISITED, 2], [_UpgradeConstants.UpgradeKey.MAZE_SIZE_UPGRADE, 2], [_UpgradeConstants.UpgradeKey.AVOID_REVISIT_LAST_POSITION, 3], [_UpgradeConstants.UpgradeKey.MAZE_COMPLETION_BONUS, 3], [_UpgradeConstants.UpgradeKey.AUTO_EXIT_MAZE, 4], [_UpgradeConstants.UpgradeKey.PLAYER_MOVE_INDEPENDENTLY, 4], [_UpgradeConstants.UpgradeKey.FRUIT_SPAWN, 5], [_UpgradeConstants.UpgradeKey.TELEPORT_BOT_BACK_TO_PLAYER, 5], [_UpgradeConstants.UpgradeKey.TELEPORT_PLAYER_BACK_TO_BOT, 5], [_UpgradeConstants.UpgradeKey.FRUIT_PICKUP_POINTS, 6], [_UpgradeConstants.UpgradeKey.BOT_SPLIT_DIRECTION, 6], [_UpgradeConstants.UpgradeKey.BOT_REMEMBER_DEADEND_TILES, 7], [_UpgradeConstants.UpgradeKey.BRAIN_SPAWN, 7], [_UpgradeConstants.UpgradeKey.SPEED_UP_ACTIVATE_DURATION, 8], [_UpgradeConstants.UpgradeKey.POINTS_PER_REVISIT, 9], [_UpgradeConstants.UpgradeKey.SPEED_UP_ACTIVATE_DURATION, 9], [_UpgradeConstants.UpgradeKey.BRAIN_TILE_DISTANCE, 10], [_UpgradeConstants.UpgradeKey.BOT_SPLIT_BOT_AUTO_MERGE, 10], [_UpgradeConstants.UpgradeKey.SPEED_UP_MULTIPLIER_STRENGTH, 11], [_UpgradeConstants.UpgradeKey.BOT_SMART_MERGE, 11], [_UpgradeConstants.UpgradeKey.MULTIPLIER_POWER_UP_ACTIVATE_DURATION, 11], [_UpgradeConstants.UpgradeKey.MULTIPLIER_POWER_UP_STRENGTH, 12], [_UpgradeConstants.UpgradeKey.BOT_LUCKY_GUESS, 13], [_UpgradeConstants.UpgradeKey.DESTRUCTIBLE_WALLS, 14]]);
 var getMazeGridByBiome = exports.getMazeGridByBiome = function getMazeGridByBiome(biomeKey) {
     if (biomeKey >= 0 && biomeKey < 8) {
         return _MazeUtils.MazeGridType.SQUARE;
@@ -277,6 +277,7 @@ var UpgradeKey = exports.UpgradeKey = undefined;
     UpgradeKey["TELEPORT_PLAYER_BACK_TO_BOT"] = "TELEPORT_PLAYER_BACK_TO_BOT";
     UpgradeKey["BOT_SPLIT_DIRECTION"] = "BOT_SPLIT_DIRECTION";
     UpgradeKey["BOT_SPLIT_BOT_AUTO_MERGE"] = "BOT_SPLIT_BOT_AUTO_MERGE";
+    UpgradeKey["BOT_SMART_MERGE"] = "BOT_SMART_MERGE";
     UpgradeKey["BOT_MOVEMENT_SPEED"] = "BOT_MOVEMENT_SPEED";
     UpgradeKey["BOT_REMEMBER_DEADEND_TILES"] = "BOT_REMEMBER_DEADEND_TILES";
     UpgradeKey["BOT_LUCKY_GUESS"] = "BOT_LUCKY_GUESS";
@@ -321,6 +322,7 @@ var TELEPORT_BOT_BACK_TO_PLAYER_UPGRADE_COST = exports.TELEPORT_BOT_BACK_TO_PLAY
 var SPLIT_DIRECTION_UPGRADE_BASE_COST = exports.SPLIT_DIRECTION_UPGRADE_BASE_COST = 5000;
 var SPLIT_DIRECTION_UPGRADE_BASE_MULTIPLIER = exports.SPLIT_DIRECTION_UPGRADE_BASE_MULTIPLIER = 3;
 var SPLIT_BOT_AUTO_MERGE_UPGRADE_COST = exports.SPLIT_BOT_AUTO_MERGE_UPGRADE_COST = 50000;
+var BOT_SMART_MERGE_UPGRADE_COST = exports.BOT_SMART_MERGE_UPGRADE_COST = 50000;
 var BOT_MOVEMENT_UPGRADE_BASE_COST = exports.BOT_MOVEMENT_UPGRADE_BASE_COST = 10;
 var BOT_MOVEMENT_UPGRADE_BASE_COST_MUTLIPLIER = exports.BOT_MOVEMENT_UPGRADE_BASE_COST_MUTLIPLIER = 1.1;
 var BOT_REMEMBER_DEADEND_TILES_UPGRADE_BASE_COST = exports.BOT_REMEMBER_DEADEND_TILES_UPGRADE_BASE_COST = 1000;
@@ -387,7 +389,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var IS_DEV_MODE_ENABLED = exports.IS_DEV_MODE_ENABLED = false;
 var DEBUG_ALL_BUTTONS_VISIBLE = exports.DEBUG_ALL_BUTTONS_VISIBLE = false;
-var IS_FREE_MODE_ENABLED = exports.IS_FREE_MODE_ENABLED = false;
+var IS_FREE_MODE_ENABLED = exports.IS_FREE_MODE_ENABLED = true;
 var DEV_MODE_DISABLE_UI = exports.DEV_MODE_DISABLE_UI = false;
 var DEV_MODE_AUTOSTART = exports.DEV_MODE_AUTOSTART = false;
 var game1;
@@ -858,7 +860,7 @@ var GhostMazeItem = function (_MazeItem) {
             _get(GhostMazeItem.prototype.__proto__ || Object.getPrototypeOf(GhostMazeItem.prototype), "triggerPickup", this).call(this, playerId);
             var player = this.game.players.getPlayer(playerId);
             if (player) {
-                player.ghostItemTileDistanceRemaining += _ItemConstants.GHOST_ITEM_STARTING_TILE_DISTANCE;
+                player.addGhostPathingDistance(_ItemConstants.GHOST_ITEM_STARTING_TILE_DISTANCE);
             }
         }
     }], [{
@@ -918,7 +920,7 @@ var UnlimitedSplitsItem = function (_MazeItem) {
             _get(UnlimitedSplitsItem.prototype.__proto__ || Object.getPrototypeOf(UnlimitedSplitsItem.prototype), "triggerPickup", this).call(this, playerId);
             var player = this.game.players.getPlayer(playerId);
             if (player) {
-                player.isUnlimitedSplitItemActive = true;
+                player.setIsUnlimitedSplitItemActive(true);
             }
         }
     }], [{
@@ -1418,8 +1420,6 @@ var MazeItemManager = exports.MazeItemManager = function () {
             if (mazeCell) {
                 var mazeItem = mazeCell.getMazeItem();
                 mazeItem.triggerPickup(playerId);
-                //TODO: decide if we want this.
-                // this.applyItemToAllBots(mazeItem, playerId);
                 mazeCell.deleteItem();
             }
         }
@@ -1493,7 +1493,7 @@ var MazeItemManager = exports.MazeItemManager = function () {
     return MazeItemManager;
 }();
 
-},{"../constants/ItemConstants":5,"../items/definitions/BlackHoleMazeItem":11,"../items/definitions/BrainMazeItem":12,"../items/definitions/FruitMazeItem":13,"../items/definitions/GhostMazeItem":14,"../items/definitions/UnlimitedSplitsItem":15,"../upgrades/definitions/maze/DestructibleWallUpgrade":67}],20:[function(require,module,exports){
+},{"../constants/ItemConstants":5,"../items/definitions/BlackHoleMazeItem":11,"../items/definitions/BrainMazeItem":12,"../items/definitions/FruitMazeItem":13,"../items/definitions/GhostMazeItem":14,"../items/definitions/UnlimitedSplitsItem":15,"../upgrades/definitions/maze/DestructibleWallUpgrade":65}],20:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1523,9 +1523,7 @@ var MazeManager = exports.MazeManager = function () {
         this.game = game;
         this.isDevMode = isDevMode;
         this.maze = null;
-        this.visitedMaze = null;
         this.smartPathMaze = null;
-        this.deadEndTileMap = new Map();
         this.mazeId = 0;
     }
 
@@ -1549,13 +1547,8 @@ var MazeManager = exports.MazeManager = function () {
         value: function newMaze() {
             this.mazeId++;
             var mazeSize = this.getNextMazeSize();
-            //TODO: vary based on time zone
-            // this.maze = new BacktrackerMaze(this.game, mazeSize, MazeGridType.RECTANGLE);
-            // this.maze = new PrimsMaze(this.game, mazeSize, MazeGridType.RECTANGLE);
-            // this.maze = new BinaryTreeMaze(this.game, mazeSize, MazeGridType.PLUS_SIGN);
             this.maze = (0, _MazeUtils.generateMazeGridAndAlgorithm)(this.game, mazeSize);
             this.smartPathMaze = (0, _MazeUtils.generateMazeSmartPathingArr)(this.game, this.maze);
-            this.deadEndTileMap = new Map();
             this.game.items.generateMazeItems();
         }
     }, {
@@ -1604,7 +1597,7 @@ var MazeManager = exports.MazeManager = function () {
                 var newPlayer = this.game.players.createNewPlayerObj(newTile, currMazeId);
                 if (newPlayer) {
                     this.game.stats.addStatsToKey(1, _Stats.StatsKey.TOTAL_NUMBER_OF_BOT_SPLITS);
-                    newPlayer.isUnlimitedSplitItemActive = player.hasUnlimitedSplitItemActive();
+                    newPlayer.setIsUnlimitedSplitItemActive(player.isUnlimitedSplitItemActive());
                 }
             }
         }
@@ -1618,8 +1611,7 @@ var MazeManager = exports.MazeManager = function () {
             if (playerColor != null) {
                 return playerColor;
             }
-            var tileKey = (0, _MazeUtils.generateTileKey)(tile.x, tile.y);
-            if (this.deadEndTileMap.has(tileKey)) {
+            if (this.maze.grid.getCell(tile).isMarkedAsDeadEnd()) {
                 return this.game.colors.getDeadEndTileColor();
             }
             if (this.getGrid().isVisited(tile)) {
@@ -1637,8 +1629,6 @@ var MazeManager = exports.MazeManager = function () {
     }, {
         key: "updatePlayerTile",
         value: function updatePlayerTile(playerId, newTile) {
-            var _this = this;
-
             var player = this.game.players.getPlayer(playerId);
             if (this.getGrid().isMazeExitTile(newTile)) {
                 this.game.completeMaze(playerId);
@@ -1649,28 +1639,51 @@ var MazeManager = exports.MazeManager = function () {
             player.prevTile = { x: player.currTile.x, y: player.currTile.y };
             player.currTile = { x: newTile.x, y: newTile.y };
             this.markVisited(newTile, playerId);
-            this.updateDeadEndTilesMap(newTile);
+            this.updateDeadEndTileValue(newTile);
+            this.updatePlayerDeadEndPathing(playerId);
             this.setTileBackgroundColor(player.prevTile);
             this.setTileBackgroundColor(newTile, true);
             // Pick up items if any are on the tile
             this.game.items.pickupItem(newTile, playerId);
-            if (this.game.upgrades.getUpgradeLevel(_UpgradeConstants.UpgradeKey.BOT_SPLIT_BOT_AUTO_MERGE)) {
-                var playerIdsAtTileArr = this.game.players.getPlayerIdsAtTile(player.currTile);
-                playerIdsAtTileArr.forEach(function (killPlayerId) {
-                    var mergedPlayer = _this.game.players.getPlayer(killPlayerId);
-                    if (killPlayerId !== playerId && !mergedPlayer.isManuallyControlled) {
-                        _this.game.stats.addStatsToKey(1, _Stats.StatsKey.TOTAL_NUMBER_OF_BOT_MERGES);
-                        // Pass along any bot passives.
-                        if (mergedPlayer.isMultiplierPowerUpActive()) {
-                            //TODO: powerups have no way of transitioning.
-                        }
-                        if (mergedPlayer.hasSmartPathingRemaining()) {
-                            player.smartPathingTileDistanceRemaining += mergedPlayer.smartPathingTileDistanceRemaining;
-                        }
-                        _this.game.players.deletePlayer(killPlayerId);
-                    }
-                });
+            this.handlePlayerMerges(newTile);
+        }
+    }, {
+        key: "handlePlayerMerges",
+        value: function handlePlayerMerges(tile) {
+            if (!this.game.upgrades.isUpgraded(_UpgradeConstants.UpgradeKey.BOT_SPLIT_BOT_AUTO_MERGE)) return;
+            // Assume only two possible players on a single tile since they all move one at a time
+            var playerIdsAtTileArr = this.game.players.getPlayerIdsAtTile(tile);
+            if (playerIdsAtTileArr.length <= 1) return;
+            if (playerIdsAtTileArr.length > 2) {
+                console.error("False assumption about max number of players per tile: " + playerIdsAtTileArr.length);
+                return;
             }
+            var player1 = this.game.players.getPlayer(playerIdsAtTileArr[0]);
+            var player2 = this.game.players.getPlayer(playerIdsAtTileArr[1]);
+            var playerToMerge = this.pickPlayerToMerge(player1, player2);
+            var playerToLive = playerToMerge === player1 ? player2 : player1;
+            if (!playerToMerge) return;
+            // Pass along any bot passives.
+            playerToLive.mergePlayerPassives(playerToMerge);
+            this.game.stats.addStatsToKey(1, _Stats.StatsKey.TOTAL_NUMBER_OF_BOT_MERGES);
+            this.game.players.deletePlayer(playerToMerge.id);
+        }
+    }, {
+        key: "pickPlayerToMerge",
+        value: function pickPlayerToMerge(player1, player2) {
+            if (!player1 || !player2) return null;
+            // Manual controlled players don't merge
+            if (player1.isManuallyControlled) return player2;
+            if (player2.isManuallyControlled) return player1;
+            if (this.game.upgrades.isUpgraded(_UpgradeConstants.UpgradeKey.BOT_SMART_MERGE)) {
+                // If a player is coming from a dead end, don't merge them
+                if (player1.isPathingFromDeadEnd()) {
+                    return player2;
+                } else if (player2.isPathingFromDeadEnd()) {
+                    return player1;
+                }
+            }
+            return player1;
         }
     }, {
         key: "clearDestructibleTilesFromTile",
@@ -1726,7 +1739,7 @@ var MazeManager = exports.MazeManager = function () {
             if (validDirCount <= 1) {
                 return 0;
             }
-            if (player && player.isUnlimitedSplitItemActive) {
+            if (player && player.isUnlimitedSplitItemActive()) {
                 return Math.min(validDirCount, MAX_SPLITS_POSSIBLE);
             }
             // Total bots active
@@ -1761,36 +1774,35 @@ var MazeManager = exports.MazeManager = function () {
         key: "getValidDirectionsByPlayerId",
         value: function getValidDirectionsByPlayerId(playerId) {
             var player = this.game.players.getPlayer(playerId);
-            return this.getValidDirectionsByTile(player.currTile, player.hasGhostItemActive());
+            return this.getValidDirectionsByTile(player.currTile, player.isGhostItemActive());
         }
     }, {
         key: "getValidDirectionsByTile",
         value: function getValidDirectionsByTile(tile) {
-            var _this2 = this;
+            var _this = this;
 
             var isIgnoreWalls = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
             var isIncludeDestructible = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
-            var validDirsArr = _MazeUtils.DIRECTIONS_ARR.filter(function (dir) {
-                return _this2.canMove(tile, dir, false, isIncludeDestructible, isIgnoreWalls);
+            return _MazeUtils.DIRECTIONS_ARR.filter(function (dir) {
+                return _this.canMove(tile, dir, false, isIncludeDestructible, isIgnoreWalls);
             });
-            return validDirsArr;
         }
     }, {
         key: "getDeadEndValue",
         value: function getDeadEndValue(tile, validDirsArr) {
-            var _this3 = this;
+            var _this2 = this;
 
+            var upgradeCount = this.game.upgrades.getUpgradeLevel(_UpgradeConstants.UpgradeKey.BOT_REMEMBER_DEADEND_TILES);
             var deadEndCount = 0,
                 deadEndMaxVal = 0;
-            var upgradeCount = this.game.upgrades.getUpgradeLevel(_UpgradeConstants.UpgradeKey.BOT_REMEMBER_DEADEND_TILES);
             // Count dead ends from valid dirs
             validDirsArr.forEach(function (dir) {
                 var newTile = (0, _MazeUtils.getNewTilePositionByVector)(tile, dir);
-                var tileKey = (0, _MazeUtils.generateTileKey)(newTile.x, newTile.y);
-                if (_this3.deadEndTileMap.has(tileKey)) {
+                var cell = _this2.getGrid().getCell(newTile);
+                if (cell && cell.isMarkedAsDeadEnd()) {
                     deadEndCount++;
-                    deadEndMaxVal = Math.max(_this3.deadEndTileMap.get(tileKey), deadEndMaxVal);
+                    deadEndMaxVal = Math.max(cell.getDeadEndCelLValue(), deadEndMaxVal);
                 }
             });
             // All but one are deadends -- return the max value if within upgrade limit
@@ -1800,44 +1812,43 @@ var MazeManager = exports.MazeManager = function () {
             return null;
         }
     }, {
-        key: "updateDeadEndTilesMap",
-        value: function updateDeadEndTilesMap(tile) {
+        key: "updateDeadEndTileValue",
+        value: function updateDeadEndTileValue(tile) {
             var upgradeCount = this.game.upgrades.getUpgradeLevel(_UpgradeConstants.UpgradeKey.BOT_REMEMBER_DEADEND_TILES);
             if (upgradeCount === 0) {
                 return;
             }
             var validDirsArr = this.getValidDirectionsByTile(tile, false, true);
-            var tileKey = (0, _MazeUtils.generateTileKey)(tile.x, tile.y);
             if (validDirsArr.length === 1) {
                 this.game.stats.addStatsToKey(1, _Stats.StatsKey.TOTAL_NUMBER_DEAD_ENDS_MARKED);
-                this.deadEndTileMap.set(tileKey, 1);
+                var cell = this.getGrid().getCell(tile);
+                if (cell) {
+                    cell.setDeadEndCellValue(1);
+                }
                 return;
             }
             var deadEndDistance = this.getDeadEndValue(tile, validDirsArr);
             if (deadEndDistance != null) {
                 this.game.stats.addStatsToKey(1, _Stats.StatsKey.TOTAL_NUMBER_DEAD_ENDS_MARKED);
-                this.deadEndTileMap.set(tileKey, deadEndDistance);
+                var _cell = this.getGrid().getCell(tile);
+                if (_cell) {
+                    _cell.setDeadEndCellValue(deadEndDistance);
+                }
             }
         }
     }, {
         key: "filterPlayerExitMazeDirection",
         value: function filterPlayerExitMazeDirection(playerId, validDirs) {
-            var _this4 = this;
+            var _this3 = this;
 
             if (!this.game.players.playerExists(playerId)) return null;
             var currTile = this.game.players.getPlayer(playerId).currTile;
             var currDistance = this.getSmartPathingDistanceFromExit(currTile);
-            // const autoExitMazeUpgradeLevel: number = this.game.upgrades.getUpgradeLevel(UpgradeKey.AUTO_EXIT_MAZE);
-            // const playerHasSmartPathing: boolean = this.game.players.playerHasSmartPathing(playerId);
-            // // Check if within X tiles of exit (1 per upgrade) and player has no smart pathing
-            // if (currDistance > autoExitMazeUpgradeLevel && !playerHasSmartPathing) {
-            //   return null;
-            // }
             // Find best direction
             var exitMazeDir = validDirs.find(function (dir) {
                 var newTile = (0, _MazeUtils.getNewTilePositionByVector)(currTile, dir);
                 // Exit tile or one step closer to exit. If distance 1, MUST be exit tile.
-                return _this4.getGrid().isMazeExitTile(newTile) || currDistance !== 1 && _this4.maze.grid.isValidTile(newTile) && _this4.getSmartPathingDistanceFromExit(newTile) === currDistance - 1;
+                return _this3.getGrid().isMazeExitTile(newTile) || currDistance !== 1 && _this3.maze.grid.isValidTile(newTile) && _this3.getSmartPathingDistanceFromExit(newTile) === currDistance - 1;
             });
             // This will happen for "luck" because the "expected" directions will not always include the exit pathway
             if (exitMazeDir == null) {
@@ -1848,13 +1859,13 @@ var MazeManager = exports.MazeManager = function () {
     }, {
         key: "filterAvoidRevisitLastPosition",
         value: function filterAvoidRevisitLastPosition(playerId, validDirs) {
-            var _this5 = this;
+            var _this4 = this;
 
             if (!this.game.players.playerExists(playerId)) return;
             // Find any tiles that are not the previous tile.
             var noRevisitDirsArr = validDirs.filter(function (dir) {
-                var previousTile = _this5.game.players.getPreviousTile(playerId);
-                var newTile = (0, _MazeUtils.getNewTilePositionByVector)(_this5.game.players.getCurrTile(playerId), dir);
+                var previousTile = _this4.game.players.getPreviousTile(playerId);
+                var newTile = (0, _MazeUtils.getNewTilePositionByVector)(_this4.game.players.getCurrTile(playerId), dir);
                 return !(0, _MazeUtils.isTileEqual)(newTile, previousTile);
             });
             return noRevisitDirsArr;
@@ -1862,28 +1873,62 @@ var MazeManager = exports.MazeManager = function () {
     }, {
         key: "prioritizeUnvisitedDirection",
         value: function prioritizeUnvisitedDirection(playerId, validDirs) {
-            var _this6 = this;
+            var _this5 = this;
 
             if (!this.game.players.playerExists(playerId)) return [];
             // Find any unvisited tiles within reach.
             var unvisitedDirsArr = validDirs.filter(function (dir) {
-                var newTile = (0, _MazeUtils.getNewTilePositionByVector)(_this6.game.players.getCurrTile(playerId), dir);
-                return !_this6.getGrid().isVisited(newTile);
+                var newTile = (0, _MazeUtils.getNewTilePositionByVector)(_this5.game.players.getCurrTile(playerId), dir);
+                return !_this5.getGrid().isVisited(newTile);
             });
             return unvisitedDirsArr;
         }
     }, {
         key: "filterDeadEndTiles",
         value: function filterDeadEndTiles(playerId, validDirs) {
-            var _this7 = this;
+            var _this6 = this;
 
             if (!this.game.players.playerExists(playerId)) return [];
             var nonDeadEndTiles = validDirs.filter(function (dir) {
-                var newTile = (0, _MazeUtils.getNewTilePositionByVector)(_this7.game.players.getCurrTile(playerId), dir);
-                var tileKey = (0, _MazeUtils.generateTileKey)(newTile.x, newTile.y);
-                return !_this7.deadEndTileMap.has(tileKey);
+                var newTile = (0, _MazeUtils.getNewTilePositionByVector)(_this6.game.players.getCurrTile(playerId), dir);
+                var cell = _this6.maze.grid.getCell(newTile);
+                //TODO: this is pretty hacky. Exit cells are not actually part of the grid.
+                return cell ? !cell.isMarkedAsDeadEnd() : true;
             });
             return nonDeadEndTiles;
+        }
+    }, {
+        key: "getTotalPossiblePaths",
+        value: function getTotalPossiblePaths(playerId) {
+            if (!this.game.players.playerMap.has(playerId)) return 0;
+            var tile = this.game.players.getPlayer(playerId).currTile;
+            // Test if there are more than 1 valid directions (assuming pre-visited)
+            var validDirs = this.getValidDirectionsByTile(tile, false, true);
+            // Filter out dead ends
+            if (this.game.upgrades.getUpgradeLevel(_UpgradeConstants.UpgradeKey.BOT_REMEMBER_DEADEND_TILES) >= 1) {
+                var filteredDirs = this.game.maze.filterDeadEndTiles(playerId, validDirs);
+                validDirs = filteredDirs;
+            }
+            return validDirs.length;
+        }
+        // Dead end pathing is for smart merging purposes.
+        // Allows us to keep track if player is moving away from a dead end and prioritizes that player during merges.
+
+    }, {
+        key: "updatePlayerDeadEndPathing",
+        value: function updatePlayerDeadEndPathing(playerId) {
+            var player = this.game.players.getPlayer(playerId);
+            if (!player) return;
+            var isPathingFromDeadEnd = player.isPathingFromDeadEnd();
+            var totalPossiblePaths = this.getTotalPossiblePaths(playerId);
+            // If only single path (excluding dead-end markings), must be dead end.
+            if (totalPossiblePaths === 1) {
+                player.setIsPathingFromDeadEnd(true);
+            }
+            // If more than forward/back direction, not a dead end anymore!
+            if (totalPossiblePaths > 2) {
+                player.setIsPathingFromDeadEnd(false);
+            }
         }
     }]);
 
@@ -2299,7 +2344,7 @@ var PlayerManager = exports.PlayerManager = function () {
             if (expectedMazeId && expectedMazeId !== this.game.maze.getMazeId()) {
                 return;
             }
-            var newPlayer = new _Player2.default(this.game, this.getNewPlayerId(), startTile, startTile, false);
+            var newPlayer = new _Player2.default(this.game, this.getNewPlayerId(), startTile, startTile);
             this.playerMap.set(newPlayer.id, newPlayer);
             this.game.maze.updatePlayerTile(newPlayer.id, startTile);
             return newPlayer;
@@ -2411,7 +2456,7 @@ var PlayerManager = exports.PlayerManager = function () {
 
             var player = this.getPlayer(playerId);
             if (player == null) return;
-            if (!this.game.maze.canMove(player.currTile, dirVector, false, false, player.hasGhostItemActive())) {
+            if (!this.game.maze.canMove(player.currTile, dirVector, false, false, player.isGhostItemActive())) {
                 // If player can't move, ensure no destructible tiles are holding them
                 this.game.maze.clearDestructibleTilesFromTile(player.currTile);
                 return;
@@ -2445,6 +2490,8 @@ var PlayerManager = exports.PlayerManager = function () {
             });
             return playerIdArr;
         }
+        // Assumption: there should only be max 2 players on the same tile at a time.
+
     }, {
         key: "getPlayerIdsAtTile",
         value: function getPlayerIdsAtTile(tile) {
@@ -2516,13 +2563,13 @@ var PlayerManager = exports.PlayerManager = function () {
                     if ((0, _MazeUtils.isTileEqual)(tile, player.currTile)) {
                         if (player.isManuallyControlled) {
                             return this.game.colors.getPlayerColor();
-                        } else if (player.hasSmartPathingRemaining()) {
+                        } else if (player.isSmartPathingActive()) {
                             return this.game.colors.getSmartPathingPlayerColor();
                         } else if (player.isMultiplierPowerUpActive()) {
                             return this.game.colors.getMultiplierItemPlayerColor();
-                        } else if (player.hasUnlimitedSplitItemActive()) {
+                        } else if (player.isUnlimitedSplitItemActive()) {
                             return this.game.colors.getUnlimitedSplitPlayerColor();
-                        } else if (player.hasGhostItemActive()) {
+                        } else if (player.isGhostItemActive()) {
                             return this.game.colors.getGhostItemPlayerColor();
                         } else {
                             return this.game.colors.getBotColor();
@@ -2601,7 +2648,7 @@ var PlayerManager = exports.PlayerManager = function () {
         key: "playerHasSmartPathing",
         value: function playerHasSmartPathing(playerId) {
             if (!this.playerMap.has(playerId)) return false;
-            return this.game.players.getPlayer(playerId).hasSmartPathingRemaining();
+            return this.game.players.getPlayer(playerId).isSmartPathingActive();
         }
     }, {
         key: "shouldPlayerAutoPath",
@@ -2749,7 +2796,7 @@ var Points = exports.Points = function (_Serializable) {
     return Points;
 }(_Serializable2.Serializable);
 
-},{"../constants/PowerUpConstants":6,"../constants/UpgradeConstants":7,"../models/PointsHistoryTracker":43,"../models/Serializable":45,"../models/Stats":46,"../upgrades/definitions/maze/MazeCompletionBonusUpgrade":68,"../upgrades/definitions/powerUps/PointsMultiplierStrengthUpgrade":73}],25:[function(require,module,exports){
+},{"../constants/PowerUpConstants":6,"../constants/UpgradeConstants":7,"../models/PointsHistoryTracker":43,"../models/Serializable":45,"../models/Stats":46,"../upgrades/definitions/maze/MazeCompletionBonusUpgrade":66,"../upgrades/definitions/powerUps/PointsMultiplierStrengthUpgrade":74}],25:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2948,7 +2995,6 @@ var RNGBotManager = exports.RNGBotManager = function () {
             var _this2 = this;
 
             this.disableReEnableBotMovementTimer();
-            //TODO: this might be better handled within the player class.
             this.rngBotReEnableMovementTimer = setTimeout(function () {
                 var player = _this2.game.players.getManuallyControlledPlayer();
                 if (!player) return;
@@ -3048,14 +3094,6 @@ var RNGBotManager = exports.RNGBotManager = function () {
             if (!validDirs) {
                 return null;
             }
-            // // Check for Auto-Exit and Smart pathing
-            // if (this.game.upgrades.isUpgraded(UpgradeKey.AUTO_EXIT_MAZE) 
-            //     || this.game.players.playerHasSmartPathing(playerId)) {
-            //   const exitDirsArr = this.game.maze.filterPlayerExitMazeDirection(playerId, validDirs);
-            //   if (exitDirsArr.length > 0) {
-            //     return exitDirsArr;
-            //   }
-            // }
             // Remove all dead end tiles from possible directions.
             if (this.game.upgrades.getUpgradeLevel(_UpgradeConstants.UpgradeKey.BOT_REMEMBER_DEADEND_TILES) >= 1) {
                 var filteredDirs = this.game.maze.filterDeadEndTiles(playerId, validDirs);
@@ -3410,11 +3448,11 @@ var _PrioritizeUnvisitedUpgrade = require("../upgrades/definitions/bots/Prioriti
 
 var _AutoExitMazeUpgrade = require("../upgrades/definitions/bots/AutoExitMazeUpgrade");
 
-var _PlayerMoveIndependentlyUpgrade = require("../upgrades/definitions/bots/PlayerMoveIndependentlyUpgrade");
+var _PlayerMoveIndependentlyUpgrade = require("../upgrades/definitions/movement/PlayerMoveIndependentlyUpgrade");
 
-var _TeleportPlayerBacktoBotUpgrade = require("../upgrades/definitions/bots/TeleportPlayerBacktoBotUpgrade");
+var _TeleportPlayerBacktoBotUpgrade = require("../upgrades/definitions/movement/TeleportPlayerBacktoBotUpgrade");
 
-var _TeleportBotBackToPlayerUpgrade = require("../upgrades/definitions/bots/TeleportBotBackToPlayerUpgrade");
+var _TeleportBotBackToPlayerUpgrade = require("../upgrades/definitions/movement/TeleportBotBackToPlayerUpgrade");
 
 var _FruitPickupPointsMultiplierUpgrade = require("../upgrades/definitions/items/FruitPickupPointsMultiplierUpgrade");
 
@@ -3439,6 +3477,8 @@ var _MazeSizeUpgrade = require("../upgrades/definitions/maze/MazeSizeUpgrade");
 var _BotSplitDirectionUpgrade = require("../upgrades/definitions/bots/BotSplitDirectionUpgrade");
 
 var _BotSplitAutoMergeUpgrade = require("../upgrades/definitions/bots/BotSplitAutoMergeUpgrade");
+
+var _BotSmartMergeUpgrade = require("../upgrades/definitions/bots/BotSmartMergeUpgrade");
 
 var _BotLuckUpgrade = require("../upgrades/definitions/bots/BotLuckUpgrade");
 
@@ -3500,6 +3540,7 @@ var UpgradeManager = exports.UpgradeManager = function (_Serializable) {
             this.createUpgrade(new _AvoidRevisitLastPositionUpgrade.AvoidRevisitLastPositionUpgrade(this.game, _UpgradeConstants.UpgradeKey.AVOID_REVISIT_LAST_POSITION));
             this.createUpgrade(new _BotMovementSpeedUpgrade.BotMovementSpeedUpgrade(this.game, _UpgradeConstants.UpgradeKey.BOT_MOVEMENT_SPEED));
             this.createUpgrade(new _BotSplitAutoMergeUpgrade.BotSplitAutoMergeUpgrade(this.game, _UpgradeConstants.UpgradeKey.BOT_SPLIT_BOT_AUTO_MERGE));
+            this.createUpgrade(new _BotSmartMergeUpgrade.BotSmartMergeUpgrade(this.game, _UpgradeConstants.UpgradeKey.BOT_SMART_MERGE));
             this.createUpgrade(new _BotSplitDirectionUpgrade.BotSplitDirectionUpgrade(this.game, _UpgradeConstants.UpgradeKey.BOT_SPLIT_DIRECTION));
             this.createUpgrade(new _BotRememberDeadEndTilesUpgrade.BotRememberDeadEndTilesUpgrade(this.game, _UpgradeConstants.UpgradeKey.BOT_REMEMBER_DEADEND_TILES));
             this.createUpgrade(new _BrainTileDistanceUpgrade.BrainTileDistanceUpgrade(this.game, _UpgradeConstants.UpgradeKey.BRAIN_TILE_DISTANCE));
@@ -3708,7 +3749,7 @@ var UpgradeManager = exports.UpgradeManager = function (_Serializable) {
 
 exports.default = UpgradeManager;
 
-},{"../constants/UpgradeConstants":7,"../dev/devUtils":8,"../models/Serializable":45,"../upgrades/definitions/bots/AutoExitMazeUpgrade":50,"../upgrades/definitions/bots/AvoidRevisitLastPositionUpgrade":51,"../upgrades/definitions/bots/BotAutoMoveUpgrade":52,"../upgrades/definitions/bots/BotLuckUpgrade":53,"../upgrades/definitions/bots/BotMovementSpeedUpgrade":54,"../upgrades/definitions/bots/BotRememberDeadEndTilesUpgrade":55,"../upgrades/definitions/bots/BotSplitAutoMergeUpgrade":56,"../upgrades/definitions/bots/BotSplitDirectionUpgrade":57,"../upgrades/definitions/bots/PlayerMoveIndependentlyUpgrade":58,"../upgrades/definitions/bots/PrioritizeUnvisitedUpgrade":59,"../upgrades/definitions/bots/TeleportBotBackToPlayerUpgrade":60,"../upgrades/definitions/bots/TeleportPlayerBacktoBotUpgrade":61,"../upgrades/definitions/items/BrainSpawnRateUpgrade":62,"../upgrades/definitions/items/BrainTileDistanceUpgrade":63,"../upgrades/definitions/items/FruitPickupPointsMultiplierUpgrade":64,"../upgrades/definitions/items/FruitSpawnRateUpgrade":65,"../upgrades/definitions/maze/BiomeUpgrade":66,"../upgrades/definitions/maze/DestructibleWallUpgrade":67,"../upgrades/definitions/maze/MazeCompletionBonusUpgrade":68,"../upgrades/definitions/maze/MazeSizeUpgrade":69,"../upgrades/definitions/maze/PointsPerRevisitUpgrade":70,"../upgrades/definitions/maze/PointsPerVisitUpgrade":71,"../upgrades/definitions/powerUps/PointsMultiplierActivateDurationUpgrade":72,"../upgrades/definitions/powerUps/PointsMultiplierStrengthUpgrade":73,"../upgrades/definitions/powerUps/SpeedUpActivateDurationUpgrade":74,"../upgrades/definitions/powerUps/SpeedUpMultiplierStrengthUpgrade":75,"./UserInterface":30}],30:[function(require,module,exports){
+},{"../constants/UpgradeConstants":7,"../dev/devUtils":8,"../models/Serializable":45,"../upgrades/definitions/bots/AutoExitMazeUpgrade":50,"../upgrades/definitions/bots/AvoidRevisitLastPositionUpgrade":51,"../upgrades/definitions/bots/BotAutoMoveUpgrade":52,"../upgrades/definitions/bots/BotLuckUpgrade":53,"../upgrades/definitions/bots/BotMovementSpeedUpgrade":54,"../upgrades/definitions/bots/BotRememberDeadEndTilesUpgrade":55,"../upgrades/definitions/bots/BotSmartMergeUpgrade":56,"../upgrades/definitions/bots/BotSplitAutoMergeUpgrade":57,"../upgrades/definitions/bots/BotSplitDirectionUpgrade":58,"../upgrades/definitions/bots/PrioritizeUnvisitedUpgrade":59,"../upgrades/definitions/items/BrainSpawnRateUpgrade":60,"../upgrades/definitions/items/BrainTileDistanceUpgrade":61,"../upgrades/definitions/items/FruitPickupPointsMultiplierUpgrade":62,"../upgrades/definitions/items/FruitSpawnRateUpgrade":63,"../upgrades/definitions/maze/BiomeUpgrade":64,"../upgrades/definitions/maze/DestructibleWallUpgrade":65,"../upgrades/definitions/maze/MazeCompletionBonusUpgrade":66,"../upgrades/definitions/maze/MazeSizeUpgrade":67,"../upgrades/definitions/maze/PointsPerRevisitUpgrade":68,"../upgrades/definitions/maze/PointsPerVisitUpgrade":69,"../upgrades/definitions/movement/PlayerMoveIndependentlyUpgrade":70,"../upgrades/definitions/movement/TeleportBotBackToPlayerUpgrade":71,"../upgrades/definitions/movement/TeleportPlayerBacktoBotUpgrade":72,"../upgrades/definitions/powerUps/PointsMultiplierActivateDurationUpgrade":73,"../upgrades/definitions/powerUps/PointsMultiplierStrengthUpgrade":74,"../upgrades/definitions/powerUps/SpeedUpActivateDurationUpgrade":75,"../upgrades/definitions/powerUps/SpeedUpMultiplierStrengthUpgrade":76,"./UserInterface":30}],30:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4918,7 +4959,7 @@ var Maze = exports.Maze = function () {
     return Maze;
 }();
 
-},{"../managers/MazeUtils":21,"../mazeGrid/DiamondMazeGrid":31,"../mazeGrid/PlusSignMazeGrid":32,"../mazeGrid/RectangleMazeGrid":33,"../mazeGrid/SquareMazeGrid":34,"../upgrades/definitions/maze/DestructibleWallUpgrade":67}],40:[function(require,module,exports){
+},{"../managers/MazeUtils":21,"../mazeGrid/DiamondMazeGrid":31,"../mazeGrid/PlusSignMazeGrid":32,"../mazeGrid/RectangleMazeGrid":33,"../mazeGrid/SquareMazeGrid":34,"../upgrades/definitions/maze/DestructibleWallUpgrade":65}],40:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4951,6 +4992,21 @@ var MazeCell = exports.MazeCell = function () {
             this.walls[wallDirectionIndex] = wallType;
         }
     }, {
+        key: 'isMarkedAsDeadEnd',
+        value: function isMarkedAsDeadEnd() {
+            return !!this.deadEndCellValue;
+        }
+    }, {
+        key: 'getDeadEndCelLValue',
+        value: function getDeadEndCelLValue() {
+            return this.deadEndCellValue;
+        }
+    }, {
+        key: 'setDeadEndCellValue',
+        value: function setDeadEndCellValue(deadEndCellValue) {
+            this.deadEndCellValue = deadEndCellValue;
+        }
+    }, {
         key: 'getTile',
         value: function getTile() {
             return { x: this.x, y: this.y };
@@ -4970,15 +5026,15 @@ var MazeCell = exports.MazeCell = function () {
     }, {
         key: 'isCellDead',
         value: function isCellDead() {
-            return this.isDeadCell;
+            return this._isCellDead;
         }
     }, {
         key: 'setDeadCell',
         value: function setDeadCell() {
             var isDead = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
-            this.isDeadCell = isDead;
-            if (this.isDeadCell) {
+            this._isCellDead = isDead;
+            if (this._isCellDead) {
                 this.walls = [_MazeUtils.MazeWallTypes.OUT_OF_BOUNDS_WALL, _MazeUtils.MazeWallTypes.OUT_OF_BOUNDS_WALL, _MazeUtils.MazeWallTypes.OUT_OF_BOUNDS_WALL, _MazeUtils.MazeWallTypes.OUT_OF_BOUNDS_WALL];
             }
         }
@@ -5039,12 +5095,6 @@ var MazeGrid = exports.MazeGrid = function () {
         this.generateMazeGrid();
         this.setStartAndEndTile();
     }
-    // private createMazeGrid(): void {
-    //   this.generateMazeGrid();
-    //   // Must be generated after full maze generation (and dead cell marking)
-    //   this.generateDestructibleWalls();
-    // }
-
 
     _createClass(MazeGrid, [{
         key: "generateMazeGrid",
@@ -5056,35 +5106,6 @@ var MazeGrid = exports.MazeGrid = function () {
                 for (var x = 0; x < this.sizeX; x++) {
                     this.grid[y][x] = new _MazeCell.MazeCell(x, y);
                     this.tileCount++;
-                }
-            }
-        }
-    }, {
-        key: "generateDestructibleWalls",
-        value: function generateDestructibleWalls() {
-            var cellList = this.getAllCells();
-            var _iteratorNormalCompletion = true;
-            var _didIteratorError = false;
-            var _iteratorError = undefined;
-
-            try {
-                for (var _iterator = cellList[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                    var cell = _step.value;
-
-                    if (cell.isCellDead()) return;
-                }
-            } catch (err) {
-                _didIteratorError = true;
-                _iteratorError = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion && _iterator.return) {
-                        _iterator.return();
-                    }
-                } finally {
-                    if (_didIteratorError) {
-                        throw _iteratorError;
-                    }
                 }
             }
         }
@@ -5252,28 +5273,24 @@ var Player = function () {
     function Player(game, id) {
         var currTile = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
         var prevTile = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
-        var isManuallyControlled = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
-        var moveCount = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 0;
-        var smartPathingTileDistanceRemaining = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 0;
-        var isUnlimitedSplitItemActive = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : false;
-        var ghostItemTileDistanceRemaining = arguments.length > 8 && arguments[8] !== undefined ? arguments[8] : 0;
 
         _classCallCheck(this, Player);
 
         this.game = game;
-        this.isManuallyControlled = isManuallyControlled;
         this.id = id;
         this.currTile = currTile;
         this.prevTile = prevTile;
-        this.moveCount = moveCount;
-        this.smartPathingTileDistanceRemaining = smartPathingTileDistanceRemaining;
-        this.isUnlimitedSplitItemActive = isUnlimitedSplitItemActive;
-        this.ghostItemTileDistanceRemaining = ghostItemTileDistanceRemaining;
+        this.moveCount = 0;
+        this.smartPathingTileDistanceRemaining = 0;
+        this._ghostItemTileDistanceRemaining = 0;
+        this.isManuallyControlled = false;
+        this._isUnlimitedSplitItemActive = false;
+        this._isPathingFromDeadEnd = false;
     }
 
     _createClass(Player, [{
-        key: "hasSmartPathingRemaining",
-        value: function hasSmartPathingRemaining() {
+        key: "isSmartPathingActive",
+        value: function isSmartPathingActive() {
             return this.smartPathingTileDistanceRemaining > 0;
         }
     }, {
@@ -5289,21 +5306,47 @@ var Player = function () {
             return this.game.powerUps.isPowerUpActive(_PowerUpConstants.PowerUpKey.POINTS_MULTIPLIER);
         }
     }, {
-        key: "hasUnlimitedSplitItemActive",
-        value: function hasUnlimitedSplitItemActive() {
-            return this.isUnlimitedSplitItemActive;
+        key: "isUnlimitedSplitItemActive",
+        value: function isUnlimitedSplitItemActive() {
+            return this._isUnlimitedSplitItemActive;
         }
     }, {
-        key: "hasGhostItemActive",
-        value: function hasGhostItemActive() {
-            return this.ghostItemTileDistanceRemaining > 0;
+        key: "setIsUnlimitedSplitItemActive",
+        value: function setIsUnlimitedSplitItemActive(setActive) {
+            this._isUnlimitedSplitItemActive = setActive;
         }
     }, {
-        key: "reduceGhostPathingDistance",
-        value: function reduceGhostPathingDistance() {
-            var distance = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-
-            this.ghostItemTileDistanceRemaining = Math.max(0, this.ghostItemTileDistanceRemaining - distance);
+        key: "isGhostItemActive",
+        value: function isGhostItemActive() {
+            return this._ghostItemTileDistanceRemaining > 0;
+        }
+    }, {
+        key: "addGhostPathingDistance",
+        value: function addGhostPathingDistance(distance) {
+            this._ghostItemTileDistanceRemaining = Math.max(0, this._ghostItemTileDistanceRemaining + distance);
+        }
+    }, {
+        key: "isPathingFromDeadEnd",
+        value: function isPathingFromDeadEnd() {
+            return this._isPathingFromDeadEnd;
+        }
+    }, {
+        key: "setIsPathingFromDeadEnd",
+        value: function setIsPathingFromDeadEnd(isPathingFromDeadEnd) {
+            this._isPathingFromDeadEnd = isPathingFromDeadEnd;
+        }
+    }, {
+        key: "mergePlayerPassives",
+        value: function mergePlayerPassives(mergedPlayer) {
+            if (mergedPlayer.isSmartPathingActive()) {
+                this.smartPathingTileDistanceRemaining += mergedPlayer.smartPathingTileDistanceRemaining;
+            }
+            if (mergedPlayer.isGhostItemActive()) {
+                this._ghostItemTileDistanceRemaining += mergedPlayer._ghostItemTileDistanceRemaining;
+            }
+            if (mergedPlayer.isUnlimitedSplitItemActive()) {
+                this.setIsUnlimitedSplitItemActive(mergedPlayer.isUnlimitedSplitItemActive());
+            }
         }
     }]);
 
@@ -5840,7 +5883,7 @@ var PointsMultiplierPowerUp = exports.PointsMultiplierPowerUp = function (_Power
     return PointsMultiplierPowerUp;
 }(_PowerUp2.PowerUp);
 
-},{"../constants/PowerUpConstants":6,"../models/PowerUp":44,"../models/Stats":46,"../upgrades/definitions/powerUps/PointsMultiplierActivateDurationUpgrade":72}],48:[function(require,module,exports){
+},{"../constants/PowerUpConstants":6,"../models/PowerUp":44,"../models/Stats":46,"../upgrades/definitions/powerUps/PointsMultiplierActivateDurationUpgrade":73}],48:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5893,7 +5936,7 @@ var SpeedUpPowerUp = exports.SpeedUpPowerUp = function (_PowerUp) {
     return SpeedUpPowerUp;
 }(_PowerUp2.PowerUp);
 
-},{"../constants/PowerUpConstants":6,"../models/PowerUp":44,"../models/Stats":46,"../upgrades/definitions/powerUps/SpeedUpActivateDurationUpgrade":74}],49:[function(require,module,exports){
+},{"../constants/PowerUpConstants":6,"../models/PowerUp":44,"../models/Stats":46,"../upgrades/definitions/powerUps/SpeedUpActivateDurationUpgrade":75}],49:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6055,7 +6098,7 @@ var Upgrade = function () {
     }, {
         key: 'isUnlocked',
         value: function isUnlocked() {
-            return this.game.biomes.isUpgradeUnlocked(this.upgradeKey) && this.isAllPrerequisiteUpgradesComplete();
+            return this.game.biomes.isUpgradeUnlocked(this.upgradeKey) && this.isAllPrerequisiteUpgradesComplete() || _devUtils.DEBUG_ALL_BUTTONS_VISIBLE;
         }
     }, {
         key: 'prettyPrint',
@@ -6431,6 +6474,64 @@ var BotRememberDeadEndTilesUpgrade = exports.BotRememberDeadEndTilesUpgrade = fu
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.BotSmartMergeUpgrade = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Upgrade2 = require("../../Upgrade");
+
+var _Upgrade3 = _interopRequireDefault(_Upgrade2);
+
+var _UpgradeConstants = require("../../../constants/UpgradeConstants");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var BUTTON_UI_ID = 'buyBotSmartMergeUpgrade';
+var TOOLTIP_TEXT = 'When a bot merge occurs, the resulting direction of the bot will be away from deadends.';
+
+var BotSmartMergeUpgrade = exports.BotSmartMergeUpgrade = function (_Upgrade) {
+    _inherits(BotSmartMergeUpgrade, _Upgrade);
+
+    function BotSmartMergeUpgrade(game, upgradeKey) {
+        var upgradeLevel = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+
+        _classCallCheck(this, BotSmartMergeUpgrade);
+
+        return _possibleConstructorReturn(this, (BotSmartMergeUpgrade.__proto__ || Object.getPrototypeOf(BotSmartMergeUpgrade)).call(this, game, _UpgradeConstants.UpgradeType.BOT, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel, true));
+    }
+
+    _createClass(BotSmartMergeUpgrade, [{
+        key: "updateUiProperties",
+        value: function updateUiProperties() {
+            this.setUiText("Bot Smart Merge: " + this.getPrettyPrintCost() + " pts");
+        }
+    }, {
+        key: "getCost",
+        value: function getCost() {
+            return _UpgradeConstants.BOT_SMART_MERGE_UPGRADE_COST;
+        }
+    }, {
+        key: "getPreReqUpgradeKeys",
+        value: function getPreReqUpgradeKeys() {
+            return [_UpgradeConstants.UpgradeKey.BOT_SPLIT_BOT_AUTO_MERGE];
+        }
+    }]);
+
+    return BotSmartMergeUpgrade;
+}(_Upgrade3.default);
+
+},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],57:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 exports.BotSplitAutoMergeUpgrade = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -6478,7 +6579,7 @@ var BotSplitAutoMergeUpgrade = exports.BotSplitAutoMergeUpgrade = function (_Upg
     return BotSplitAutoMergeUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],57:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],58:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6529,59 +6630,6 @@ var BotSplitDirectionUpgrade = exports.BotSplitDirectionUpgrade = function (_Upg
     }]);
 
     return BotSplitDirectionUpgrade;
-}(_Upgrade3.default);
-
-},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],58:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.PlayerMoveIndependentlyUpgrade = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _Upgrade2 = require("../../Upgrade");
-
-var _Upgrade3 = _interopRequireDefault(_Upgrade2);
-
-var _UpgradeConstants = require("../../../constants/UpgradeConstants");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var BUTTON_UI_ID = 'buyPlayerMoveIndependently';
-var TOOLTIP_TEXT = 'Players can have one bot moving at the same time as they manually move.';
-
-var PlayerMoveIndependentlyUpgrade = exports.PlayerMoveIndependentlyUpgrade = function (_Upgrade) {
-    _inherits(PlayerMoveIndependentlyUpgrade, _Upgrade);
-
-    function PlayerMoveIndependentlyUpgrade(game, upgradeKey) {
-        var upgradeLevel = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-
-        _classCallCheck(this, PlayerMoveIndependentlyUpgrade);
-
-        return _possibleConstructorReturn(this, (PlayerMoveIndependentlyUpgrade.__proto__ || Object.getPrototypeOf(PlayerMoveIndependentlyUpgrade)).call(this, game, _UpgradeConstants.UpgradeType.MOVEMENT, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel, true));
-    }
-
-    _createClass(PlayerMoveIndependentlyUpgrade, [{
-        key: "updateUiProperties",
-        value: function updateUiProperties() {
-            this.setUiText("Player Can Move Independently: " + this.getPrettyPrintCost() + " pts");
-        }
-    }, {
-        key: "getCost",
-        value: function getCost() {
-            return _UpgradeConstants.ALLOW_PLAYER_TO_MOVE_INDEPENDENTLY_UPGRADE_COST;
-        }
-    }]);
-
-    return PlayerMoveIndependentlyUpgrade;
 }(_Upgrade3.default);
 
 },{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],59:[function(require,module,exports){
@@ -6643,122 +6691,6 @@ var PrioritizeUnvisitedUpgrade = exports.PrioritizeUnvisitedUpgrade = function (
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.TeleportBotBackToPlayerUpgrade = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _Upgrade2 = require("../../Upgrade");
-
-var _Upgrade3 = _interopRequireDefault(_Upgrade2);
-
-var _UpgradeConstants = require("../../../constants/UpgradeConstants");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var BUTTON_UI_ID = 'buyBotTeleportToPlayer';
-var TOOLTIP_TEXT = "Players can teleport their bot back to the themselves by pressing 'e'.";
-
-var TeleportBotBackToPlayerUpgrade = exports.TeleportBotBackToPlayerUpgrade = function (_Upgrade) {
-    _inherits(TeleportBotBackToPlayerUpgrade, _Upgrade);
-
-    function TeleportBotBackToPlayerUpgrade(game, upgradeKey) {
-        var upgradeLevel = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-
-        _classCallCheck(this, TeleportBotBackToPlayerUpgrade);
-
-        return _possibleConstructorReturn(this, (TeleportBotBackToPlayerUpgrade.__proto__ || Object.getPrototypeOf(TeleportBotBackToPlayerUpgrade)).call(this, game, _UpgradeConstants.UpgradeType.MOVEMENT, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel, true));
-    }
-
-    _createClass(TeleportBotBackToPlayerUpgrade, [{
-        key: "updateUiProperties",
-        value: function updateUiProperties() {
-            this.setUiText("Teleport Bot Back to Player: " + this.getPrettyPrintCost() + " pts");
-        }
-    }, {
-        key: "getCost",
-        value: function getCost() {
-            return _UpgradeConstants.TELEPORT_BOT_BACK_TO_PLAYER_UPGRADE_COST;
-        }
-    }, {
-        key: "getPreReqUpgradeKeys",
-        value: function getPreReqUpgradeKeys() {
-            return [_UpgradeConstants.UpgradeKey.PLAYER_MOVE_INDEPENDENTLY];
-        }
-    }]);
-
-    return TeleportBotBackToPlayerUpgrade;
-}(_Upgrade3.default);
-
-},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],61:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.TeleportPlayerBacktoBotUpgrade = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _Upgrade2 = require("../../Upgrade");
-
-var _Upgrade3 = _interopRequireDefault(_Upgrade2);
-
-var _UpgradeConstants = require("../../../constants/UpgradeConstants");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var BUTTON_UI_ID = 'buyPlayerTeleportToBot';
-var TOOLTIP_TEXT = "Players can teleport their themselves back to the bot by pressing 'q'.";
-
-var TeleportPlayerBacktoBotUpgrade = exports.TeleportPlayerBacktoBotUpgrade = function (_Upgrade) {
-    _inherits(TeleportPlayerBacktoBotUpgrade, _Upgrade);
-
-    function TeleportPlayerBacktoBotUpgrade(game, upgradeKey) {
-        var upgradeLevel = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-
-        _classCallCheck(this, TeleportPlayerBacktoBotUpgrade);
-
-        return _possibleConstructorReturn(this, (TeleportPlayerBacktoBotUpgrade.__proto__ || Object.getPrototypeOf(TeleportPlayerBacktoBotUpgrade)).call(this, game, _UpgradeConstants.UpgradeType.MOVEMENT, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel, true));
-    }
-
-    _createClass(TeleportPlayerBacktoBotUpgrade, [{
-        key: "updateUiProperties",
-        value: function updateUiProperties() {
-            this.setUiText("Teleport Player Back to Bot: " + this.getPrettyPrintCost() + " pts");
-        }
-    }, {
-        key: "getCost",
-        value: function getCost() {
-            return _UpgradeConstants.TELEPORT_PLAYER_BACK_TO_BOT_UPGRADE_COST;
-        }
-    }, {
-        key: "getPreReqUpgradeKeys",
-        value: function getPreReqUpgradeKeys() {
-            return [_UpgradeConstants.UpgradeKey.PLAYER_MOVE_INDEPENDENTLY];
-        }
-    }]);
-
-    return TeleportPlayerBacktoBotUpgrade;
-}(_Upgrade3.default);
-
-},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],62:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 exports.BrainSpawnRateUpgrade = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -6813,7 +6745,7 @@ var BrainSpawnRateUpgrade = exports.BrainSpawnRateUpgrade = function (_Upgrade) 
     return BrainSpawnRateUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../../items/definitions/BrainMazeItem":12,"../../../managers/UserInterface":30,"../../Upgrade":49}],63:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../../items/definitions/BrainMazeItem":12,"../../../managers/UserInterface":30,"../../Upgrade":49}],61:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6871,7 +6803,7 @@ var BrainTileDistanceUpgrade = exports.BrainTileDistanceUpgrade = function (_Upg
     return BrainTileDistanceUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../../items/definitions/BrainMazeItem":12,"../../Upgrade":49}],64:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../../items/definitions/BrainMazeItem":12,"../../Upgrade":49}],62:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6931,7 +6863,7 @@ var FruitPickupPointsMultiplierUpgrade = exports.FruitPickupPointsMultiplierUpgr
     return FruitPickupPointsMultiplierUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../../items/definitions/FruitMazeItem":13,"../../../managers/UserInterface":30,"../../Upgrade":49}],65:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../../items/definitions/FruitMazeItem":13,"../../../managers/UserInterface":30,"../../Upgrade":49}],63:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6991,7 +6923,7 @@ var FruitSpawnRateUpgrade = exports.FruitSpawnRateUpgrade = function (_Upgrade) 
     return FruitSpawnRateUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../../items/definitions/FruitMazeItem":13,"../../../managers/UserInterface":30,"../../Upgrade":49}],66:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../../items/definitions/FruitMazeItem":13,"../../../managers/UserInterface":30,"../../Upgrade":49}],64:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7047,7 +6979,7 @@ var BiomeUpgrade = exports.BiomeUpgrade = function (_Upgrade) {
     return BiomeUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/BiomeConstants":2,"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],67:[function(require,module,exports){
+},{"../../../constants/BiomeConstants":2,"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],65:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7110,7 +7042,7 @@ var DestructibleWallUpgrade = exports.DestructibleWallUpgrade = function (_Upgra
     return DestructibleWallUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],68:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],66:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7174,7 +7106,7 @@ var MazeCompletionBonusUpgrade = exports.MazeCompletionBonusUpgrade = function (
     return MazeCompletionBonusUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../../managers/UserInterface":30,"../../Upgrade":49}],69:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../../managers/UserInterface":30,"../../Upgrade":49}],67:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7228,7 +7160,7 @@ var MazeSizeUpgrade = exports.MazeSizeUpgrade = function (_Upgrade) {
     return MazeSizeUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],70:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],68:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7281,7 +7213,7 @@ var PointsPerRevisitUpgrade = exports.PointsPerRevisitUpgrade = function (_Upgra
     return PointsPerRevisitUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],71:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],69:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7337,7 +7269,176 @@ var PointsPerVisitUpgrade = exports.PointsPerVisitUpgrade = function (_Upgrade) 
     return PointsPerVisitUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/UpgradeConstants":7,"../../../managers/UserInterface":30,"../../Upgrade":49}],72:[function(require,module,exports){
+},{"../../../constants/UpgradeConstants":7,"../../../managers/UserInterface":30,"../../Upgrade":49}],70:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.PlayerMoveIndependentlyUpgrade = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Upgrade2 = require("../../Upgrade");
+
+var _Upgrade3 = _interopRequireDefault(_Upgrade2);
+
+var _UpgradeConstants = require("../../../constants/UpgradeConstants");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var BUTTON_UI_ID = 'buyPlayerMoveIndependently';
+var TOOLTIP_TEXT = 'Players can have one bot moving at the same time as they manually move.';
+
+var PlayerMoveIndependentlyUpgrade = exports.PlayerMoveIndependentlyUpgrade = function (_Upgrade) {
+    _inherits(PlayerMoveIndependentlyUpgrade, _Upgrade);
+
+    function PlayerMoveIndependentlyUpgrade(game, upgradeKey) {
+        var upgradeLevel = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+
+        _classCallCheck(this, PlayerMoveIndependentlyUpgrade);
+
+        return _possibleConstructorReturn(this, (PlayerMoveIndependentlyUpgrade.__proto__ || Object.getPrototypeOf(PlayerMoveIndependentlyUpgrade)).call(this, game, _UpgradeConstants.UpgradeType.MOVEMENT, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel, true));
+    }
+
+    _createClass(PlayerMoveIndependentlyUpgrade, [{
+        key: "updateUiProperties",
+        value: function updateUiProperties() {
+            this.setUiText("Player Can Move Independently: " + this.getPrettyPrintCost() + " pts");
+        }
+    }, {
+        key: "getCost",
+        value: function getCost() {
+            return _UpgradeConstants.ALLOW_PLAYER_TO_MOVE_INDEPENDENTLY_UPGRADE_COST;
+        }
+    }]);
+
+    return PlayerMoveIndependentlyUpgrade;
+}(_Upgrade3.default);
+
+},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],71:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.TeleportBotBackToPlayerUpgrade = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Upgrade2 = require("../../Upgrade");
+
+var _Upgrade3 = _interopRequireDefault(_Upgrade2);
+
+var _UpgradeConstants = require("../../../constants/UpgradeConstants");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var BUTTON_UI_ID = 'buyBotTeleportToPlayer';
+var TOOLTIP_TEXT = "Players can teleport their bot back to the themselves by pressing 'q'.";
+
+var TeleportBotBackToPlayerUpgrade = exports.TeleportBotBackToPlayerUpgrade = function (_Upgrade) {
+    _inherits(TeleportBotBackToPlayerUpgrade, _Upgrade);
+
+    function TeleportBotBackToPlayerUpgrade(game, upgradeKey) {
+        var upgradeLevel = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+
+        _classCallCheck(this, TeleportBotBackToPlayerUpgrade);
+
+        return _possibleConstructorReturn(this, (TeleportBotBackToPlayerUpgrade.__proto__ || Object.getPrototypeOf(TeleportBotBackToPlayerUpgrade)).call(this, game, _UpgradeConstants.UpgradeType.MOVEMENT, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel, true));
+    }
+
+    _createClass(TeleportBotBackToPlayerUpgrade, [{
+        key: "updateUiProperties",
+        value: function updateUiProperties() {
+            this.setUiText("Teleport Bot Back to Player: " + this.getPrettyPrintCost() + " pts");
+        }
+    }, {
+        key: "getCost",
+        value: function getCost() {
+            return _UpgradeConstants.TELEPORT_BOT_BACK_TO_PLAYER_UPGRADE_COST;
+        }
+    }, {
+        key: "getPreReqUpgradeKeys",
+        value: function getPreReqUpgradeKeys() {
+            return [_UpgradeConstants.UpgradeKey.PLAYER_MOVE_INDEPENDENTLY];
+        }
+    }]);
+
+    return TeleportBotBackToPlayerUpgrade;
+}(_Upgrade3.default);
+
+},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],72:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.TeleportPlayerBacktoBotUpgrade = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Upgrade2 = require("../../Upgrade");
+
+var _Upgrade3 = _interopRequireDefault(_Upgrade2);
+
+var _UpgradeConstants = require("../../../constants/UpgradeConstants");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var BUTTON_UI_ID = 'buyPlayerTeleportToBot';
+var TOOLTIP_TEXT = "Players can teleport their themselves back to the bot by pressing 'e'.";
+
+var TeleportPlayerBacktoBotUpgrade = exports.TeleportPlayerBacktoBotUpgrade = function (_Upgrade) {
+    _inherits(TeleportPlayerBacktoBotUpgrade, _Upgrade);
+
+    function TeleportPlayerBacktoBotUpgrade(game, upgradeKey) {
+        var upgradeLevel = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+
+        _classCallCheck(this, TeleportPlayerBacktoBotUpgrade);
+
+        return _possibleConstructorReturn(this, (TeleportPlayerBacktoBotUpgrade.__proto__ || Object.getPrototypeOf(TeleportPlayerBacktoBotUpgrade)).call(this, game, _UpgradeConstants.UpgradeType.MOVEMENT, BUTTON_UI_ID, TOOLTIP_TEXT, upgradeKey, upgradeLevel, true));
+    }
+
+    _createClass(TeleportPlayerBacktoBotUpgrade, [{
+        key: "updateUiProperties",
+        value: function updateUiProperties() {
+            this.setUiText("Teleport Player Back to Bot: " + this.getPrettyPrintCost() + " pts");
+        }
+    }, {
+        key: "getCost",
+        value: function getCost() {
+            return _UpgradeConstants.TELEPORT_PLAYER_BACK_TO_BOT_UPGRADE_COST;
+        }
+    }, {
+        key: "getPreReqUpgradeKeys",
+        value: function getPreReqUpgradeKeys() {
+            return [_UpgradeConstants.UpgradeKey.PLAYER_MOVE_INDEPENDENTLY];
+        }
+    }]);
+
+    return TeleportPlayerBacktoBotUpgrade;
+}(_Upgrade3.default);
+
+},{"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],73:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7400,7 +7501,7 @@ var PointsMultiplierActivateDurationUpgrade = exports.PointsMultiplierActivateDu
     return PointsMultiplierActivateDurationUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/PowerUpConstants":6,"../../../constants/UpgradeConstants":7,"../../../powerUps/PointsMultiplierPowerUp":47,"../../Upgrade":49}],73:[function(require,module,exports){
+},{"../../../constants/PowerUpConstants":6,"../../../constants/UpgradeConstants":7,"../../../powerUps/PointsMultiplierPowerUp":47,"../../Upgrade":49}],74:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7461,7 +7562,7 @@ var PointsMultiplierStrengthUpgrade = exports.PointsMultiplierStrengthUpgrade = 
     return PointsMultiplierStrengthUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/PowerUpConstants":6,"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],74:[function(require,module,exports){
+},{"../../../constants/PowerUpConstants":6,"../../../constants/UpgradeConstants":7,"../../Upgrade":49}],75:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7524,7 +7625,7 @@ var SpeedUpActivateDurationUpgrade = exports.SpeedUpActivateDurationUpgrade = fu
     return SpeedUpActivateDurationUpgrade;
 }(_Upgrade3.default);
 
-},{"../../../constants/PowerUpConstants":6,"../../../constants/UpgradeConstants":7,"../../../powerUps/SpeedUpPowerUp":48,"../../Upgrade":49}],75:[function(require,module,exports){
+},{"../../../constants/PowerUpConstants":6,"../../../constants/UpgradeConstants":7,"../../../powerUps/SpeedUpPowerUp":48,"../../Upgrade":49}],76:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
