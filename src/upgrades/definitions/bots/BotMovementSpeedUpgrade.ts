@@ -4,7 +4,7 @@ import { BOT_MOVEMENT_UPGRADE_BASE_COST, BOT_MOVEMENT_UPGRADE_BASE_COST_MUTLIPLI
 import { UserInterface } from "managers/UserInterface";
 
 const BUTTON_UI_ID = 'buyBotMoveFaster';
-const TOOLTIP_TEXT = 'Bots will avoid revisiting the position that they were just at.';
+const TOOLTIP_TEXT = 'Bots will move ever so slightly faster.';
 
 export class BotMovementSpeedUpgrade extends Upgrade {
   

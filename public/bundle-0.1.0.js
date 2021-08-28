@@ -126,7 +126,7 @@ var getMazeAlgorithmTypeByBiome = exports.getMazeAlgorithmTypeByBiome = function
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.BIOME_1_COLOR_PALETTE = exports.BIOME_0_COLOR_PALETTE = exports.BIOME_1_COLORS = exports.BIOME_0_COLORS = exports.DEFAULT_COLORS = undefined;
+exports.BIOME_1_COLOR_PALETTE = exports.BIOME_0_COLOR_PALETTE = exports.BIOME_0_COLORS = exports.DEFAULT_COLORS = undefined;
 
 var _BiomeColorPalette = require('../models/BiomeColorPalette');
 
@@ -139,7 +139,7 @@ var DEFAULT_COLORS = exports.DEFAULT_COLORS = {
     RNG_BOT_COLOR: 'black',
     EMPTY_COLOR: 'white',
     VISITED_TILE_COLOR: '#7CFCFF',
-    MAZE_WALL_COLOR: '#EEE',
+    MAZE_WALL_COLOR: '#ea80fc',
     DEAD_END_COLOR: '#F13241',
     SMART_PATHING_PLAYER_COLOR: '#DBAED8',
     MULTIPLIER_ITEM_PLAYER_COLOR: '#E3E95C',
@@ -147,29 +147,29 @@ var DEFAULT_COLORS = exports.DEFAULT_COLORS = {
     GHOST_ITEM_PLAYER_COLOR: 'white'
 };
 var BIOME_0_COLORS = exports.BIOME_0_COLORS = {
-    PLAYER_COLOR: '#ffde7d',
-    RNG_BOT_COLOR: '#ff5722',
+    PLAYER_COLOR: '#03dac6',
+    RNG_BOT_COLOR: '#ea80fc',
     EMPTY_COLOR: 'white',
-    VISITED_TILE_COLOR: '#3fc1c9',
-    MAZE_WALL_COLOR: '#f5f5f5',
-    DEAD_END_COLOR: '#fc5185',
+    VISITED_TILE_COLOR: '#3700b3',
+    MAZE_WALL_COLOR: '#ea80fc',
+    DEAD_END_COLOR: '#018786',
     SMART_PATHING_PLAYER_COLOR: '#DBAED8',
     MULTIPLIER_ITEM_PLAYER_COLOR: '#E3E95C',
     UNLIMITED_SPLIT_BOT_PLAYER_COLOR: '#3E9BC7',
     GHOST_ITEM_PLAYER_COLOR: 'white'
 };
-var BIOME_1_COLORS = exports.BIOME_1_COLORS = {
-    PLAYER_COLOR: '#00b8a9',
-    RNG_BOT_COLOR: '#2f5d62',
-    EMPTY_COLOR: 'white',
-    VISITED_TILE_COLOR: '#ffde7d',
-    MAZE_WALL_COLOR: '#864000',
-    DEAD_END_COLOR: '#fc5185',
-    SMART_PATHING_PLAYER_COLOR: '#DBAED8',
-    MULTIPLIER_ITEM_PLAYER_COLOR: '#E3E95C',
-    UNLIMITED_SPLIT_BOT_PLAYER_COLOR: '#3E9BC7',
-    GHOST_ITEM_PLAYER_COLOR: 'white'
-};
+// export const BIOME_1_COLORS = {
+//   PLAYER_COLOR: '#00b8a9',
+//   RNG_BOT_COLOR: '#2f5d62',
+//   EMPTY_COLOR: 'white',
+//   VISITED_TILE_COLOR: '#ffde7d',
+//   MAZE_WALL_COLOR: '#864000',
+//   DEAD_END_COLOR: '#fc5185',
+//   SMART_PATHING_PLAYER_COLOR: '#DBAED8',
+//   MULTIPLIER_ITEM_PLAYER_COLOR: '#E3E95C',
+//   UNLIMITED_SPLIT_BOT_PLAYER_COLOR: '#3E9BC7',
+//   GHOST_ITEM_PLAYER_COLOR: 'white',
+// }
 var BIOME_0_COLOR_PALETTE = exports.BIOME_0_COLOR_PALETTE = new _BiomeColorPalette2.default(BIOME_0_COLORS.PLAYER_COLOR, BIOME_0_COLORS.RNG_BOT_COLOR, BIOME_0_COLORS.EMPTY_COLOR, BIOME_0_COLORS.VISITED_TILE_COLOR, BIOME_0_COLORS.MAZE_WALL_COLOR, BIOME_0_COLORS.DEAD_END_COLOR, BIOME_0_COLORS.SMART_PATHING_PLAYER_COLOR, BIOME_0_COLORS.MULTIPLIER_ITEM_PLAYER_COLOR, BIOME_0_COLORS.UNLIMITED_SPLIT_BOT_PLAYER_COLOR);
 var BIOME_1_COLOR_PALETTE = exports.BIOME_1_COLOR_PALETTE = new _BiomeColorPalette2.default(DEFAULT_COLORS.PLAYER_COLOR, DEFAULT_COLORS.RNG_BOT_COLOR, DEFAULT_COLORS.EMPTY_COLOR, DEFAULT_COLORS.VISITED_TILE_COLOR, DEFAULT_COLORS.MAZE_WALL_COLOR, DEFAULT_COLORS.DEAD_END_COLOR, DEFAULT_COLORS.SMART_PATHING_PLAYER_COLOR, DEFAULT_COLORS.MULTIPLIER_ITEM_PLAYER_COLOR, DEFAULT_COLORS.UNLIMITED_SPLIT_BOT_PLAYER_COLOR);
 
@@ -389,7 +389,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var IS_DEV_MODE_ENABLED = exports.IS_DEV_MODE_ENABLED = false;
 var DEBUG_ALL_BUTTONS_VISIBLE = exports.DEBUG_ALL_BUTTONS_VISIBLE = false;
-var IS_FREE_MODE_ENABLED = exports.IS_FREE_MODE_ENABLED = true;
+var IS_FREE_MODE_ENABLED = exports.IS_FREE_MODE_ENABLED = false;
 var DEV_MODE_DISABLE_UI = exports.DEV_MODE_DISABLE_UI = false;
 var DEV_MODE_AUTOSTART = exports.DEV_MODE_AUTOSTART = false;
 var game1;
@@ -3857,17 +3857,29 @@ var UserInterface = exports.UserInterface = function () {
         value: function printMazeV2(maze) {
             // Extends one before/beyond grid to handle an exit cell.
             for (var y = -1; y < maze.grid.sizeY + 1; y++) {
-                $("#maze > tbody").append("<tr>");
+                // $("#maze > tbody").append("<tr>");
+                var rowString = "";
                 for (var x = -1; x < maze.grid.sizeX + 1; x++) {
                     var tileKey = (0, _MazeUtils.generateTileKey)(x, y);
                     // Place cell element
-                    $("#maze > tbody").append("<td id=\"" + tileKey + "\">&nbsp;</td>");
+                    // $("#maze > tbody").append();
+                    rowString += "<td id=\"" + tileKey + "\">&nbsp;</td>";
                     // Draw edges
-                    this.setTileCssV2(maze, { x: x, y: y });
+                    // this.setTileCssV2(maze, { x: x, y: y });
                     // Draw item if present
-                    this.game.items.drawItem({ x: x, y: y });
+                    // this.game.items.drawItem({ x: x, y: y });
                 }
-                $("#maze > tbody").append("</tr>");
+                $("#maze > tbody").append("<tr>" + rowString + "</tr>");
+                for (var _x2 = -1; _x2 < maze.grid.sizeX + 1; _x2++) {
+                    var _tileKey = (0, _MazeUtils.generateTileKey)(_x2, y);
+                    // Place cell element
+                    // $("#maze > tbody").append(`<td id="${tileKey}">&nbsp;</td>`);
+                    // Draw edges
+                    this.setTileCssV2(maze, { x: _x2, y: y });
+                    // Draw item if present
+                    this.game.items.drawItem({ x: _x2, y: y });
+                }
+                $("#maze > tbody").append("<tr>");
             }
             this.setFinishLineIcon(maze.grid.externalExitTile);
         }
@@ -6381,7 +6393,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var BUTTON_UI_ID = 'buyBotMoveFaster';
-var TOOLTIP_TEXT = 'Bots will avoid revisiting the position that they were just at.';
+var TOOLTIP_TEXT = 'Bots will move ever so slightly faster.';
 
 var BotMovementSpeedUpgrade = exports.BotMovementSpeedUpgrade = function (_Upgrade) {
     _inherits(BotMovementSpeedUpgrade, _Upgrade);
@@ -7240,7 +7252,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var BUTTON_UI_ID = 'buyPointsPerVisit';
-var TOOLTIP_TEXT = 'Get more points per tile that you visit for the first time!';
+var TOOLTIP_TEXT = 'Get more points per tile visit (only the first time)!';
 
 var PointsPerVisitUpgrade = exports.PointsPerVisitUpgrade = function (_Upgrade) {
     _inherits(PointsPerVisitUpgrade, _Upgrade);

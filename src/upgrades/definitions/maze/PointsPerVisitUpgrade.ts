@@ -4,7 +4,7 @@ import { POINTS_PER_VISIT_UPGRADE_BASE_COST, POINTS_PER_VISIT_UPGRADE_BASE_COST_
 import { UserInterface } from "managers/UserInterface";
 
 const BUTTON_UI_ID = 'buyPointsPerVisit';
-const TOOLTIP_TEXT = 'Get more points per tile that you visit for the first time!';
+const TOOLTIP_TEXT = 'Get more points per tile visit (only the first time)!';
 
 export class PointsPerVisitUpgrade extends Upgrade {
   
