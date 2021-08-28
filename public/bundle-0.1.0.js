@@ -2229,8 +2229,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var SERIALIZABLE_PROPERTIES = ['saveTimeStamp', 'offlinePointsPerSecond'];
-var MAX_OFFLINE_TIME_IN_MS = 60 * 60 * 1000;
-var MIN_TIME_FOR_BANNER_MS = 30000;
+var MAX_OFFLINE_TIME_IN_MS = 0; // (60 * 60 * 1000);
+var MIN_TIME_FOR_BANNER_MS = 99999999999;
 
 var OfflineManager = exports.OfflineManager = function (_Serializable) {
     _inherits(OfflineManager, _Serializable);
@@ -3857,29 +3857,17 @@ var UserInterface = exports.UserInterface = function () {
         value: function printMazeV2(maze) {
             // Extends one before/beyond grid to handle an exit cell.
             for (var y = -1; y < maze.grid.sizeY + 1; y++) {
-                // $("#maze > tbody").append("<tr>");
-                var rowString = "";
+                $("#maze > tbody").append("<tr>");
                 for (var x = -1; x < maze.grid.sizeX + 1; x++) {
                     var tileKey = (0, _MazeUtils.generateTileKey)(x, y);
                     // Place cell element
-                    // $("#maze > tbody").append();
-                    rowString += "<td id=\"" + tileKey + "\">&nbsp;</td>";
+                    $("#maze > tbody").append("<td id=\"" + tileKey + "\">&nbsp;</td>");
                     // Draw edges
-                    // this.setTileCssV2(maze, { x: x, y: y });
+                    this.setTileCssV2(maze, { x: x, y: y });
                     // Draw item if present
-                    // this.game.items.drawItem({ x: x, y: y });
+                    this.game.items.drawItem({ x: x, y: y });
                 }
-                $("#maze > tbody").append("<tr>" + rowString + "</tr>");
-                for (var _x2 = -1; _x2 < maze.grid.sizeX + 1; _x2++) {
-                    var _tileKey = (0, _MazeUtils.generateTileKey)(_x2, y);
-                    // Place cell element
-                    // $("#maze > tbody").append(`<td id="${tileKey}">&nbsp;</td>`);
-                    // Draw edges
-                    this.setTileCssV2(maze, { x: _x2, y: y });
-                    // Draw item if present
-                    this.game.items.drawItem({ x: _x2, y: y });
-                }
-                $("#maze > tbody").append("<tr>");
+                $("#maze > tbody").append("</tr>");
             }
             this.setFinishLineIcon(maze.grid.externalExitTile);
         }
